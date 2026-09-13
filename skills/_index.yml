@@ -1,0 +1,33 @@
+generated: '2026-09-13'
+method: generated
+source: 'Grounded in the operationIds of openapi/progress-software-moveit-transfer-openapi-original.json,
+  openapi/progress-software-chef-automate-openapi-original.json and
+  openapi/progress-software-whatsup-gold-openapi-original.json — every operationId referenced was
+  verified verbatim in the spec before it was written. Conventions, error and reversibility rules are
+  carried in from conventions/progress-software-conventions.yml and
+  errors/progress-software-problem-types.yml.'
+note: 'No Progress-published Agent Skill, AGENTS.md or skill file was found on any host during this
+  pass; these are API Evangelist-generated operating instructions, not provider-authored ones. No
+  skill is written for ShareFile or Sitefinity because neither publishes a machine-readable contract
+  to ground one in.'
+skills:
+- file: progress-software-moveit-authenticate-and-transfer.md
+  name: MOVEit Transfer — authenticate and move a file
+  api: openapi/progress-software-moveit-transfer-openapi-original.json
+  operations: [Auth_GetToken, Auth_SendOtp, Auth_RevokeToken]
+- file: progress-software-moveit-send-package.md
+  name: MOVEit Transfer — send an ad-hoc secure package
+  api: openapi/progress-software-moveit-transfer-openapi-original.json
+  operations: [Auth_GetToken]
+- file: progress-software-chef-automate-compliance-report.md
+  name: Chef Automate — mint a scoped token and pull a compliance report
+  api: openapi/progress-software-chef-automate-openapi-original.json
+  operations: [Tokens_CreateToken, Tokens_ListTokens, Tokens_DeleteToken, Policies_ListPolicies,
+    Policies_AddPolicyMembers, ReportingService_ListReports, ReportingService_ReadReport]
+- file: progress-software-whatsup-gold-monitor-a-device.md
+  name: WhatsUp Gold — inspect a device and manage its monitors
+  api: openapi/progress-software-whatsup-gold-openapi-original.json
+  operations: [DeviceGroup_ListGroups, DeviceGroup_SearchDevicesByGroup, Device_GetOverview,
+    Device_GetStatus, Device_GetMonitors, Device_GetRoles, Monitor_GetRegisteredTypes,
+    Monitor_CreateMonitor, Device_UpdateMonitorById, Device_UpdateMaintenanceById,
+    Device_UpdateMaintenanceSchedule]

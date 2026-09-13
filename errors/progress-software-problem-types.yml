@@ -1,0 +1,95 @@
+generated: '2026-09-13'
+method: derived
+source: openapi/progress-software-moveit-transfer-openapi-original.json, openapi/progress-software-chef-automate-openapi-original.json,
+  openapi/progress-software-whatsup-gold-openapi-original.json
+format: vendor
+note: 'No Progress API in this repo uses RFC 9457 application/problem+json. MOVEit Transfer returns the
+  richest envelope of the three: ErrorModel {title, detail, errorCode} — a Problem-Details-SHAPED object
+  served as application/json without the problem+json media type or a type URI — with UnprocessableEntityErrorModel
+  adding a FieldErrorModel[] of {field, rejected, message} on 422, and a separate RequestTokenError {error,
+  error_code, error_description} on the auth endpoint. Chef Automate is a grpc-gateway surface: every
+  operation declares only a 200 plus a "default" response of grpc.gateway.runtime.Error {code, error,
+  message, details[]}, so status-specific error contracts are absent from the contract (2 of 277 operations
+  declare any explicit 4xx). WhatsUp Gold declares NO 4xx or 5xx response on any of its 168 operations
+  at all, which is a real and material gap: an agent reading that spec cannot tell a failure from a success
+  shape.'
+envelopes:
+- api: MOVEit Transfer
+  media_type: application/json
+  schema: ErrorModel
+  fields:
+  - title
+  - detail
+  - errorCode
+  validation_schema: 'UnprocessableEntityErrorModel -> errors[]: FieldErrorModel {field, rejected, message}'
+  auth_schema: RequestTokenError {error, error_code, error_description}
+  rfc9457: false
+  note: Problem-Details-shaped but not served as application/problem+json and carries no type URI.
+- api: Chef Automate
+  media_type: application/json
+  schema: grpc.gateway.runtime.Error
+  fields:
+  - code
+  - error
+  - message
+  - details
+  rfc9457: false
+  note: grpc-gateway default error; code is the gRPC status code, not the HTTP status.
+- api: WhatsUp Gold
+  media_type: application/json
+  schema: null
+  fields: []
+  rfc9457: false
+  note: No error response is declared anywhere in the published contract.
+problems:
+- status: 400
+  title: Authentication failed error
+  schema: RequestTokenError
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#Auth_GetToken
+- status: 400
+  title: Password change required error
+  schema: RequestTokenPasswordChangeRequiredError
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#Auth_GetToken
+- status: 400
+  title: Security notice acceptance required error
+  schema: RequestTokenSecurityNoticeAcceptanceRequiredError
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#Auth_GetToken
+- status: 401
+  title: Multi-factor authentication required error
+  schema: RequestTokenMfaError
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#Auth_GetToken
+- status: 401
+  title: Unauthorized
+  schema: RevokeTokenResponse
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#Auth_RevokeToken
+- status: 403
+  title: Forbidden
+  schema: ErrorModel
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#GETapi/v1/settings/adhoctransfer/maintenance/agingexpiration-1.0
+- status: 404
+  title: Resource Not Found
+  schema: ErrorModel
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#DELETEapi/v1/contacts/{Id}-1.0
+- status: 409
+  title: Operation Conflicted
+  schema: ErrorModel
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#POSTapi/v1/files/{Id}/copy-1.0
+- status: 412
+  title: Setup multi-factor authentication required error
+  schema: RequestTokenError
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#Auth_GetToken
+- status: 422
+  title: Invalid Request Parameters
+  schema: UnprocessableEntityErrorModel
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#POSTapi/v1/settings/appearance/brand/logos-1.0
+- status: 500
+  title: Server Error
+  schema: ErrorModel
+  source_operation: openapi/progress-software-moveit-transfer-openapi-original.json#GETapi/v1/settings/adhoctransfer/maintenance/agingexpiration-1.0
+coverage:
+  moveit_operations: 113
+  moveit_operations_with_4xx: 94
+  chef_operations: 277
+  chef_operations_with_explicit_4xx: 2
+  whatsup_gold_operations: 168
+  whatsup_gold_operations_with_4xx: 0

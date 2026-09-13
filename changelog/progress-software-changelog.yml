@@ -1,0 +1,36 @@
+generated: '2026-09-13'
+method: searched
+source: https://www.telerik.com/support/whats-new, https://docs.chef.io/release_notes/
+summary: 'Progress publishes per-brand release notes, not an API changelog. Nothing in the portfolio
+  maintains a dated log of API changes — no added/removed endpoint list, no breaking-change notice, no
+  API-versioned entries. What exists is product release notes, from which an API consumer has to infer
+  what moved.'
+scheme: product release train (calendar-versioned for Telerik/MOVEit/WhatsUp Gold, semver for Chef)
+api_changelog: false
+sources:
+- brand: Telerik / Kendo UI
+  url: https://www.telerik.com/support/whats-new
+  verified: 200
+  cadence: three major releases a year plus service packs
+  note: Per-product release history pages; covers component libraries, not a REST API.
+- brand: Progress Chef
+  url: https://docs.chef.io/release_notes/
+  verified: 200
+  note: Release notes for Chef Infra Client, Chef InSpec, Chef Habitat and Chef Automate.
+- brand: MOVEit
+  url: https://docs.progress.com/category/moveit
+  note: Release notes ship inside each versioned documentation bundle rather than on a single dated
+    changelog page.
+- brand: WhatsUp Gold
+  url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  note: The REST API document version (2026.0) is the only change marker; there is no diff against
+    2024.0.3.
+entries: []
+entries_note: 'No structured entries are recorded. Recording a "recent window" would require inventing
+  dates and scopes that no Progress page publishes in a machine-readable form; the honest result is an
+  empty list plus the source pages above.'
+observed_version_drift:
+  note: 'One concrete, dated change IS observable by diffing the published contracts: the WhatsUp Gold
+    REST API went from 118 paths / 2024.0.3 to 121 paths / 2026.0, and MOVEit Transfer publishes a
+    separate full contract per release (Transfer2023, Transfer2024, Transfer2025). Progress does not
+    summarise either diff anywhere.'

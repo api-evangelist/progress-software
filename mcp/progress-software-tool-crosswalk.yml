@@ -1,0 +1,87 @@
+generated: '2026-09-13'
+method: derived
+source: 'mcp/progress-software-mcp.yml, openapi/progress-software-chef-automate-openapi-original.json,
+  openapi/progress-software-moveit-transfer-openapi-original.json,
+  openapi/progress-software-whatsup-gold-openapi-original.json'
+headline: 'Progress''s MCP surface and Progress''s API surface do not touch. Every MCP tool the company
+  ships belongs to the Telerik/Kendo developer-tooling brand and generates UI code; every published
+  REST operation belongs to Chef Automate, MOVEit Transfer or WhatsUp Gold. Zero of 558 REST
+  operations has an MCP tool, and zero MCP tools have a backing REST operation. This is not a coverage
+  gap to be closed — it is two unrelated product lines, and the crosswalk exists to record that
+  plainly rather than let an aggregate "has MCP + has OpenAPI" reading imply an agent can drive the
+  Progress APIs.'
+surfaces:
+  openapi:
+  - file: openapi/progress-software-chef-automate-openapi-original.json
+    api: Chef Automate API
+    operations: 277
+    gated: false
+  - file: openapi/progress-software-moveit-transfer-openapi-original.json
+    api: MOVEit Transfer REST API
+    operations: 113
+    gated: false
+  - file: openapi/progress-software-whatsup-gold-openapi-original.json
+    api: WhatsUp Gold REST API
+    operations: 168
+    gated: false
+  graphql: null
+  mcp:
+    endpoint: null
+    mode: local-stdio
+    gated: true
+    gate: 'No hosted endpoint exists. Every server is an npx/NuGet process that refuses to start
+      without a Telerik licence, so tools/list could not be invoked anonymously and the real
+      inputSchema per tool was not read. Tools below are mapped by the names the provider publishes.'
+crosswalk: []
+crosswalk_note: 'Empty by fact, not by omission. No MCP tool in this portfolio binds to any published
+  OpenAPI operation.'
+mcp_only:
+- tool: kendo_ui_generator
+  server: kendo-react-mcp-server
+  reason: 'Generates KendoReact component code from a natural-language request against the licensed
+    component library. There is no REST API behind it and no Progress operation it corresponds to.'
+  source: https://www.telerik.com/kendo-react-ui/components/ai-assistant/mcp-server
+- tool: kendo_getting_started_assistant
+  server: kendo-react-mcp-server
+  reason: Initializes or adds KendoReact to a local project — a filesystem/scaffolding action, not an
+    API call.
+  source: https://www.telerik.com/kendo-react-ui/components/ai-assistant/mcp-server
+mcp_only_unenumerated:
+- server: kendo-angular-mcp-server
+  reason: Ships the equivalent Angular tool surface; no first-party tool list was reachable, and none
+    is guessed here.
+- server: kendo-jquery-mcp-server
+  reason: As above, for Kendo UI for jQuery.
+- server: telerik-blazor-mcp-server
+  reason: As above, for Telerik UI for Blazor (NuGet).
+- server: openedge-mcp-server
+  reason: 'Its tools are GENERATED at install time from an OpenAPI specification the customer
+    supplies. There is no fixed Progress-authored tool list to cross-walk — the tool surface is
+    whatever the deploying customer''s own contract describes.'
+rest_only:
+- api: Chef Automate API
+  operations: 277
+  capabilities: [configuration management and node history, compliance reporting and scan jobs, IAM
+    (users, teams, tokens, policies, projects, roles), Infra Server proxy, data feeds, notifications,
+    secrets, node managers, licensing, applications/Habitat services]
+  mcp_tools: 0
+- api: MOVEit Transfer REST API
+  operations: 113
+  capabilities: [authentication and MFA, files, folders and folder content, folder ACLs, users and
+    groups, ad-hoc packages and attachments, mailboxes, contacts, audit logs, security settings,
+    reports, organizations, server info, transfer status]
+  mcp_tools: 0
+- api: WhatsUp Gold REST API
+  operations: 168
+  capabilities: [devices and device overviews, device groups, credentials, network interfaces, active
+    and passive monitors, monitor templates, polling and maintenance configuration, discovery scans,
+    device roles, alert centre, reports]
+  mcp_tools: 0
+coverage:
+  tools_named: 2
+  tools_bound_to_rest: 0
+  mcp_only: 2
+  servers_with_unenumerated_tools: 4
+  rest_operations_total: 558
+  rest_operations_with_a_tool: 0
+  rest_coverage_pct: 0.0

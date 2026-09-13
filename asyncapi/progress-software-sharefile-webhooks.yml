@@ -1,0 +1,62 @@
+generated: '2026-09-13'
+method: searched
+source: https://api.sharefile.com/webhooks/overview
+spec_type: null
+note: 'Progress publishes NO AsyncAPI document for any product. ShareFile is the one surface in the
+  portfolio with a first-party webhook catalog, and it is documented as prose plus two REST resources
+  (WebhookClients, WebhookSubscriptions) rather than a machine-readable event contract. Chef Automate
+  has a data-feed destination surface (DatafeedService_*) that pushes to an external endpoint, but the
+  payload is not documented as an event catalog. MOVEit Transfer and WhatsUp Gold publish no event or
+  webhook surface at all.'
+surface: webhooks
+api: ShareFile API v3
+docs:
+  overview: https://api.sharefile.com/webhooks/overview
+  events: https://api.sharefile.com/webhooks/events
+  payloads: https://api.sharefile.com/webhooks/payloads
+  signatures: https://api.sharefile.com/webhooks/signatures
+subscription:
+  resource: WebhookSubscriptions
+  reference: https://api.sharefile.com/docs/resource?name=WebhookSubscriptions
+  client_resource: WebhookClients
+  client_reference: https://api.sharefile.com/docs/resource?name=WebhookClients
+  scopes:
+  - Account
+  - Folder
+events:
+- name: File Upload
+  scope: [Account, Folder]
+- name: File Delete
+  scope: [Account, Folder]
+- name: File Download
+  scope: [Account, Folder]
+- name: File Update
+  scope: [Account, Folder]
+- name: Folder Delete
+  scope: [Account, Folder]
+- name: User Create
+  scope: [Account]
+- name: User Update
+  scope: [Account]
+- name: User Delete
+  scope: [Account]
+- name: Account Create
+  scope: [Account]
+- name: Account Update
+  scope: [Account]
+- name: Account Delete
+  scope: [Account]
+- name: Account UpgradeToPaid
+  scope: [Account]
+event_count: 12
+signing:
+  documented: true
+  docs: https://api.sharefile.com/webhooks/signatures
+  note: 'ShareFile publishes a Signature Keys page. The header name, algorithm and signing input were
+    not extracted during this pass and are deliberately NOT asserted here — read the page before
+    relying on any specific header.'
+delivery:
+  retries: null
+  ordering: null
+  note: No delivery guarantee, retry policy or ordering semantics is stated on the events or overview
+    page.

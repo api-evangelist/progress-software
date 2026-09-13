@@ -1,0 +1,26 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for WhatsUp Gold REST API
+  version: 1.0.0
+extends: openapi/progress-software-whatsup-gold-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: progress-software
+    x-apievangelist-api: WhatsUp Gold REST API
+    x-apievangelist-harvested: '2026-09-13'
+    x-apievangelist-source: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/whatsupgold2026.json
+    x-apievangelist-deployment: customer-hosted
+    x-apievangelist-host-note: Published host is 10.40.67.158:9644 and the oauth2 tokenUrl is http://localhost:8734/api/v1/token
+      — both are internal build addresses that leaked into the shipped contract. The real base URL is https://{whatsupgold-host}:9644/api/v1.
+    x-apievangelist-idempotency: none — no idempotency key is declared or documented
+    x-apievangelist-rate-limit-signal: none — no RateLimit-*/Retry-After header, no 429 declared
+    x-apievangelist-error-format: undeclared — zero 4xx/5xx responses in the published contract
+- target: $
+  update:
+    x-apievangelist-note: This overlay records API Evangelist observations about the published contract. It never
+      mutates the harvested document; apply it to a copy.
+- target: $.paths['/api/v1/device-groups/{groupId}/devices'].get
+  update:
+    x-apievangelist-note: DeviceGroup_SearchDevices is the only operation marked deprecated:true in any Progress
+      contract. Use DeviceGroup_SearchDevicesByGroup instead.

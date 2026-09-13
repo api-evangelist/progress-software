@@ -1,0 +1,39 @@
+generated: '2026-09-13'
+method: searched
+source: 'https://api.sharefile.com/gettingstarted/faq; plus a full scan of
+  openapi/progress-software-chef-automate-openapi-original.json,
+  openapi/progress-software-moveit-transfer-openapi-original.json and
+  openapi/progress-software-whatsup-gold-openapi-original.json for rate-limit parameters, 429
+  responses and RateLimit-* / X-RateLimit-* / Retry-After headers'
+limit_count: 0
+note: 'Progress publishes NO numeric rate limit for any API in this repo, and no API returns a
+  rate-limit header. ShareFile is the only surface that acknowledges limiting at all, and it does so
+  without a number: "Excessive usage of the API will be curtailed programmatically. If you believe
+  this will impact your application, please contact us for further information." A third-party
+  integration guide circulates a figure of 420 requests/minute for ShareFile; that number is NOT
+  published by Progress and is deliberately not recorded here as the provider''s limit. Chef Automate,
+  MOVEit Transfer and WhatsUp Gold are self-hosted products whose throughput is bounded by the
+  customer''s own installation, and none of the three declares a 429 response anywhere in its
+  contract.'
+limits: []
+headers: []
+status_on_exhaustion: null
+surfaces:
+- api: ShareFile API v3
+  documented: false
+  acknowledged: true
+  evidence: https://api.sharefile.com/gettingstarted/faq
+  quote: Excessive usage of the API will be curtailed programmatically. If you believe this will impact
+    your application, please contact us for further information.
+- api: Chef Automate API
+  documented: false
+  declares_429: false
+  note: Self-hosted; 0 of 277 operations declare a 429 response.
+- api: MOVEit Transfer REST API
+  documented: false
+  declares_429: false
+  note: Self-hosted; 0 of 113 operations declare a 429 response.
+- api: WhatsUp Gold REST API
+  documented: false
+  declares_429: false
+  note: Self-hosted; 0 of 168 operations declare any 4xx response at all.

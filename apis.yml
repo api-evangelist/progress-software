@@ -1,20 +1,254 @@
 aid: progress-software
 name: Progress Software
-description: 'Progress Software is a company surfaced via the API Evangelist harvest backlog (source:
-  absent-parent) and added to the network as a stub for full-pipeline profiling.'
+description: 'Progress Software Corporation (NASDAQ: PRGS) is a Burlington, Massachusetts enterprise software
+  company that builds and acquires infrastructure and digital-experience products. Its portfolio spans
+  application development and data (OpenEdge, MarkLogic, Semaphore, DataDirect, Corticon, Nuclia agentic
+  RAG), digital experience (Sitefinity CMS, Sitefinity Insight), developer tooling and UI components (Telerik,
+  Kendo UI, Fiddler, Test Studio), secure file transfer and collaboration (MOVEit, ShareFile), infrastructure
+  automation and monitoring (Chef, WhatsUp Gold, Flowmon, LoadMaster by Kemp). Most of its API surface
+  is shipped inside self-hosted products — MOVEit Transfer, WhatsUp Gold and Chef Automate each publish
+  a full Swagger 2.0 contract against the customer''s own installation — alongside SaaS surfaces such
+  as the ShareFile OData API and Sitefinity''s headless OData services.'
+image: https://www.progress.com/images/default-source/default-album/progress-album/images-album/social-image.png
 url: https://raw.githubusercontent.com/api-evangelist/progress-software/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:absent-parent
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-09-13'
 modified: '2026-09-13'
+position: Producing
 tags:
 - Company
-apis: []
+- Enterprise Software
+- Managed File Transfer
+- Infrastructure Automation
+- Network Monitoring
+- Content Management
+- Developer Tools
+- Data Platform
+- Application Development
+- DevOps
+- Agentic RAG
+- File Sharing
+apis:
+- aid: progress-software-chef-automate
+  name: Chef Automate API
+  description: The Chef Automate API is the HTTP surface of Progress Chef Automate, the dashboard and
+    control plane for Chef Infra, Chef InSpec and Chef Habitat. It covers configuration management node
+    and run history, compliance scanning and reporting, IAM (users, teams, tokens, policies, projects),
+    data lifecycle, secrets, notifications, node manager integrations and license management. The published
+    Swagger 2.0 contract carries 277 operations across 215 paths.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Compliance
+  - Configuration Management
+  - DevOps
+  - Infrastructure Automation
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-chef-automate-openapi-original.json
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  image: https://www.chef.io/images/cheflibraries/logos/chef_progress_primary_logo.png
+- aid: progress-software-moveit-transfer
+  name: MOVEit Transfer REST API
+  description: The MOVEit Transfer REST API is an optionally licensed interface that runs at a customer's
+    own MOVEit Transfer server. It exposes authentication, files and folders, folder content, users and
+    groups, ad-hoc packages, mailboxes, contacts, audit logs, security and miscellaneous server settings,
+    reports, organizations, server info and transfer status. The published contract is Swagger 2.0 with
+    113 operations across 83 paths and 191 model definitions.
+  humanURL: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  baseURL: https://{moveit-transfer-host}/api/v1
+  tags:
+  - Managed File Transfer
+  - File Sharing
+  - Security
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-moveit-transfer-openapi-original.json
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  image: https://www.progress.com/images/default-source/social-sharing/moveit.png?sfvrsn=11f5e4a5_1
+- aid: progress-software-whatsup-gold
+  name: WhatsUp Gold REST API
+  description: The WhatsUp Gold REST API is the automation interface of Progress WhatsUp Gold network
+    monitoring, served from the customer's own WhatsUp Gold host on port 9644. It covers device discovery
+    and management, credentials, monitors and monitor assignments, groups, alert centre, reports, polling
+    and product configuration. The published contract is Swagger 2.0 with 168 operations across 121 paths
+    and 299 model definitions, secured with an OAuth 2.0 password grant.
+  humanURL: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  baseURL: https://{whatsupgold-host}:9644/api/v1
+  tags:
+  - Network Monitoring
+  - Infrastructure
+  - Observability
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-whatsup-gold-openapi-original.json
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+  image: https://www.whatsupgold.com/images/librariesprovider2/default-album/social-image.png
+- aid: progress-software-sharefile
+  name: ShareFile API v3
+  description: The ShareFile API v3 is the OData-based REST interface of Progress ShareFile, covering
+    Items, Folders, Accounts, Users, Groups, Shares, Access Controls, Capabilities, Connector Groups,
+    Devices, Encrypted Emails, Favorites, Folder Templates, Metadata, Policies, Reports, Sessions, Storage
+    Centers, Workflows, Zones, Async Operations and Webhook Clients/Subscriptions. It is OAuth 2.0 authenticated
+    and served per-tenant from the account subdomain.
+  humanURL: https://api.sharefile.com/
+  baseURL: https://{subdomain}.sf-api.com/sf/v3
+  tags:
+  - File Sharing
+  - Document Workflow
+  - Collaboration
+  - eSignature
+  properties:
+  - type: DeveloperPortal
+    url: https://api.sharefile.com/
+  - type: APIReference
+    url: https://api.sharefile.com/docs
+  - type: GettingStarted
+    url: https://api.sharefile.com/gettingstarted/quickstart
+  - type: Webhooks
+    url: asyncapi/progress-software-sharefile-webhooks.yml
+  image: https://www.sharefile.com/images/sharefilelibraries/default-album/sharefile-og-image.png
+- aid: progress-software-sitefinity-odata
+  name: Sitefinity CMS Headless OData Services
+  description: Sitefinity CMS exposes its content as OData v4 web services under a configurable service
+    route (by default /api/default) on the customer's own Sitefinity instance. The headless API serves
+    content types, taxonomies, pages, media and custom modules with full OData query syntax ($select,
+    $expand, $filter, $orderby), bearer-token authentication and a $metadata document that is the machine-readable
+    contract for each installation.
+  humanURL: https://www.progress.com/documentation/sitefinity-cms/web-service-routes
+  baseURL: https://{sitefinity-host}/api/default
+  tags:
+  - Content Management
+  - Headless CMS
+  - OData
+  properties:
+  - type: Documentation
+    url: https://www.progress.com/documentation/sitefinity-cms/web-service-routes
+  - type: APIReference
+    url: https://www.progress.com/documentation/sitefinity-cms/odata-services-configurations
+  image: https://www.progress.com/images/default-source/social-sharing/sitefinity.png?sfvrsn=e7dd87b5_1
+common:
+- type: TrustCenter
+  url: security/progress-software-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/progress-software-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/progress-software-domain-security.yml
+- type: OAuthScopes
+  url: scopes/progress-software-scopes.yml
+- type: Authentication
+  url: authentication/progress-software-authentication.yml
+- type: Website
+  url: https://www.progress.com/
+- type: DeveloperPortal
+  url: https://docs.progress.com/
+- type: Documentation
+  url: https://docs.progress.com/
+- type: APIReference
+  url: https://docs.chef.io/automate/api/
+- type: GettingStarted
+  url: https://api.sharefile.com/gettingstarted/quickstart
+- type: Support
+  url: https://www.progress.com/support
+- type: HelpCenter
+  url: https://community.progress.com/s/knowledge-base
+- type: Blog
+  url: https://www.progress.com/blogs
+- type: GitHubOrganization
+  url: https://github.com/progress
+- type: Pricing
+  url: https://www.telerik.com/purchase.aspx
+- type: SignUp
+  url: https://www.progress.com/trials
+- type: Login
+  url: https://www.progress.com/support/customer-portal
+- type: TermsOfService
+  url: https://www.progress.com/legal/terms-of-use
+- type: PrivacyPolicy
+  url: https://www.progress.com/legal/privacy-center
+- type: OpenAPI
+  url: openapi/progress-software-chef-automate-openapi-original.json
+  name: Chef Automate API
+- type: OpenAPI
+  url: openapi/progress-software-moveit-transfer-openapi-original.json
+  name: MOVEit Transfer REST API
+- type: OpenAPI
+  url: openapi/progress-software-whatsup-gold-openapi-original.json
+  name: WhatsUp Gold REST API
+- type: Packages
+  url: packages/progress-software-packages.yml
+- type: SDKs
+  url: packages/progress-software-packages.yml
+- type: WellKnown
+  url: well-known/progress-software-well-known.yml
+- type: SecurityTxt
+  url: well-known/progress-software-security.txt
+- type: MCPServer
+  url: mcp/progress-software-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/progress-software-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/progress-software-llms.txt
+- type: Overlay
+  url: overlays/progress-software-chef-automate-overlay.yaml
+- type: Overlay
+  url: overlays/progress-software-moveit-transfer-overlay.yaml
+- type: Overlay
+  url: overlays/progress-software-whatsup-gold-overlay.yaml
+- type: Conformance
+  url: conformance/progress-software-conformance.yml
+- type: Compliance
+  url: https://trust.progress.com/
+- type: ErrorCatalog
+  url: errors/progress-software-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/progress-software-lifecycle.yml
+- type: StatusPage
+  url: https://status.chef.io/
+- type: StatusPage
+  url: https://status.sharefile.com/
+- type: StatusPage
+  url: https://status.moveitcloud.com/
+- type: Deprecation
+  url: https://www.progress.com/support/maintenance-and-support-policy
+- type: Security
+  url: https://www.progress.com/security/vulnerability-reporting-policy
+- type: Conventions
+  url: conventions/progress-software-conventions.yml
+- type: ChangeLog
+  url: changelog/progress-software-changelog.yml
+- type: CLI
+  url: cli/progress-software-cli.yml
+- type: Components
+  url: components/progress-software-components.yml
+- type: DataModel
+  url: data-model/progress-software-data-model.yml
+- type: Webhooks
+  url: asyncapi/progress-software-sharefile-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/progress-software-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/progress-software-rate-limits.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-09-13'
+  status: enriched
+  artifacts_added: 35
+  pass: local-v3

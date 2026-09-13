@@ -1,0 +1,11 @@
+generated: '2026-09-13'
+method: derived
+source: openapi/progress-software-whatsup-gold-openapi-original.json
+schemes:
+- name: oauth2
+  source: openapi/progress-software-whatsup-gold-openapi-original.json
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+scopes: []

@@ -1,0 +1,2977 @@
+generated: '2026-09-13'
+method: derived
+source: openapi/progress-software-chef-automate-openapi-original.json, openapi/progress-software-moveit-transfer-openapi-original.json,
+  openapi/progress-software-whatsup-gold-openapi-original.json
+note: 'Derived mechanically from $ref edges between top-level schema definitions in each published contract. These
+  are three unrelated data models with zero shared entities — there is no Progress "customer" or "account" object
+  that spans Chef Automate, MOVEit Transfer and WhatsUp Gold. Naming conventions do not agree either: Chef Automate
+  carries fully-qualified protobuf type names (chef.automate.api.iam.v2.User), MOVEit uses a *Model/*Dto suffix
+  (SimpleUserModel, SortFieldDto), and WhatsUp Gold uses bare PascalCase (DeviceOverview, Credential). No id-prefix
+  scheme is published by any of the three, so no id domains are recorded.'
+totals:
+  schemas: 1025
+  relationships: 725
+models:
+- api: Chef Automate API
+  source: openapi/progress-software-chef-automate-openapi-original.json
+  schema_count: 530
+  relationship_count: 328
+  core_entities:
+  - chef.automate.api.common.query.Kv
+  - chef.automate.api.infra_proxy.response.Cookbook
+  - chef.automate.api.compliance.reporting.v1.ControlSummary
+  - chef.automate.api.infra_proxy.response.CookbookItem
+  - chef.automate.api.notifications.Rule
+  - chef.automate.api.iam.v2.Rule
+  - chef.automate.api.compliance.profiles.v1.Profile
+  - chef.automate.api.compliance.reporting.v1.Control
+  - chef.automate.api.compliance.reporting.v1.Profile
+  - chef.automate.api.iam.v2.Policy
+  - chef.automate.api.iam.v2.Project
+  - chef.automate.api.iam.v2.Team
+  - chef.automate.api.infra_proxy.response.Org
+  - chef.automate.api.nodes.v1.Node
+  - chef.automate.api.applications.Service
+  relationships:
+  - from: chef.automate.api.applications.PeriodicJobConfig
+    to: chef.automate.api.applications.PeriodicJobInfo
+    kind: has_one
+    via: job_info
+  - from: chef.automate.api.applications.PeriodicMandatoryJobConfig
+    to: chef.automate.api.applications.PeriodicJobInfo
+    kind: has_one
+    via: job_info
+  - from: chef.automate.api.applications.Service
+    to: chef.automate.api.applications.HealthStatus
+    kind: has_one
+    via: health_check
+  - from: chef.automate.api.applications.Service
+    to: chef.automate.api.applications.HealthCheckResult
+    kind: has_one
+    via: health_check_result
+  - from: chef.automate.api.applications.Service
+    to: chef.automate.api.applications.HealthStatus
+    kind: has_one
+    via: previous_health_check
+  - from: chef.automate.api.applications.ServiceGroup
+    to: chef.automate.api.applications.HealthCounts
+    kind: has_one
+    via: services_health_counts
+  - from: chef.automate.api.applications.ServiceGroup
+    to: chef.automate.api.applications.HealthStatus
+    kind: has_one
+    via: status
+  - from: chef.automate.api.applications.ServiceGroups
+    to: chef.automate.api.applications.ServiceGroup
+    kind: has_many
+    via: service_groups
+  - from: chef.automate.api.applications.ServicesBySGRes
+    to: chef.automate.api.applications.Service
+    kind: has_many
+    via: services
+  - from: chef.automate.api.applications.ServicesBySGRes
+    to: chef.automate.api.applications.HealthCounts
+    kind: has_one
+    via: services_health_counts
+  - from: chef.automate.api.applications.ServicesRes
+    to: chef.automate.api.applications.Service
+    kind: has_many
+    via: services
+  - from: chef.automate.api.cds.response.ContentItems
+    to: chef.automate.api.cds.response.ContentItem
+    kind: has_many
+    via: items
+  - from: chef.automate.api.cfgmgmt.request.CreateRollout
+    to: chef.automate.api.cfgmgmt.request.SCMType
+    kind: has_one
+    via: scm_type
+  - from: chef.automate.api.cfgmgmt.request.CreateRollout
+    to: chef.automate.api.cfgmgmt.request.SCMWebType
+    kind: has_one
+    via: scm_web_type
+  - from: chef.automate.api.cfgmgmt.request.NodeExport
+    to: chef.automate.api.common.query.Sorting
+    kind: has_one
+    via: sorting
+  - from: chef.automate.api.cfgmgmt.response.CheckInCountsTimeSeries
+    to: chef.automate.api.cfgmgmt.response.CheckInCounts
+    kind: has_many
+    via: counts
+  - from: chef.automate.api.cfgmgmt.response.ChefError
+    to: chef.automate.api.cfgmgmt.response.Description
+    kind: has_one
+    via: description
+  - from: chef.automate.api.cfgmgmt.response.CurrentRolloutProgress
+    to: chef.automate.api.cfgmgmt.response.Rollout
+    kind: has_one
+    via: rollout
+  - from: chef.automate.api.cfgmgmt.response.Errors
+    to: chef.automate.api.cfgmgmt.response.ErrorCount
+    kind: has_many
+    via: errors
+  - from: chef.automate.api.cfgmgmt.response.ExpandedRunList
+    to: chef.automate.api.cfgmgmt.response.RunList
+    kind: has_many
+    via: run_list
+  - from: chef.automate.api.cfgmgmt.response.MissingNodeDurationCounts
+    to: chef.automate.api.cfgmgmt.response.CountedDuration
+    kind: has_many
+    via: counted_durations
+  - from: chef.automate.api.cfgmgmt.response.NodeMetadataCounts
+    to: chef.automate.api.cfgmgmt.response.TypeCount
+    kind: has_many
+    via: types
+  - from: chef.automate.api.cfgmgmt.response.NodeRunsDailyStatusTimeSeries
+    to: chef.automate.api.cfgmgmt.response.RunDurationStatus
+    kind: has_many
+    via: durations
+  - from: chef.automate.api.cfgmgmt.response.NodeSegmentRolloutProgress
+    to: chef.automate.api.cfgmgmt.response.CurrentRolloutProgress
+    kind: has_one
+    via: current_rollout_progress
+  - from: chef.automate.api.cfgmgmt.response.NodeSegmentRolloutProgress
+    to: chef.automate.api.cfgmgmt.response.PastRolloutProgress
+    kind: has_many
+    via: previous_rollouts
+  - from: chef.automate.api.cfgmgmt.response.NodeSegmentsWithRolloutProgress
+    to: chef.automate.api.cfgmgmt.response.NodeSegmentRolloutProgress
+    kind: has_many
+    via: node_segment_rollout_progress
+  - from: chef.automate.api.cfgmgmt.response.PastRolloutProgress
+    to: chef.automate.api.cfgmgmt.response.Rollout
+    kind: has_one
+    via: rollout
+  - from: chef.automate.api.cfgmgmt.response.PolicyCookbooks
+    to: chef.automate.api.cfgmgmt.response.CookbookLock
+    kind: has_many
+    via: cookbook_locks
+  - from: chef.automate.api.cfgmgmt.response.Resource
+    to: chef.automate.api.cfgmgmt.response.ChefError
+    kind: has_one
+    via: error
+  - from: chef.automate.api.cfgmgmt.response.Rollout
+    to: chef.automate.api.cfgmgmt.response.SCMType
+    kind: has_one
+    via: scm_type
+  - from: chef.automate.api.cfgmgmt.response.Rollout
+    to: chef.automate.api.cfgmgmt.response.SCMWebType
+    kind: has_one
+    via: scm_web_type
+  - from: chef.automate.api.cfgmgmt.response.Rollouts
+    to: chef.automate.api.cfgmgmt.response.Rollout
+    kind: has_many
+    via: rollouts
+  - from: chef.automate.api.cfgmgmt.response.Run
+    to: chef.automate.api.cfgmgmt.response.Deprecation
+    kind: has_many
+    via: deprecations
+  - from: chef.automate.api.cfgmgmt.response.Run
+    to: chef.automate.api.cfgmgmt.response.ChefError
+    kind: has_one
+    via: error
+  - from: chef.automate.api.cfgmgmt.response.Run
+    to: chef.automate.api.cfgmgmt.response.ExpandedRunList
+    kind: has_one
+    via: expanded_run_list
+  - from: chef.automate.api.cfgmgmt.response.Run
+    to: chef.automate.api.cfgmgmt.response.Resource
+    kind: has_many
+    via: resources
+  - from: chef.automate.api.cfgmgmt.response.Run
+    to: chef.automate.api.cfgmgmt.response.VersionedCookbook
+    kind: has_many
+    via: versioned_cookbooks
+  - from: chef.automate.api.cfgmgmt.response.RunList
+    to: chef.automate.api.cfgmgmt.response.RunList
+    kind: has_many
+    via: children
+  - from: chef.automate.api.cfgmgmt.response.TypeCount
+    to: chef.automate.api.cfgmgmt.response.ValueCount
+    kind: has_many
+    via: values
+  - from: chef.automate.api.common.query.Sorting
+    to: chef.automate.api.common.query.SortOrder
+    kind: has_one
+    via: order
+  - from: chef.automate.api.compliance.profiles.v1.Attribute
+    to: chef.automate.api.compliance.profiles.v1.Option
+    kind: has_one
+    via: options
+  - from: chef.automate.api.compliance.profiles.v1.CheckResult
+    to: chef.automate.api.compliance.profiles.v1.CheckMessage
+    kind: has_many
+    via: errors
+  - from: chef.automate.api.compliance.profiles.v1.CheckResult
+    to: chef.automate.api.compliance.profiles.v1.ResultSummary
+    kind: has_one
+    via: summary
+  - from: chef.automate.api.compliance.profiles.v1.CheckResult
+    to: chef.automate.api.compliance.profiles.v1.CheckMessage
+    kind: has_many
+    via: warnings
+  - from: chef.automate.api.compliance.profiles.v1.Control
+    to: chef.automate.api.compliance.profiles.v1.Ref
+    kind: has_many
+    via: refs
+  - from: chef.automate.api.compliance.profiles.v1.Control
+    to: chef.automate.api.compliance.profiles.v1.Result
+    kind: has_many
+    via: results
+  - from: chef.automate.api.compliance.profiles.v1.Control
+    to: chef.automate.api.compliance.profiles.v1.SourceLocation
+    kind: has_one
+    via: source_location
+  - from: chef.automate.api.compliance.profiles.v1.Profile
+    to: chef.automate.api.compliance.profiles.v1.Attribute
+    kind: has_many
+    via: attributes
+  - from: chef.automate.api.compliance.profiles.v1.Profile
+    to: chef.automate.api.compliance.profiles.v1.Control
+    kind: has_many
+    via: controls
+  - from: chef.automate.api.compliance.profiles.v1.Profile
+    to: chef.automate.api.compliance.profiles.v1.Dependency
+    kind: has_many
+    via: depends
+  - from: chef.automate.api.compliance.profiles.v1.Profile
+    to: chef.automate.api.compliance.profiles.v1.Group
+    kind: has_many
+    via: groups
+  - from: chef.automate.api.compliance.profiles.v1.Profile
+    to: chef.automate.api.compliance.profiles.v1.Support
+    kind: has_many
+    via: supports
+  - from: chef.automate.api.compliance.profiles.v1.Profiles
+    to: chef.automate.api.compliance.profiles.v1.Profile
+    kind: has_many
+    via: profiles
+  - from: chef.automate.api.compliance.profiles.v1.Query
+    to: chef.automate.api.compliance.profiles.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.profiles.v1.Query
+    to: chef.automate.api.compliance.profiles.v1.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.compliance.reporting.stats.v1.Failures
+    to: chef.automate.api.compliance.reporting.stats.v1.FailureSummary
+    kind: has_many
+    via: controls
+  - from: chef.automate.api.compliance.reporting.stats.v1.Failures
+    to: chef.automate.api.compliance.reporting.stats.v1.FailureSummary
+    kind: has_many
+    via: environments
+  - from: chef.automate.api.compliance.reporting.stats.v1.Failures
+    to: chef.automate.api.compliance.reporting.stats.v1.FailureSummary
+    kind: has_many
+    via: platforms
+  - from: chef.automate.api.compliance.reporting.stats.v1.Failures
+    to: chef.automate.api.compliance.reporting.stats.v1.FailureSummary
+    kind: has_many
+    via: profiles
+  - from: chef.automate.api.compliance.reporting.stats.v1.Profile
+    to: chef.automate.api.compliance.reporting.stats.v1.ControlStats
+    kind: has_many
+    via: control_stats
+  - from: chef.automate.api.compliance.reporting.stats.v1.Profile
+    to: chef.automate.api.compliance.reporting.stats.v1.ProfileList
+    kind: has_many
+    via: profile_list
+  - from: chef.automate.api.compliance.reporting.stats.v1.Profile
+    to: chef.automate.api.compliance.reporting.stats.v1.ProfileSummary
+    kind: has_one
+    via: profile_summary
+  - from: chef.automate.api.compliance.reporting.stats.v1.ProfileSummary
+    to: chef.automate.api.compliance.reporting.v1.Dependency
+    kind: has_many
+    via: depends
+  - from: chef.automate.api.compliance.reporting.stats.v1.ProfileSummary
+    to: chef.automate.api.compliance.reporting.stats.v1.ProfileSummaryStats
+    kind: has_one
+    via: stats
+  - from: chef.automate.api.compliance.reporting.stats.v1.ProfileSummary
+    to: chef.automate.api.compliance.reporting.stats.v1.Support
+    kind: has_many
+    via: supports
+  - from: chef.automate.api.compliance.reporting.stats.v1.Query
+    to: chef.automate.api.compliance.reporting.stats.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.reporting.stats.v1.Query
+    to: chef.automate.api.compliance.reporting.stats.v1.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.compliance.reporting.stats.v1.ReportSummary
+    to: chef.automate.api.compliance.reporting.stats.v1.Stats
+    kind: has_one
+    via: stats
+  - from: chef.automate.api.compliance.reporting.stats.v1.Summary
+    to: chef.automate.api.compliance.reporting.stats.v1.ControlsSummary
+    kind: has_one
+    via: controls_summary
+  - from: chef.automate.api.compliance.reporting.stats.v1.Summary
+    to: chef.automate.api.compliance.reporting.stats.v1.NodeSummary
+    kind: has_one
+    via: node_summary
+  - from: chef.automate.api.compliance.reporting.stats.v1.Summary
+    to: chef.automate.api.compliance.reporting.stats.v1.ReportSummary
+    kind: has_one
+    via: report_summary
+  - from: chef.automate.api.compliance.reporting.stats.v1.Trends
+    to: chef.automate.api.compliance.reporting.stats.v1.Trend
+    kind: has_many
+    via: trends
+  - from: chef.automate.api.compliance.reporting.v1.AssetListRequest
+    to: chef.automate.api.compliance.reporting.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.reporting.v1.AssetListResponse
+    to: chef.automate.api.compliance.reporting.v1.Assets
+    kind: has_many
+    via: assets
+  - from: chef.automate.api.compliance.reporting.v1.AssetSummary
+    to: chef.automate.api.compliance.reporting.v1.Collected
+    kind: has_one
+    via: collected
+  - from: chef.automate.api.compliance.reporting.v1.AssetSummary
+    to: chef.automate.api.compliance.reporting.v1.Uncollected
+    kind: has_one
+    via: uncollected
+  - from: chef.automate.api.compliance.reporting.v1.Attribute
+    to: chef.automate.api.compliance.reporting.v1.Option
+    kind: has_one
+    via: options
+  - from: chef.automate.api.compliance.reporting.v1.Control
+    to: chef.automate.api.compliance.reporting.v1.Ref
+    kind: has_many
+    via: refs
+  - from: chef.automate.api.compliance.reporting.v1.Control
+    to: chef.automate.api.compliance.reporting.v1.RemovedResultsCounts
+    kind: has_one
+    via: removed_results_counts
+  - from: chef.automate.api.compliance.reporting.v1.Control
+    to: chef.automate.api.compliance.reporting.v1.Result
+    kind: has_many
+    via: results
+  - from: chef.automate.api.compliance.reporting.v1.Control
+    to: chef.automate.api.compliance.reporting.v1.SourceLocation
+    kind: has_one
+    via: source_location
+  - from: chef.automate.api.compliance.reporting.v1.Control
+    to: chef.automate.api.compliance.reporting.v1.OrigWaiverData
+    kind: has_one
+    via: waiver_data
+  - from: chef.automate.api.compliance.reporting.v1.ControlElements
+    to: chef.automate.api.compliance.reporting.v1.ControlElement
+    kind: has_many
+    via: control_elements
+  - from: chef.automate.api.compliance.reporting.v1.ControlItem
+    to: chef.automate.api.compliance.reporting.v1.ControlSummary
+    kind: has_one
+    via: control_summary
+  - from: chef.automate.api.compliance.reporting.v1.ControlItem
+    to: chef.automate.api.compliance.reporting.v1.ProfileMin
+    kind: has_one
+    via: profile
+  - from: chef.automate.api.compliance.reporting.v1.ControlItem
+    to: chef.automate.api.compliance.reporting.v1.WaiverData
+    kind: has_many
+    via: waivers
+  - from: chef.automate.api.compliance.reporting.v1.ControlItemRequest
+    to: chef.automate.api.compliance.reporting.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.reporting.v1.ControlItems
+    to: chef.automate.api.compliance.reporting.v1.ControlItem
+    kind: has_many
+    via: control_items
+  - from: chef.automate.api.compliance.reporting.v1.ControlItems
+    to: chef.automate.api.compliance.reporting.v1.ControlSummary
+    kind: has_one
+    via: control_summary_totals
+  - from: chef.automate.api.compliance.reporting.v1.ControlSummary
+    to: chef.automate.api.compliance.reporting.v1.Failed
+    kind: has_one
+    via: failed
+  - from: chef.automate.api.compliance.reporting.v1.ControlSummary
+    to: chef.automate.api.compliance.reporting.v1.Total
+    kind: has_one
+    via: passed
+  - from: chef.automate.api.compliance.reporting.v1.ControlSummary
+    to: chef.automate.api.compliance.reporting.v1.Total
+    kind: has_one
+    via: skipped
+  - from: chef.automate.api.compliance.reporting.v1.ControlSummary
+    to: chef.automate.api.compliance.reporting.v1.Total
+    kind: has_one
+    via: waived
+  - from: chef.automate.api.compliance.reporting.v1.LatestReportSummary
+    to: chef.automate.api.compliance.reporting.v1.ControlSummary
+    kind: has_one
+    via: controls
+  - from: chef.automate.api.compliance.reporting.v1.ListFilters
+    to: chef.automate.api.compliance.reporting.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.reporting.v1.Node
+    to: chef.automate.api.compliance.reporting.v1.LatestReportSummary
+    kind: has_one
+    via: latest_report
+  - from: chef.automate.api.compliance.reporting.v1.Node
+    to: chef.automate.api.compliance.reporting.v1.Platform
+    kind: has_one
+    via: platform
+  - from: chef.automate.api.compliance.reporting.v1.Node
+    to: chef.automate.api.compliance.reporting.v1.ProfileMeta
+    kind: has_many
+    via: profiles
+  - from: chef.automate.api.compliance.reporting.v1.Node
+    to: chef.automate.api.compliance.reporting.v1.Kv
+    kind: has_many
+    via: tags
+  - from: chef.automate.api.compliance.reporting.v1.NodeHeaderInfo
+    to: chef.automate.api.compliance.reporting.v1.Platform
+    kind: has_one
+    via: platform
+  - from: chef.automate.api.compliance.reporting.v1.NodeHeaderInfo
+    to: chef.automate.api.compliance.reporting.v1.NodeHeaderProfileInfo
+    kind: has_many
+    via: profiles
+  - from: chef.automate.api.compliance.reporting.v1.Nodes
+    to: chef.automate.api.compliance.reporting.v1.Node
+    kind: has_many
+    via: nodes
+  - from: chef.automate.api.compliance.reporting.v1.Profile
+    to: chef.automate.api.compliance.reporting.v1.Attribute
+    kind: has_many
+    via: attributes
+  - from: chef.automate.api.compliance.reporting.v1.Profile
+    to: chef.automate.api.compliance.reporting.v1.Control
+    kind: has_many
+    via: controls
+  - from: chef.automate.api.compliance.reporting.v1.Profile
+    to: chef.automate.api.compliance.reporting.v1.Dependency
+    kind: has_many
+    via: depends
+  - from: chef.automate.api.compliance.reporting.v1.Profile
+    to: chef.automate.api.compliance.reporting.v1.Group
+    kind: has_many
+    via: groups
+  - from: chef.automate.api.compliance.reporting.v1.Profile
+    to: chef.automate.api.compliance.reporting.v1.Support
+    kind: has_many
+    via: supports
+  - from: chef.automate.api.compliance.reporting.v1.ProfileMins
+    to: chef.automate.api.compliance.reporting.v1.ProfileCounts
+    kind: has_one
+    via: counts
+  - from: chef.automate.api.compliance.reporting.v1.ProfileMins
+    to: chef.automate.api.compliance.reporting.v1.ProfileMin
+    kind: has_many
+    via: profiles
+  - from: chef.automate.api.compliance.reporting.v1.Query
+    to: chef.automate.api.compliance.reporting.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.reporting.v1.Query
+    to: chef.automate.api.compliance.reporting.v1.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.compliance.reporting.v1.Report
+    to: chef.automate.api.compliance.reporting.v1.ControlSummary
+    kind: has_one
+    via: controls
+  - from: chef.automate.api.compliance.reporting.v1.Report
+    to: chef.automate.api.compliance.reporting.v1.Platform
+    kind: has_one
+    via: platform
+  - from: chef.automate.api.compliance.reporting.v1.Report
+    to: chef.automate.api.compliance.reporting.v1.Profile
+    kind: has_many
+    via: profiles
+  - from: chef.automate.api.compliance.reporting.v1.Report
+    to: chef.automate.api.compliance.reporting.v1.Statistics
+    kind: has_one
+    via: statistics
+  - from: chef.automate.api.compliance.reporting.v1.ReportIds
+    to: chef.automate.api.compliance.reporting.v1.ReportData
+    kind: has_many
+    via: report_data
+  - from: chef.automate.api.compliance.reporting.v1.ReportSummaryLevelOne
+    to: chef.automate.api.compliance.reporting.v1.ControlSummary
+    kind: has_one
+    via: controls
+  - from: chef.automate.api.compliance.reporting.v1.Reports
+    to: chef.automate.api.compliance.reporting.v1.Report
+    kind: has_many
+    via: reports
+  - from: chef.automate.api.compliance.reporting.v1.ReportsSummaryLevelOne
+    to: chef.automate.api.compliance.reporting.v1.ReportSummaryLevelOne
+    kind: has_many
+    via: reports
+  - from: chef.automate.api.compliance.reporting.v1.SuggestionRequest
+    to: chef.automate.api.compliance.reporting.v1.ListFilter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.reporting.v1.Suggestions
+    to: chef.automate.api.compliance.reporting.v1.Suggestion
+    kind: has_many
+    via: suggestions
+  - from: chef.automate.api.compliance.reporting.v1.WaiverData
+    to: chef.automate.api.compliance.reporting.v1.ControlSummary
+    kind: has_one
+    via: waiver_summary
+  - from: chef.automate.api.compliance.scanner.jobs.v1.Job
+    to: chef.automate.api.compliance.scanner.jobs.v1.ManagerFilter
+    kind: has_many
+    via: node_selectors
+  - from: chef.automate.api.compliance.scanner.jobs.v1.Job
+    to: chef.automate.api.compliance.scanner.jobs.v1.ResultsRow
+    kind: has_many
+    via: results
+  - from: chef.automate.api.compliance.scanner.jobs.v1.Job
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: tags
+  - from: chef.automate.api.compliance.scanner.jobs.v1.Jobs
+    to: chef.automate.api.compliance.scanner.jobs.v1.Job
+    kind: has_many
+    via: jobs
+  - from: chef.automate.api.compliance.scanner.jobs.v1.ManagerFilter
+    to: chef.automate.api.common.query.Filter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.scanner.jobs.v1.Query
+    to: chef.automate.api.common.query.Filter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.compliance.scanner.jobs.v1.Query
+    to: chef.automate.api.compliance.scanner.jobs.v1.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.data_lifecycle.GetComplianceStatusResponse
+    to: chef.automate.api.data_lifecycle.JobStatus
+    kind: has_many
+    via: jobs
+  - from: chef.automate.api.data_lifecycle.GetEventFeedStatusResponse
+    to: chef.automate.api.data_lifecycle.JobStatus
+    kind: has_many
+    via: jobs
+  - from: chef.automate.api.data_lifecycle.GetInfraStatusResponse
+    to: chef.automate.api.data_lifecycle.JobStatus
+    kind: has_many
+    via: jobs
+  - from: chef.automate.api.data_lifecycle.GetServicesStatusResponse
+    to: chef.automate.api.data_lifecycle.JobStatus
+    kind: has_many
+    via: jobs
+  - from: chef.automate.api.data_lifecycle.GetStatusResponse
+    to: chef.automate.api.data_lifecycle.GetComplianceStatusResponse
+    kind: has_one
+    via: compliance
+  - from: chef.automate.api.data_lifecycle.GetStatusResponse
+    to: chef.automate.api.data_lifecycle.GetEventFeedStatusResponse
+    kind: has_one
+    via: event_feed
+  - from: chef.automate.api.data_lifecycle.GetStatusResponse
+    to: chef.automate.api.data_lifecycle.GetInfraStatusResponse
+    kind: has_one
+    via: infra
+  - from: chef.automate.api.data_lifecycle.GetStatusResponse
+    to: chef.automate.api.data_lifecycle.GetServicesStatusResponse
+    kind: has_one
+    via: services
+  - from: chef.automate.api.data_lifecycle.JobSettings
+    to: chef.automate.api.data_lifecycle.PurgePolicyUpdate
+    kind: has_one
+    via: purge_policies
+  - from: chef.automate.api.data_lifecycle.JobStatus
+    to: chef.automate.api.data_lifecycle.PurgePolicies
+    kind: has_one
+    via: purge_policies
+  - from: chef.automate.api.data_lifecycle.PurgePolicies
+    to: chef.automate.api.data_lifecycle.EsPolicy
+    kind: has_many
+    via: elasticsearch
+  - from: chef.automate.api.data_lifecycle.PurgePolicies
+    to: chef.automate.api.data_lifecycle.PgPolicy
+    kind: has_many
+    via: postgres
+  - from: chef.automate.api.data_lifecycle.PurgePolicyUpdate
+    to: chef.automate.api.data_lifecycle.EsPolicyUpdate
+    kind: has_many
+    via: elasticsearch
+  - from: chef.automate.api.data_lifecycle.PurgePolicyUpdate
+    to: chef.automate.api.data_lifecycle.PgPolicyUpdate
+    kind: has_many
+    via: postgres
+  - from: chef.automate.api.data_lifecycle.SetComplianceConfigRequest
+    to: chef.automate.api.data_lifecycle.JobSettings
+    kind: has_many
+    via: job_settings
+  - from: chef.automate.api.data_lifecycle.SetConfigRequest
+    to: chef.automate.api.data_lifecycle.SetComplianceConfigRequest
+    kind: has_one
+    via: compliance
+  - from: chef.automate.api.data_lifecycle.SetConfigRequest
+    to: chef.automate.api.data_lifecycle.SetEventFeedConfigRequest
+    kind: has_one
+    via: event_feed
+  - from: chef.automate.api.data_lifecycle.SetConfigRequest
+    to: chef.automate.api.data_lifecycle.SetInfraConfigRequest
+    kind: has_one
+    via: infra
+  - from: chef.automate.api.data_lifecycle.SetConfigRequest
+    to: chef.automate.api.data_lifecycle.SetServicesConfigRequest
+    kind: has_one
+    via: services
+  - from: chef.automate.api.data_lifecycle.SetEventFeedConfigRequest
+    to: chef.automate.api.data_lifecycle.JobSettings
+    kind: has_many
+    via: job_settings
+  - from: chef.automate.api.data_lifecycle.SetInfraConfigRequest
+    to: chef.automate.api.data_lifecycle.JobSettings
+    kind: has_many
+    via: job_settings
+  - from: chef.automate.api.data_lifecycle.SetServicesConfigRequest
+    to: chef.automate.api.data_lifecycle.JobSettings
+    kind: has_many
+    via: job_settings
+  - from: chef.automate.api.datafeed.AddDestinationRequest
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.datafeed.AddDestinationResponse
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.datafeed.DeleteDestinationResponse
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.datafeed.GetDestinationResponse
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.datafeed.ListDestinationResponse
+    to: chef.automate.api.datafeed.GetDestinationResponse
+    kind: has_many
+    via: destinations
+  - from: chef.automate.api.datafeed.SecretIdWithExtraPrams
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.datafeed.URLValidationRequest
+    to: chef.automate.api.datafeed.AWS
+    kind: has_one
+    via: aws
+  - from: chef.automate.api.datafeed.URLValidationRequest
+    to: chef.automate.api.datafeed.Header
+    kind: has_one
+    via: header
+  - from: chef.automate.api.datafeed.URLValidationRequest
+    to: chef.automate.api.datafeed.SecretId
+    kind: has_one
+    via: secret_id
+  - from: chef.automate.api.datafeed.URLValidationRequest
+    to: chef.automate.api.datafeed.SecretIdWithExtraPrams
+    kind: has_one
+    via: secret_id_with_addon
+  - from: chef.automate.api.datafeed.URLValidationRequest
+    to: chef.automate.api.datafeed.UsernamePassword
+    kind: has_one
+    via: username_password
+  - from: chef.automate.api.datafeed.UpdateDestinationRequest
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.datafeed.UpdateDestinationResponse
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: meta_data
+  - from: chef.automate.api.deployment.ServiceVersionsResponse
+    to: chef.automate.api.deployment.ServiceVersion
+    kind: has_many
+    via: services
+  - from: chef.automate.api.event_feed.response.EventCollection
+    to: chef.automate.api.event_feed.response.EventCount
+    kind: has_many
+    via: events_count
+  - from: chef.automate.api.event_feed.response.EventString
+    to: chef.automate.api.event_feed.response.EventCollection
+    kind: has_many
+    via: collection
+  - from: chef.automate.api.event_feed.response.GetEventFeedResponse
+    to: chef.automate.api.event_feed.response.Event
+    kind: has_many
+    via: events
+  - from: chef.automate.api.event_feed.response.GetEventStringBucketsResponse
+    to: chef.automate.api.event_feed.response.EventString
+    kind: has_many
+    via: strings
+  - from: chef.automate.api.event_feed.response.GetEventTaskCountsResponse
+    to: chef.automate.api.event_feed.response.EventCount
+    kind: has_many
+    via: counts
+  - from: chef.automate.api.event_feed.response.GetEventTypeCountsResponse
+    to: chef.automate.api.event_feed.response.EventCount
+    kind: has_many
+    via: counts
+  - from: chef.automate.api.iam.v2.Condition
+    to: chef.automate.api.iam.v2.ConditionAttribute
+    kind: has_one
+    via: attribute
+  - from: chef.automate.api.iam.v2.Condition
+    to: chef.automate.api.iam.v2.ConditionOperator
+    kind: has_one
+    via: operator
+  - from: chef.automate.api.iam.v2.CreatePolicyReq
+    to: chef.automate.api.iam.v2.Statement
+    kind: has_many
+    via: statements
+  - from: chef.automate.api.iam.v2.CreatePolicyResp
+    to: chef.automate.api.iam.v2.Policy
+    kind: has_one
+    via: policy
+  - from: chef.automate.api.iam.v2.CreateProjectResp
+    to: chef.automate.api.iam.v2.Project
+    kind: has_one
+    via: project
+  - from: chef.automate.api.iam.v2.CreateRoleResp
+    to: chef.automate.api.iam.v2.Role
+    kind: has_one
+    via: role
+  - from: chef.automate.api.iam.v2.CreateRuleReq
+    to: chef.automate.api.iam.v2.Condition
+    kind: has_many
+    via: conditions
+  - from: chef.automate.api.iam.v2.CreateRuleReq
+    to: chef.automate.api.iam.v2.RuleType
+    kind: has_one
+    via: type
+  - from: chef.automate.api.iam.v2.CreateRuleResp
+    to: chef.automate.api.iam.v2.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.iam.v2.CreateTeamResp
+    to: chef.automate.api.iam.v2.Team
+    kind: has_one
+    via: team
+  - from: chef.automate.api.iam.v2.CreateTokenResp
+    to: chef.automate.api.iam.v2.Token
+    kind: has_one
+    via: token
+  - from: chef.automate.api.iam.v2.CreateUserResp
+    to: chef.automate.api.iam.v2.User
+    kind: has_one
+    via: user
+  - from: chef.automate.api.iam.v2.DeleteTeamResp
+    to: chef.automate.api.iam.v2.Team
+    kind: has_one
+    via: team
+  - from: chef.automate.api.iam.v2.GetPolicyResp
+    to: chef.automate.api.iam.v2.Policy
+    kind: has_one
+    via: policy
+  - from: chef.automate.api.iam.v2.GetPolicyVersionResp
+    to: chef.automate.api.iam.v2.Version
+    kind: has_one
+    via: version
+  - from: chef.automate.api.iam.v2.GetProjectResp
+    to: chef.automate.api.iam.v2.Project
+    kind: has_one
+    via: project
+  - from: chef.automate.api.iam.v2.GetRoleResp
+    to: chef.automate.api.iam.v2.Role
+    kind: has_one
+    via: role
+  - from: chef.automate.api.iam.v2.GetRuleResp
+    to: chef.automate.api.iam.v2.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.iam.v2.GetTeamResp
+    to: chef.automate.api.iam.v2.Team
+    kind: has_one
+    via: team
+  - from: chef.automate.api.iam.v2.GetTeamsForMemberResp
+    to: chef.automate.api.iam.v2.Team
+    kind: has_many
+    via: teams
+  - from: chef.automate.api.iam.v2.GetTokenResp
+    to: chef.automate.api.iam.v2.Token
+    kind: has_one
+    via: token
+  - from: chef.automate.api.iam.v2.GetUserResp
+    to: chef.automate.api.iam.v2.User
+    kind: has_one
+    via: user
+  - from: chef.automate.api.iam.v2.ListPoliciesResp
+    to: chef.automate.api.iam.v2.Policy
+    kind: has_many
+    via: policies
+  - from: chef.automate.api.iam.v2.ListProjectsResp
+    to: chef.automate.api.iam.v2.Project
+    kind: has_many
+    via: projects
+  - from: chef.automate.api.iam.v2.ListRolesResp
+    to: chef.automate.api.iam.v2.Role
+    kind: has_many
+    via: roles
+  - from: chef.automate.api.iam.v2.ListRulesForProjectResp
+    to: chef.automate.api.iam.v2.Rule
+    kind: has_many
+    via: rules
+  - from: chef.automate.api.iam.v2.ListRulesForProjectResp
+    to: chef.automate.api.iam.v2.ProjectRulesStatus
+    kind: has_one
+    via: status
+  - from: chef.automate.api.iam.v2.ListTeamsResp
+    to: chef.automate.api.iam.v2.Team
+    kind: has_many
+    via: teams
+  - from: chef.automate.api.iam.v2.ListTokensResp
+    to: chef.automate.api.iam.v2.Token
+    kind: has_many
+    via: tokens
+  - from: chef.automate.api.iam.v2.ListUsersResp
+    to: chef.automate.api.iam.v2.User
+    kind: has_many
+    via: users
+  - from: chef.automate.api.iam.v2.Policy
+    to: chef.automate.api.iam.v2.Statement
+    kind: has_many
+    via: statements
+  - from: chef.automate.api.iam.v2.Policy
+    to: chef.automate.api.iam.v2.Type
+    kind: has_one
+    via: type
+  - from: chef.automate.api.iam.v2.Project
+    to: chef.automate.api.iam.v2.ProjectRulesStatus
+    kind: has_one
+    via: status
+  - from: chef.automate.api.iam.v2.Project
+    to: chef.automate.api.iam.v2.Type
+    kind: has_one
+    via: type
+  - from: chef.automate.api.iam.v2.Role
+    to: chef.automate.api.iam.v2.Type
+    kind: has_one
+    via: type
+  - from: chef.automate.api.iam.v2.Rule
+    to: chef.automate.api.iam.v2.Condition
+    kind: has_many
+    via: conditions
+  - from: chef.automate.api.iam.v2.Rule
+    to: chef.automate.api.iam.v2.RuleStatus
+    kind: has_one
+    via: status
+  - from: chef.automate.api.iam.v2.Rule
+    to: chef.automate.api.iam.v2.RuleType
+    kind: has_one
+    via: type
+  - from: chef.automate.api.iam.v2.Statement
+    to: chef.automate.api.iam.v2.Statement.Effect
+    kind: has_one
+    via: effect
+  - from: chef.automate.api.iam.v2.UpdatePolicyReq
+    to: chef.automate.api.iam.v2.Statement
+    kind: has_many
+    via: statements
+  - from: chef.automate.api.iam.v2.UpdatePolicyResp
+    to: chef.automate.api.iam.v2.Policy
+    kind: has_one
+    via: policy
+  - from: chef.automate.api.iam.v2.UpdateProjectResp
+    to: chef.automate.api.iam.v2.Project
+    kind: has_one
+    via: project
+  - from: chef.automate.api.iam.v2.UpdateRoleResp
+    to: chef.automate.api.iam.v2.Role
+    kind: has_one
+    via: role
+  - from: chef.automate.api.iam.v2.UpdateRuleReq
+    to: chef.automate.api.iam.v2.Condition
+    kind: has_many
+    via: conditions
+  - from: chef.automate.api.iam.v2.UpdateRuleReq
+    to: chef.automate.api.iam.v2.RuleType
+    kind: has_one
+    via: type
+  - from: chef.automate.api.iam.v2.UpdateRuleResp
+    to: chef.automate.api.iam.v2.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.iam.v2.UpdateSelfResp
+    to: chef.automate.api.iam.v2.User
+    kind: has_one
+    via: user
+  - from: chef.automate.api.iam.v2.UpdateTeamResp
+    to: chef.automate.api.iam.v2.Team
+    kind: has_one
+    via: team
+  - from: chef.automate.api.iam.v2.UpdateTokenResp
+    to: chef.automate.api.iam.v2.Token
+    kind: has_one
+    via: token
+  - from: chef.automate.api.iam.v2.UpdateUserResp
+    to: chef.automate.api.iam.v2.User
+    kind: has_one
+    via: user
+  - from: chef.automate.api.iam.v2.Version
+    to: chef.automate.api.iam.v2.Version.VersionNumber
+    kind: has_one
+    via: major
+  - from: chef.automate.api.iam.v2.Version
+    to: chef.automate.api.iam.v2.Version.VersionNumber
+    kind: has_one
+    via: minor
+  - from: chef.automate.api.infra_proxy.request.CreateRole
+    to: chef.automate.api.infra_proxy.request.EnvRunList
+    kind: has_many
+    via: env_run_lists
+  - from: chef.automate.api.infra_proxy.request.UpdateRole
+    to: chef.automate.api.infra_proxy.request.EnvRunList
+    kind: has_many
+    via: env_run_lists
+  - from: chef.automate.api.infra_proxy.response.Client
+    to: chef.automate.api.infra_proxy.response.ClientAccessKey
+    kind: has_one
+    via: client_key
+  - from: chef.automate.api.infra_proxy.response.Clients
+    to: chef.automate.api.infra_proxy.response.ClientListItem
+    kind: has_many
+    via: clients
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookAccess
+    kind: has_one
+    via: access
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: attributes
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: definitions
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: files
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: libraries
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookMeta
+    kind: has_one
+    via: metadata
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: providers
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: recipes
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: resources
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: root_files
+  - from: chef.automate.api.infra_proxy.response.Cookbook
+    to: chef.automate.api.infra_proxy.response.CookbookItem
+    kind: has_many
+    via: templates
+  - from: chef.automate.api.infra_proxy.response.CookbookLock
+    to: chef.automate.api.infra_proxy.response.SCMDetail
+    kind: has_one
+    via: SCMDetail
+  - from: chef.automate.api.infra_proxy.response.CookbookLock
+    to: chef.automate.api.infra_proxy.response.SourceOptions
+    kind: has_one
+    via: source_options
+  - from: chef.automate.api.infra_proxy.response.Cookbooks
+    to: chef.automate.api.infra_proxy.response.CookbookVersion
+    kind: has_many
+    via: cookbooks
+  - from: chef.automate.api.infra_proxy.response.CreateClient
+    to: chef.automate.api.infra_proxy.response.ClientKey
+    kind: has_one
+    via: client_key
+  - from: chef.automate.api.infra_proxy.response.CreateOrg
+    to: chef.automate.api.infra_proxy.response.Org
+    kind: has_one
+    via: org
+  - from: chef.automate.api.infra_proxy.response.CreateServer
+    to: chef.automate.api.infra_proxy.response.Server
+    kind: has_one
+    via: server
+  - from: chef.automate.api.infra_proxy.response.DataBagItems
+    to: chef.automate.api.infra_proxy.response.DataBagListItem
+    kind: has_many
+    via: items
+  - from: chef.automate.api.infra_proxy.response.DataBags
+    to: chef.automate.api.infra_proxy.response.DataBagListItem
+    kind: has_many
+    via: data_bags
+  - from: chef.automate.api.infra_proxy.response.DeleteOrg
+    to: chef.automate.api.infra_proxy.response.Org
+    kind: has_one
+    via: org
+  - from: chef.automate.api.infra_proxy.response.DeleteServer
+    to: chef.automate.api.infra_proxy.response.Server
+    kind: has_one
+    via: server
+  - from: chef.automate.api.infra_proxy.response.Environments
+    to: chef.automate.api.infra_proxy.response.EnvironmentListItem
+    kind: has_many
+    via: environments
+  - from: chef.automate.api.infra_proxy.response.ExpandedRunList
+    to: chef.automate.api.infra_proxy.response.RunList
+    kind: has_many
+    via: run_list
+  - from: chef.automate.api.infra_proxy.response.GetOrg
+    to: chef.automate.api.infra_proxy.response.Org
+    kind: has_one
+    via: org
+  - from: chef.automate.api.infra_proxy.response.GetOrgs
+    to: chef.automate.api.infra_proxy.response.Org
+    kind: has_many
+    via: orgs
+  - from: chef.automate.api.infra_proxy.response.GetServer
+    to: chef.automate.api.infra_proxy.response.Server
+    kind: has_one
+    via: server
+  - from: chef.automate.api.infra_proxy.response.GetServers
+    to: chef.automate.api.infra_proxy.response.Server
+    kind: has_many
+    via: servers
+  - from: chef.automate.api.infra_proxy.response.IncludedPolicyLock
+    to: chef.automate.api.infra_proxy.response.SourceOptions
+    kind: has_one
+    via: source_options
+  - from: chef.automate.api.infra_proxy.response.NodeExpandedRunList
+    to: chef.automate.api.infra_proxy.response.RunList
+    kind: has_many
+    via: run_list
+  - from: chef.automate.api.infra_proxy.response.Nodes
+    to: chef.automate.api.infra_proxy.response.NodeAttribute
+    kind: has_many
+    via: nodes
+  - from: chef.automate.api.infra_proxy.response.OrgUsers
+    to: chef.automate.api.infra_proxy.response.UsersListItem
+    kind: has_many
+    via: users
+  - from: chef.automate.api.infra_proxy.response.Policyfile
+    to: chef.automate.api.infra_proxy.response.CookbookLock
+    kind: has_many
+    via: cookbook_locks
+  - from: chef.automate.api.infra_proxy.response.Policyfile
+    to: chef.automate.api.infra_proxy.response.ExpandedRunList
+    kind: has_many
+    via: expanded_run_list
+  - from: chef.automate.api.infra_proxy.response.Policyfile
+    to: chef.automate.api.infra_proxy.response.IncludedPolicyLock
+    kind: has_many
+    via: included_policy_locks
+  - from: chef.automate.api.infra_proxy.response.Policyfile
+    to: chef.automate.api.infra_proxy.response.NamedRunList
+    kind: has_many
+    via: named_run_list
+  - from: chef.automate.api.infra_proxy.response.Policyfile
+    to: chef.automate.api.infra_proxy.response.SolutionDependencies
+    kind: has_many
+    via: solution_dependecies
+  - from: chef.automate.api.infra_proxy.response.PolicyfileRevisions
+    to: chef.automate.api.infra_proxy.response.PolicyfileRevision
+    kind: has_many
+    via: revisions
+  - from: chef.automate.api.infra_proxy.response.Policyfiles
+    to: chef.automate.api.infra_proxy.response.PolicyfileListItem
+    kind: has_many
+    via: policies
+  - from: chef.automate.api.infra_proxy.response.Policygroup
+    to: chef.automate.api.infra_proxy.response.GroupPolicy
+    kind: has_many
+    via: policies
+  - from: chef.automate.api.infra_proxy.response.ResetClient
+    to: chef.automate.api.infra_proxy.response.ClientKey
+    kind: has_one
+    via: client_key
+  - from: chef.automate.api.infra_proxy.response.ResetOrgAdminKey
+    to: chef.automate.api.infra_proxy.response.Org
+    kind: has_one
+    via: org
+  - from: chef.automate.api.infra_proxy.response.Roles
+    to: chef.automate.api.infra_proxy.response.RoleListItem
+    kind: has_many
+    via: roles
+  - from: chef.automate.api.infra_proxy.response.RunList
+    to: chef.automate.api.infra_proxy.response.RunList
+    kind: has_many
+    via: children
+  - from: chef.automate.api.infra_proxy.response.ServerUsers
+    to: chef.automate.api.infra_proxy.response.UsersListItem
+    kind: has_many
+    via: users
+  - from: chef.automate.api.infra_proxy.response.SolutionDependencies
+    to: chef.automate.api.infra_proxy.response.DepedenciesData
+    kind: has_many
+    via: dependencies
+  - from: chef.automate.api.infra_proxy.response.UpdateOrg
+    to: chef.automate.api.infra_proxy.response.Org
+    kind: has_one
+    via: org
+  - from: chef.automate.api.infra_proxy.response.UpdateServer
+    to: chef.automate.api.infra_proxy.response.Server
+    kind: has_one
+    via: server
+  - from: chef.automate.api.ingest.request.Error
+    to: chef.automate.api.ingest.request.Description
+    kind: has_one
+    via: description
+  - from: chef.automate.api.ingest.request.ExpandedRunList
+    to: chef.automate.api.ingest.request.RunList
+    kind: has_many
+    via: run_list
+  - from: chef.automate.api.ingest.request.Resource
+    to: chef.automate.api.ingest.request.Error
+    kind: has_one
+    via: error
+  - from: chef.automate.api.ingest.request.Run
+    to: chef.automate.api.ingest.request.Deprecation
+    kind: has_many
+    via: deprecations
+  - from: chef.automate.api.ingest.request.Run
+    to: chef.automate.api.ingest.request.Error
+    kind: has_one
+    via: error
+  - from: chef.automate.api.ingest.request.Run
+    to: chef.automate.api.ingest.request.ExpandedRunList
+    kind: has_one
+    via: expanded_run_list
+  - from: chef.automate.api.ingest.request.Run
+    to: chef.automate.api.ingest.request.Resource
+    kind: has_many
+    via: resources
+  - from: chef.automate.api.ingest.request.RunList
+    to: chef.automate.api.ingest.request.RunList
+    kind: has_many
+    via: children
+  - from: chef.automate.api.ingest.response.JobSchedulerStatus
+    to: chef.automate.api.ingest.response.Job
+    kind: has_many
+    via: jobs
+  - from: chef.automate.api.license.ApplyLicenseResp
+    to: chef.automate.api.license.GetStatusResp
+    kind: has_one
+    via: status
+  - from: chef.automate.api.license.GetStatusResp
+    to: chef.automate.api.license.GetStatusResp.DateRange
+    kind: has_one
+    via: licensed_period
+  - from: chef.automate.api.license.RequestLicenseResp
+    to: chef.automate.api.license.GetStatusResp
+    kind: has_one
+    via: status
+  - from: chef.automate.api.nodes.manager.v1.FieldQuery
+    to: chef.automate.api.nodes.manager.v1.Query
+    kind: has_one
+    via: query
+  - from: chef.automate.api.nodes.manager.v1.Ids
+    to: chef.automate.api.nodes.manager.v1.Id
+    kind: has_many
+    via: ids
+  - from: chef.automate.api.nodes.manager.v1.NodeManager
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: credential_data
+  - from: chef.automate.api.nodes.manager.v1.NodeManager
+    to: chef.automate.api.nodes.manager.v1.CredentialsByTags
+    kind: has_many
+    via: instance_credentials
+  - from: chef.automate.api.nodes.manager.v1.NodeManagers
+    to: chef.automate.api.nodes.manager.v1.NodeManager
+    kind: has_many
+    via: managers
+  - from: chef.automate.api.nodes.manager.v1.NodeQuery
+    to: chef.automate.api.nodes.manager.v1.Query
+    kind: has_one
+    via: query
+  - from: chef.automate.api.nodes.manager.v1.Query
+    to: chef.automate.api.common.query.Filter
+    kind: has_many
+    via: filter_map
+  - from: chef.automate.api.nodes.manager.v1.Query
+    to: chef.automate.api.nodes.manager.v1.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.nodes.v1.LastContactData
+    to: chef.automate.api.nodes.v1.LastContactData.Status
+    kind: has_one
+    via: penultimate_status
+  - from: chef.automate.api.nodes.v1.LastContactData
+    to: chef.automate.api.nodes.v1.LastContactData.Status
+    kind: has_one
+    via: status
+  - from: chef.automate.api.nodes.v1.Node
+    to: chef.automate.api.nodes.v1.ResultsRow
+    kind: has_one
+    via: last_job
+  - from: chef.automate.api.nodes.v1.Node
+    to: chef.automate.api.nodes.v1.LastContactData
+    kind: has_one
+    via: run_data
+  - from: chef.automate.api.nodes.v1.Node
+    to: chef.automate.api.nodes.v1.LastContactData
+    kind: has_one
+    via: scan_data
+  - from: chef.automate.api.nodes.v1.Node
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: tags
+  - from: chef.automate.api.nodes.v1.Node
+    to: chef.automate.api.nodes.v1.TargetConfig
+    kind: has_one
+    via: target_config
+  - from: chef.automate.api.nodes.v1.Nodes
+    to: chef.automate.api.nodes.v1.Node
+    kind: has_many
+    via: nodes
+  - from: chef.automate.api.nodes.v1.Query
+    to: chef.automate.api.common.query.Filter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.nodes.v1.Query
+    to: chef.automate.api.nodes.v1.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.notifications.Rule
+    to: chef.automate.api.notifications.ServiceNowAlert
+    kind: has_one
+    via: ServiceNowAlert
+  - from: chef.automate.api.notifications.Rule
+    to: chef.automate.api.notifications.SlackAlert
+    kind: has_one
+    via: SlackAlert
+  - from: chef.automate.api.notifications.Rule
+    to: chef.automate.api.notifications.WebhookAlert
+    kind: has_one
+    via: WebhookAlert
+  - from: chef.automate.api.notifications.Rule
+    to: chef.automate.api.notifications.Rule.Event
+    kind: has_one
+    via: event
+  - from: chef.automate.api.notifications.RuleAddRequest
+    to: chef.automate.api.notifications.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.notifications.RuleAddResponse
+    to: chef.automate.api.notifications.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.notifications.RuleGetResponse
+    to: chef.automate.api.notifications.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.notifications.RuleListResponse
+    to: chef.automate.api.notifications.Rule
+    kind: has_many
+    via: rules
+  - from: chef.automate.api.notifications.RuleUpdateRequest
+    to: chef.automate.api.notifications.Rule
+    kind: has_one
+    via: rule
+  - from: chef.automate.api.notifications.URLValidationRequest
+    to: chef.automate.api.notifications.Empty
+    kind: has_one
+    via: none
+  - from: chef.automate.api.notifications.URLValidationRequest
+    to: chef.automate.api.notifications.SecretId
+    kind: has_one
+    via: secret_id
+  - from: chef.automate.api.notifications.URLValidationRequest
+    to: chef.automate.api.notifications.UsernamePassword
+    kind: has_one
+    via: username_password
+  - from: chef.automate.api.report_manager.ListDownloadReportRequestsResponse
+    to: chef.automate.api.report_manager.DownloadRequestResponse
+    kind: has_many
+    via: data
+  - from: chef.automate.api.secrets.Query
+    to: chef.automate.api.common.query.Filter
+    kind: has_many
+    via: filters
+  - from: chef.automate.api.secrets.Query
+    to: chef.automate.api.secrets.Query.OrderType
+    kind: has_one
+    via: order
+  - from: chef.automate.api.secrets.Secret
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: data
+  - from: chef.automate.api.secrets.Secret
+    to: chef.automate.api.common.query.Kv
+    kind: has_many
+    via: tags
+  - from: chef.automate.api.secrets.Secrets
+    to: chef.automate.api.secrets.Secret
+    kind: has_many
+    via: secrets
+  - from: chef.automate.api.user_settings.DownloadAuditLogsResponse
+    to: chef.automate.api.user_settings.DownloadMetadata
+    kind: has_one
+    via: metadata
+  - from: chef.automate.api.user_settings.GetUserSettingsResponse
+    to: chef.automate.api.user_settings.User
+    kind: has_one
+    via: user
+  - from: chef.automate.api.user_settings.PutUserSettingsRequest
+    to: chef.automate.api.user_settings.User
+    kind: has_one
+    via: user
+  - from: chef.automate.api.user_settings.PutUserSettingsResponse
+    to: chef.automate.api.user_settings.User
+    kind: has_one
+    via: user
+  - from: grpc.gateway.runtime.Error
+    to: google.protobuf.Any
+    kind: has_many
+    via: details
+  - from: grpc.gateway.runtime.StreamError
+    to: google.protobuf.Any
+    kind: has_many
+    via: details
+- api: MOVEit Transfer REST API
+  source: openapi/progress-software-moveit-transfer-openapi-original.json
+  schema_count: 191
+  relationship_count: 100
+  core_entities:
+  - PagingInfoModel
+  - SortFieldDto
+  - SimpleUserModel
+  - FolderAclPermissionsModel
+  - PackageDetailsModel
+  - TransferStatusPagedModel
+  - SimpleFilePublicLinkModel
+  - SimpleFileResourceModel
+  - SimplePackageModel
+  - RecipientListItem
+  - PagedModelOfPublicIdPInformationModel
+  - PagedModelOfContactModel
+  - PagedModelOfFileIsNewForUserModel
+  - PagedModelOfSimpleFilePublicLinkModel
+  - SimpleFileResourcePagedModel
+  relationships:
+  - from: UnprocessableEntityErrorModel
+    to: FieldErrorModel
+    kind: has_many
+    via: errors
+  - from: PagedModelOfPublicIdPInformationModel
+    to: PublicIdPInformationModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfPublicIdPInformationModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfPublicIdPInformationModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfContactModel
+    to: ContactModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfContactModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfContactModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: FilePublicLinkDetailsModel
+    to: PublicFileModel
+    kind: has_one
+    via: file
+  - from: FilePublicLinkDetailsModel
+    to: SimpleUserModel
+    kind: has_one
+    via: creator
+  - from: PagedModelOfFileIsNewForUserModel
+    to: FileIsNewForUserModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfFileIsNewForUserModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfFileIsNewForUserModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: FileIsNewForUserModel
+    to: SimpleUserModel
+    kind: has_one
+    via: user
+  - from: PagedModelOfSimpleFilePublicLinkModel
+    to: SimpleFilePublicLinkModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleFilePublicLinkModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleFilePublicLinkModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: SimpleFilePublicLinkModel
+    to: PublicFileModel
+    kind: has_one
+    via: file
+  - from: SimpleFilePublicLinkModel
+    to: SimpleUserModel
+    kind: has_one
+    via: creator
+  - from: SimpleFileResourcePagedModel
+    to: SimpleFileResourceModel
+    kind: has_many
+    via: items
+  - from: SimpleFileResourcePagedModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: SimpleFileResourcePagedModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfSimpleFolderModel
+    to: SimpleFolderModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleFolderModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleFolderModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: SimpleFolderModel
+    to: IFolderPermission
+    kind: has_one
+    via: permission
+  - from: FolderDetailsModel
+    to: IFolderPermission
+    kind: has_one
+    via: permission
+  - from: PagedModelOfSimpleFileResourceModel
+    to: SimpleFileResourceModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleFileResourceModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleFileResourceModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfFolderContentItemModel
+    to: FolderContentItemModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfFolderContentItemModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfFolderContentItemModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfFolderAclEntryResourceModel
+    to: FolderAclEntryResourceModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfFolderAclEntryResourceModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfFolderAclEntryResourceModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: FolderAclEntryResourceModel
+    to: FolderAclPermissionsModel
+    kind: has_one
+    via: permissions
+  - from: FolderAclPermissionsModel
+    to: FolderShareAclPermissionsModel
+    kind: has_one
+    via: sharePermissions
+  - from: PutFolderAclEntryRequestModel
+    to: FolderAclPermissionsModel
+    kind: has_one
+    via: permissions
+  - from: SetFolderAclEntryRequestModel
+    to: FolderAclPermissionsModel
+    kind: has_one
+    via: permissions
+  - from: UpdateFolderMaintenanceSettingsModel
+    to: FolderCleanup
+    kind: has_one
+    via: folderCleanup
+  - from: UpdateFolderMaintenanceSettingsModel
+    to: FolderQuota
+    kind: has_one
+    via: folderQuota
+  - from: FolderMaintenanceSettingsModel
+    to: FolderCleanup
+    kind: has_one
+    via: folderCleanup
+  - from: FolderMaintenanceSettingsModel
+    to: FolderQuota
+    kind: has_one
+    via: folderQuota
+  - from: UpdateFolderAclEntryRequestModel
+    to: FolderAclPermissionsModel
+    kind: has_one
+    via: permissions
+  - from: PagedModelOfGroupModel
+    to: GroupModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfGroupModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfGroupModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfSimpleUserModel
+    to: SimpleUserModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleUserModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleUserModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: LogDetailsModel
+    to: Certificate
+    kind: has_one
+    via: certificate
+  - from: PagedModelOfSimpleLogModel
+    to: SimpleLogModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleLogModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleLogModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: SimplePackageModel
+    to: SimpleUserModel
+    kind: has_one
+    via: sender
+  - from: SimplePackageModel
+    to: SimplePackageClassificationTypeModel
+    kind: has_one
+    via: packageClassificationType
+  - from: PackageDetailsModel
+    to: SimpleFileResourceModel
+    kind: has_many
+    via: attachments
+  - from: PackageDetailsModel
+    to: Recipient
+    kind: has_many
+    via: recipients
+  - from: PackageDetailsModel
+    to: SimpleUserModel
+    kind: has_one
+    via: sender
+  - from: PackageDetailsModel
+    to: SimplePackageClassificationTypeModel
+    kind: has_one
+    via: packageClassificationType
+  - from: PagedModelOfSimpleOrgModel
+    to: SimpleOrgModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleOrgModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleOrgModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfSimplePackageModel
+    to: SimplePackageModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimplePackageModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimplePackageModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: CreatePackageRequestModel
+    to: FileIdModel
+    kind: has_many
+    via: attachments
+  - from: CreatePackageRequestModel
+    to: Recipient
+    kind: has_many
+    via: recipients
+  - from: PackageRequirementsModel
+    to: PackageClassificationTypeModel
+    kind: has_many
+    via: classificationTypes
+  - from: CollectionModelOfRecipientListItem
+    to: RecipientListItem
+    kind: has_many
+    via: items
+  - from: RecipientListItem
+    to: RecipientListItem
+    kind: has_many
+    via: children
+  - from: NotificationModel
+    to: InlineAttachment
+    kind: has_many
+    via: inlineAttachments
+  - from: PagedModelOfSimpleReportModel
+    to: SimpleReportModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleReportModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleReportModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfWhitelistedIPDto
+    to: WhitelistedIPDto
+    kind: has_many
+    via: items
+  - from: PagedModelOfWhitelistedIPDto
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfWhitelistedIPDto
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfSimplePasswordAgingPolicyModel
+    to: SimplePasswordAgingPolicyModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimplePasswordAgingPolicyModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimplePasswordAgingPolicyModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfSimpleExpirationPolicyModel
+    to: SimpleExpirationPolicyModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfSimpleExpirationPolicyModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfSimpleExpirationPolicyModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: TransferStatusPagedModel
+    to: TransferStatusDistribution
+    kind: has_one
+    via: statusDistribution
+  - from: TransferStatusPagedModel
+    to: TransferStatusModel
+    kind: has_many
+    via: items
+  - from: TransferStatusPagedModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: TransferStatusPagedModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: UserDetailsModel
+    to: DisplaySettingsModel
+    kind: has_one
+    via: displaySettings
+  - from: PagedModelOfUserGroupModel
+    to: UserGroupModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfUserGroupModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfUserGroupModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: PagedModelOfUserExternalTokenModel
+    to: UserExternalTokenModel
+    kind: has_many
+    via: items
+  - from: PagedModelOfUserExternalTokenModel
+    to: PagingInfoModel
+    kind: has_one
+    via: paging
+  - from: PagedModelOfUserExternalTokenModel
+    to: SortFieldDto
+    kind: has_many
+    via: sorting
+  - from: RequestTokenPasswordChangeRequiredError
+    to: PasswordRequirementsHeaderDto
+    kind: has_one
+    via: password_requirements
+  - from: RequestTokenPasswordChangeRequiredError
+    to: SignonUserInfoHeaderDto
+    kind: has_one
+    via: user
+  - from: RequestTokenSecurityNoticeAcceptanceRequiredError
+    to: SignonUserInfoHeaderDto
+    kind: has_one
+    via: user
+  - from: RequestTokenMfaError
+    to: MfaSupportedMethodsHeaderDto
+    kind: has_one
+    via: mfa_supported_methods
+  - from: SendOtpResponseModel
+    to: SendOtpUserModel
+    kind: has_one
+    via: user
+- api: WhatsUp Gold REST API
+  source: openapi/progress-software-whatsup-gold-openapi-original.json
+  schema_count: 304
+  relationship_count: 297
+  core_entities:
+  - RoleTemplate
+  - DeviceTemplate
+  - ScheduleAndDuration
+  - PackageDiagnostics
+  - SignedPackage
+  - Credential
+  - DeviceOverview
+  - PackageContent
+  - PackageContentOp
+  - PackageRequest
+  - PassiveMonitorItems
+  - RoleResource
+  - MonitorBatch
+  - DeviceGroupSummary
+  - AssignedMonitor
+  relationships:
+  - from: Result[Credential]
+    to: Credential
+    kind: has_one
+    via: data
+  - from: Credential
+    to: CredentialPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: Credential
+    to: CredentialAssignment
+    kind: has_many
+    via: assignments
+  - from: CredentialAssignment
+    to: DeviceOverview
+    kind: has_one
+    via: device
+  - from: DeviceOverview
+    to: MonitorAssignmentStatus
+    kind: has_many
+    via: downActiveMonitors
+  - from: CredentialModify
+    to: CredentialPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: PageResult[Credential]
+    to: PagingInfo[Credential]
+    kind: has_one
+    via: paging
+  - from: PageResult[Credential]
+    to: Credential
+    kind: has_one
+    via: data
+  - from: PageResult[List[Credential]]
+    to: PagingInfo[List[Credential]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[Credential]]
+    to: Credential
+    kind: has_many
+    via: data
+  - from: CredentialAdd
+    to: CredentialPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: Result[CredentialHelperResults]
+    to: CredentialHelperResults
+    kind: has_one
+    via: data
+  - from: Result[CredentialTemplateReadResults]
+    to: CredentialTemplateReadResults
+    kind: has_one
+    via: data
+  - from: CredentialTemplateReadResults
+    to: CredentialTemplate
+    kind: has_many
+    via: templates
+  - from: CredentialTemplate
+    to: CredentialPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: CredentialTemplateBatch
+    to: CredentialTemplate
+    kind: has_many
+    via: templates
+  - from: Result[ApplyTemplateResults]
+    to: ApplyTemplateResults
+    kind: has_one
+    via: data
+  - from: ApplyTemplateResults
+    to: TemplateMap
+    kind: has_many
+    via: idMap
+  - from: ApplyTemplateResults
+    to: TemplateErrorMap
+    kind: has_many
+    via: errors
+  - from: ApplyTemplateResults
+    to: TemplateUpdate
+    kind: has_one
+    via: update
+  - from: Result[DeviceAttribute]
+    to: DeviceAttribute
+    kind: has_one
+    via: data
+  - from: Result[SuccessResult]
+    to: SuccessResult
+    kind: has_one
+    via: data
+  - from: PageResult[List[DeviceAttribute]]
+    to: PagingInfo[List[DeviceAttribute]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[DeviceAttribute]]
+    to: DeviceAttribute
+    kind: has_many
+    via: data
+  - from: Result[CountedSuccessResult]
+    to: CountedSuccessResult
+    kind: has_one
+    via: data
+  - from: BulkDeviceAttributeBatch
+    to: DeviceAttributeModifier
+    kind: has_many
+    via: attributeToModify
+  - from: BulkDeviceAttributeBatch
+    to: DeviceAttributeNameValue
+    kind: has_many
+    via: attributesToAdd
+  - from: PageResult[List[DeviceGroupSummary]]
+    to: PagingInfo[List[DeviceGroupSummary]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[DeviceGroupSummary]]
+    to: DeviceGroupSummary
+    kind: has_many
+    via: data
+  - from: DeviceGroupSummary
+    to: DeviceGroupDetails
+    kind: has_one
+    via: details
+  - from: Result[NetworkInterface]
+    to: NetworkInterface
+    kind: has_one
+    via: data
+  - from: PageResult[List[NetworkInterface]]
+    to: PagingInfo[List[NetworkInterface]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[NetworkInterface]]
+    to: NetworkInterface
+    kind: has_many
+    via: data
+  - from: BulkNetworkInterfaceBatch
+    to: NetworkInterfaceUpdateWithId
+    kind: has_many
+    via: interfaceToModify
+  - from: BulkNetworkInterfaceBatch
+    to: NetworkInterfaceData
+    kind: has_many
+    via: interfacesToAdd
+  - from: Result[List[Credential]]
+    to: Credential
+    kind: has_many
+    via: data
+  - from: Result[AssignedMonitor]
+    to: AssignedMonitor
+    kind: has_one
+    via: data
+  - from: AssignedMonitor
+    to: ActiveMonitorItems
+    kind: has_one
+    via: active
+  - from: AssignedMonitor
+    to: PerformanceMonitorItems
+    kind: has_one
+    via: performance
+  - from: AssignedMonitor
+    to: PassiveMonitorItems
+    kind: has_one
+    via: passive
+  - from: PassiveMonitorItems
+    to: ActionItem
+    kind: has_many
+    via: actions
+  - from: MonitorAssignmentBasic
+    to: ActiveMonitorItems
+    kind: has_one
+    via: active
+  - from: MonitorAssignmentBasic
+    to: PassiveMonitorItems
+    kind: has_one
+    via: passive
+  - from: MonitorAssignmentBasic
+    to: PerformanceMonitorItems
+    kind: has_one
+    via: performance
+  - from: PageResult[List[AssignedMonitor]]
+    to: PagingInfo[List[AssignedMonitor]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[AssignedMonitor]]
+    to: AssignedMonitor
+    kind: has_many
+    via: data
+  - from: SimpleAssignMonitor
+    to: ActiveMonitorItems
+    kind: has_one
+    via: active
+  - from: SimpleAssignMonitor
+    to: PerformanceMonitorItems
+    kind: has_one
+    via: performance
+  - from: SimpleAssignMonitor
+    to: PassiveMonitorItems
+    kind: has_one
+    via: passive
+  - from: MonitorAssignmentBatch
+    to: MonitorTypeAssignmentQuery
+    kind: has_many
+    via: removeByQuery
+  - from: MonitorAssignmentBatch
+    to: SimpleAssignMonitor
+    kind: has_many
+    via: newAssignments
+  - from: MonitorAssignmentBatch
+    to: MonitorAssignmentUpdate
+    kind: has_many
+    via: assignmentChanges
+  - from: MonitorAssignmentUpdate
+    to: ActiveMonitorItems
+    kind: has_one
+    via: active
+  - from: MonitorAssignmentUpdate
+    to: PassiveMonitorItems
+    kind: has_one
+    via: passive
+  - from: MonitorAssignmentUpdate
+    to: PerformanceMonitorItems
+    kind: has_one
+    via: performance
+  - from: Result[DevicePollingConfig]
+    to: DevicePollingConfig
+    kind: has_one
+    via: data
+  - from: DevicePollingConfig
+    to: MaintenanceConfig
+    kind: has_one
+    via: maintenance
+  - from: MaintenanceConfig
+    to: ScheduleAndDuration
+    kind: has_many
+    via: schedules
+  - from: MaintenanceConfig
+    to: MaintenanceConfigManual
+    kind: has_one
+    via: manual
+  - from: ScheduleAndDuration
+    to: AppliedDuration
+    kind: has_one
+    via: duration
+  - from: ScheduleAndDuration
+    to: Date
+    kind: has_one
+    via: effectiveStartDate
+  - from: ScheduleAndDuration
+    to: Date
+    kind: has_one
+    via: effectiveExpirationDate
+  - from: ScheduleAndDuration
+    to: DailySchedule
+    kind: has_one
+    via: daily
+  - from: ScheduleAndDuration
+    to: WeeklySchedule
+    kind: has_one
+    via: weekly
+  - from: ScheduleAndDuration
+    to: MonthlySchedule
+    kind: has_one
+    via: monthly
+  - from: ScheduleAndDuration
+    to: MonthlyAdvanceSchedule
+    kind: has_one
+    via: monthlyAdvance
+  - from: ScheduleAndDuration
+    to: YearlySchedule
+    kind: has_one
+    via: yearly
+  - from: ScheduleAndDuration
+    to: YearlyAdvanceSchedule
+    kind: has_one
+    via: yearlyAdvance
+  - from: AppliedDuration
+    to: TimeOfDay
+    kind: has_one
+    via: startTime
+  - from: AppliedDuration
+    to: TimeOfDay
+    kind: has_one
+    via: endTime
+  - from: WeeklySchedule
+    to: DaysOfTheWeek
+    kind: has_one
+    via: daysOfTheWeek
+  - from: MaintenanceSchedule
+    to: ScheduleAndDuration
+    kind: has_many
+    via: schedules
+  - from: MaintenanceScheduleBatch
+    to: ScheduleAndDuration
+    kind: has_many
+    via: schedules
+  - from: Result[DeviceProperties]
+    to: DeviceProperties
+    kind: has_one
+    via: data
+  - from: DeviceProperties
+    to: NamedResource2
+    kind: has_one
+    via: actionPolicy
+  - from: DevicePropertiesWithName
+    to: NamedResource2
+    kind: has_one
+    via: actionPolicy
+  - from: DevicePropertiesBatch
+    to: NamedResource2
+    kind: has_one
+    via: actionPolicy
+  - from: Result[NamedResourceSuccessResult]
+    to: NamedResourceSuccessResult
+    kind: has_one
+    via: data
+  - from: Result[List[DeviceRoleAssignment]]
+    to: DeviceRoleAssignment
+    kind: has_many
+    via: data
+  - from: Result[DeviceTemplateReadResults]
+    to: DeviceTemplateReadResults
+    kind: has_one
+    via: data
+  - from: DeviceTemplateReadResults
+    to: DeviceTemplate
+    kind: has_many
+    via: templates
+  - from: DeviceTemplate
+    to: DeviceTemplateCredentials
+    kind: has_many
+    via: credentials
+  - from: DeviceTemplate
+    to: DeviceTemplateInterface
+    kind: has_many
+    via: interfaces
+  - from: DeviceTemplate
+    to: DeviceTemplateAttribute
+    kind: has_many
+    via: attributes
+  - from: DeviceTemplate
+    to: DeviceTemplateCustomLink
+    kind: has_many
+    via: customLinks
+  - from: DeviceTemplate
+    to: DeviceTemplateActiveMonitor
+    kind: has_many
+    via: activeMonitors
+  - from: DeviceTemplate
+    to: DeviceTemplatePerformanceMonitor
+    kind: has_many
+    via: performanceMonitors
+  - from: DeviceTemplate
+    to: DeviceTemplatePassiveMonitor
+    kind: has_many
+    via: passiveMonitors
+  - from: DeviceTemplate
+    to: DeviceTemplateDependency
+    kind: has_many
+    via: dependencies
+  - from: DeviceTemplate
+    to: DeviceTemplateNCMTask
+    kind: has_many
+    via: ncmTasks
+  - from: DeviceTemplate
+    to: DeviceTemplateApplicationProfile
+    kind: has_many
+    via: applicationProfiles
+  - from: DeviceTemplate
+    to: DeviceTemplateReferenceName
+    kind: has_many
+    via: groups
+  - from: DeviceTemplateDependency
+    to: DeviceTemplateReferenceName
+    kind: has_one
+    via: dependency
+  - from: DeviceTemplateDependency
+    to: DeviceTemplateDependencyMonitor
+    kind: has_many
+    via: monitors
+  - from: DeviceTemplateBatch
+    to: DeviceTemplate
+    kind: has_many
+    via: templates
+  - from: Result[DeviceOverview]
+    to: DeviceOverview
+    kind: has_one
+    via: data
+  - from: Result[DeviceStatus]
+    to: DeviceStatus
+    kind: has_one
+    via: data
+  - from: PageResult[DeviceGroupList]
+    to: PagingInfo[DeviceGroupList]
+    kind: has_one
+    via: paging
+  - from: PageResult[DeviceGroupList]
+    to: DeviceGroupList
+    kind: has_one
+    via: data
+  - from: DeviceGroupList
+    to: DeviceGroupSummary
+    kind: has_many
+    via: groups
+  - from: Result[DeviceGroupSummary]
+    to: DeviceGroupSummary
+    kind: has_one
+    via: data
+  - from: Result[DeviceGroupDefinition]
+    to: DeviceGroupDefinition
+    kind: has_one
+    via: data
+  - from: DeviceGroupDefinition
+    to: Layer2GroupDefinition
+    kind: has_one
+    via: layer2Definition
+  - from: DeviceGroupDefinition
+    to: DynamicGroupDefinition
+    kind: has_one
+    via: dynamicDefinition
+  - from: Layer2GroupDefinition
+    to: Layer2GroupDeviceFilter
+    kind: has_one
+    via: deviceFilter
+  - from: Layer2GroupDefinition
+    to: Layer2GroupDeviceFilter
+    kind: has_one
+    via: connectionFilter
+  - from: UpdateDeviceGroup
+    to: Layer2GroupDefinition
+    kind: has_one
+    via: layer2Definition
+  - from: UpdateDeviceGroup
+    to: DynamicGroupDefinition
+    kind: has_one
+    via: dynamicDefinition
+  - from: DeviceGroupCreation
+    to: Layer2GroupDefinition
+    kind: has_one
+    via: layer2Definition
+  - from: DeviceGroupCreation
+    to: DynamicGroupDefinition
+    kind: has_one
+    via: dynamicDefinition
+  - from: PageResult[DeviceGroupSummaryList]
+    to: PagingInfo[DeviceGroupSummaryList]
+    kind: has_one
+    via: paging
+  - from: PageResult[DeviceGroupSummaryList]
+    to: DeviceGroupSummaryList
+    kind: has_one
+    via: data
+  - from: DeviceGroupSummaryList
+    to: DeviceGroupSummary
+    kind: has_many
+    via: groups
+  - from: Result[OverallStatusSummary]
+    to: OverallStatusSummary
+    kind: has_one
+    via: data
+  - from: OverallStatusSummary
+    to: StateSummary
+    kind: has_many
+    via: stateSummaries
+  - from: PageResult[DeviceSummaryList]
+    to: PagingInfo[DeviceSummaryList]
+    kind: has_one
+    via: paging
+  - from: PageResult[DeviceSummaryList]
+    to: DeviceSummaryList
+    kind: has_one
+    via: data
+  - from: DeviceSummaryList
+    to: DeviceOverview
+    kind: has_many
+    via: devices
+  - from: PageResult[DeviceTemplateReadResults]
+    to: PagingInfo[DeviceTemplateReadResults]
+    kind: has_one
+    via: paging
+  - from: PageResult[DeviceTemplateReadResults]
+    to: DeviceTemplateReadResults
+    kind: has_one
+    via: data
+  - from: PageResult[List[CredentialsByDevice]]
+    to: PagingInfo[List[CredentialsByDevice]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[CredentialsByDevice]]
+    to: CredentialsByDevice
+    kind: has_many
+    via: data
+  - from: CredentialsByDevice
+    to: DeviceOverview
+    kind: has_one
+    via: device
+  - from: CredentialsByDevice
+    to: Credential
+    kind: has_many
+    via: credentials
+  - from: PageResult[List[CpuUtilization]]
+    to: PagingInfo[List[CpuUtilization]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[CpuUtilization]]
+    to: CpuUtilization
+    kind: has_many
+    via: data
+  - from: CpuUtilization
+    to: CpuSeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[DiskFreeSpace]]
+    to: PagingInfo[List[DiskFreeSpace]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[DiskFreeSpace]]
+    to: DiskFreeSpace
+    kind: has_many
+    via: data
+  - from: DiskFreeSpace
+    to: DiskFreeSpaceSeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[DiskUtilization]]
+    to: PagingInfo[List[DiskUtilization]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[DiskUtilization]]
+    to: DiskUtilization
+    kind: has_many
+    via: data
+  - from: DiskUtilization
+    to: DiskUtilizationSeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[InterfaceErrorsDiscards]]
+    to: PagingInfo[List[InterfaceErrorsDiscards]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[InterfaceErrorsDiscards]]
+    to: InterfaceErrorsDiscards
+    kind: has_many
+    via: data
+  - from: InterfaceErrorsDiscards
+    to: ErrorsDiscardsSeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[InterfaceTraffic]]
+    to: PagingInfo[List[InterfaceTraffic]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[InterfaceTraffic]]
+    to: InterfaceTraffic
+    kind: has_many
+    via: data
+  - from: InterfaceTraffic
+    to: TrafficSeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[InterfaceUtilization]]
+    to: PagingInfo[List[InterfaceUtilization]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[InterfaceUtilization]]
+    to: InterfaceUtilization
+    kind: has_many
+    via: data
+  - from: InterfaceUtilization
+    to: SeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[MemoryUtilization]]
+    to: PagingInfo[List[MemoryUtilization]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[MemoryUtilization]]
+    to: MemoryUtilization
+    kind: has_many
+    via: data
+  - from: MemoryUtilization
+    to: MemorySeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[PingAvailability]]
+    to: PagingInfo[List[PingAvailability]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[PingAvailability]]
+    to: PingAvailability
+    kind: has_many
+    via: data
+  - from: PingAvailability
+    to: PingAvailabilitySeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[PingResponseTime]]
+    to: PagingInfo[List[PingResponseTime]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[PingResponseTime]]
+    to: PingResponseTime
+    kind: has_many
+    via: data
+  - from: PingResponseTime
+    to: PingResponseTimeSeriesItem
+    kind: has_many
+    via: series
+  - from: PageResult[List[StateChangeTimeline]]
+    to: PagingInfo[List[StateChangeTimeline]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[StateChangeTimeline]]
+    to: StateChangeTimeline
+    kind: has_many
+    via: data
+  - from: PageResult[List[DeviceMaintenanceMode]]
+    to: PagingInfo[List[DeviceMaintenanceMode]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[DeviceMaintenanceMode]]
+    to: DeviceMaintenanceMode
+    kind: has_many
+    via: data
+  - from: Result[DeviceRoleSummary]
+    to: DeviceRoleSummary
+    kind: has_one
+    via: data
+  - from: DeviceRoleSummary
+    to: RoleResource
+    kind: has_one
+    via: parentTemplate
+  - from: DeviceRoleSummary
+    to: IconResource
+    kind: has_one
+    via: icon
+  - from: Result[DeviceRoleTemplateReadResults]
+    to: DeviceRoleTemplateReadResults
+    kind: has_one
+    via: data
+  - from: DeviceRoleTemplateReadResults
+    to: RoleTemplate
+    kind: has_many
+    via: templates
+  - from: RoleTemplate
+    to: ScanCriteriaGroup
+    kind: has_many
+    via: scanCriteriaGroups
+  - from: RoleTemplate
+    to: DeviceOsDetailFinder
+    kind: has_one
+    via: osDetailFinder
+  - from: RoleTemplate
+    to: RoleResource
+    kind: has_many
+    via: relatedRoleTemplates
+  - from: RoleTemplate
+    to: RoleResource
+    kind: has_many
+    via: assignedSubroles
+  - from: RoleTemplate
+    to: ActiveMonitor
+    kind: has_many
+    via: activeMonitors
+  - from: RoleTemplate
+    to: TemplateActiveMonitor
+    kind: has_many
+    via: templateActiveMonitors
+  - from: RoleTemplate
+    to: TemplatePerformanceMonitor
+    kind: has_many
+    via: templatePerformanceMonitors
+  - from: RoleTemplate
+    to: CustomPerformanceMonitor
+    kind: has_many
+    via: customPerformanceMonitors
+  - from: RoleTemplate
+    to: PassiveMonitor
+    kind: has_many
+    via: passiveMonitors
+  - from: RoleTemplate
+    to: ActionPolicyResource
+    kind: has_one
+    via: actionPolicy
+  - from: RoleTemplate
+    to: CustomLinks
+    kind: has_many
+    via: customLinks
+  - from: RoleTemplate
+    to: DeviceRoleAttribute
+    kind: has_many
+    via: attributes
+  - from: RoleTemplate
+    to: DeviceNote
+    kind: has_one
+    via: note
+  - from: RoleTemplate
+    to: FilterCriteriaGroup
+    kind: has_many
+    via: filterGroups
+  - from: RoleTemplate
+    to: DeviceRoleApmMatch
+    kind: has_one
+    via: apmMatch
+  - from: RoleTemplate
+    to: DeviceRoleApmRule
+    kind: has_many
+    via: apmRules
+  - from: RoleTemplate
+    to: DeviceRoleConfigMgmtMatch
+    kind: has_one
+    via: configMgmtMatch
+  - from: RoleTemplate
+    to: DeviceRoleConfigMgmtRule
+    kind: has_many
+    via: configMgmtRules
+  - from: RoleTemplate
+    to: RoleResource
+    kind: has_one
+    via: parentTemplate
+  - from: RoleTemplate
+    to: IconResource
+    kind: has_one
+    via: icon
+  - from: ScanCriteriaGroup
+    to: ScanCriteria
+    kind: has_many
+    via: scanCriteria
+  - from: DeviceOsDetailFinder
+    to: CriteriaGroup
+    kind: has_many
+    via: groups
+  - from: ActiveMonitor
+    to: RoleResource
+    kind: has_one
+    via: filter
+  - from: TemplateActiveMonitor
+    to: RoleResource
+    kind: has_one
+    via: filter
+  - from: TemplateActiveMonitor
+    to: NameValuePair
+    kind: has_many
+    via: nameValuePairs
+  - from: TemplatePerformanceMonitor
+    to: NameValuePair
+    kind: has_many
+    via: nameValuePairs
+  - from: TemplatePerformanceMonitor
+    to: ScanCriteriaGroup
+    kind: has_many
+    via: criteriaGroups
+  - from: FilterCriteriaGroup
+    to: ScanCriteria
+    kind: has_many
+    via: filterCriteria
+  - from: ScanCriteria
+    to: CriteriaValue
+    kind: has_many
+    via: options
+  - from: CriteriaGroup
+    to: CriteriaValue
+    kind: has_many
+    via: options
+  - from: PageResult[List[RoleAssignment]]
+    to: PagingInfo[List[RoleAssignment]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[RoleAssignment]]
+    to: RoleAssignment
+    kind: has_many
+    via: data
+  - from: RoleAssignment
+    to: DeviceSummary
+    kind: has_many
+    via: devices
+  - from: PageResult[List[DeviceRoleSummary]]
+    to: PagingInfo[List[DeviceRoleSummary]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[DeviceRoleSummary]]
+    to: DeviceRoleSummary
+    kind: has_many
+    via: data
+  - from: PageResult[DeviceRoleTemplateReadResults]
+    to: PagingInfo[DeviceRoleTemplateReadResults]
+    kind: has_one
+    via: paging
+  - from: PageResult[DeviceRoleTemplateReadResults]
+    to: DeviceRoleTemplateReadResults
+    kind: has_one
+    via: data
+  - from: DeviceRoleTemplateBatch
+    to: RoleTemplate
+    kind: has_many
+    via: templates
+  - from: PackageRequest
+    to: PackageRequestInfo
+    kind: has_one
+    via: pkg
+  - from: PackageRequest
+    to: PackageKeyRequest
+    kind: has_many
+    via: keys
+  - from: PackageRequest
+    to: PackageRoleId
+    kind: has_many
+    via: roles
+  - from: PackageRequest
+    to: PackageMonitorExportRequest
+    kind: has_many
+    via: monitors
+  - from: PackageRequest
+    to: PackageIconContent
+    kind: has_many
+    via: icons
+  - from: PackageRequest
+    to: PackageGenKeyRequest
+    kind: has_many
+    via: key_generation
+  - from: PackageRequest
+    to: PackageSignerRequest
+    kind: has_many
+    via: suggested_signers
+  - from: PackageMonitorExportRequest
+    to: PackageTaggedValues
+    kind: has_many
+    via: meaningful_names
+  - from: PackageSignerRequest
+    to: PackageKeyRequest
+    kind: has_many
+    via: signers
+  - from: PackageContentResult
+    to: PackageContent
+    kind: has_one
+    via: pkg
+  - from: PackageContentResult
+    to: PackageResult
+    kind: has_one
+    via: result
+  - from: PackageContentResult
+    to: PackageDiagnostics
+    kind: has_one
+    via: diag
+  - from: PackageContent
+    to: PackageHeader
+    kind: has_one
+    via: package
+  - from: PackageContent
+    to: PackageKeyHeader
+    kind: has_many
+    via: keys
+  - from: PackageContent
+    to: PackageRoleContent
+    kind: has_many
+    via: roles
+  - from: PackageContent
+    to: PackageMonitorContent
+    kind: has_many
+    via: monitors
+  - from: PackageContent
+    to: PackageIconContent
+    kind: has_many
+    via: icons
+  - from: PackageContent
+    to: PackageKeyUsage
+    kind: has_many
+    via: signers
+  - from: PackageDiagnostics
+    to: PackageDiag
+    kind: has_one
+    via: keyStore
+  - from: PackageDiagnostics
+    to: PackageDiag
+    kind: has_one
+    via: key
+  - from: PackageDiagnostics
+    to: PackageDiag
+    kind: has_one
+    via: monitor
+  - from: PackageDiagnostics
+    to: PackageDiag
+    kind: has_one
+    via: role
+  - from: PackageDiagnostics
+    to: PackageDiag
+    kind: has_one
+    via: package
+  - from: PackageKeyUsage
+    to: PackageSignerId
+    kind: has_one
+    via: key
+  - from: PackageSignedResult
+    to: SignedPackage
+    kind: has_one
+    via: pkg
+  - from: PackageSignedResult
+    to: PackageResult
+    kind: has_one
+    via: result
+  - from: PackageSignedResult
+    to: PackageDiagnostics
+    kind: has_one
+    via: diag
+  - from: SignedPackage
+    to: PackageHeader
+    kind: has_one
+    via: package
+  - from: SignedPackage
+    to: PackageKey
+    kind: has_many
+    via: keys
+  - from: SignedPackage
+    to: PackageMonitor
+    kind: has_many
+    via: monitors
+  - from: SignedPackage
+    to: PackageRole
+    kind: has_many
+    via: roles
+  - from: SignedPackage
+    to: PackageIcon
+    kind: has_many
+    via: icons
+  - from: SignedPackage
+    to: PackageSignature
+    kind: has_one
+    via: __cleartext_signature
+  - from: PackageKey
+    to: PackageSignature
+    kind: has_one
+    via: __cleartext_signature
+  - from: PackageMonitor
+    to: PackagePropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: PackageRole
+    to: PackageRoleRule
+    kind: has_many
+    via: elements
+  - from: PackageSignature
+    to: PackageSigner
+    kind: has_many
+    via: signers
+  - from: PackageApply
+    to: SignedPackage
+    kind: has_one
+    via: pkg
+  - from: PackageApply
+    to: PackageApplyContent
+    kind: has_one
+    via: apply
+  - from: PackageApplyContent
+    to: PackageHeaderApply
+    kind: has_one
+    via: package
+  - from: PackageApplyContent
+    to: PackageKeyRequest
+    kind: has_many
+    via: keys
+  - from: PackageApplyContent
+    to: PackageMonitorId
+    kind: has_many
+    via: monitors
+  - from: PackageContentOpResult
+    to: PackageContentOp
+    kind: has_one
+    via: pkg
+  - from: PackageContentOpResult
+    to: PackageResultWithChange
+    kind: has_one
+    via: result
+  - from: PackageContentOpResult
+    to: PackageDiagnostics
+    kind: has_one
+    via: diag
+  - from: PackageContentOp
+    to: PackageHeader
+    kind: has_one
+    via: package
+  - from: PackageContentOp
+    to: PackageKeyOp
+    kind: has_many
+    via: keys
+  - from: PackageContentOp
+    to: PackageRoleOp
+    kind: has_many
+    via: roles
+  - from: PackageContentOp
+    to: PackageMonitorOp
+    kind: has_many
+    via: monitors
+  - from: PackageContentOp
+    to: PackageIconOp
+    kind: has_many
+    via: icons
+  - from: PackageContentOp
+    to: PackageKeyUsage
+    kind: has_many
+    via: signers
+  - from: PackageKeyOp
+    to: PackageSignerId
+    kind: has_one
+    via: signer
+  - from: PackageRoleOp
+    to: PackageSignerId
+    kind: has_one
+    via: system_signer
+  - from: PackageRoleOp
+    to: PackageSignerId
+    kind: has_one
+    via: vendor_signer
+  - from: PackageMonitorOp
+    to: PackageSignerId
+    kind: has_one
+    via: signer
+  - from: PageResult[ScanDeviceSummaryList]
+    to: PagingInfo[ScanDeviceSummaryList]
+    kind: has_one
+    via: paging
+  - from: PageResult[ScanDeviceSummaryList]
+    to: ScanDeviceSummaryList
+    kind: has_one
+    via: data
+  - from: ScanDeviceSummaryList
+    to: DeviceOverview
+    kind: has_many
+    via: devices
+  - from: Result[ActiveScan]
+    to: ActiveScan
+    kind: has_one
+    via: data
+  - from: PageResult[List[ActiveScan]]
+    to: PagingInfo[List[ActiveScan]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[ActiveScan]]
+    to: ActiveScan
+    kind: has_many
+    via: data
+  - from: PageResult[List[AssignedMonitorWithDevice]]
+    to: PagingInfo[List[AssignedMonitorWithDevice]]
+    kind: has_one
+    via: paging
+  - from: PageResult[List[AssignedMonitorWithDevice]]
+    to: AssignedMonitorWithDevice
+    kind: has_many
+    via: data
+  - from: AssignedMonitorWithDevice
+    to: DeviceOverview
+    kind: has_one
+    via: device
+  - from: AssignedMonitorWithDevice
+    to: ActiveMonitorItems
+    kind: has_one
+    via: active
+  - from: AssignedMonitorWithDevice
+    to: PerformanceMonitorItems
+    kind: has_one
+    via: performance
+  - from: AssignedMonitorWithDevice
+    to: PassiveMonitorItems
+    kind: has_one
+    via: passive
+  - from: Result[MonitorTemplateReadResults]
+    to: MonitorTemplateReadResults
+    kind: has_one
+    via: data
+  - from: MonitorTemplateReadResults
+    to: ActiveMonitorTemplate
+    kind: has_many
+    via: activeMonitors
+  - from: MonitorTemplateReadResults
+    to: PassiveMonitorTemplate
+    kind: has_many
+    via: passiveMonitors
+  - from: MonitorTemplateReadResults
+    to: PerformanceMonitorTemplate
+    kind: has_many
+    via: performanceMonitors
+  - from: ActiveMonitorTemplate
+    to: MonitorTypeInfo
+    kind: has_one
+    via: monitorTypeInfo
+  - from: ActiveMonitorTemplate
+    to: MonitorPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: PassiveMonitorTemplate
+    to: MonitorTypeInfo
+    kind: has_one
+    via: monitorTypeInfo
+  - from: PassiveMonitorTemplate
+    to: MonitorPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: PerformanceMonitorTemplate
+    to: DeviceTemplateReferenceName
+    kind: has_one
+    via: ownedByDevice
+  - from: PerformanceMonitorTemplate
+    to: MonitorTypeInfo
+    kind: has_one
+    via: monitorTypeInfo
+  - from: PerformanceMonitorTemplate
+    to: MonitorPropertyBag
+    kind: has_many
+    via: propertyBags
+  - from: MonitorUpdate
+    to: MonitorPropertyBagAdd
+    kind: has_many
+    via: propertyBags
+  - from: PageResult[MonitorTemplateReadResults]
+    to: PagingInfo[MonitorTemplateReadResults]
+    kind: has_one
+    via: paging
+  - from: PageResult[MonitorTemplateReadResults]
+    to: MonitorTemplateReadResults
+    kind: has_one
+    via: data
+  - from: MonitorAdd
+    to: MonitorTypeInfoAdd
+    kind: has_one
+    via: monitorTypeInfo
+  - from: MonitorAdd
+    to: MonitorPropertyBagAdd
+    kind: has_many
+    via: propertyBags
+  - from: MonitorAdd
+    to: DeviceTemplateReferenceName
+    kind: has_one
+    via: ownedByDevice
+  - from: MonitorBatch
+    to: MonitorResource
+    kind: has_many
+    via: removeAssignments
+  - from: MonitorBatch
+    to: RemoveMonitorAssignmentQuery
+    kind: has_many
+    via: removeAssignmentsByQuery
+  - from: MonitorBatch
+    to: RemoveMonitorOp
+    kind: has_many
+    via: remove
+  - from: MonitorBatch
+    to: RemoveMonitorTypeQuery
+    kind: has_many
+    via: removeByQuery
+  - from: MonitorBatch
+    to: MonitorUpdateOp
+    kind: has_many
+    via: changes
+  - from: MonitorBatch
+    to: MonitorAdd
+    kind: has_many
+    via: adds
+  - from: MonitorUpdateOp
+    to: MonitorPropertyBagAdd
+    kind: has_many
+    via: propertyBags
+  - from: Result[List[MonitorSupportedType]]
+    to: MonitorSupportedType
+    kind: has_many
+    via: data
+  - from: ApplyMonitorTemplates
+    to: ActiveMonitorTemplate
+    kind: has_many
+    via: activeMonitors
+  - from: ApplyMonitorTemplates
+    to: PassiveMonitorTemplate
+    kind: has_many
+    via: passiveMonitors
+  - from: ApplyMonitorTemplates
+    to: PerformanceMonitorTemplate
+    kind: has_many
+    via: performanceMonitors
+  - from: ListResult[ApiPollerConfigWithStatus]
+    to: ApiPollerConfigWithStatus
+    kind: has_many
+    via: data
+  - from: Result[ApiPollerConfig]
+    to: ApiPollerConfig
+    kind: has_one
+    via: data
+  - from: Result[NameValuePairResults]
+    to: NameValuePairResults
+    kind: has_one
+    via: data
+  - from: NameValuePairResults
+    to: NameValuePair
+    kind: has_many
+    via: values

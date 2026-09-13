@@ -1,0 +1,94 @@
+generated: '2026-09-13'
+method: searched
+status: published
+source: https://www.telerik.com/mcp-servers
+deployment:
+  mode: local-stdio
+  install: npx -y @progress/kendo-react-mcp@latest
+  package: https://www.npmjs.com/package/@progress/kendo-react-mcp
+  auth: api-key
+  verified: searched
+note: 'Progress ships NO hosted/remote MCP endpoint. Every MCP server in the portfolio is something the
+  customer installs and runs: the Telerik / Kendo UI servers are stdio processes launched by an MCP
+  client via npx (npm) or from NuGet, and the OpenEdge MCP Server is a container the customer deploys
+  inside its own OpenEdge estate. An agent cannot reach any Progress MCP surface without a human
+  installing and licensing it first. mcp.progress.com and mcp.telerik.com do not resolve (NXDOMAIN,
+  probed 2026-09-13).'
+servers:
+- name: kendo-react-mcp-server
+  product: KendoReact
+  transport: stdio
+  mode: local-stdio
+  install: npx -y @progress/kendo-react-mcp@latest
+  package: '@progress/kendo-react-mcp'
+  registry: npm
+  version: 1.10.2
+  auth: 'Telerik license, supplied as TELERIK_LICENSE_PATH (path to a license file) or TELERIK_LICENSE
+    (license key string) in the MCP client environment'
+  docs: https://www.telerik.com/kendo-react-ui/components/ai-assistant/mcp-server
+  tools:
+  - name: kendo_ui_generator
+    description: Generates KendoReact UI from a natural-language request, grounded in the component
+      library the license covers.
+  - name: kendo_getting_started_assistant
+    description: Initializes or adds KendoReact to a project.
+  tools_source: 'https://www.telerik.com/kendo-react-ui/components/ai-assistant/mcp-server — the two
+    tools named on the provider''s own page. tools/list was not invoked: the server is stdio-only and
+    refuses to start without a license, so the real inputSchema for each tool requires a licensed
+    local run.'
+- name: kendo-angular-mcp-server
+  product: Kendo UI for Angular
+  transport: stdio
+  mode: local-stdio
+  install: npx -y @progress/kendo-angular-mcp@latest
+  package: '@progress/kendo-angular-mcp'
+  registry: npm
+  version: 1.9.1
+  auth: Telerik license via TELERIK_LICENSE_PATH / TELERIK_LICENSE
+  tools: []
+  tools_source: Not published as a tool list on a first-party page reachable during this pass; not
+    guessed.
+- name: kendo-jquery-mcp-server
+  product: Kendo UI for jQuery
+  transport: stdio
+  mode: local-stdio
+  install: npx -y @progress/kendo-jquery-mcp@latest
+  package: '@progress/kendo-jquery-mcp'
+  registry: npm
+  version: 1.9.0
+  auth: Telerik license via TELERIK_LICENSE_PATH / TELERIK_LICENSE
+  tools: []
+- name: telerik-blazor-mcp-server
+  product: Telerik UI for Blazor
+  transport: stdio
+  mode: local-stdio
+  package: Telerik.Blazor.Mcp
+  registry: nuget
+  version: 1.10.0
+  auth: Telerik license
+  tools: []
+  note: Distributed on NuGet. No install command asserted — the first-party page stating it was not
+    reachable during this pass.
+- name: openedge-mcp-server
+  product: Progress OpenEdge
+  transport: unknown
+  mode: self-hosted-server
+  package: null
+  auth: 'service-account authentication in token mode or OAuth mode, plus end-user authentication'
+  docs: https://docs.progress.com/bundle/openedge-mcp-server/page/Introduction-to-the-OpenEdge-MCP-Server.html
+  product_page: https://www.progress.com/openedge/mcp-server
+  tools: []
+  note: 'A container the CUSTOMER deploys inside its own OpenEdge environment. Tools are not fixed by
+    Progress — they are generated from an OpenAPI specification the customer supplies at install time
+    (the docs carry a step "Provide OpenAPI specification" plus OpenAPI quality guidelines), and
+    profiles are managed with an mcpgen CLI. There is therefore no canonical tool list to record, and
+    no Progress-operated endpoint: the tool surface is whatever the deploying customer''s own API
+    contract describes. Transport is not stated on the pages reachable during this pass and is not
+    guessed here.'
+web_mcp:
+  present: true
+  product: KendoReact
+  docs: https://www.telerik.com/kendo-react-ui/components/ai-tools/web-mcp
+  note: KendoReact ships a WebMCP tools layer that exposes in-page component state and actions to a
+    browser-resident agent. This is a client-side surface in the customer's application, not a server
+    a remote agent can call.

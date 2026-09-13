@@ -1,0 +1,22 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for MOVEit Transfer REST API
+  version: 1.0.0
+extends: openapi/progress-software-moveit-transfer-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: progress-software
+    x-apievangelist-api: MOVEit Transfer REST API
+    x-apievangelist-harvested: '2026-09-13'
+    x-apievangelist-source: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/2025_1_OPEN_API_SPEC_FULL.json
+    x-apievangelist-deployment: customer-hosted
+    x-apievangelist-host-note: Published host is 127.0.0.1. MOVEit Transfer is self-hosted and the REST API is an
+      optionally licensed feature; the real base URL is https://{moveit-transfer-host}/api/v1.
+    x-apievangelist-idempotency: none — no idempotency key is declared or documented
+    x-apievangelist-rate-limit-signal: none — no RateLimit-*/Retry-After header, no 429 declared
+    x-apievangelist-error-format: ErrorModel {title, detail, errorCode} — Problem-Details-shaped, NOT RFC 9457
+- target: $
+  update:
+    x-apievangelist-note: This overlay records API Evangelist observations about the published contract. It never
+      mutates the harvested document; apply it to a copy.

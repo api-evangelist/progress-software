@@ -1,0 +1,139 @@
+generated: '2026-09-13'
+method: derived
+source: 'openapi/progress-software-chef-automate-openapi-original.json,
+  openapi/progress-software-moveit-transfer-openapi-original.json,
+  openapi/progress-software-whatsup-gold-openapi-original.json; plus
+  https://api.sharefile.com/gettingstarted/odata and https://api.sharefile.com/gettingstarted/faq'
+summary: 'Progress does not run one API program. These are three separately-built product APIs that
+  were acquired at different times (Chef 2020, Ipswitch/MOVEit + WhatsUp Gold 2019, ShareFile 2024),
+  and they agree on almost nothing: three different auth headers, three different pagination
+  vocabularies, three different error envelopes, and no shared version, request-id or rate-limit
+  convention. An agent that learns one Progress API has learned nothing transferable about the next.'
+authentication:
+  style: per-product, no shared scheme
+  chef_automate:
+    scheme: apiKey
+    header: api-token
+    note: Created with `chef-automate iam token create <NAME> --admin`; IAM v2 policies scope it.
+  moveit_transfer:
+    scheme: apiKey (bearer-in-Authorization)
+    header: Authorization
+    format: 'Bearer {token}'
+    token_endpoint: POST /api/v1/token (OAuth2 password grant shape, declared as an apiKey scheme)
+  whatsup_gold:
+    scheme: oauth2
+    flow: password
+    note: 'The published spec''s tokenUrl is http://localhost:8734/api/v1/token — a build-machine
+      artifact, not a reachable endpoint. The real token endpoint is on the customer''s own host.'
+  sharefile:
+    scheme: oauth2
+    docs: https://api.sharefile.com/gettingstarted/oauth2
+  cross_reference: authentication/progress-software-authentication.yml
+idempotency:
+  coverage: none
+  supported: false
+  header: null
+  evidence: 'The string "idempoten" appears ZERO times across all three published specifications
+    (Chef Automate 277 ops, MOVEit Transfer 113 ops, WhatsUp Gold 168 ops — 558 operations in total),
+    and no Progress documentation page reached during this pass documents a replay-safe key. There is
+    no Idempotency-Key header, no request-id de-duplication window, and no documented safe-retry
+    contract on any write.'
+  consequence: 'An agent retrying a failed POST against MOVEit Transfer (create package, create user),
+    Chef Automate (create token, create policy, trigger a scan job) or WhatsUp Gold (create device,
+    create monitor) can create duplicates, and nothing in the contract says otherwise.'
+reversibility:
+  grade: documented
+  note: 'Every one of these APIs has a large mutating surface, and all reversal available is the
+    ordinary inverse verb — DELETE what you created. No Progress API in this repo publishes an undo,
+    restore-from-trash or rollback operation with a stated window, so nothing here reaches `verified`.
+    No window is asserted below because no reachable Progress page states one.'
+  write_surface: true
+  reversals:
+  - api: Chef Automate
+    operation: Rules_ApplyRulesCancel
+    method: delete
+    reverses: an in-flight project-rules apply
+    window: null
+    window_source: null
+    note: Cancels an apply that is still running; it does not reverse one that completed.
+  - api: Chef Automate
+    operation: NodeManagerService_DeleteWithNodeStateStopped
+    method: delete
+    reverses: a node manager registration, leaving managed nodes in the stopped state
+    window: null
+  - api: WhatsUp Gold
+    operation: DeviceRole_RestoreSystemDefaultsById
+    method: put
+    reverses: customisations to a device role, restoring the shipped defaults
+    window: null
+  - api: WhatsUp Gold
+    operation: DeviceScan_Cancel
+    method: put
+    reverses: an in-flight discovery scan
+    window: null
+  - api: MOVEit Transfer
+    operation: DELETEapi/v1/mailboxes/trash-1.0
+    method: delete
+    reverses: nothing — it EMPTIES the trash, it does not restore from it
+    window: null
+    note: Included because the name reads like a restore path and is not one. There is no
+      restore-from-trash operation in the published MOVEit Transfer contract.
+  unreversed_classes:
+  - 'MOVEit Transfer: 17 DELETE operations over files, folders, folder ACLs, group members, contacts
+    and mailbox packages, none with a published restore path or retention window.'
+  - 'Chef Automate: 38 delete/disconnect operations over IAM policies, tokens, projects, scan jobs,
+    profiles, data-feed destinations and Infra Server org/client records.'
+  - 'WhatsUp Gold: 21 delete operations over devices, credentials, network interfaces, attributes and
+    group assignments.'
+dry_run_mode:
+  supported: false
+  evidence: No preview, validate-only, dry-run or simulate parameter appears in any of the three specs.
+pagination:
+  style: divergent — three incompatible vocabularies in one portfolio
+  variants:
+  - api: Chef Automate
+    params: [pagination.page, pagination.size, search_query.page, search_query.per_page]
+    style: page-number
+    note: Two different pagination parameter families inside one spec, depending on which gRPC service
+      the endpoint fronts.
+  - api: MOVEit Transfer
+    params: [page, perPage, sortField, sortDirection]
+    style: page-number
+    response_fields: [paging, sorting, items]
+  - api: WhatsUp Gold
+    params: [pageId, limit, sortBy, sortByDir, groupBy, groupByDir]
+    style: cursor (opaque pageId)
+    response_fields: [paging, data]
+  - api: ShareFile
+    params: ['$skip', '$top']
+    style: OData
+    docs: https://api.sharefile.com/gettingstarted/odata
+field_expansion:
+  supported: true
+  scope: ShareFile only
+  params: ['$expand', '$select']
+  docs: https://api.sharefile.com/gettingstarted/odata
+  note: 'Full OData v4 query syntax. Nothing equivalent exists on Chef Automate, MOVEit Transfer or
+    WhatsUp Gold.'
+request_tracing:
+  supported: false
+  evidence: No X-Request-Id / X-Correlation-Id / traceparent header is declared or documented on any
+    of the four surfaces.
+versioning:
+  style: uri-path, per product, decoupled from each other
+  chef_automate: '/api/v0/, /api/v1/ and /api/beta/ coexist inside a single published contract'
+  moveit_transfer: '/api/v1/ — the document version tracks the product release (2025.1 / 17.01)'
+  whatsup_gold: '/api/v1/ — the document version tracks the product release (2026.0)'
+  sharefile: '/sf/v3/'
+  cross_reference: lifecycle/progress-software-lifecycle.yml
+error_envelope:
+  style: three incompatible envelopes
+  cross_reference: errors/progress-software-problem-types.yml
+  rfc9457: false
+rate_limit_signaling:
+  headers: []
+  documented: false
+  cross_reference: rate-limits/progress-software-rate-limits.yml
+  note: 'No RateLimit-*, X-RateLimit-* or Retry-After header is declared in any spec or documented on
+    any reachable page. ShareFile states only that "excessive usage of the API will be curtailed
+    programmatically".'

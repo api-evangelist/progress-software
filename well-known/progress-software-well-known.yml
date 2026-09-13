@@ -1,0 +1,713 @@
+generated: '2026-09-13'
+method: probed
+source: live GET of the named /.well-known/ path list plus /apis.json and /apis.yml on every host in apis.yml,
+  every OpenAPI servers/host value, and the docs, community, investor and portfolio-brand hosts
+hit_count: 3
+hosts:
+- host: https://www.progress.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: progress-software-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://progress.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://docs.progress.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 0
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://community.progress.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: progress-software-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.yml
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  path_echo_control: failed
+  note: Host answers 200 with the same HTML app shell for every /.well-known/* path, including a control
+    path that cannot exist. The one exception is /.well-known/openid-configuration, which returns a distinct
+    application/json Salesforce Experience Cloud OIDC discovery document; it is saved and recorded, but
+    this host is flagged so the catch-all 200s are never read as documents.
+- host: https://investors.progress.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+  - path: /.well-known/aauth-resource.json
+    status: 403
+  - path: /.well-known/apis.json
+    status: 403
+  - path: /apis.json
+    status: 403
+  - path: /apis.yml
+    status: 403
+  path_echo_control: passed
+- host: https://www.telerik.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: progress-software-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://telerik.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://www.chef.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://chef.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://docs.chef.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://automate.chef.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.yml
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  path_echo_control: failed
+  note: Host answers 200 for a control path that cannot exist; no document on this host is counted.
+- host: https://api.sharefile.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.yml
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  path_echo_control: failed
+  note: Host answers 200 for a control path that cannot exist; no document on this host is counted.
+- host: https://www.sharefile.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://sharefile.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://secure.sharefile.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://www.whatsupgold.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://whatsupgold.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://kemptechnologies.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://docs.ipswitch.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 300
+  - path: /.well-known/openid-configuration
+    status: 300
+  - path: /.well-known/oauth-authorization-server
+    status: 300
+  - path: /.well-known/oauth-protected-resource
+    status: 300
+  - path: /.well-known/api-catalog
+    status: 300
+  - path: /.well-known/ai-plugin.json
+    status: 300
+  - path: /.well-known/agent-card.json
+    status: 300
+  - path: /.well-known/agent.json
+    status: 300
+  - path: /.well-known/aauth-resource.json
+    status: 300
+  - path: /.well-known/apis.json
+    status: 300
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://nuclia.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.yml
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  path_echo_control: failed
+  note: Host answers 200 for a control path that cannot exist; no document on this host is counted.
+- host: https://docs.nuclia.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+- host: https://nuclia.cloud
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /.well-known/apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  - path: /apis.yml
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document
+  path_echo_control: failed
+  note: Host answers 200 for a control path that cannot exist; no document on this host is counted.
+- host: https://europe-1.nuclia.cloud
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  path_echo_control: passed
+findings:
+- RFC 8414 OAuth 2.0 authorization server metadata is served on six Progress-operated marketing hosts
+  (progress.com, telerik.com, chef.io, sharefile.com, whatsupgold.com, kemptechnologies.com). Every one
+  is the Sitefinity CMS OAuth surface, issuer = the site itself, authorization/token endpoints under /sitefinity/oauth/.
+  This is a real, parsing RFC 8414 document, not an API authorization server for any product API.
+- An RFC 9116 security.txt is served on telerik.com (and www.telerik.com) only. It is canonical to https://www.telerik.com/.well-known/security.txt
+  and points Contact at the Bugcrowd DevTools VDP and Policy at two progress.com security pages. progress.com,
+  chef.io, sharefile.com, whatsupgold.com and kemptechnologies.com all 404 the path.
+- No agent card (/.well-known/agent-card.json or /.well-known/agent.json), no /.well-known/api-catalog,
+  no ai-plugin.json, no AAuth resource document and no APIs.json index was found on any host.
+- 'community.progress.com is a Salesforce Experience Cloud site that answers 200 with its app shell for
+  any path; its negative control returned 200, so it is marked path_echo_control: failed.'

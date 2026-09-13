@@ -1,0 +1,73 @@
+generated: '2026-09-13'
+method: searched
+source: 'https://www.progress.com/support/maintenance-and-support-policy,
+  https://docs.progress.com/category/product-lifecycle, plus live probes of the portfolio status hosts
+  and a scan of the three published OpenAPI documents for deprecated: true'
+summary: 'Progress runs a corporate PRODUCT lifecycle policy (Active / Mature-or-Sunset / Retired) and
+  no API lifecycle policy. Nothing in the portfolio publishes an API deprecation window, a Sunset or
+  Deprecation response header, or a versioned API support horizon. API versions ride the product
+  release train: a MOVEit Transfer or WhatsUp Gold REST API version is simply the API that shipped with
+  that product release, and it falls out of support when that release does.'
+versioning:
+  scheme: uri-path, per product, tied to the product release train
+  apis:
+  - api: Chef Automate API
+    current: 'v1 (with v0 and beta paths live in the same document)'
+    note: A single published contract serves /api/v0/, /api/v1/ and /api/beta/ concurrently, with no
+      stated policy on when a v0 or beta path is removed.
+  - api: MOVEit Transfer REST API
+    current: v1
+    document_version: 'Release 2025.1, version 17.01'
+    docs: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+    note: Older contracts remain published per release (Transfer2023, Transfer2024, Transfer2025 each
+      have their own spec document at docs.ipswitch.com).
+  - api: WhatsUp Gold REST API
+    current: v1
+    document_version: '2026.0'
+    docs: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - api: ShareFile API v3
+    current: v3
+deprecation:
+  policy_url: https://www.progress.com/support/maintenance-and-support-policy
+  lifecycle_docs: https://docs.progress.com/category/product-lifecycle
+  scope: product releases, not API versions
+  phases:
+  - Active
+  - Mature (called Sunset in some product lines)
+  - Retired
+  notice_period: null
+  notice_period_note: 'The Maintenance and Support Policy states that lists of active, sunset and
+    retired releases are posted on the Progress website and that Progress will make "commercially
+    reasonable efforts" to support sunset or retired releases during an annual Maintenance Period. It
+    states NO fixed duration for any phase and NO minimum notice before retirement. Nothing here is
+    asserted that the policy does not say.'
+  sunset_header: false
+  deprecation_header: false
+  header_evidence: 'Neither RFC 8594 Sunset nor the Deprecation header is declared in any response of
+    the three published specs, and no Progress page documents either.'
+deprecated_operations:
+- openapi/progress-software-whatsup-gold-openapi-original.json#DeviceGroup_SearchDevices
+deprecated_operation_count: 1
+deprecated_operation_note: 'One deprecated operation across 558 published operations. The other two
+  specs mark nothing deprecated, which given that Chef Automate ships live /api/v0/ and /api/beta/
+  paths reads as unused metadata rather than a clean surface.'
+status_pages:
+- product: Progress Chef
+  url: https://status.chef.io/
+  verified: 200
+- product: Progress ShareFile
+  url: https://status.sharefile.com/
+  verified: 200
+- product: MOVEit Cloud
+  url: https://status.moveitcloud.com/
+  verified: 200
+status_page_note: 'There is no single Progress status page. status.progress.com resolves but 302s to
+  https://progress.statuspage.io/inactive — an explicitly INACTIVE Statuspage — so the corporate
+  status host is dead and the real signal is three per-product pages. Self-hosted products (OpenEdge,
+  Sitefinity on-premises, MOVEit Transfer on-premises, WhatsUp Gold, Chef Infra) have no status page
+  by nature.'
+sla:
+  url: https://www.progress.com/support/maintenance-and-support-policy
+  uptime_target: null
+  note: Support response targets are sold per Telerik support tier (Lite 72h, Priority 24h, Ultimate
+    24h plus phone) rather than as an API uptime SLA. No uptime percentage is published for any API.

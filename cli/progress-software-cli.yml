@@ -1,0 +1,70 @@
+generated: '2026-09-13'
+method: searched
+source: 'https://www.telerik.com/kendo-angular-ui/components/installation/kendo-cli-angular-setup,
+  https://registry.npmjs.org/@progress/kendo-cli, and the Chef Infra documentation'
+note: 'Progress ships first-party CLIs for two brands. Neither is a REST API client: the Kendo CLI is a
+  developer-tooling scaffolder and MCP configurator, and the Chef CLIs drive the Chef workflow. There
+  is no CLI for the MOVEit Transfer, WhatsUp Gold or ShareFile REST APIs.'
+clis:
+- name: Kendo CLI
+  binary: kendo
+  package: '@progress/kendo-cli'
+  registry: npm
+  version: 1.22.0
+  published: '2026-09-08'
+  install:
+  - npm i -g @progress/kendo-cli@latest
+  - npx @progress/kendo-cli@latest
+  docs: https://www.telerik.com/kendo-angular-ui/components/installation/kendo-cli-angular-setup
+  auth: 'Telerik/Kendo UI licence, read from TELERIK_LICENSE / KENDO_UI_LICENSE or from
+    telerik-license.txt / kendo-ui-license.txt in the current directory, a parent directory, or
+    ~/.telerik/'
+  commands:
+  - command: kendo
+    description: Opens the interactive wizard when run with no arguments.
+  - command: kendo setup <framework>
+    description: Setup wizard covering licence activation and MCP server configuration.
+  - command: kendo license activate
+    description: Validates and activates a Telerik/Kendo UI licence from env vars or local files.
+  - command: kendo license refresh
+    description: Authenticates with telerik.com in a browser and saves a fresh key.
+  - command: kendo license info
+    description: Prints current licence details (audience, issue date, products).
+  - command: kendo mcp config <framework> --ide=<cursor|vscode|all>
+    description: Registers the matching Kendo/Telerik MCP server with the named IDE.
+  - command: kendo mcp all
+    description: Configures the MCP servers for every product and every supported IDE.
+  - command: kendo create <framework> aba [name]
+    description: Generates a new blank application project.
+  - command: kendo migrate
+    description: CLI-assisted migration — updates packages and applies codemods.
+  flags:
+  - flag: '--force'
+    description: Bypass confirmations.
+  - flag: '--json'
+    description: Machine-readable output.
+  - flag: '--theme=<default|bootstrap|material|fluent>'
+    description: Select the Kendo theme.
+  - flag: '--swatch=<name>'
+    description: Apply a theme colour variant.
+  - flag: '--no-codemods'
+    description: Skip code transformations during migration.
+  - flag: '--no-install'
+    description: Run codemods without installing packages.
+- name: Chef CLI
+  binary: chef
+  package: chef-cli
+  registry: rubygems
+  version: 6.1.34
+  install:
+  - gem install chef-cli
+  docs: https://docs.chef.io/
+  note: Development and deployment workflow CLI for Chef policyfiles, cookbooks and repos.
+- name: chef-automate
+  binary: chef-automate
+  registry: null
+  install: []
+  docs: https://docs.chef.io/automate/
+  note: 'The Chef Automate administration CLI. It is the documented way to mint an Automate API token
+    (`chef-automate iam token create <NAME> --admin`), so it is a prerequisite for calling the Chef
+    Automate API. Distributed with the Automate installation rather than from a package registry.'

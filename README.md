@@ -64,4 +64,42 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Progress Software is a company surfaced via the API Evangelist harvest backlog (source: absent-parent) and added to the network as a stub for full-pipeline profiling.
+Progress Software Corporation (NASDAQ: PRGS) is a Burlington, Massachusetts enterprise software
+company that builds and acquires infrastructure and digital-experience products. This repository is
+an independent, third-party profile of the API surface Progress publishes to the public.
+
+## What this profile holds
+
+Three real, first-party machine-readable contracts were harvested — **558 operations** in total:
+
+| API | Spec | Operations | Where it runs |
+|---|---|---|---|
+| Chef Automate API | Swagger 2.0, 215 paths | 277 | customer-hosted |
+| MOVEit Transfer REST API | Swagger 2.0, 83 paths | 113 | customer-hosted, optionally licensed |
+| WhatsUp Gold REST API | Swagger 2.0, 121 paths | 168 | customer-hosted, port 9644 |
+
+Two further API surfaces are documented but publish no downloadable contract: the **ShareFile API v3**
+(OData, per-tenant `$metadata`) and **Sitefinity CMS headless OData services** (per-installation
+`$metadata`).
+
+## What stood out
+
+- **Progress publishes a real `llms.txt`, and publishes it six times over** — on `progress.com`,
+  `telerik.com`, `sharefile.com`, `chef.io`, `whatsupgold.com` and `kemptechnologies.com`. This is a
+  deliberate per-brand rollout, and it is more agent-facing discovery work than most of the catalog
+  does at all.
+- **Every MCP server Progress ships is one a human has to install first.** Five of them — KendoReact,
+  Kendo Angular, Kendo jQuery, Telerik Blazor and OpenEdge. None is a hosted endpoint an agent can
+  call; `mcp.progress.com` and `mcp.telerik.com` do not resolve.
+- **The MCP surface and the API surface do not touch.** Zero of the 558 published REST operations has
+  an MCP tool; the MCP tools all generate UI code. See `mcp/progress-software-tool-crosswalk.yml`.
+- **No idempotency anywhere.** The string `idempoten` appears zero times across all 558 operations.
+- **The RFC 9116 `security.txt` is served on `telerik.com` only** — not on `progress.com`, `chef.io`,
+  `sharefile.com`, `whatsupgold.com` or `kemptechnologies.com`. The corporate disclosure policy and
+  the Bugcrowd DevTools VDP both exist; they are just not advertised where the standard says to look.
+- **`status.progress.com` 302s to an explicitly inactive Statuspage.** Three live per-product status
+  pages exist instead (Chef, ShareFile, MOVEit Cloud).
+- **Internal build addresses shipped in the contracts** — MOVEit Transfer declares `host: 127.0.0.1`,
+  WhatsUp Gold declares `host: 10.40.67.158:9644` with a `tokenUrl` of `http://localhost:8734/...`.
+- These are four separately-acquired API programs that agree on nothing: three auth headers, four
+  pagination vocabularies, three error envelopes. See `conventions/progress-software-conventions.yml`.

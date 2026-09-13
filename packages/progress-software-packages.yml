@@ -1,0 +1,184 @@
+generated: '2026-09-13'
+method: searched
+source: 'registry.npmjs.org, api.nuget.org, pypi.org/pypi, rubygems.org/api, proxy.golang.org — queried
+  unauthenticated 2026-09-13; package identities confirmed against the Progress/Telerik/Chef/Nuclia
+  documentation that names them'
+note: 'Progress publishes client libraries under three unrelated registry identities, one per acquired
+  brand: the @progress npm scope (Telerik / Kendo UI / Sitefinity), the Telerik.* NuGet IDs (Blazor,
+  ASP.NET), and the chef/ohai RubyGems plus the nuclia/nucliadb PyPI distributions. There is no
+  first-party SDK for the MOVEit Transfer, WhatsUp Gold or ShareFile REST APIs — those ship a spec and
+  a Swagger UI and leave client generation to the consumer.'
+packages:
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-react-all'
+  url: https://www.npmjs.com/package/@progress/kendo-react-all
+  install: npm install @progress/kendo-react-all
+  official: true
+  version: 16.1.0
+  published: '2026-09-08'
+  note: KendoReact component suite meta-package.
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-angular-grid'
+  url: https://www.npmjs.com/package/@progress/kendo-angular-grid
+  install: npm install @progress/kendo-angular-grid
+  official: true
+  version: 25.1.0
+  published: '2026-09-08'
+  note: Representative of the Kendo UI for Angular suite published under the same scope.
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-vue-grid'
+  url: https://www.npmjs.com/package/@progress/kendo-vue-grid
+  install: npm install @progress/kendo-vue-grid
+  official: true
+  version: 10.0.0
+  published: '2026-09-08'
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-ui'
+  url: https://www.npmjs.com/package/@progress/kendo-ui
+  install: npm install @progress/kendo-ui
+  official: true
+  version: 2026.3.811
+  published: '2026-08-12'
+  note: Kendo UI for jQuery.
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-drawing'
+  url: https://www.npmjs.com/package/@progress/kendo-drawing
+  install: npm install @progress/kendo-drawing
+  official: true
+  version: 1.25.5
+  published: '2026-08-24'
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-licensing'
+  url: https://www.npmjs.com/package/@progress/kendo-licensing
+  install: npm install @progress/kendo-licensing
+  official: true
+  version: 1.11.3
+  published: '2026-08-13'
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-cli'
+  url: https://www.npmjs.com/package/@progress/kendo-cli
+  install: npm install -g @progress/kendo-cli
+  official: true
+  version: 1.22.0
+  published: '2026-09-08'
+  note: First-party CLI; see cli/progress-software-cli.yml.
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-react-mcp'
+  url: https://www.npmjs.com/package/@progress/kendo-react-mcp
+  install: npx -y @progress/kendo-react-mcp@latest
+  official: true
+  version: 1.10.2
+  published: '2026-08-18'
+  note: MCP server for KendoReact; see mcp/progress-software-mcp.yml.
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-angular-mcp'
+  url: https://www.npmjs.com/package/@progress/kendo-angular-mcp
+  install: npx -y @progress/kendo-angular-mcp@latest
+  official: true
+  version: 1.9.1
+  published: '2026-08-18'
+- language: javascript
+  registry: npm
+  name: '@progress/kendo-jquery-mcp'
+  url: https://www.npmjs.com/package/@progress/kendo-jquery-mcp
+  install: npx -y @progress/kendo-jquery-mcp@latest
+  official: true
+  version: 1.9.0
+  published: '2026-08-20'
+- language: javascript
+  registry: npm
+  name: '@progress/sitefinity-nextjs-sdk'
+  url: https://www.npmjs.com/package/@progress/sitefinity-nextjs-sdk
+  install: npm install @progress/sitefinity-nextjs-sdk
+  official: true
+  version: 15.4.8637
+  published: '2026-08-26'
+  note: Next.js renderer/SDK for the Sitefinity CMS headless OData services.
+- language: dotnet
+  registry: nuget
+  name: Telerik.UI.for.Blazor
+  url: https://www.nuget.org/packages/Telerik.UI.for.Blazor
+  official: true
+  version: 15.0.1
+  published: '2026-08-27'
+- language: dotnet
+  registry: nuget
+  name: Telerik.Blazor.Mcp
+  url: https://www.nuget.org/packages/Telerik.Blazor.Mcp
+  official: true
+  version: 1.10.0
+  published: '2026-08-13'
+  note: 'MCP server for Telerik UI for Blazor, distributed on NuGet rather than npm. The exact run
+    command was not captured from a first-party page during this pass, so no install string is
+    asserted here.'
+- language: ruby
+  registry: rubygems
+  name: chef
+  url: https://rubygems.org/gems/chef
+  install: gem install chef
+  official: true
+  version: 19.3.15
+  published: null
+  note: 'Progress Chef Infra client. RubyGems''s /api/v1/gems endpoint does not return a publish date
+    for the current version; recorded null rather than guessed.'
+- language: ruby
+  registry: rubygems
+  name: chef-cli
+  url: https://rubygems.org/gems/chef-cli
+  install: gem install chef-cli
+  official: true
+  version: 6.1.34
+  published: null
+- language: ruby
+  registry: rubygems
+  name: ohai
+  url: https://rubygems.org/gems/ohai
+  install: gem install ohai
+  official: true
+  version: 19.1.40
+  published: null
+- language: python
+  registry: pypi
+  name: nuclia
+  url: https://pypi.org/project/nuclia/
+  install: pip install nuclia
+  official: true
+  version: 4.14.2
+  published: '2026-09-09'
+  note: Nuclia Python SDK. Nuclia was acquired by Progress Software on 2026-06-30 and is the Progress
+    Agentic RAG offering.
+- language: python
+  registry: pypi
+  name: nucliadb-sdk
+  url: https://pypi.org/project/nucliadb-sdk/
+  install: pip install nucliadb-sdk
+  official: true
+  version: 7.1.0.post7119
+  published: '2026-09-10'
+- language: python
+  registry: pypi
+  name: nucliadb
+  url: https://pypi.org/project/nucliadb/
+  install: pip install nucliadb
+  official: true
+  version: 7.1.0.post7119
+  published: '2026-09-10'
+- language: go
+  registry: pkg.go.dev
+  name: github.com/chef/go-chef
+  url: https://pkg.go.dev/github.com/chef/go-chef
+  install: go get github.com/chef/go-chef
+  official: true
+  version: v0.4.5
+  published: '2022-03-10'
+  note: 'Go client for the Chef Infra Server API. Last release 2022-03-10 — over four years behind the
+    Ruby client (chef 19.x), which is the strongest decay signal in this package set.'

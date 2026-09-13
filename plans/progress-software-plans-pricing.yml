@@ -1,0 +1,148 @@
+generated: '2026-09-13'
+method: searched
+source: https://www.telerik.com/purchase.aspx, https://www.sharefile.com/plans
+note: 'Progress prices per PRODUCT, never per API. No product in the portfolio sells API access as a
+  metered tier — the APIs of Chef Automate, MOVEit Transfer, WhatsUp Gold and ShareFile are bundled
+  into a product licence, and the MOVEit Transfer REST API is called out in its own contract as "an
+  optionally licensed feature". Two brands publish list prices; the rest (OpenEdge, MarkLogic,
+  Semaphore, Sitefinity, MOVEit, Flowmon, LoadMaster, Chef) are quote-only. Recorded below are the
+  tiers with a published number.'
+plan_count: 21
+currency: USD
+plans:
+- product: Telerik DevCraft
+  name: DevCraft UI
+  price: 1149
+  currency: USD
+  period: per developer per year
+  includes: UI component libraries across .NET and JavaScript; Lite support (72h response, 10 incidents)
+- product: Telerik DevCraft
+  name: DevCraft Complete
+  price: 1299
+  currency: USD
+  period: per developer per year
+  includes: Priority support (24h response, unlimited incidents)
+- product: Telerik DevCraft
+  name: DevCraft Ultimate
+  price: 1649
+  currency: USD
+  period: per developer per year
+  includes: Ultimate support (24h response, phone, remote assistance)
+- product: Kendo UI
+  name: Kendo UI Bundle - Lite
+  price: 799
+  currency: USD
+  period: per developer per year
+- product: Kendo UI
+  name: Kendo UI Bundle - Priority
+  price: 899
+  currency: USD
+  period: per developer per year
+- product: Kendo UI
+  name: Kendo UI Bundle - Ultimate
+  price: 1299
+  currency: USD
+  period: per developer per year
+- product: KendoReact
+  name: KendoReact Free
+  price: 0
+  currency: USD
+  period: free
+- product: KendoReact
+  name: KendoReact - Lite
+  price: 649
+  currency: USD
+  period: per developer per year
+- product: KendoReact
+  name: KendoReact - Priority
+  price: 749
+  currency: USD
+  period: per developer per year
+- product: KendoReact
+  name: KendoReact - Ultimate
+  price: 1199
+  currency: USD
+  period: per developer per year
+- product: Telerik UI (Blazor / ASP.NET Core / MVC / AJAX / .NET MAUI / WPF / WinForms)
+  name: Lite
+  price: 749
+  currency: USD
+  period: per developer per year
+- product: Telerik UI (Blazor / ASP.NET Core / MVC / AJAX / .NET MAUI / WPF / WinForms)
+  name: Priority
+  price: 849
+  currency: USD
+  period: per developer per year
+- product: Telerik UI (Blazor / ASP.NET Core / MVC / AJAX / .NET MAUI / WPF / WinForms)
+  name: Ultimate
+  price: 1249
+  currency: USD
+  period: per developer per year
+- product: Telerik Report Server
+  name: Report Server
+  price_min: 1099
+  price_max: 1599
+  currency: USD
+  period: per instance per year
+- product: Telerik Reporting
+  name: Reporting
+  price_min: 499
+  price_max: 999
+  currency: USD
+  period: per developer per year
+- product: Fiddler Everywhere
+  name: Enterprise
+  price: 37
+  currency: USD
+  period: per user per month
+- product: Test Studio
+  name: Test Studio Ultimate
+  price: 3499
+  currency: USD
+  period: perpetual, floating machine licence
+- product: ShareFile
+  name: Advanced
+  price: 16.50
+  price_monthly: 18.15
+  currency: USD
+  period: per user per month, billed annually
+  minimum_users: 3
+  storage: 3TB account storage (1TB per licence, aggregated)
+- product: ShareFile
+  name: Premium
+  price: 26.00
+  price_monthly: 28.59
+  currency: USD
+  period: per user per month, billed annually
+  minimum_users: 3
+  storage: 3TB account storage (1TB per licence, aggregated)
+- product: ShareFile
+  name: Industry Advantage
+  price: 41.66
+  price_monthly: 45.83
+  currency: USD
+  period: per user per month, billed annually
+  minimum_users: 3
+  storage: 3TB account storage (1TB per licence, aggregated)
+- product: ShareFile
+  name: Virtual Data Room
+  price: 69.30
+  price_monthly: 77.00
+  currency: USD
+  period: per user per month, billed annually
+  minimum_users: 5
+  storage: 1GB per licence
+quote_only_products:
+- Progress OpenEdge
+- Progress MarkLogic
+- Progress Semaphore
+- Progress DataDirect
+- Progress Sitefinity CMS
+- Progress MOVEit
+- Progress Flowmon
+- Progress LoadMaster by Kemp
+- Progress Chef (https://www.chef.io/how-to-buy)
+- Progress WhatsUp Gold (https://www.whatsupgold.com/pricing quotes by device count on request)
+api_metering:
+  metered: false
+  note: No published overage, request quota or per-call price exists for any Progress API.

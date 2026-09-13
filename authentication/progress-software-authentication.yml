@@ -1,0 +1,37 @@
+generated: '2026-09-13'
+method: derived
+source: openapi/progress-software-chef-automate-openapi-original.json, openapi/progress-software-moveit-transfer-openapi-original.json,
+  openapi/progress-software-whatsup-gold-openapi-original.json
+summary:
+  types:
+  - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_flows:
+  - password
+schemes:
+- name: APIToken
+  type: apiKey
+  in: header
+  parameter: api-token
+  description: Authenticate with the Automate API using an API Token.
+  sources:
+  - openapi/progress-software-chef-automate-openapi-original.json
+- name: Authorization
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Transfer API token. Put token value obtained using following format: "Bearer
+    {token}"'
+  sources:
+  - openapi/progress-software-moveit-transfer-openapi-original.json
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+    scopes: 0
+  description: OAuth2 Password Grant
+  sources:
+  - openapi/progress-software-whatsup-gold-openapi-original.json
