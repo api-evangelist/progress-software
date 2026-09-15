@@ -31,7 +31,7 @@ tags:
 - Agentic RAG
 - File Sharing
 apis:
-- aid: progress-software-chef-automate
+- aid: progress-software:progress-software-chef-automate
   name: Chef Automate API
   description: The Chef Automate API is the HTTP surface of Progress Chef Automate, the dashboard and
     control plane for Chef Infra, Chef InSpec and Chef Habitat. It covers configuration management node
@@ -53,7 +53,7 @@ apis:
   - type: APIReference
     url: https://docs.chef.io/automate/api/
   image: https://www.chef.io/images/cheflibraries/logos/chef_progress_primary_logo.png
-- aid: progress-software-moveit-transfer
+- aid: progress-software:progress-software-moveit-transfer
   name: MOVEit Transfer REST API
   description: The MOVEit Transfer REST API is an optionally licensed interface that runs at a customer's
     own MOVEit Transfer server. It exposes authentication, files and folders, folder content, users and
@@ -74,7 +74,7 @@ apis:
   - type: Documentation
     url: https://docs.progress.com/category/moveit
   image: https://www.progress.com/images/default-source/social-sharing/moveit.png?sfvrsn=11f5e4a5_1
-- aid: progress-software-whatsup-gold
+- aid: progress-software:progress-software-whatsup-gold
   name: WhatsUp Gold REST API
   description: The WhatsUp Gold REST API is the automation interface of Progress WhatsUp Gold network
     monitoring, served from the customer's own WhatsUp Gold host on port 9644. It covers device discovery
@@ -95,7 +95,7 @@ apis:
   - type: Documentation
     url: https://www.whatsupgold.com/rest-api
   image: https://www.whatsupgold.com/images/librariesprovider2/default-album/social-image.png
-- aid: progress-software-sharefile
+- aid: progress-software:progress-software-sharefile
   name: ShareFile API v3
   description: The ShareFile API v3 is the OData-based REST interface of Progress ShareFile, covering
     Items, Folders, Accounts, Users, Groups, Shares, Access Controls, Capabilities, Connector Groups,
@@ -105,6 +105,11 @@ apis:
   humanURL: https://api.sharefile.com/
   baseURL: https://{subdomain}.sf-api.com/sf/v3
   tags:
+  - File Sharing
+  - Document Workflow
+  - Collaboration
+  - E-Signature
+  tags_raw:
   - File Sharing
   - Document Workflow
   - Collaboration
@@ -119,7 +124,7 @@ apis:
   - type: Webhooks
     url: asyncapi/progress-software-sharefile-webhooks.yml
   image: https://www.sharefile.com/images/sharefilelibraries/default-album/sharefile-og-image.png
-- aid: progress-software-sitefinity-odata
+- aid: progress-software:progress-software-sitefinity-odata
   name: Sitefinity CMS Headless OData Services
   description: Sitefinity CMS exposes its content as OData v4 web services under a configurable service
     route (by default /api/default) on the customer's own Sitefinity instance. The headless API serves
