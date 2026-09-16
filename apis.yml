@@ -15,7 +15,7 @@ x-type: company
 x-source: harvest:absent-parent
 specificationVersion: '0.20'
 created: '2026-09-13'
-modified: '2026-09-13'
+modified: '2026-09-16'
 position: Producing
 tags:
 - Company
@@ -31,70 +31,6 @@ tags:
 - Agentic RAG
 - File Sharing
 apis:
-- aid: progress-software:progress-software-chef-automate
-  name: Chef Automate API
-  description: The Chef Automate API is the HTTP surface of Progress Chef Automate, the dashboard and
-    control plane for Chef Infra, Chef InSpec and Chef Habitat. It covers configuration management node
-    and run history, compliance scanning and reporting, IAM (users, teams, tokens, policies, projects),
-    data lifecycle, secrets, notifications, node manager integrations and license management. The published
-    Swagger 2.0 contract carries 277 operations across 215 paths.
-  humanURL: https://docs.chef.io/automate/api/
-  baseURL: https://automate.chef.io
-  tags:
-  - Compliance
-  - Configuration Management
-  - DevOps
-  - Infrastructure Automation
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-chef-automate-openapi-original.json
-  - type: Documentation
-    url: https://docs.chef.io/automate/
-  - type: APIReference
-    url: https://docs.chef.io/automate/api/
-  image: https://www.chef.io/images/cheflibraries/logos/chef_progress_primary_logo.png
-- aid: progress-software:progress-software-moveit-transfer
-  name: MOVEit Transfer REST API
-  description: The MOVEit Transfer REST API is an optionally licensed interface that runs at a customer's
-    own MOVEit Transfer server. It exposes authentication, files and folders, folder content, users and
-    groups, ad-hoc packages, mailboxes, contacts, audit logs, security and miscellaneous server settings,
-    reports, organizations, server info and transfer status. The published contract is Swagger 2.0 with
-    113 operations across 83 paths and 191 model definitions.
-  humanURL: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
-  baseURL: https://{moveit-transfer-host}/api/v1
-  tags:
-  - Managed File Transfer
-  - File Sharing
-  - Security
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-moveit-transfer-openapi-original.json
-  - type: APIReference
-    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
-  - type: Documentation
-    url: https://docs.progress.com/category/moveit
-  image: https://www.progress.com/images/default-source/social-sharing/moveit.png?sfvrsn=11f5e4a5_1
-- aid: progress-software:progress-software-whatsup-gold
-  name: WhatsUp Gold REST API
-  description: The WhatsUp Gold REST API is the automation interface of Progress WhatsUp Gold network
-    monitoring, served from the customer's own WhatsUp Gold host on port 9644. It covers device discovery
-    and management, credentials, monitors and monitor assignments, groups, alert centre, reports, polling
-    and product configuration. The published contract is Swagger 2.0 with 168 operations across 121 paths
-    and 299 model definitions, secured with an OAuth 2.0 password grant.
-  humanURL: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
-  baseURL: https://{whatsupgold-host}:9644/api/v1
-  tags:
-  - Network Monitoring
-  - Infrastructure
-  - Observability
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-whatsup-gold-openapi-original.json
-  - type: APIReference
-    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
-  - type: Documentation
-    url: https://www.whatsupgold.com/rest-api
-  image: https://www.whatsupgold.com/images/librariesprovider2/default-album/social-image.png
 - aid: progress-software:progress-software-sharefile
   name: ShareFile API v3
   description: The ShareFile API v3 is the OData-based REST interface of Progress ShareFile, covering
@@ -143,6 +79,1425 @@ apis:
   - type: APIReference
     url: https://www.progress.com/documentation/sitefinity-cms/odata-services-configurations
   image: https://www.progress.com/images/default-source/social-sharing/sitefinity.png?sfvrsn=e7dd87b5_1
+- aid: progress-software:progress-software-adhoctransfersettings-api
+  name: Progress Software Ad Hoc Transfer Settings API
+  description: The AdHocTransferSettings API from Progress Software — 1 operation(s) for adhoctransfersettings.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - AdHocTransferSettings
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-adhoctransfersettings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-appearancesettings-api
+  name: Progress Software Appearance Settings API
+  description: The AppearanceSettings API from Progress Software — 1 operation(s) for appearancesettings.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - AppearanceSettings
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-appearancesettings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-applicationsservice-api
+  name: Progress Software Applications Service API
+  description: The ApplicationsService API from Progress Software — 2 operation(s) for applicationsservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ApplicationsService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-applicationsservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-authentication-api
+  name: Progress Software Authentication API
+  description: The Authentication API from Progress Software — 5 operation(s) for authentication.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-authorization-api
+  name: Progress Software Authorization API
+  description: Introspection endpoints that allow clients to check which API actions are authorized for
+    the current token or user.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-authorization-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-cds-api
+  name: Progress Software Cds API
+  description: The Cds API from Progress Software — 4 operation(s) for cds.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Cds
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-cds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-chefingester-api
+  name: Progress Software Chef Ingester API
+  description: The ChefIngester API from Progress Software — 6 operation(s) for chefingester.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ChefIngester
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-chefingester-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-comp-assets-api
+  name: Progress Software Comp Assets API
+  description: The Comp_Assets API from Progress Software — 4 operation(s) for comp_assets.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Comp_Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-comp-assets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-configmgmt-api
+  name: Progress Software Config Mgmt API
+  description: The ConfigMgmt API from Progress Software — 25 operation(s) for configmgmt.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ConfigMgmt
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-configmgmt-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-contacts-api
+  name: Progress Software Contacts API
+  description: The Contacts API from Progress Software — 2 operation(s) for contacts.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-credential-api
+  name: Progress Software Credential API
+  description: The Credential API from Progress Software — 7 operation(s) for credential.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Credential
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-credential-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-datafeedservice-api
+  name: Progress Software Datafeed Service API
+  description: The DatafeedService API from Progress Software — 6 operation(s) for datafeedservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DatafeedService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-datafeedservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-datalifecycle-api
+  name: Progress Software Data Lifecycle API
+  description: The DataLifecycle API from Progress Software — 15 operation(s) for datalifecycle.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DataLifecycle
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-datalifecycle-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-deployment-api
+  name: Progress Software Deployment API
+  description: The Deployment API from Progress Software — 2 operation(s) for deployment.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Deployment
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-deployment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-device-api
+  name: Progress Software Device API
+  description: The Device API from Progress Software — 39 operation(s) for device.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Device
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-device-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-devicegroup-api
+  name: Progress Software Device Group API
+  description: The DeviceGroup API from Progress Software — 18 operation(s) for devicegroup.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DeviceGroup
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-devicegroup-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-devicegroupreport-api
+  name: Progress Software Device Group Report API
+  description: The DeviceGroupReport API from Progress Software — 12 operation(s) for devicegroupreport.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DeviceGroupReport
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-devicegroupreport-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-devicereport-api
+  name: Progress Software Device Report API
+  description: The DeviceReport API from Progress Software — 11 operation(s) for devicereport.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DeviceReport
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-devicereport-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-devicerole-api
+  name: Progress Software Device Role API
+  description: The DeviceRole API from Progress Software — 14 operation(s) for devicerole.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DeviceRole
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-devicerole-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-devicescan-api
+  name: Progress Software Device Scan API
+  description: The DeviceScan API from Progress Software — 4 operation(s) for devicescan.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - DeviceScan
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-devicescan-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-error-api
+  name: Progress Software Error API
+  description: The Error API from Progress Software — 1 operation(s) for error.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Error
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-error-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-eventfeedservice-api
+  name: Progress Software Event Feed Service API
+  description: The EventFeedService API from Progress Software — 4 operation(s) for eventfeedservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - EventFeedService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-eventfeedservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-files-api
+  name: Progress Software Files API
+  description: The Files API from Progress Software — 9 operation(s) for files.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-files-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-foldercontent-api
+  name: Progress Software Folder Content API
+  description: The FolderContent API from Progress Software — 6 operation(s) for foldercontent.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - FolderContent
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-foldercontent-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-folders-api
+  name: Progress Software Folders API
+  description: The Folders API from Progress Software — 11 operation(s) for folders.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Folders
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-folders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-gateway-api
+  name: Progress Software Gateway API
+  description: The Gateway API from Progress Software — 2 operation(s) for gateway.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Gateway
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-gateway-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-groups-api
+  name: Progress Software Groups API
+  description: The Groups API from Progress Software — 3 operation(s) for groups.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-infraproxy-api
+  name: Progress Software Infra Proxy API
+  description: The InfraProxy API from Progress Software — 36 operation(s) for infraproxy.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - InfraProxy
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-infraproxy-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-jobscheduler-api
+  name: Progress Software Job Scheduler API
+  description: The JobScheduler API from Progress Software — 4 operation(s) for jobscheduler.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - JobScheduler
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-jobscheduler-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-jobsservice-api
+  name: Progress Software Jobs Service API
+  description: The JobsService API from Progress Software — 4 operation(s) for jobsservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - JobsService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-jobsservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-legacydatacollector-api
+  name: Progress Software Legacy Data Collector API
+  description: The LegacyDataCollector API from Progress Software — 1 operation(s) for legacydatacollector.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - LegacyDataCollector
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-legacydatacollector-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-license-api
+  name: Progress Software License API
+  description: The License API from Progress Software — 3 operation(s) for license.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - License
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-license-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-logs-api
+  name: Progress Software Logs API
+  description: The Logs API from Progress Software — 2 operation(s) for logs.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-logs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-mailboxes-api
+  name: Progress Software Mailboxes API
+  description: The Mailboxes API from Progress Software — 6 operation(s) for mailboxes.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Mailboxes
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-mailboxes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-miscellaneoussettings-api
+  name: Progress Software Miscellaneous Settings API
+  description: The MiscellaneousSettings API from Progress Software — 1 operation(s) for miscellaneoussettings.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - MiscellaneousSettings
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-miscellaneoussettings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-monitor-api
+  name: Progress Software Monitor API
+  description: The Monitor API from Progress Software — 7 operation(s) for monitor.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Monitor
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-monitor-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-nodemanagerservice-api
+  name: Progress Software Node Manager Service API
+  description: The NodeManagerService API from Progress Software — 9 operation(s) for nodemanagerservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - NodeManagerService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-nodemanagerservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-nodesservice-api
+  name: Progress Software Nodes Service API
+  description: The NodesService API from Progress Software — 7 operation(s) for nodesservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - NodesService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-nodesservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-notifications-api
+  name: Progress Software Notifications API
+  description: The Notifications API from Progress Software — 4 operation(s) for notifications.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-organizations-api
+  name: Progress Software Organizations API
+  description: The Organizations API from Progress Software — 7 operation(s) for organizations.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-packages-api
+  name: Progress Software Packages API
+  description: The Packages API from Progress Software — 7 operation(s) for packages.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Packages
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-packages-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-policies-api
+  name: Progress Software Policies API
+  description: A policy defines permissions for who may perform what action on which resources, based
+    on the project. The 'who' is a user, a team, or a system. A policy has three components, the agent,
+    the action, and the project. The agent is a user, team, or system. Users and teams are designated
+    by name while systems communicate with Chef Automate using pre-authorized API tokens. Actions are
+    activities that agents can take in relation to Chef Automate's content and operation. Projects are
+    collections of resources, such as API tokens or ingested compliance nodes.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - policies
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-policies-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-pollers-api
+  name: Progress Software Pollers API
+  description: The Pollers API from Progress Software — 3 operation(s) for pollers.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Pollers
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-pollers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-product-api
+  name: Progress Software Product API
+  description: The Product API from Progress Software — 5 operation(s) for product.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Product
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-product-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-profilesservice-api
+  name: Progress Software Profiles Service API
+  description: The ProfilesService API from Progress Software — 7 operation(s) for profilesservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ProfilesService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-profilesservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-projects-api
+  name: Progress Software Projects API
+  description: Projects are used to group and permission Chef Automate resources as well as ingested data,
+    specifically Compliance reports, Chef Infra Server events, and Infrastructure nodes.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - projects
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-projects-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-publicorganizationinfo-api
+  name: Progress Software Public Organization Info API
+  description: The PublicOrganizationInfo API from Progress Software — 1 operation(s) for publicorganizationinfo.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - PublicOrganizationInfo
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-publicorganizationinfo-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-reportingservice-api
+  name: Progress Software Reporting Service API
+  description: The ReportingService API from Progress Software — 14 operation(s) for reportingservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ReportingService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-reportingservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-reportmanagerservice-api
+  name: Progress Software Report Manager Service API
+  description: The ReportManagerService API from Progress Software — 1 operation(s) for reportmanagerservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ReportManagerService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-reportmanagerservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-reports-api
+  name: Progress Software Reports API
+  description: The Reports API from Progress Software — 3 operation(s) for reports.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-reports-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-retention-api
+  name: Progress Software Retention API
+  description: The retention API from Progress Software — 4 operation(s) for retention.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - retention
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-retention-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-roles-api
+  name: Progress Software Roles API
+  description: A role encapsulates a list of actions. Chef Automate provides several default Chef-managed
+    roles that cannot be altered but you may also define and use your own Custom roles.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - roles
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-roles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-rules-api
+  name: Progress Software Rules API
+  description: Project rules define lists of one or more conditions that an ingested resource must meet
+    in order to be assigned to a project.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - rules
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-secretsservice-api
+  name: Progress Software Secrets Service API
+  description: The SecretsService API from Progress Software — 3 operation(s) for secretsservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - SecretsService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-secretsservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-securitysettings-api
+  name: Progress Software Security Settings API
+  description: The SecuritySettings API from Progress Software — 8 operation(s) for securitysettings.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - SecuritySettings
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-securitysettings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-serverinfo-api
+  name: Progress Software Server Info API
+  description: The ServerInfo API from Progress Software — 1 operation(s) for serverinfo.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - ServerInfo
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-serverinfo-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-service-groups-api
+  name: Progress Software Service Groups API
+  description: The service_groups API from Progress Software — 9 operation(s) for service_groups.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - service_groups
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-service-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-statsservice-api
+  name: Progress Software Stats Service API
+  description: The StatsService API from Progress Software — 6 operation(s) for statsservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - StatsService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-statsservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-teams-api
+  name: Progress Software Teams API
+  description: Teams are used to group local users for policy membership.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - teams
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-teams-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-telemetry-api
+  name: Progress Software Telemetry API
+  description: The Telemetry API from Progress Software — 1 operation(s) for telemetry.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-telemetry-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-tokens-api
+  name: Progress Software Tokens API
+  description: Tokens are used for API access to Automate endpoints as well as by systems (e.g. Chef Infra
+    Servers) to communicate with Automate.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-transferstatus-api
+  name: Progress Software Transfer Status API
+  description: The TransferStatus API from Progress Software — 1 operation(s) for transferstatus.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - TransferStatus
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-transferstatus-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-users-api
+  name: Progress Software Users API
+  description: IAM local users are not attached to external identity providers. They can be members of
+    IAM teams and IAM policies.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-usersettingsservice-api
+  name: Progress Software User Settings Service API
+  description: The UserSettingsService API from Progress Software — 5 operation(s) for usersettingsservice.
+  humanURL: https://docs.chef.io/automate/api/
+  baseURL: https://automate.chef.io
+  tags:
+  - UserSettingsService
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-usersettingsservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
 common:
 - type: TrustCenter
   url: security/progress-software-trust-center.yml
@@ -183,13 +1538,13 @@ common:
 - type: PrivacyPolicy
   url: https://www.progress.com/legal/privacy-center
 - type: OpenAPI
-  url: openapi/progress-software-chef-automate-openapi-original.json
+  url: openapi/_original/progress-software-chef-automate-openapi-original.json
   name: Chef Automate API
 - type: OpenAPI
-  url: openapi/progress-software-moveit-transfer-openapi-original.json
+  url: openapi/_original/progress-software-moveit-transfer-openapi-original.json
   name: MOVEit Transfer REST API
 - type: OpenAPI
-  url: openapi/progress-software-whatsup-gold-openapi-original.json
+  url: openapi/_original/progress-software-whatsup-gold-openapi-original.json
   name: WhatsUp Gold REST API
 - type: Packages
   url: packages/progress-software-packages.yml
