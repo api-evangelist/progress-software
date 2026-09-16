@@ -1,0 +1,14 @@
+{
+  "repo": "progress-software",
+  "feeds": [
+    {
+      "source": "https://community.progress.com/s/knowledge-base",
+      "feed_url": "https://community.progress.com/s/knowledge-base",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-09-13T13:00:00Z"
+}
