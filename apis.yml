@@ -33,11 +33,12 @@ tags:
 apis:
 - aid: progress-software:progress-software-sharefile
   name: ShareFile API v3
-  description: The ShareFile API v3 is the OData-based REST interface of Progress ShareFile, covering
-    Items, Folders, Accounts, Users, Groups, Shares, Access Controls, Capabilities, Connector Groups,
-    Devices, Encrypted Emails, Favorites, Folder Templates, Metadata, Policies, Reports, Sessions, Storage
-    Centers, Workflows, Zones, Async Operations and Webhook Clients/Subscriptions. It is OAuth 2.0 authenticated
-    and served per-tenant from the account subdomain.
+  description: >-
+    The ShareFile API v3 is the OData-based REST interface of Progress ShareFile, covering Items, Folders,
+    Accounts, Users, Groups, Shares, Access Controls, Capabilities, Connector Groups, Devices, Encrypted
+    Emails, Favorites, Folder Templates, Metadata, Policies, Reports, Sessions, Storage Centers, Workflows,
+    Zones, Async Operations and Webhook Clients/Subscriptions. It is OAuth 2.0 authenticated and served
+    per-tenant from the account subdomain.
   humanURL: https://api.sharefile.com/
   baseURL: https://{subdomain}.sf-api.com/sf/v3
   tags:
@@ -62,11 +63,12 @@ apis:
   image: https://www.sharefile.com/images/sharefilelibraries/default-album/sharefile-og-image.png
 - aid: progress-software:progress-software-sitefinity-odata
   name: Sitefinity CMS Headless OData Services
-  description: Sitefinity CMS exposes its content as OData v4 web services under a configurable service
-    route (by default /api/default) on the customer's own Sitefinity instance. The headless API serves
-    content types, taxonomies, pages, media and custom modules with full OData query syntax ($select,
-    $expand, $filter, $orderby), bearer-token authentication and a $metadata document that is the machine-readable
-    contract for each installation.
+  description: >-
+    Sitefinity CMS exposes its content as OData v4 web services under a configurable service route (by
+    default /api/default) on the customer's own Sitefinity instance. The headless API serves content types,
+    taxonomies, pages, media and custom modules with full OData query syntax ($select, $expand, $filter,
+    $orderby), bearer-token authentication and a $metadata document that is the machine-readable contract
+    for each installation.
   humanURL: https://www.progress.com/documentation/sitefinity-cms/web-service-routes
   baseURL: https://{sitefinity-host}/api/default
   tags:
@@ -78,10 +80,12 @@ apis:
     url: https://www.progress.com/documentation/sitefinity-cms/web-service-routes
   - type: APIReference
     url: https://www.progress.com/documentation/sitefinity-cms/odata-services-configurations
-  image: https://www.progress.com/images/default-source/social-sharing/sitefinity.png?sfvrsn=e7dd87b5_1
+  image: >-
+    https://www.progress.com/images/default-source/social-sharing/sitefinity.png?sfvrsn=e7dd87b5_1
 - aid: progress-software:progress-software-adhoctransfersettings-api
   name: Progress Software Ad Hoc Transfer Settings API
-  description: The AdHocTransferSettings API from Progress Software — 1 operation(s) for adhoctransfersettings.
+  description: >-
+    The AdHocTransferSettings API from Progress Software — 1 operation(s) for adhoctransfersettings.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -103,7 +107,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-appearancesettings-api
   name: Progress Software Appearance Settings API
-  description: The AppearanceSettings API from Progress Software — 1 operation(s) for appearancesettings.
+  description: >-
+    The AppearanceSettings API from Progress Software — 1 operation(s) for appearancesettings.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -125,7 +130,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-applicationsservice-api
   name: Progress Software Applications Service API
-  description: The ApplicationsService API from Progress Software — 2 operation(s) for applicationsservice.
+  description: >-
+    The ApplicationsService API from Progress Software — 2 operation(s) for applicationsservice.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -169,8 +175,9 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-authorization-api
   name: Progress Software Authorization API
-  description: Introspection endpoints that allow clients to check which API actions are authorized for
-    the current token or user.
+  description: >-
+    Introspection endpoints that allow clients to check which API actions are authorized for the current
+    token or user.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -410,31 +417,10 @@ apis:
     url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
   - type: Documentation
     url: https://www.whatsupgold.com/rest-api
-- aid: progress-software:progress-software-devicegroup-api
-  name: Progress Software Device Group API
-  description: The DeviceGroup API from Progress Software — 18 operation(s) for devicegroup.
-  humanURL: https://docs.chef.io/automate/api/
-  baseURL: https://automate.chef.io
-  tags:
-  - DeviceGroup
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-devicegroup-api-openapi.yml
-  - type: Documentation
-    url: https://docs.chef.io/automate/
-  - type: APIReference
-    url: https://docs.chef.io/automate/api/
-  - type: APIReference
-    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
-  - type: Documentation
-    url: https://docs.progress.com/category/moveit
-  - type: APIReference
-    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
-  - type: Documentation
-    url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-devicegroupreport-api
   name: Progress Software Device Group Report API
-  description: The DeviceGroupReport API from Progress Software — 12 operation(s) for devicegroupreport.
+  description: >-
+    The DeviceGroupReport API from Progress Software — 12 operation(s) for devicegroupreport.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -696,28 +682,6 @@ apis:
     url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
   - type: Documentation
     url: https://www.whatsupgold.com/rest-api
-- aid: progress-software:progress-software-jobscheduler-api
-  name: Progress Software Job Scheduler API
-  description: The JobScheduler API from Progress Software — 4 operation(s) for jobscheduler.
-  humanURL: https://docs.chef.io/automate/api/
-  baseURL: https://automate.chef.io
-  tags:
-  - JobScheduler
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-jobscheduler-api-openapi.yml
-  - type: Documentation
-    url: https://docs.chef.io/automate/
-  - type: APIReference
-    url: https://docs.chef.io/automate/api/
-  - type: APIReference
-    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
-  - type: Documentation
-    url: https://docs.progress.com/category/moveit
-  - type: APIReference
-    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
-  - type: Documentation
-    url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-jobsservice-api
   name: Progress Software Jobs Service API
   description: The JobsService API from Progress Software — 4 operation(s) for jobsservice.
@@ -742,7 +706,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-legacydatacollector-api
   name: Progress Software Legacy Data Collector API
-  description: The LegacyDataCollector API from Progress Software — 1 operation(s) for legacydatacollector.
+  description: >-
+    The LegacyDataCollector API from Progress Software — 1 operation(s) for legacydatacollector.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -830,7 +795,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-miscellaneoussettings-api
   name: Progress Software Miscellaneous Settings API
-  description: The MiscellaneousSettings API from Progress Software — 1 operation(s) for miscellaneoussettings.
+  description: >-
+    The MiscellaneousSettings API from Progress Software — 1 operation(s) for miscellaneoussettings.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -874,7 +840,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-nodemanagerservice-api
   name: Progress Software Node Manager Service API
-  description: The NodeManagerService API from Progress Software — 9 operation(s) for nodemanagerservice.
+  description: >-
+    The NodeManagerService API from Progress Software — 9 operation(s) for nodemanagerservice.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -984,12 +951,13 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-policies-api
   name: Progress Software Policies API
-  description: A policy defines permissions for who may perform what action on which resources, based
-    on the project. The 'who' is a user, a team, or a system. A policy has three components, the agent,
-    the action, and the project. The agent is a user, team, or system. Users and teams are designated
-    by name while systems communicate with Chef Automate using pre-authorized API tokens. Actions are
-    activities that agents can take in relation to Chef Automate's content and operation. Projects are
-    collections of resources, such as API tokens or ingested compliance nodes.
+  description: >-
+    A policy defines permissions for who may perform what action on which resources, based on the project.
+    The 'who' is a user, a team, or a system. A policy has three components, the agent, the action, and
+    the project. The agent is a user, team, or system. Users and teams are designated by name while systems
+    communicate with Chef Automate using pre-authorized API tokens. Actions are activities that agents
+    can take in relation to Chef Automate's content and operation. Projects are collections of resources,
+    such as API tokens or ingested compliance nodes.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1077,8 +1045,9 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-projects-api
   name: Progress Software Projects API
-  description: Projects are used to group and permission Chef Automate resources as well as ingested data,
-    specifically Compliance reports, Chef Infra Server events, and Infrastructure nodes.
+  description: >-
+    Projects are used to group and permission Chef Automate resources as well as ingested data, specifically
+    Compliance reports, Chef Infra Server events, and Infrastructure nodes.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1100,7 +1069,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-publicorganizationinfo-api
   name: Progress Software Public Organization Info API
-  description: The PublicOrganizationInfo API from Progress Software — 1 operation(s) for publicorganizationinfo.
+  description: >-
+    The PublicOrganizationInfo API from Progress Software — 1 operation(s) for publicorganizationinfo.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1144,7 +1114,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-reportmanagerservice-api
   name: Progress Software Report Manager Service API
-  description: The ReportManagerService API from Progress Software — 1 operation(s) for reportmanagerservice.
+  description: >-
+    The ReportManagerService API from Progress Software — 1 operation(s) for reportmanagerservice.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1210,8 +1181,9 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-roles-api
   name: Progress Software Roles API
-  description: A role encapsulates a list of actions. Chef Automate provides several default Chef-managed
-    roles that cannot be altered but you may also define and use your own Custom roles.
+  description: >-
+    A role encapsulates a list of actions. Chef Automate provides several default Chef-managed roles that
+    cannot be altered but you may also define and use your own Custom roles.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1233,8 +1205,9 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-rules-api
   name: Progress Software Rules API
-  description: Project rules define lists of one or more conditions that an ingested resource must meet
-    in order to be assigned to a project.
+  description: >-
+    Project rules define lists of one or more conditions that an ingested resource must meet in order
+    to be assigned to a project.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1264,50 +1237,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/progress-software-secretsservice-api-openapi.yml
-  - type: Documentation
-    url: https://docs.chef.io/automate/
-  - type: APIReference
-    url: https://docs.chef.io/automate/api/
-  - type: APIReference
-    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
-  - type: Documentation
-    url: https://docs.progress.com/category/moveit
-  - type: APIReference
-    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
-  - type: Documentation
-    url: https://www.whatsupgold.com/rest-api
-- aid: progress-software:progress-software-securitysettings-api
-  name: Progress Software Security Settings API
-  description: The SecuritySettings API from Progress Software — 8 operation(s) for securitysettings.
-  humanURL: https://docs.chef.io/automate/api/
-  baseURL: https://automate.chef.io
-  tags:
-  - SecuritySettings
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-securitysettings-api-openapi.yml
-  - type: Documentation
-    url: https://docs.chef.io/automate/
-  - type: APIReference
-    url: https://docs.chef.io/automate/api/
-  - type: APIReference
-    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
-  - type: Documentation
-    url: https://docs.progress.com/category/moveit
-  - type: APIReference
-    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
-  - type: Documentation
-    url: https://www.whatsupgold.com/rest-api
-- aid: progress-software:progress-software-serverinfo-api
-  name: Progress Software Server Info API
-  description: The ServerInfo API from Progress Software — 1 operation(s) for serverinfo.
-  humanURL: https://docs.chef.io/automate/api/
-  baseURL: https://automate.chef.io
-  tags:
-  - ServerInfo
-  properties:
-  - type: OpenAPI
-    url: openapi/progress-software-serverinfo-api-openapi.yml
   - type: Documentation
     url: https://docs.chef.io/automate/
   - type: APIReference
@@ -1410,8 +1339,9 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-tokens-api
   name: Progress Software Tokens API
-  description: Tokens are used for API access to Automate endpoints as well as by systems (e.g. Chef Infra
-    Servers) to communicate with Automate.
+  description: >-
+    Tokens are used for API access to Automate endpoints as well as by systems (e.g. Chef Infra Servers)
+    to communicate with Automate.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1455,8 +1385,9 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-users-api
   name: Progress Software Users API
-  description: IAM local users are not attached to external identity providers. They can be members of
-    IAM teams and IAM policies.
+  description: >-
+    IAM local users are not attached to external identity providers. They can be members of IAM teams
+    and IAM policies.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1478,7 +1409,8 @@ apis:
     url: https://www.whatsupgold.com/rest-api
 - aid: progress-software:progress-software-usersettingsservice-api
   name: Progress Software User Settings Service API
-  description: The UserSettingsService API from Progress Software — 5 operation(s) for usersettingsservice.
+  description: >-
+    The UserSettingsService API from Progress Software — 5 operation(s) for usersettingsservice.
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
@@ -1486,6 +1418,94 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/progress-software-usersettingsservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-device-group-api
+  name: Progress Software Device Group API
+  description: The Device Group API from Progress Software — 18 operation(s) for device group.
+  humanURL: https://api.sharefile.com/
+  baseURL: https://{subdomain}.sf-api.com/sf/v3
+  tags:
+  - Device Group
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-device-group-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-job-scheduler-api
+  name: Progress Software Job Scheduler API
+  description: The Job Scheduler API from Progress Software — 4 operation(s) for job scheduler.
+  humanURL: https://api.sharefile.com/
+  baseURL: https://{subdomain}.sf-api.com/sf/v3
+  tags:
+  - Job Scheduler
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-job-scheduler-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-security-settings-api
+  name: Progress Software Security Settings API
+  description: The Security Settings API from Progress Software — 8 operation(s) for security settings.
+  humanURL: https://api.sharefile.com/
+  baseURL: https://{subdomain}.sf-api.com/sf/v3
+  tags:
+  - Security Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-security-settings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.chef.io/automate/
+  - type: APIReference
+    url: https://docs.chef.io/automate/api/
+  - type: APIReference
+    url: https://docs.ipswitch.com/MOVEit/Transfer2025/Api/Rest/
+  - type: Documentation
+    url: https://docs.progress.com/category/moveit
+  - type: APIReference
+    url: https://docs.ipswitch.com/NM/WhatsUpGold2026/02_Guides/rest_api/index.html
+  - type: Documentation
+    url: https://www.whatsupgold.com/rest-api
+- aid: progress-software:progress-software-server-info-api
+  name: Progress Software Server Info API
+  description: The Server Info API from Progress Software — 1 operation(s) for server info.
+  humanURL: https://api.sharefile.com/
+  baseURL: https://{subdomain}.sf-api.com/sf/v3
+  tags:
+  - Server Info
+  properties:
+  - type: OpenAPI
+    url: openapi/progress-software-server-info-api-openapi.yml
   - type: Documentation
     url: https://docs.chef.io/automate/
   - type: APIReference
