@@ -203,6 +203,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - CDS
+  tags_raw:
   - Cds
   properties:
   - type: OpenAPI
@@ -556,6 +558,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
@@ -622,6 +626,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Gateways
+  tags_raw:
   - Gateway
   properties:
   - type: OpenAPI
@@ -644,6 +650,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -822,6 +830,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Monitors
+  tags_raw:
   - Monitor
   properties:
   - type: OpenAPI
@@ -889,6 +899,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -911,6 +923,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -961,6 +975,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Policies
+  tags_raw:
   - policies
   properties:
   - type: OpenAPI
@@ -1051,6 +1067,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Project
+  tags_raw:
   - projects
   properties:
   - type: OpenAPI
@@ -1163,6 +1181,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Retention
+  tags_raw:
   - retention
   properties:
   - type: OpenAPI
@@ -1187,6 +1207,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Roles
+  tags_raw:
   - roles
   properties:
   - type: OpenAPI
@@ -1211,6 +1233,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Rules
+  tags_raw:
   - rules
   properties:
   - type: OpenAPI
@@ -1255,6 +1279,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Service Groups
+  tags_raw:
   - service_groups
   properties:
   - type: OpenAPI
@@ -1299,6 +1325,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Team
+  tags_raw:
   - teams
   properties:
   - type: OpenAPI
@@ -1345,6 +1373,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - Tokens
+  tags_raw:
   - tokens
   properties:
   - type: OpenAPI
@@ -1391,6 +1421,8 @@ apis:
   humanURL: https://docs.chef.io/automate/api/
   baseURL: https://automate.chef.io
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
