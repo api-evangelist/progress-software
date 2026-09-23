@@ -1,0 +1,3713 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Infra Proxy API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: InfraProxy
+  x-displayName: Chef Infra Server Proxy
+paths:
+  /api/v0/infra/servers:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetServers
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.GetServers'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get servers
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateServer
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CreateServer'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateServer'
+        required: true
+      summary: Infra proxy create server
+      x-summary-source: derived
+  /api/v0/infra/servers/server_status:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetServerStatus
+      parameters:
+      - description: Server FQDN.
+        name: fqdn
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.GetServerStatus'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get server status
+      x-summary-source: derived
+  /api/v0/infra/servers/{id}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetServer
+      parameters:
+      - description: Chef Infra Server ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.GetServer'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get server
+      x-summary-source: derived
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateServer
+      parameters:
+      - description: Chef Infra Server ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UpdateServer'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateServer'
+        required: true
+      summary: Infra proxy update server
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteServer
+      parameters:
+      - description: Chef Infra Server ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DeleteServer'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete server
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetOrgs
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.GetOrgs'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get orgs
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateOrg
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CreateOrg'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateOrg'
+        required: true
+      summary: Infra proxy create org
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{id}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetOrg
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.GetOrg'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get org
+      x-summary-source: derived
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateOrg
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UpdateOrg'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateOrg'
+        required: true
+      summary: Infra proxy update org
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteOrg
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DeleteOrg'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete org
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{id}/reset-key:
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_ResetOrgAdminKey
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ResetOrgAdminKey'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.ResetOrgAdminKey'
+        required: true
+      summary: Infra proxy reset org admin key
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/clients:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetClients
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The search query used to identify a list of items.
+        name: search_query.q
+        in: query
+        schema:
+          type: string
+      - description: Starting page for the results.
+        name: search_query.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: The number of results on each page.
+        name: search_query.per_page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Clients'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get clients
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateClient
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CreateClient'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateClient'
+        required: true
+      summary: Infra proxy create client
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/clients/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetClient
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Client name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Client'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get client
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteClient
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Client name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Client'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete client
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/clients/{name}/reset:
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_ResetClientKey
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Client name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ResetClient'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.ClientKey'
+        required: true
+      summary: Infra proxy reset client key
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/cookbooks:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetCookbooks
+      parameters:
+      - description: ID of the Server
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID of the Org.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Cookbooks'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get cookbooks
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/cookbooks/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetCookbookVersions
+      parameters:
+      - description: ID of the Server.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID of the Org.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of the cookbook.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookVersions'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get cookbook versions
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/cookbooks/{name}/{version}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetCookbook
+      parameters:
+      - description: ID of the Server.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID of the Org.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of the cookbook.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Version of the cookbook.
+        name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Cookbook'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get cookbook
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/cookbooks/{name}/{version}/file-content:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetCookbookFileContent
+      parameters:
+      - description: ID of the server.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID of the org.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of the cookbook.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Version of the cookbook.
+        name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Cookbook data file URL.
+        name: url
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookFileContent'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get cookbook file content
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/data_bags:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetDataBags
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBags'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get data bags
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateDataBag
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CreateDataBag'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateDataBag'
+        required: true
+      summary: Infra proxy create data bag
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/data_bags/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetDataBagItems
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The search query used to identify a list of items.
+        name: search_query.q
+        in: query
+        schema:
+          type: string
+      - description: Starting page for the results.
+        name: search_query.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: The number of results on each page.
+        name: search_query.per_page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBagItems'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get data bag items
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateDataBagItem
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CreateDataBagItem'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateDataBagItem'
+        required: true
+      summary: Infra proxy create data bag item
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteDataBag
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBag'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete data bag
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/data_bags/{name}/{item_id}:
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateDataBagItem
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag item ID.
+        name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UpdateDataBagItem'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateDataBagItem'
+        required: true
+      summary: Infra proxy update data bag item
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/data_bags/{name}/{item}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetDataBagItem
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag item name.
+        name: item
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBagItem'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get data bag item
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteDataBagItem
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Data bag item name.
+        name: item
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBagItem'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete data bag item
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/environments:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetEnvironments
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The search query used to identify a list of items.
+        name: search_query.q
+        in: query
+        schema:
+          type: string
+      - description: Starting page for the results.
+        name: search_query.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: The number of results on each page.
+        name: search_query.per_page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Environments'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get environments
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateEnvironment
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Environment'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateEnvironment'
+        required: true
+      summary: Infra proxy create environment
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/environments/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetEnvironment
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Environment name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Environment'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get environment
+      x-summary-source: derived
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateEnvironment
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Environment name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Environment'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateEnvironment'
+        required: true
+      summary: Infra proxy update environment
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteEnvironment
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Environment name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Environment'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete environment
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/environments/{name}/recipes:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetEnvironmentRecipes
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Environment name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.EnvironmentRecipesList'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get environment recipes
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/node/{name}/runlist/{environment}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetNodeExpandedRunList
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node environment.
+        name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.NodeExpandedRunList'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get node expanded run list
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/nodes:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetNodes
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The search query used to identify a list of items.
+        name: search_query.q
+        in: query
+        schema:
+          type: string
+      - description: Starting page for the results.
+        name: search_query.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: The number of results on each page.
+        name: search_query.per_page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Nodes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get nodes
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/nodes/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetNode
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Node'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get node
+      x-summary-source: derived
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateNode
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Node'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.NodeDetails'
+        required: true
+      summary: Infra proxy update node
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteNode
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DeleteNode'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete node
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/nodes/{name}/attributes:
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateNodeAttributes
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UpdateNodeAttributes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateNodeAttributes'
+        required: true
+      summary: Infra proxy update node attributes
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/nodes/{name}/environment:
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateNodeEnvironment
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UpdateNodeEnvironment'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateNodeEnvironment'
+        required: true
+      summary: Infra proxy update node environment
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/nodes/{name}/tags:
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateNodeTags
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Node name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UpdateNodeTags'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateNodeTags'
+        required: true
+      summary: Infra proxy update node tags
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/policyfiles:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetPolicyfiles
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef Organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Policyfiles'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get policyfiles
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/policyfiles/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetPolicyfile
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef Organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Policyfile name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Policyfile revision ID.
+        name: revision_id
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Policyfile'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get policyfile
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeletePolicyfile
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef Organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Policyfile name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DeletePolicyfile'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete policyfile
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/policyfiles/{name}/revisions:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetPolicyfileRevisions
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef Organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Policyfile name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.PolicyfileRevisions'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get policyfile revisions
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/policygroups/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetPolicygroup
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef Organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Policygroup name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Policygroup'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get policygroup
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/roles:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetRoles
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The search query used to identify a list of items.
+        name: search_query.q
+        in: query
+        schema:
+          type: string
+      - description: Starting page for the results.
+        name: search_query.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: The number of results on each page.
+        name: search_query.per_page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Roles'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get roles
+      x-summary-source: derived
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_CreateRole
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Role'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.CreateRole'
+        required: true
+      summary: Infra proxy create role
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/roles/{name}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetRole
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Role name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Role'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get role
+      x-summary-source: derived
+    put:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_UpdateRole
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Role name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Role'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.UpdateRole'
+        required: true
+      summary: Infra proxy update role
+      x-summary-source: derived
+    delete:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_DeleteRole
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Role name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Role'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy delete role
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/roles/{name}/environments:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetRoleEnvironments
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Role name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.RoleEnvironments'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get role environments
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/roles/{name}/runlist/{environment}:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetRoleExpandedRunList
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Role name.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Role environment.
+        name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ExpandedRunList'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get role expanded run list
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/orgs/{org_id}/users:
+    get:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetOrgUsersList
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Chef Organization ID.
+        name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.OrgUsers'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Infra proxy get org users list
+      x-summary-source: derived
+  /api/v0/infra/servers/{server_id}/users:
+    post:
+      tags:
+      - InfraProxy
+      operationId: InfraProxy_GetServerUsersList
+      parameters:
+      - description: Chef Infra Server ID.
+        name: server_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ServerUsers'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.ServerUsers'
+        required: true
+      summary: Infra proxy get server users list
+      x-summary-source: derived
+components:
+  schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.infra_proxy.response.CreateDataBag:
+      type: object
+      properties:
+        name:
+          description: Data bag name.
+          type: string
+    chef.automate.api.infra_proxy.response.ClientAccessKey:
+      type: object
+      properties:
+        expiration_date:
+          description: Client key expiration date string.
+          type: string
+        name:
+          description: Client key name.
+          type: string
+        public_key:
+          description: Client public key.
+          type: string
+    chef.automate.api.infra_proxy.response.UpdateNodeAttributes:
+      type: object
+      properties:
+        attributes:
+          description: Node attributes JSON.
+          type: string
+        name:
+          description: Node name.
+          type: string
+    chef.automate.api.infra_proxy.request.CreateDataBagItem:
+      type: object
+      properties:
+        data:
+          description: Data bag item JSON data.
+          type: object
+        name:
+          description: Data bag name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.CookbookVersion:
+      type: object
+      properties:
+        name:
+          description: Name of the cookbook.
+          type: string
+        version:
+          description: Version of the cookbook.
+          type: string
+    chef.automate.api.infra_proxy.request.CreateDataBag:
+      type: object
+      properties:
+        name:
+          description: Data bag name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.IncludedPolicyLock:
+      type: object
+      properties:
+        name:
+          description: Included Policyfile name.
+          type: string
+        revision_id:
+          description: Policyfile revision ID.
+          type: string
+        source_options:
+          description: Included policyfile source options.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.SourceOptions'
+    chef.automate.api.infra_proxy.request.CreateServer:
+      type: object
+      properties:
+        fqdn:
+          description: Chef Infra Server FQDN.
+          type: string
+        id:
+          description: Chef Infra Server ID.
+          type: string
+        ip_address:
+          description: Chef Infra Server IP address.
+          type: string
+        name:
+          description: Chef Infra Server name.
+          type: string
+    chef.automate.api.infra_proxy.response.Roles:
+      type: object
+      properties:
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        roles:
+          description: List of the roles item.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.RoleListItem'
+        total:
+          description: Total number of records.
+          type: integer
+          format: int32
+    chef.automate.api.infra_proxy.response.DataBagItems:
+      type: object
+      properties:
+        items:
+          description: Data bags item list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBagListItem'
+        name:
+          type: string
+          title: Data bag name
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        total:
+          description: Total number of records.
+          type: integer
+          format: int32
+    chef.automate.api.infra_proxy.response.Client:
+      type: object
+      properties:
+        chef_type:
+          description: Chef object type.
+          type: string
+        client_key:
+          description: Client key detail.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ClientAccessKey'
+        client_name:
+          description: Client name return by Chef Infra Server API.
+          type: string
+        json_class:
+          description: Client JSON class.
+          type: string
+        name:
+          description: Client name.
+          type: string
+        org_name:
+          description: Chef organization name.
+          type: string
+        validator:
+          description: Boolean indicates client type is validator or not.
+          type: boolean
+    chef.automate.api.infra_proxy.response.DeleteOrg:
+      type: object
+      properties:
+        org:
+          description: Chef organization.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Org'
+    chef.automate.api.infra_proxy.request.UpdateNodeTags:
+      type: object
+      properties:
+        action:
+          description: Node tags action (e.g. 'add', 'delete', 'set').
+          type: string
+        name:
+          description: Node name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+        tags:
+          description: Node tags.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.Cookbook:
+      type: object
+      properties:
+        access:
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookAccess'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        chef_type:
+          type: string
+        cookbook_name:
+          type: string
+        definitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        frozen:
+          type: boolean
+        json_class:
+          type: string
+        libraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        metadata:
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookMeta'
+        name:
+          type: string
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        root_files:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookItem'
+        version:
+          type: string
+    chef.automate.api.infra_proxy.response.CreateClient:
+      type: object
+      properties:
+        client_key:
+          description: Client key detail.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ClientKey'
+        name:
+          description: Client name.
+          type: string
+    chef.automate.api.infra_proxy.response.DataBagItem:
+      type: object
+      properties:
+        data:
+          description: Stringified json of data bag item.
+          type: string
+        id:
+          description: Data bag item ID.
+          type: string
+        name:
+          description: Data bag name.
+          type: string
+    chef.automate.api.infra_proxy.response.EnvironmentListItem:
+      type: object
+      properties:
+        description:
+          description: Environment description.
+          type: string
+        name:
+          description: Environment name.
+          type: string
+    chef.automate.api.infra_proxy.response.UpdateNodeTags:
+      type: object
+      properties:
+        tags:
+          description: Node tags.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.Policyfiles:
+      type: object
+      properties:
+        policies:
+          description: Policyfiles list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.PolicyfileListItem'
+    chef.automate.api.infra_proxy.response.Policyfile:
+      type: object
+      properties:
+        cookbook_locks:
+          description: List of cookbook locks under this policy.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookLock'
+        default_attributes:
+          description: Policyfile default attributes JSON.
+          type: string
+        expanded_run_list:
+          description: Expanded run-list associated with the policy.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ExpandedRunList'
+        included_policy_locks:
+          description: Included policy locks files.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.IncludedPolicyLock'
+        name:
+          description: Policyfile name.
+          type: string
+        named_run_list:
+          description: Named run-list associated with the policy.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.NamedRunList'
+        override_attributes:
+          description: Policyfile override attributes JSON.
+          type: string
+        policy_group:
+          description: Policy group name.
+          type: string
+        revision_id:
+          description: Policy revision ID.
+          type: string
+        run_list:
+          description: Run-list associated with the policy.
+          type: array
+          items:
+            type: string
+        solution_dependecies:
+          description: Solution Dependencies versions.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.SolutionDependencies'
+    chef.automate.api.infra_proxy.response.PolicyfileListItem:
+      type: object
+      properties:
+        name:
+          description: Policyfile name.
+          type: string
+        policy_group:
+          description: Policyfile policy group.
+          type: string
+        revision_id:
+          description: Policyfile Revision ID.
+          type: string
+    chef.automate.api.infra_proxy.request.UpdateEnvironment:
+      type: object
+      properties:
+        cookbook_versions:
+          description: Environment versioned cookbooks constraints.
+          type: object
+          additionalProperties:
+            type: string
+        default_attributes:
+          description: Environment default attributes JSON.
+          type: object
+        description:
+          description: Environment description.
+          type: string
+        json_class:
+          description: Class name.
+          type: string
+        name:
+          description: Environment name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        override_attributes:
+          description: Environment override attributes JSON.
+          type: object
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.RoleEnvironments:
+      type: object
+      properties:
+        environments:
+          description: Role environment list.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.DataBags:
+      type: object
+      properties:
+        data_bags:
+          description: Data bags item list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DataBagListItem'
+    chef.automate.api.infra_proxy.response.Environments:
+      type: object
+      properties:
+        environments:
+          description: Environments list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.EnvironmentListItem'
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        total:
+          description: Total number of records.
+          type: integer
+          format: int32
+    chef.automate.api.infra_proxy.response.GetServers:
+      type: object
+      properties:
+        servers:
+          description: List of Chef Infra Servers.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Server'
+    chef.automate.api.infra_proxy.response.CreateDataBagItem:
+      type: object
+      properties:
+        id:
+          description: Data bag item ID.
+          type: string
+        name:
+          description: Data bag name.
+          type: string
+    chef.automate.api.infra_proxy.response.UsersListItem:
+      type: object
+      properties:
+        email:
+          type: string
+          title: User email
+        first_name:
+          type: string
+          title: User first name
+        last_name:
+          type: string
+          title: User Last name
+        username:
+          type: string
+          title: User username
+    chef.automate.api.infra_proxy.response.UpdateServer:
+      type: object
+      properties:
+        server:
+          description: Chef Infra Server.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Server'
+    chef.automate.api.infra_proxy.request.UpdateNodeAttributes:
+      type: object
+      properties:
+        attributes:
+          description: Node attributes JSON.
+          type: object
+        name:
+          description: Node name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.request.UpdateServer:
+      type: object
+      properties:
+        fqdn:
+          description: Chef Infra Server FQDN.
+          type: string
+        id:
+          description: Chef Infra Server ID.
+          type: string
+        ip_address:
+          description: Chef Infra Server IP address.
+          type: string
+        name:
+          description: Chef Infra Server name.
+          type: string
+    chef.automate.api.infra_proxy.request.EnvRunList:
+      type: object
+      properties:
+        name:
+          description: Environment name.
+          type: string
+        run_list:
+          description: Role run list.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.ClientListItem:
+      type: object
+      properties:
+        name:
+          description: Client name.
+          type: string
+        validator:
+          description: Boolean indicates client type is validator or not.
+          type: boolean
+    chef.automate.api.infra_proxy.response.DeletePolicyfile:
+      type: object
+      properties:
+        name:
+          description: Policyfile name.
+          type: string
+    chef.automate.api.infra_proxy.response.Org:
+      type: object
+      properties:
+        admin_user:
+          description: Chef organization admin user.
+          type: string
+        credential_id:
+          description: Chef organization credential ID.
+          type: string
+        id:
+          description: Chef organization ID.
+          type: string
+        name:
+          description: Chef organization name.
+          type: string
+        projects:
+          description: List of projects this chef organization belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.PolicyfileRevision:
+      type: object
+      properties:
+        revision_id:
+          type: string
+          title: policyfile revision
+    chef.automate.api.infra_proxy.response.GetOrg:
+      type: object
+      properties:
+        org:
+          description: Chef organization.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Org'
+    chef.automate.api.infra_proxy.response.Nodes:
+      type: object
+      properties:
+        nodes:
+          description: Node list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.NodeAttribute'
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        total:
+          description: Total number of records.
+          type: integer
+          format: int32
+    chef.automate.api.infra_proxy.response.DataBagListItem:
+      type: object
+      properties:
+        name:
+          description: Data bag item name.
+          type: string
+    chef.automate.api.infra_proxy.response.RunList:
+      type: object
+      properties:
+        children:
+          description: List of the run list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.RunList'
+        error:
+          type: string
+          title: Run list error
+        name:
+          description: Run list item name.
+          type: string
+        position:
+          type: integer
+          format: int32
+          title: Run list item position
+        skipped:
+          description: Boolean denoting whether or not the run list item was skipped.
+          type: boolean
+        type:
+          description: Run list item type (e.g. 'recipe').
+          type: string
+        version:
+          description: Run list item version.
+          type: string
+    chef.automate.api.infra_proxy.response.DeleteNode:
+      type: object
+      properties:
+        name:
+          description: Node name.
+          type: string
+    chef.automate.api.infra_proxy.request.UpdateNodeEnvironment:
+      type: object
+      properties:
+        environment:
+          description: Node environment name.
+          type: string
+        name:
+          description: Node name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.request.CreateClient:
+      type: object
+      properties:
+        create_key:
+          description: Boolean indicates whether it's required to create a key or not.
+          type: boolean
+        name:
+          description: Client name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+        validator:
+          description: Boolean indicates client type is validator or not.
+          type: boolean
+    chef.automate.api.infra_proxy.response.CookbookMeta:
+      type: object
+      properties:
+        description:
+          type: string
+        license:
+          type: string
+        long_description:
+          type: string
+        maintainer:
+          type: string
+        maintainer_email:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+    chef.automate.api.infra_proxy.request.CreateOrg:
+      type: object
+      properties:
+        admin_key:
+          description: Chef organization admin key.
+          type: string
+        admin_user:
+          description: Chef organization admin user.
+          type: string
+        id:
+          description: Chef organization ID.
+          type: string
+        name:
+          description: Chef organization name.
+          type: string
+        projects:
+          description: List of projects this chef organization belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.infra_proxy.response.OrgUsers:
+      type: object
+      properties:
+        users:
+          type: array
+          title: Users list
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UsersListItem'
+    chef.automate.api.infra_proxy.request.UpdateRole:
+      type: object
+      properties:
+        default_attributes:
+          description: Role default attributes JSON.
+          type: object
+        description:
+          description: Role description.
+          type: string
+        env_run_lists:
+          description: Environment based run list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.EnvRunList'
+        name:
+          description: Role name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        override_attributes:
+          description: Role override attributes JSON.
+          type: object
+        run_list:
+          description: Role run list.
+          type: array
+          items:
+            type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.Server:
+      type: object
+      properties:
+        fqdn:
+          description: Chef Infra Server FQDN.
+          type: string
+        id:
+          description: Chef Infra Server ID.
+          type: string
+        ip_address:
+          description: Chef Infra Server IP address.
+          type: string
+        name:
+          description: Chef Infra Server name.
+          type: string
+        orgs_count:
+          description: Chef organizations count associated with Chef Infra Server.
+          type: integer
+          format: int32
+    chef.automate.api.infra_proxy.response.CreateServer:
+      type: object
+      properties:
+        server:
+          description: Chef Infra Server.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Server'
+    chef.automate.api.infra_proxy.response.CookbookItem:
+      type: object
+      properties:
+        checksum:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+        specificity:
+          type: string
+        url:
+          type: string
+    chef.automate.api.infra_proxy.request.UpdateOrg:
+      type: object
+      properties:
+        admin_user:
+          description: Chef organization admin user.
+          type: string
+        id:
+          description: Chef organization ID.
+          type: string
+        name:
+          description: Chef organization name.
+          type: string
+        projects:
+          description: List of projects this chef organization belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.Node:
+      type: object
+      properties:
+        automatic_attributes:
+          description: Node automatic attributes JSON.
+          type: string
+        default_attributes:
+          description: Node default attributes JSON.
+          type: string
+        environment:
+          description: Node environment.
+          type: string
+        name:
+          description: Node name.
+          type: string
+        node_id:
+          description: Node ID.
+          type: string
+        normal_attributes:
+          description: Node normal attributes JSON.
+          type: string
+        override_attributes:
+          description: Node override attributes JSON.
+          type: string
+        policy_group:
+          description: Node policy group.
+          type: string
+        policy_name:
+          description: Node policy name.
+          type: string
+        run_list:
+          description: Node run-list.
+          type: array
+          items:
+            type: string
+        tags:
+          description: Node tags.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.Clients:
+      type: object
+      properties:
+        clients:
+          description: Client list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ClientListItem'
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        total:
+          description: Total number of records.
+          type: integer
+          format: int32
+    chef.automate.api.infra_proxy.response.GetServer:
+      type: object
+      properties:
+        server:
+          description: Chef Infra Server.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Server'
+    chef.automate.api.infra_proxy.request.ResetOrgAdminKey:
+      type: object
+      properties:
+        admin_key:
+          description: Chef organization admin key.
+          type: string
+        id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.ServerUsers:
+      type: object
+      properties:
+        users:
+          type: array
+          title: Users list
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.UsersListItem'
+    chef.automate.api.infra_proxy.response.GroupPolicy:
+      type: object
+      properties:
+        name:
+          description: Policyfile name.
+          type: string
+        revision_id:
+          description: Policyfile Revision ID.
+          type: string
+    chef.automate.api.infra_proxy.request.ServerUsers:
+      type: object
+      properties:
+        admin_key:
+          description: Chef Infra server admin key.
+          type: string
+        admin_name:
+          description: Chef Infra server admin name.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.RoleListItem:
+      type: object
+      properties:
+        description:
+          description: Desscription of the role.
+          type: string
+        environments:
+          description: Environment for the role.
+          type: array
+          items:
+            type: string
+        name:
+          description: Name of the role.
+          type: string
+    chef.automate.api.infra_proxy.response.UpdateDataBagItem:
+      type: object
+      properties:
+        item_id:
+          description: Data bag item ID.
+          type: string
+        name:
+          description: Data bag name.
+          type: string
+    chef.automate.api.infra_proxy.request.UpdateDataBagItem:
+      type: object
+      properties:
+        data:
+          description: Data bag item JSON data.
+          type: object
+        item_id:
+          description: Data bag item ID.
+          type: string
+        name:
+          description: Data bag name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.UpdateNodeEnvironment:
+      type: object
+      properties:
+        environment:
+          description: Node environment name.
+          type: string
+        name:
+          description: Node name.
+          type: string
+    chef.automate.api.infra_proxy.response.GetServerStatus:
+      type: object
+      properties:
+        keygen:
+          type: object
+          title: Chef Server Keygem
+          additionalProperties:
+            type: integer
+            format: int32
+        status:
+          type: string
+          title: Chef Server Status
+        upstreams:
+          type: object
+          title: Chef Server Upstream
+          additionalProperties:
+            type: string
+    chef.automate.api.infra_proxy.response.ClientKey:
+      type: object
+      properties:
+        expiration_date:
+          description: Client key expiration date string.
+          type: string
+        name:
+          description: Client key name.
+          type: string
+        private_key:
+          description: Client private key.
+          type: string
+        public_key:
+          description: Client public key.
+          type: string
+    chef.automate.api.infra_proxy.request.NodeDetails:
+      type: object
+      properties:
+        automatic_attributes:
+          description: Node automatic attributes JSON.
+          type: object
+        default_attributes:
+          description: Node default attributes JSON.
+          type: object
+        environment:
+          description: Node environment.
+          type: string
+        name:
+          description: Node name.
+          type: string
+        normal_attributes:
+          description: Node normal attributes JSON.
+          type: object
+        org_id:
+          description: Chef organization ID.
+          type: string
+        override_attributes:
+          description: Node override attributes JSON.
+          type: object
+        policy_group:
+          description: Node policy group.
+          type: string
+        policy_name:
+          description: Node policy name.
+          type: string
+        run_list:
+          description: Node run-list.
+          type: array
+          items:
+            type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.CookbookVersions:
+      type: object
+      properties:
+        name:
+          description: Name of the cookbook.
+          type: string
+        versions:
+          description: List of all versions available for cookbook.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.CookbookAccess:
+      type: object
+      properties:
+        create:
+          type: boolean
+        delete:
+          type: boolean
+        grant:
+          type: boolean
+        read:
+          type: boolean
+        update:
+          type: boolean
+    chef.automate.api.infra_proxy.response.SolutionDependencies:
+      type: object
+      properties:
+        dependencies:
+          type: array
+          title: cookbook dependencies
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.DepedenciesData'
+        name:
+          description: cookbook name.
+          type: string
+        version:
+          description: cookbook version.
+          type: string
+    chef.automate.api.infra_proxy.response.DepedenciesData:
+      type: object
+      properties:
+        name:
+          description: cookbook name.
+          type: string
+        version:
+          description: cookbook version.
+          type: string
+    chef.automate.api.infra_proxy.response.NodeExpandedRunList:
+      type: object
+      properties:
+        id:
+          description: ID of the run list collection.
+          type: string
+        run_list:
+          description: List of the run list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.RunList'
+    chef.automate.api.infra_proxy.response.PolicyfileRevisions:
+      type: object
+      properties:
+        revisions:
+          description: Policyfile revisions.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.PolicyfileRevision'
+    chef.automate.api.infra_proxy.request.ClientKey:
+      type: object
+      properties:
+        key:
+          description: Client key name.
+          type: string
+        name:
+          description: Client name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.UpdateOrg:
+      type: object
+      properties:
+        org:
+          description: Chef organization.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Org'
+    chef.automate.api.infra_proxy.response.CookbookLock:
+      type: object
+      properties:
+        SCMDetail:
+          description: SCM detail.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.SCMDetail'
+        cache_key:
+          description: Cookbook cache key.
+          type: string
+        dotted_identifier:
+          description: Cookbook decimal number identifier.
+          type: string
+        identifier:
+          description: Cookbook identifier.
+          type: string
+        name:
+          description: Cookbook name.
+          type: string
+        source:
+          description: Cookbook source.
+          type: string
+        source_options:
+          description: Cookbook source path.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.SourceOptions'
+        version:
+          description: Cookbook version.
+          type: string
+    chef.automate.api.infra_proxy.response.NamedRunList:
+      type: object
+      properties:
+        name:
+          description: Run list name.
+          type: string
+        run_list:
+          description: Run list associated with the policy.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.Cookbooks:
+      type: object
+      properties:
+        cookbooks:
+          description: List of cookbooks with name and version.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.CookbookVersion'
+    chef.automate.api.infra_proxy.response.NodeAttribute:
+      type: object
+      properties:
+        check_in:
+          description: Node last checkin.
+          type: string
+        environment:
+          description: Node environment name.
+          type: string
+        fqdn:
+          description: Node FQDN.
+          type: string
+        id:
+          description: Node ID.
+          type: string
+        ip_address:
+          description: Node IP address.
+          type: string
+        name:
+          description: Node name.
+          type: string
+        platform:
+          description: Node platform.
+          type: string
+        policy_group:
+          description: Node policy group.
+          type: string
+        uptime:
+          description: Node uptime.
+          type: string
+    chef.automate.api.infra_proxy.response.CookbookFileContent:
+      type: object
+      properties:
+        content:
+          description: Cookbook data file content.
+          type: string
+    chef.automate.api.infra_proxy.response.Role:
+      type: object
+      properties:
+        chef_type:
+          description: Type of the chef object.
+          type: string
+        default_attributes:
+          description: Role default attributes JSON.
+          type: string
+        description:
+          description: Descrption of the role.
+          type: string
+        json_class:
+          description: Json class name.
+          type: string
+        name:
+          description: Name of the role.
+          type: string
+        override_attributes:
+          description: Role override attributes JSON.
+          type: string
+        run_list:
+          description: Run list for the role.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.ExpandedRunList:
+      type: object
+      properties:
+        id:
+          description: ID of the run list collection.
+          type: string
+        run_list:
+          description: List of the run list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.RunList'
+    chef.automate.api.infra_proxy.response.ResetOrgAdminKey:
+      type: object
+      properties:
+        org:
+          description: Chef organization.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Org'
+    chef.automate.api.infra_proxy.response.Environment:
+      type: object
+      properties:
+        chef_type:
+          description: Chef object type.
+          type: string
+        cookbook_versions:
+          description: Environment versined cookbooks constraints.
+          type: object
+          additionalProperties:
+            type: string
+        default_attributes:
+          description: Environment default attributes JSON.
+          type: string
+        description:
+          description: Environment description.
+          type: string
+        json_class:
+          description: Environment JSON class.
+          type: string
+        name:
+          description: Environment name.
+          type: string
+        override_attributes:
+          description: Environment override attributes JSON.
+          type: string
+    chef.automate.api.infra_proxy.response.SourceOptions:
+      type: object
+      properties:
+        path:
+          description: Source options path.
+          type: string
+    chef.automate.api.infra_proxy.response.DataBag:
+      type: object
+      properties:
+        name:
+          description: Data bag name.
+          type: string
+    chef.automate.api.infra_proxy.response.Policygroup:
+      type: object
+      properties:
+        name:
+          description: Policygroup name.
+          type: string
+        policies:
+          description: Policygroup policyfiles.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.GroupPolicy'
+        uri:
+          description: policygroup uri.
+          type: string
+    chef.automate.api.infra_proxy.response.DeleteServer:
+      type: object
+      properties:
+        server:
+          description: Chef Infra Server.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Server'
+    chef.automate.api.infra_proxy.response.CreateOrg:
+      type: object
+      properties:
+        org:
+          description: Chef organization.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Org'
+    chef.automate.api.infra_proxy.request.CreateEnvironment:
+      type: object
+      properties:
+        cookbook_versions:
+          description: Environment versioned cookbooks constraints.
+          type: object
+          additionalProperties:
+            type: string
+        default_attributes:
+          description: Environment default attributes JSON.
+          type: object
+        description:
+          description: Environment description.
+          type: string
+        json_class:
+          description: Class name.
+          type: string
+        name:
+          description: Environment name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        override_attributes:
+          description: Environment override attributes JSON.
+          type: object
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+    chef.automate.api.infra_proxy.response.SCMDetail:
+      type: object
+      properties:
+        name:
+          description: SCM name.
+          type: string
+        published:
+          description: Source's published information.
+          type: boolean
+        remote:
+          description: SCM remote location.
+          type: string
+        revision:
+          description: SCM revision detail.
+          type: string
+        synchronized_remote_branches:
+          description: Synchronized remote branches list.
+          type: array
+          items:
+            type: string
+        working_tree_clean:
+          description: Boolean that denotes if the working tree is clean or not.
+          type: boolean
+    chef.automate.api.infra_proxy.response.EnvironmentRecipesList:
+      type: object
+      properties:
+        recipes:
+          description: Environment recipes list.
+          type: array
+          items:
+            type: string
+    chef.automate.api.infra_proxy.response.GetOrgs:
+      type: object
+      properties:
+        orgs:
+          description: Chef organization list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.Org'
+    chef.automate.api.infra_proxy.response.ResetClient:
+      type: object
+      properties:
+        client_key:
+          description: Client key detail.
+          $ref: '#/components/schemas/chef.automate.api.infra_proxy.response.ClientKey'
+        name:
+          description: Client name.
+          type: string
+    chef.automate.api.infra_proxy.request.CreateRole:
+      type: object
+      properties:
+        default_attributes:
+          description: Role default attributes JSON.
+          type: object
+        description:
+          description: Role description.
+          type: string
+        env_run_lists:
+          description: Environment based run list.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.infra_proxy.request.EnvRunList'
+        name:
+          description: Role name.
+          type: string
+        org_id:
+          description: Chef organization ID.
+          type: string
+        override_attributes:
+          description: Role override attributes JSON.
+          type: object
+        run_list:
+          description: Role run list.
+          type: array
+          items:
+            type: string
+        server_id:
+          description: Chef Infra Server ID.
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

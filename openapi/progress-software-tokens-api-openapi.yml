@@ -1,0 +1,471 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Tokens API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- description: Tokens are used for API access to Automate endpoints as well as by systems (e.g. Chef Infra Servers) to communicate with Automate.
+  name: Tokens
+  x-displayName: IAM API Tokens
+paths:
+  /apis/iam/v2/tokens:
+    get:
+      description: 'Lists all tokens, both admin and non-admin.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:tokens:list
+
+        ```'
+      tags:
+      - Tokens
+      summary: Lists all tokens
+      operationId: Tokens_ListTokens
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.ListTokensResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    post:
+      description: 'Creates a token.
+
+        Active defaults to true when not specified.
+
+        Value is auto-generated when not specified.
+
+
+        Note that this creates *non-admin* tokens that may then be assigned permissions via policies just like users or teams (unless you have already created policies that encompass all tokens using `tokens:*``).
+
+
+        You cannot create admin tokens via the REST API.
+
+        Admin tokens can only be created by specifying the `--admin` flag to this chef-automate sub-command:
+
+        ```
+
+        chef-automate iam token create --admin`
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        iam:tokens:create
+
+        ```'
+      tags:
+      - Tokens
+      summary: Creates a token
+      operationId: Tokens_CreateToken
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateTokenResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "token 1", "id": "token-1", "active": true, "projects": ["east-region", "west-region"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateTokenReq'
+        required: true
+  /apis/iam/v2/tokens/{id}:
+    get:
+      description: 'Returns the details for a token.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:tokens:get
+
+        ```'
+      tags:
+      - Tokens
+      summary: Gets a token
+      operationId: Tokens_GetToken
+      parameters:
+      - description: ID of the token.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.GetTokenResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'This operation overwrites all fields excepting ID, timestamps, and value,
+
+        including those omitted from the request, so be sure to specify all properties.
+
+        Properties that you do not include are reset to empty values.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:tokens:update
+
+        ```'
+      tags:
+      - Tokens
+      summary: Updates a token
+      operationId: Tokens_UpdateToken
+      parameters:
+      - description: Unique ID. Cannot be changed.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateTokenResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "updated token name", "active": true, "projects": ["east-region", "south-region"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateTokenReq'
+        required: true
+    delete:
+      description: 'Deletes a token and remove it from any policies.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:tokens:delete
+
+        ```'
+      tags:
+      - Tokens
+      summary: Deletes a token
+      operationId: Tokens_DeleteToken
+      parameters:
+      - description: ID of the token.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.DeleteTokenResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+components:
+  schemas:
+    chef.automate.api.iam.v2.GetTokenResp:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
+    chef.automate.api.iam.v2.CreateTokenResp:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.Token:
+      type: object
+      properties:
+        active:
+          description: 'Active state. Defaults to true.
+
+            If set to false, token will not authenticate.'
+          type: boolean
+        created_at:
+          description: Created timestamp.
+          type: string
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the token.
+          type: string
+        projects:
+          description: List of projects this token belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        updated_at:
+          description: Updated timestamp.
+          type: string
+        value:
+          description: Unique, optionally user-specified value.
+          type: string
+    chef.automate.api.iam.v2.CreateTokenReq:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        active:
+          description: 'Active state. Defaults to true.
+
+            If set to false, token will not be authenticated or authorized.'
+          type: boolean
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the token.
+          type: string
+        projects:
+          description: List of projects this token belongs to.
+          type: array
+          items:
+            type: string
+        value:
+          description: Unique value for the token; if omitted the system will generate this.
+          type: string
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
+    chef.automate.api.iam.v2.UpdateTokenReq:
+      type: object
+      required:
+      - name
+      properties:
+        active:
+          description: 'Active state. Defaults to true.
+
+            If set to false, token will not be authenticated or authorized.'
+          type: boolean
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the token.
+          type: string
+        projects:
+          description: List of projects this token belongs to.
+          type: array
+          items:
+            type: string
+      example:
+        active: true
+        name: updated token name
+        projects:
+        - east-region
+        - south-region
+    chef.automate.api.iam.v2.DeleteTokenResp:
+      type: object
+    chef.automate.api.iam.v2.ListTokensResp:
+      type: object
+      properties:
+        tokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        tokens:
+        - active: true
+          id: token-1
+          name: token 1
+          projects:
+          - east-region
+          - west-region
+        - active: false
+          id: token-2
+          name: token 2
+          projects:
+          - north-region
+          - south-region
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.iam.v2.UpdateTokenResp:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

@@ -1,0 +1,1833 @@
+openapi: 3.2.0
+info:
+  title: Progress Software Users API
+  x-refined-note:
+  - x-logo differs across the merged source definitions and was not carried
+  - x-swagger-net-version differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged users across 2 of this provider''s published API definitions: progress-software-chef-automate-openapi-original.json, progress-software-moveit-transfer-openapi-original.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://automate.chef.io
+- url: https://127.0.0.1
+tags:
+- description: IAM local users are not attached to external identity providers. They can be members of IAM teams and IAM policies.
+  name: Users
+  x-displayName: IAM Users
+paths:
+  /apis/iam/v2/self/{id}:
+    put:
+      description: 'Updates a local user''s own name or password.
+
+        If changing the password, both "password" and "previous_password" are required.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:usersSelf:update
+
+        ```'
+      tags:
+      - Users
+      summary: Update self (as user)
+      operationId: Users_UpdateSelf
+      parameters:
+      - description: ID of the user. Cannot be changed. Used to sign in.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateSelfResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "My New Name", "password": "aNewSafePassword", "previous_password": "aPreviousSafePassword"}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateSelfReq'
+        required: true
+    servers:
+    - url: https://automate.chef.io
+  /apis/iam/v2/users:
+    get:
+      description: 'Lists all local users.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:users:list
+
+        ```'
+      tags:
+      - Users
+      summary: List all users
+      operationId: Users_ListUsers
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.ListUsersResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    post:
+      description: 'Creates a local user that can sign in to Automate and be a member of IAM teams
+
+        and IAM policies.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:users:create
+
+        ```'
+      tags:
+      - Users
+      summary: Create a user
+      operationId: Users_CreateUser
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateUserResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "Display Name", "id": "username001rulez", "password": "aSafePassword"}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateUserReq'
+        required: true
+    servers:
+    - url: https://automate.chef.io
+  /apis/iam/v2/users/{id}:
+    get:
+      description: 'Returns the details for a local user.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:users:get
+
+        ```'
+      tags:
+      - Users
+      summary: Get a user
+      operationId: Users_GetUser
+      parameters:
+      - description: ID of the user.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.GetUserResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'Updates a local user''s name or password.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:users:update
+
+        ```'
+      tags:
+      - Users
+      summary: Update a user
+      operationId: Users_UpdateUser
+      parameters:
+      - description: ID of the user. Cannot be changed. Used to sign in.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateUserResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "New Name", "password": "aSafePassword"}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateUserReq'
+        required: true
+    delete:
+      description: 'Deletes a local user.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:users:delete
+
+        ```'
+      tags:
+      - Users
+      summary: Delete a user
+      operationId: Users_DeleteUser
+      parameters:
+      - description: ID of the user.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.DeleteUserResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    servers:
+    - url: https://automate.chef.io
+  /api/v1/users/self:
+    get:
+      tags:
+      - Users
+      summary: Get current user details
+      operationId: GETapi/v1/users/self-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users/{Id}:
+    get:
+      tags:
+      - Users
+      summary: Get user details
+      operationId: GETapi/v1/users/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    delete:
+      tags:
+      - Users
+      summary: Delete user
+      operationId: DELETEapi/v1/users/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    patch:
+      tags:
+      - Users
+      summary: Partial user update
+      operationId: PATCHapi/v1/users/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of user to update
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserPatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UserPatchModel'
+        description: Request body.
+        required: true
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users/{Id}/groups:
+    get:
+      tags:
+      - Users
+      summary: Get list of user groups
+      operationId: GETapi/v1/users/{Id}/groups?Page={Page}&PerPage={PerPage}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: User ID.
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserGroupModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserGroupModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserGroupModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users/self/externaltokens:
+    get:
+      tags:
+      - Users
+      summary: Get current user external tokens
+      operationId: GETapi/v1/users/self/externaltokens?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (TokenId, LastUsed, RegisteredAt or TokenType); Default is DisplayName.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserExternalTokenModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserExternalTokenModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserExternalTokenModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Users
+      summary: Register an external token with the current user's account
+      operationId: POSTapi/v1/users/self/externaltokens-1.0
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterExternalTokenRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RegisterExternalTokenRequest'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/RegisterExternalTokenRequest'
+        description: Request to register an external token with the current user account.
+        required: true
+    delete:
+      tags:
+      - Users
+      summary: Delete external token of the current user using the encoded token string
+      operationId: DELETEapi/v1/users/self/externaltokens-1.0
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrentUserDeleteExternalTokenByTokenRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CurrentUserDeleteExternalTokenByTokenRequest'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/CurrentUserDeleteExternalTokenByTokenRequest'
+        description: Request to delete an external token using the encoded token string.
+        required: true
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users/{Id}/externaltokens:
+    get:
+      tags:
+      - Users
+      summary: Get user external tokens
+      operationId: GETapi/v1/users/{Id}/externaltokens?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: User ID.
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (TokenId, LastUsed, RegisteredAt or TokenType); Default is DisplayName.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserExternalTokenModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserExternalTokenModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfUserExternalTokenModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users:
+    get:
+      tags:
+      - Users
+      summary: Get list of users
+      operationId: GETapi/v1/users?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}&Permission={Permission}&Status={Status}&Username={Username}&FullName={FullName}&Email={Email}&IsExactMatch={IsExactMatch}&OrgId={OrgId}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (username, fullname, lastLoginStamp or email); Default is username.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: permission
+        in: query
+        description: User permission filter.
+        required: false
+        schema:
+          type: string
+          enum:
+          - AllUsers
+          - EndUsers
+          - Administrators
+          - FileAdmins
+          - GroupAdmins
+          - TemporaryUsers
+          - SysAdmins
+          - AuditUsers
+      - name: status
+        in: query
+        description: User status filter.
+        required: false
+        schema:
+          type: string
+          enum:
+          - AllUsers
+          - ActiveUsers
+          - InactiveUsers
+          - NeverSignedOnUsers
+          - TemplateUsers
+      - name: username
+        in: query
+        description: User login name.
+        required: false
+        schema:
+          type: string
+      - name: fullName
+        in: query
+        description: User full name.
+        required: false
+        schema:
+          type: string
+      - name: email
+        in: query
+        description: User email.
+        required: false
+        schema:
+          type: string
+      - name: isExactMatch
+        in: query
+        description: If true, it will search for exact match of username, fullname and email.
+        required: false
+        schema:
+          type: boolean
+      - name: orgId
+        in: query
+        description: Organization ID. (For sysadmin users only. For non sysadmin users current user organization ID is used.)
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Users
+      summary: Create new user
+      description: If SourceUserId specified in user model clone operation will be executed
+      operationId: POSTapi/v1/users-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUserModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AddUserModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/AddUserModel'
+        required: true
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users/self/externaltokens/{Id}:
+    delete:
+      tags:
+      - Users
+      summary: Delete external token of the current user
+      operationId: DELETEapi/v1/users/self/externaltokens/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Token ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    servers:
+    - url: https://127.0.0.1
+  /api/v1/users/{UserId}/externaltokens/{Id}:
+    delete:
+      tags:
+      - Users
+      summary: Delete external token of the user
+      operationId: DELETEapi/v1/users/{UserId}/externaltokens/{Id}-1.0
+      parameters:
+      - name: UserId
+        in: path
+        description: User ID.
+        required: true
+        schema:
+          type: string
+      - name: Id
+        in: path
+        description: Token ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    servers:
+    - url: https://127.0.0.1
+components:
+  schemas:
+    chef.automate.api.iam.v2.UpdateSelfReq:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          description: ID of the user. Cannot be changed. Used to sign in.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
+        password:
+          description: 'New password for user. Used to sign in.
+
+            Optional, but if included, previous_password is also required.'
+          type: string
+        previous_password:
+          description: 'Previous password for user.
+
+            Optional, but if included, password is also required.'
+          type: string
+      example:
+        name: My New Name
+        password: aNewSafePassword
+        previous_password: aPreviousSafePassword
+    chef.automate.api.iam.v2.CreateUserResp:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.DeleteUserResp:
+      type: object
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.ListUsersResp:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.UpdateSelfResp:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.UpdateUserResp:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.GetUserResp:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.User:
+      type: object
+      properties:
+        id:
+          description: Unique ID. Cannot be changed. Used to log in.
+          type: string
+        membership_id:
+          description: Unique ID used to add local users to local teams. Cannot be changed.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
+    chef.automate.api.iam.v2.CreateUserReq:
+      type: object
+      required:
+      - id
+      - name
+      - password
+      properties:
+        id:
+          description: Unique ID. Cannot be changed. Used to sign in.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
+        password:
+          description: Password for user. Used to sign in.
+          type: string
+      example:
+        id: username001rulez
+        name: Display Name
+        password: aSafePassword
+    chef.automate.api.iam.v2.UpdateUserReq:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          description: ID of the user. Cannot be changed. Used to sign in.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
+        password:
+          description: Password used to log in. Will overwrite preexisting password.
+          type: string
+      example:
+        name: New Name
+        password: aSafePassword
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    DisplaySettingsModel:
+      description: Information about configured display setting
+      properties:
+        userListPageSize:
+          description: User/group entries per page
+          type: integer
+          format: int32
+        fileListPageSize:
+          description: Files/folders entries per page
+          type: integer
+          format: int32
+        liveViewPageSize:
+          description: Live transfer entries per page
+          type: integer
+          format: int32
+      xml:
+        name: DisplaySettingsModel
+      type: object
+    UserGroupModel:
+      description: Represents a group that a specific user is a member of, including the relationship that user has with the group.
+      properties:
+        relationship:
+          description: User Group relationship
+          type: string
+          enum:
+          - Member
+          - GroupAdmin
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
+          type: string
+      xml:
+        name: UserGroupModel
+      type: object
+    UserDetailsModel:
+      description: Detailed user model.
+      properties:
+        emailFormat:
+          description: Format of email notifications user receives.
+          type: string
+          enum:
+          - HTML
+          - Text
+        notes:
+          description: User description.
+          type: string
+        statusNote:
+          description: User security status description.
+          type: string
+        passwordChangeStamp:
+          description: Time of last user password change. Null if user hasn't changed password yet
+          type: string
+        receivesNotification:
+          description: User email notifications setting.
+          type: string
+          enum:
+          - ReceivesNoNotifications
+          - ReceivesNotifications
+          - AdminReceivesNotifications
+        forceChangePassword:
+          description: If set to 1, user must change their password on their next login.
+          type: boolean
+        folderQuota:
+          description: User quota value, or 0 for no quota.
+          type: integer
+          format: int64
+        totalFileSize:
+          description: Total size of all files
+          type: integer
+          format: int64
+        authMethod:
+          description: 'User authentication method; only takes effect if the organization
+
+            is set to "External then MOVEit" authentication.'
+          type: string
+          enum:
+          - MOVEitOnly
+          - ExternalOnly
+          - Both
+        language:
+          description: User language code.
+          type: string
+        homeFolderID:
+          description: ID of user home folder, or 0 for no home folder.
+          type: integer
+          format: int64
+        defaultFolderID:
+          description: ID of user default folder; 0 indicates the home folder is the default folder.
+          type: integer
+          format: int64
+        expirationPolicyID:
+          description: ID of the expiration policy configured for this user, or 0 for no policy.
+          type: integer
+          format: int32
+        displaySettings:
+          $ref: '#/components/schemas/DisplaySettingsModel'
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: UserDetailsModel
+      type: object
+    UserPatchModel:
+      description: Contains the user properties that should change
+      properties:
+        authMethod:
+          description: Auth method type
+          type: string
+          enum:
+          - MOVEitOnly
+          - ExternalOnly
+          - Both
+        defaultFolderId:
+          description: Default folder ID
+          type: integer
+          format: int64
+        email:
+          description: Email address
+          type: string
+        emailFormat:
+          description: Email format type
+          type: string
+          enum:
+          - HTML
+          - Text
+        forceChangePassword:
+          description: Force password change
+          type: boolean
+        language:
+          description: Language
+          type: string
+        notes:
+          description: Notes
+          type: string
+        receivesNotification:
+          description: Notification type
+          type: string
+          enum:
+          - ReceivesNoNotifications
+          - ReceivesNotifications
+          - AdminReceivesNotifications
+        currentPassword:
+          description: Current user password; required if the current user is updating their own password
+          type: string
+        password:
+          description: User password
+          type: string
+        sendPasswordChangeNotification:
+          description: 'When set to True, sends a notification to the user either informing them about
+
+            a newly set password, or providing a link for them to reset their own password,
+
+            depending on the configuration of the organization.'
+          type: boolean
+        permission:
+          description: User permission type
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        folderQuota:
+          description: User quota
+          type: integer
+          format: int64
+        fullName:
+          description: Real name of user
+          type: string
+        status:
+          description: User status type
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        statusNote:
+          description: User status note
+          type: string
+      xml:
+        name: UserPatchModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    CurrentUserDeleteExternalTokenByTokenRequest:
+      description: Request to delete an external token using the encoded token string.
+      properties:
+        type:
+          description: Type of token
+          type: string
+          enum:
+          - MicrosoftOutlook
+        token:
+          description: Token content
+          type: string
+      xml:
+        name: CurrentUserDeleteExternalTokenByTokenRequest
+      type: object
+    PagedModelOfSimpleUserModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleUserModel'
+          readOnly: true
+          xml:
+            name: SimpleUserModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    RegisterExternalTokenRequest:
+      description: Request to register an external token with the current user account.
+      properties:
+        check:
+          description: When true, check if token will be accepted, but do not register it
+          type: boolean
+        type:
+          description: Type of token
+          type: string
+          enum:
+          - MicrosoftOutlook
+        token:
+          description: Token content
+          type: string
+      xml:
+        name: RegisterExternalTokenRequest
+      type: object
+    PagedModelOfUserGroupModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/UserGroupModel'
+          readOnly: true
+          xml:
+            name: UserGroupModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    UserExternalTokenModel:
+      properties:
+        id:
+          description: ID of the token in the database.
+          type: string
+        tokenID:
+          description: ID of the external token.
+          type: string
+        instID:
+          description: ID of the organization this external token exists in.
+          type: integer
+          format: int32
+        displayName:
+          description: "Display Name of the external token. \nDefaults to user's email address."
+          type: string
+        registeredAt:
+          description: Time of token registration.
+          type: string
+        lastUsed:
+          description: Time of last token use.
+          type: string
+        tokenType:
+          description: External Token Type.
+          type: string
+          enum:
+          - MicrosoftOutlook
+      xml:
+        name: UserExternalTokenModel
+      type: object
+    PagedModelOfUserExternalTokenModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/UserExternalTokenModel'
+          readOnly: true
+          xml:
+            name: UserExternalTokenModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    SimpleUserModel:
+      description: Simple user model for user lists.
+      properties:
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: SimpleUserModel
+      type: object
+    AddUserModel:
+      properties:
+        sourceUserId:
+          description: Source user ID to clone from.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        username:
+          description: User login name.
+          type: string
+        password:
+          description: User password.
+          type: string
+        email:
+          description: User email address.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        forceChangePassword:
+          description: If set to true, user must change his password on his next login.
+          type: boolean
+        orgID:
+          description: 'ID of organization new user has to be member of.
+
+            Will be used only when client user is SysAdmin.
+
+            Otherwise it will be ignored and current user organization ID will be used.'
+          type: integer
+          format: int32
+        notes:
+          description: User description.
+          type: string
+        homeFolderPath:
+          description: 'Path of user home folder to create.
+
+            If empty no home folder will be created.'
+          type: string
+        homeFolderInUseOption:
+          description: 'Describes a behavior when
+
+            specified home folder is already in use'
+          type: string
+          enum:
+          - AllowIfExists
+          - DenyIfExists
+      xml:
+        name: AddUserModel
+      type: object
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header
+x-refined-from:
+- progress-software-chef-automate-openapi-original.json
+- progress-software-moveit-transfer-openapi-original.json
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

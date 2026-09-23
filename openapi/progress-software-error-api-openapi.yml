@@ -1,0 +1,65 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Error API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: Error
+paths:
+  /api/v1/errors/{errorType}:
+    get:
+      tags:
+      - Error
+      summary: Utility method to test how errors are handled
+      description: 'If a valid error is triggered, the return information will be in this format:
+
+
+        { "error": { "status": CODE, "code": "ERRORTYPE", "message": "ERRORMESSAGE" } }'
+      operationId: Error_InduceError
+      parameters:
+      - name: errorType
+        in: path
+        description: The type of error to induce
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+components:
+  schemas:
+    Result_String:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: string
+          readOnly: true
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

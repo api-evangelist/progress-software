@@ -1,0 +1,504 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Retention API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: Retention
+  x-displayName: Service Management
+paths:
+  /api/v0/retention/service_groups/delete_disconnected_services/config:
+    get:
+      description: 'Displays configuration for the task that deletes services marked as disconnected
+
+        after ''threshold''. Threshold is a string that follows Elasticsearch''s date math expressions.
+
+        This job is disabled if running is set to false.
+
+
+        Authorization Action:
+
+        ```
+
+        retention:serviceGroups:get
+
+        ```'
+      tags:
+      - Retention
+      summary: Show 'Remove Disconnected Services' Configuration
+      operationId: ApplicationsService_GetDeleteDisconnectedServicesConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.PeriodicJobConfig'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    post:
+      description: 'Updates configuration information for the task that deletes services marked as disconnected
+
+        after ''threshold''. Threshold is a string that follows Elasticsearch''s date math expressions.
+
+        This job can be disabled by setting `"running": false`.
+
+
+        The frequency of the job''s execution can be modified by changing the
+
+        ''recurrence''. This setting is a string
+
+        as defined in section 4.3.10 of RFC 2445.
+
+        By default, the task runs every 60 seconds. It is not recommended to change
+
+        the recurrence.
+
+
+        Example:
+
+        ```
+
+        service_groups/delete_disconnected_services/config" -d
+
+        ''{
+
+        "threshold": "1d",
+
+        "running":true,
+
+        "recurrence": "FREQ=SECONDLY;DTSTART=20200612T182166Z;INTERVAL=60"
+
+        }''
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        retention:serviceGroups:update
+
+        ```'
+      tags:
+      - Retention
+      summary: Change 'Remove Disconnected Services' Configuration
+      operationId: ApplicationsService_UpdateDeleteDisconnectedServicesConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.applications.PeriodicJobConfig'
+        required: true
+  /api/v0/retention/service_groups/delete_disconnected_services/run:
+    post:
+      tags:
+      - Retention
+      operationId: ApplicationsService_RunDeleteDisconnectedServicesJob
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq'
+        required: true
+      summary: Applications service run delete disconnected services job
+      x-summary-source: derived
+  /api/v0/retention/service_groups/disconnected_services/config:
+    get:
+      description: 'Returns the configuration for the task that marks services as disconnected. The `threshold` setting defines the period of time between the last report from a node and the moment when Chef Automate marks it as disconnected. `Threshold` is a string that follows Elasticsearch''s date math expressions.
+
+        This task is always enabled, cannot be disabled. Because this task runs continuously, the response does not return information about its status.
+
+
+        Authorization Action:
+
+        ```
+
+        retention:serviceGroups:get
+
+        ```'
+      tags:
+      - Retention
+      summary: Show 'Disconnected Services' configuration
+      operationId: ApplicationsService_GetDisconnectedServicesConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.PeriodicMandatoryJobConfig'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    post:
+      description: 'Changes the configuration for the task that marks services as disconnected.
+
+
+        The periodic task to check for disconnected services can be enabled or
+
+        disabled by setting the ''running'' setting to `true` or `false`, respectively.
+
+        When disabled, no services will be marked disconnected, regardless of the
+
+        time that has elapsed since the last health check. It is not recommened to
+
+        disable the job.
+
+
+        The frequency of the job''s execution can be modified by changing the
+
+        ''recurrence''. This setting is a string
+
+        as defined in section 4.3.10 of RFC 2445.
+
+        By default, the task runs every 60 seconds. It is not recommended to change
+
+        the recurrence.
+
+
+        When enabled, services are marked disconnected when the time elapsed since
+
+        Automate last received a health check exceeds ''threshold''. Threshold is a
+
+        string that follows Elasticsearch''s date math expressions.
+
+
+        Example:
+
+        ```
+
+        /retention/service_groups/disconnected_services/config
+
+        ''{
+
+        "threshold": "15m",
+
+        "running": true,
+
+        "recurrence": "FREQ=SECONDLY;DTSTART=20200612T182166Z;INTERVAL=60"
+
+        }''
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        retention:serviceGroups:update
+
+        ```'
+      tags:
+      - Retention
+      summary: Change 'Disconnected Services' Configuration
+      operationId: ApplicationsService_UpdateDisconnectedServicesConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.UpdateDisconnectedServicesConfigRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.applications.PeriodicMandatoryJobConfig'
+        required: true
+  /api/v0/retention/service_groups/disconnected_services/run:
+    post:
+      description: 'Authorization Action:
+
+        ```
+
+        retention:serviceGroups:update
+
+        ```'
+      tags:
+      - Retention
+      summary: Runs the job to mark services as disconnected immediately
+      operationId: ApplicationsService_RunDisconnectedServicesJob
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.RunDisconnectedServicesJobResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.applications.RunDisconnectedServicesJobReq'
+        required: true
+components:
+  schemas:
+    chef.automate.api.applications.PeriodicMandatoryJobConfig:
+      description: 'Configuration for a periodic job. Initially Jobs using this message type
+
+        were designed such that they could not be disabled, but that has been
+
+        changed to make the various data lifecycle APIs consistent with each other.
+
+        Thus, there is a `running` field which will disable the job if set to false.
+
+        That is not recommended.'
+      type: object
+      properties:
+        job_info:
+          description: 'Information about the last and next scheduled executions of the job. This
+
+            is only used in a response context.'
+          $ref: '#/components/schemas/chef.automate.api.applications.PeriodicJobInfo'
+        recurrence:
+          description: 'A recurrence rule that determines how often, at what interval, and when to
+
+            initially start a scheduled job.
+
+
+            If the field is omitted from the request or is set to an emtpy string, no
+
+            change will be made to the current value. Otherwise, the value should match
+
+            the  [recurrence rule format defined in section 4.3.10 of RFC 2445](https://www.ietf.org/rfc/rfc2445.txt).
+
+
+            It is not recommended to change this value from the default setting of a
+
+            60 second interval. This configuration option is provided only for
+
+            consistency with other data lifecyle APIs.'
+          type: string
+        running:
+          description: 'Enable/disable the job. `false` is disabled, `true` is enabled. It is not
+
+            recommended to disable this job.'
+          type: boolean
+        threshold:
+          description: 'The `threshold` setting used by periodic jobs for evaluating services.
+
+            Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
+          type: string
+    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
+      type: object
+    chef.automate.api.applications.RunDisconnectedServicesJobReq:
+      type: object
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse:
+      type: object
+    chef.automate.api.applications.PeriodicJobInfo:
+      description: 'PeriodicJobInfo gives information about the last and next scheduled
+
+        executions of a periodic job.'
+      type: object
+      properties:
+        last_elapsed:
+          type: string
+        last_ended_at:
+          type: string
+          format: date-time
+        last_enqueued_at:
+          type: string
+          format: date-time
+        last_started_at:
+          type: string
+          format: date-time
+        next_due_at:
+          type: string
+          format: date-time
+    chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq:
+      type: object
+    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
+      type: object
+    chef.automate.api.applications.PeriodicJobConfig:
+      description: Periodic job configuration.
+      type: object
+      properties:
+        job_info:
+          $ref: '#/components/schemas/chef.automate.api.applications.PeriodicJobInfo'
+        recurrence:
+          description: 'A recurrence rule that determines how often, at what interval, and when to
+
+            initially start a scheduled job.
+
+
+            If the field is omitted from the request or is set to an emtpy string, no
+
+            change will be made to the current value. Otherwise, the value should match
+
+            the  [recurrence rule format defined in section 4.3.10 of RFC 2445](https://www.ietf.org/rfc/rfc2445.txt).
+
+
+            It is not recommended to change this value from the default setting of a
+
+            60 second interval. This configuration option is provided only for
+
+            consistency with other data lifecyle APIs.'
+          type: string
+        running:
+          description: Enable/disable the job. `false` is disabled, `true` is enabled.
+          type: boolean
+        threshold:
+          description: 'The `threshold` setting used by periodic jobs for evaluating services.
+
+            Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
+      type: object
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

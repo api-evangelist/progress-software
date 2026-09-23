@@ -1,0 +1,1238 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Security Settings API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Security Settings
+paths:
+  /api/v1/settings/security/ipwhitelist:
+    get:
+      tags:
+      - Security Settings
+      summary: Lists all IP Whitelist entries in user's organization
+      operationId: GETapi/v1/settings/security/ipwhitelist?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (IPAddress, Id, Comment); Default is IPAddress.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfWhitelistedIPDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfWhitelistedIPDto'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfWhitelistedIPDto'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Security Settings
+      summary: Adds a new IP Whitelist entry
+      operationId: POSTapi/v1/settings/security/ipwhitelist-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IPWhitelistResponseModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IPWhitelistResponseModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/IPWhitelistResponseModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IPWhitelistRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/IPWhitelistRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/IPWhitelistRequestModel'
+        description: Request body containing IP Address / IP Address range and comment
+        required: true
+  /api/v1/settings/security/password/aging/policies:
+    get:
+      tags:
+      - Security Settings
+      summary: List password aging policies
+      operationId: GETapi/v1/settings/security/password/aging/policies?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (name); Default is Name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimplePasswordAgingPolicyModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimplePasswordAgingPolicyModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimplePasswordAgingPolicyModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Security Settings
+      summary: Create password aging policy
+      operationId: POSTapi/v1/settings/security/password/aging/policies-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordAgingPolicyModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PasswordAgingPolicyModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PasswordAgingPolicyModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordAgingPolicyAddModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PasswordAgingPolicyAddModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/PasswordAgingPolicyAddModel'
+        required: true
+  /api/v1/settings/security/userauth/expiration/policies:
+    get:
+      tags:
+      - Security Settings
+      summary: List user auth expiration policies
+      operationId: GETapi/v1/settings/security/userauth/expiration/policies?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (name); Default is Name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleExpirationPolicyModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleExpirationPolicyModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleExpirationPolicyModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Security Settings
+      summary: Create user auth expiration policy
+      operationId: POSTapi/v1/settings/security/userauth/expiration/policies-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpirationPolicyModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExpirationPolicyModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ExpirationPolicyModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpirationPolicyAddModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ExpirationPolicyAddModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/ExpirationPolicyAddModel'
+        required: true
+  /api/v1/settings/security/ipwhitelist/{entryId}:
+    put:
+      tags:
+      - Security Settings
+      summary: Updates / replaces an existing IP Whitelist entry
+      operationId: PUTapi/v1/settings/security/ipwhitelist/{entryId}-1.0
+      parameters:
+      - name: entryId
+        in: path
+        description: Entry ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IPWhitelistResponseModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IPWhitelistResponseModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/IPWhitelistResponseModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IPWhitelistRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/IPWhitelistRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/IPWhitelistRequestModel'
+        description: Request body containing IP Address / IP Address range and comment
+        required: true
+    delete:
+      tags:
+      - Security Settings
+      summary: Removes an IP Whitelist entry
+      operationId: DELETEapi/v1/settings/security/ipwhitelist/{entryId}-1.0
+      parameters:
+      - name: entryId
+        in: path
+        description: Entry ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/settings/security/remoteaccess/rules:
+    post:
+      tags:
+      - Security Settings
+      summary: Create new default rule for remote access
+      operationId: POSTapi/v1/settings/security/remoteaccess/rules-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteAccessRuleModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RemoteAccessRuleModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/RemoteAccessRuleModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoteAccessRuleAddModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RemoteAccessRuleAddModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/RemoteAccessRuleAddModel'
+        required: true
+  /api/v1/settings/security/password/permissions:
+    post:
+      tags:
+      - Security Settings
+      summary: Update password permissions settings
+      operationId: POSTapi/v1/settings/security/password/permissions-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordPermissionsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PasswordPermissionsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PasswordPermissionsModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordPermissionsUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PasswordPermissionsUpdateRequest'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/PasswordPermissionsUpdateRequest'
+        required: true
+  /api/v1/settings/security/password/aging:
+    patch:
+      tags:
+      - Security Settings
+      summary: Update account user password aging policy
+      operationId: PATCHapi/v1/settings/security/password/aging-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserClassPasswordAgingPolicyModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserClassPasswordAgingPolicyModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UserClassPasswordAgingPolicyModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserClassPasswordAgingPolicyPatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserClassPasswordAgingPolicyPatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UserClassPasswordAgingPolicyPatchModel'
+        required: true
+  /api/v1/settings/security/userauth/expiration:
+    patch:
+      tags:
+      - Security Settings
+      summary: Update account user auth expiration policy
+      operationId: PATCHapi/v1/settings/security/userauth/expiration-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserClassExpirationPolicyModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserClassExpirationPolicyModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UserClassExpirationPolicyModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserClassExpirationPolicyPatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserClassExpirationPolicyPatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UserClassExpirationPolicyPatchModel'
+        required: true
+components:
+  schemas:
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    ExpirationPolicyModel:
+      description: Represents user auth expiration policy required for all scenarios
+      properties:
+        description:
+          description: Expiration policy description
+          type: string
+        expireDate:
+          description: Expire after date
+          type: string
+        creationExpireTime:
+          description: Expire X day(s) after creation
+          type: integer
+          format: int32
+        activityExpireTime:
+          description: Expire X day(s) after last activity
+          type: integer
+          format: int32
+        expireAfterActivityIncludesPkgs:
+          description: Receiving packages counts as "activity"
+          type: boolean
+        signonExpireNumber:
+          description: Expire after (x) successful signon(s)
+          type: integer
+          format: int32
+        expireWarnTime:
+          description: Warn (x) day(s) before expiration
+          type: integer
+          format: int32
+        expirationNotice:
+          description: Notify user when their account expires
+          type: boolean
+        numUsing:
+          description: Number of expiration policy using
+          type: integer
+          format: int32
+        id:
+          description: Expiration policy id
+          type: integer
+          format: int32
+        name:
+          description: Expiration policy name
+          type: string
+      xml:
+        name: ExpirationPolicyModel
+      type: object
+    ExpirationPolicyAddModel:
+      description: Represents data required for create user auth expiration policy
+      properties:
+        name:
+          description: Expiration policy name
+          type: string
+        description:
+          description: Expiration policy description. Default is empty string.
+          type: string
+        expireDate:
+          description: Expire after date
+          type: string
+        creationExpireTime:
+          description: Expire X day(s) after creation. Default is -1.
+          type: integer
+          format: int32
+        activityExpireTime:
+          description: Expire X day(s) after last activity. Default is -1.
+          type: integer
+          format: int32
+        expireAfterActivityIncludesPkgs:
+          description: Receiving packages counts as "activity". Default is false
+          type: boolean
+        signonExpireNumber:
+          description: Expire after (x) successful signon(s). Default is -1.
+          type: integer
+          format: int32
+        expireWarnTime:
+          description: Warn (x) day(s) before expiration. Default is -1.
+          type: integer
+          format: int32
+        expirationNotice:
+          description: Notify user when their account expires (Default is false)
+          type: boolean
+      xml:
+        name: ExpirationPolicyAddModel
+      type: object
+    PagedModelOfSimplePasswordAgingPolicyModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimplePasswordAgingPolicyModel'
+          readOnly: true
+          xml:
+            name: SimplePasswordAgingPolicyModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    UserClassPasswordAgingPolicyModel:
+      description: Represents account user password aging policy required for all scenarios
+      properties:
+        adminPasswordAgingPolicyId:
+          description: Admin password aging policy id.
+          type: integer
+          format: int32
+        fileAdminPasswordAgingPolicyId:
+          description: File admin password aging policy id.
+          type: integer
+          format: int32
+        userPasswordAgingPolicyId:
+          description: End user password aging policy id.
+          type: integer
+          format: int32
+        tempUserPasswordAgingPolicyId:
+          description: Temporary user password aging policy id.
+          type: integer
+          format: int32
+      xml:
+        name: UserClassPasswordAgingPolicyModel
+      type: object
+    PasswordPermissionsModel:
+      description: Represents password permissions settings.
+      properties:
+        passwordChangeEmailNotificationType:
+          description: 'Email notification type while Admins and GroupAdmins creating or editing users.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - SendPasswordByEmail
+          - SendResetLinkByEmail
+        allowToChangeOwnPassword:
+          description: 'Allow end users to change their own passwords after signing on(e.g., from "My Account").
+
+            Default is false.'
+          type: boolean
+        allowPasswordChangeRequests:
+          description: 'Allow end users to reset their own passwords without signing on (Email "Reset Password" links to users who request them from the signon page).
+
+            Default is false.'
+          type: boolean
+        isRecaptchaRequired:
+          description: 'Require users to respond to reCAPTCHA when resetting their password without signing on.
+
+            To enable this option reCAPTCHA should be configured.
+
+            Default is false.'
+          type: boolean
+        isSecurityQuestionsRequired:
+          description: 'Require users to answer security questions when resetting their password without signing on.
+
+            NOTE: Users will be required to select and answer security questions at next sign-on.
+
+            Default is false.'
+          type: boolean
+        passwordEmailLinkMaxAge:
+          description: Email links used in "Set Password" and "Reset Password" processes will expire after X minutes.
+          type: integer
+          format: int32
+      xml:
+        name: PasswordPermissionsModel
+      type: object
+    SimpleExpirationPolicyModel:
+      description: Represents simple user auth expiration policy required for all scenarios
+      properties:
+        id:
+          description: Expiration policy id
+          type: integer
+          format: int32
+        name:
+          description: Expiration policy name
+          type: string
+      xml:
+        name: SimpleExpirationPolicyModel
+      type: object
+    SimplePasswordAgingPolicyModel:
+      description: Represents simple password aging policy required for all scenarios
+      properties:
+        id:
+          description: Password aging policy id.
+          type: integer
+          format: int32
+        name:
+          description: Password aging policy name.
+          type: string
+      xml:
+        name: SimplePasswordAgingPolicyModel
+      type: object
+    IPWhitelistResponseModel:
+      properties:
+        id:
+          description: Rule Id.
+          type: integer
+          format: int32
+        ipAddress:
+          description: Whitelisted IP Address or IP Address Range.
+          type: string
+        comment:
+          description: Comment.
+          type: string
+      xml:
+        name: IPWhitelistResponseModel
+      type: object
+    UserClassExpirationPolicyPatchModel:
+      description: Represents data required for update account user auth expiration policy
+      properties:
+        userPermission:
+          description: User permission type.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+        policyId:
+          description: User expiration policy id. Use "0" to set "None" value.
+          type: integer
+          format: int32
+        applyToExistingUsers:
+          description: Apply expiration policy to existing users. Default is true.
+          type: boolean
+      xml:
+        name: UserClassExpirationPolicyPatchModel
+      type: object
+    UserClassPasswordAgingPolicyPatchModel:
+      description: Represents data required for update account user password aging policy
+      properties:
+        userPermission:
+          description: User permission type.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+        policyId:
+          description: User password aging policy id. Use "0" to set "None" value.
+          type: integer
+          format: int32
+        applyToExistingUsers:
+          description: Apply password aging policy to existing users. Default is true.
+          type: boolean
+      xml:
+        name: UserClassPasswordAgingPolicyPatchModel
+      type: object
+    WhitelistedIPDto:
+      properties:
+        id:
+          description: Rule Id.
+          type: integer
+          format: int32
+        ipAddress:
+          description: Whitelisted IP Address or IP Address Range.
+          type: string
+        comment:
+          description: Comment.
+          type: string
+      xml:
+        name: WhitelistedIPDto
+      type: object
+    PasswordAgingPolicyAddModel:
+      description: Represents data required for create password aging policy
+      properties:
+        name:
+          description: Password aging policy name.
+          type: string
+        description:
+          description: Password aging policy description.
+          type: string
+        passwordAgeTime:
+          description: Password expires every (x) days. Default is -1.
+          type: integer
+          format: int32
+        passwordAgeWarn:
+          description: Indicate days remaining at sign on and using email beginning (x) day(s) in advance. Default is -1.
+          type: integer
+          format: int32
+        passwordAgeGrace:
+          description: 'Enable a grace period (x) day(s) after password expires. Default is -1.
+
+            After the grace period the user account will be suspended and an administrator must reactivate it.'
+          type: integer
+          format: int32
+      xml:
+        name: PasswordAgingPolicyAddModel
+      type: object
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
+      properties:
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+    RemoteAccessRuleAddModel:
+      description: Represents data required for create remote access default rule
+      required:
+      - host
+      - permitType
+      properties:
+        rule:
+          description: Rule type (Allow/Deny).
+          type: string
+          enum:
+          - Deny
+          - Allow
+        host:
+          description: Hostname/IP.
+          type: string
+        permitType:
+          description: Permit type.
+          type: string
+          enum:
+          - Admin
+          - EndUser
+        priority:
+          description: Rule priority level.
+          type: string
+          enum:
+          - Highest
+          - Middle
+          - Lowest
+        comment:
+          description: Rule comment.
+          type: string
+      xml:
+        name: RemoteAccessRuleAddModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    RemoteAccessRuleModel:
+      description: Represents remote access rule data required for all scenarios
+      properties:
+        id:
+          description: Rule Id.
+          type: string
+        orgId:
+          description: Organization Id.
+          type: string
+        rule:
+          description: Rule type (Allow/Deny).
+          type: string
+          enum:
+          - Deny
+          - Allow
+        host:
+          description: Hostname/IP.
+          type: string
+        permitType:
+          description: Permit type.
+          type: string
+          enum:
+          - Admin
+          - EndUser
+        comment:
+          description: Comment.
+          type: string
+        priority:
+          description: Rule priority.
+          type: string
+        hostnameLookup:
+          description: Hostname lookup.
+          type: string
+      xml:
+        name: RemoteAccessRuleModel
+      type: object
+    PagedModelOfWhitelistedIPDto:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/WhitelistedIPDto'
+          readOnly: true
+          xml:
+            name: WhitelistedIPDto
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    UserClassExpirationPolicyModel:
+      description: Represents account user auth expiration policy required for all scenarios
+      properties:
+        adminExpirationPolicyId:
+          description: Admin expiration policy id.
+          type: integer
+          format: int32
+        fileAdminExpirationPolicyId:
+          description: File admin expiration policy id.
+          type: integer
+          format: int32
+        userExpirationPolicyId:
+          description: End user expiration policy id.
+          type: integer
+          format: int32
+        tempUserExpirationPolicyId:
+          description: Temporary user expiration policy id.
+          type: integer
+          format: int32
+        auditUserExpirationPolicyId:
+          description: Audit user expiration policy id.
+          type: integer
+          format: int32
+      xml:
+        name: UserClassExpirationPolicyModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    PasswordAgingPolicyModel:
+      description: Represents password aging policy required for all scenarios
+      properties:
+        description:
+          description: Password aging policy description.
+          type: string
+        passwordAgeTime:
+          description: Password expires every (x) days.
+          type: integer
+          format: int32
+        passwordAgeWarn:
+          description: Indicate days remaining at sign on and using email beginning (x) day(s) in advance.
+          type: integer
+          format: int32
+        passwordAgeGrace:
+          description: 'Enable a grace period (x) day(s) after password expires.
+
+            After the grace period the user account will be suspended and an administrator must reactivate it.'
+          type: integer
+          format: int32
+        numUsing:
+          description: Number of password aging policy using.
+          type: integer
+          format: int32
+        id:
+          description: Password aging policy id.
+          type: integer
+          format: int32
+        name:
+          description: Password aging policy name.
+          type: string
+      xml:
+        name: PasswordAgingPolicyModel
+      type: object
+    PasswordPermissionsUpdateRequest:
+      properties:
+        passwordChangeEmailNotificationType:
+          description: 'Email notification type while Admins and GroupAdmins creating or editing users.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - SendPasswordByEmail
+          - SendResetLinkByEmail
+        allowToChangeOwnPassword:
+          description: 'Allow end users to change their own passwords after signing on(e.g., from "My Account").
+
+            Default is false.'
+          type: boolean
+        allowPasswordChangeRequests:
+          description: 'Allow end users to reset their own passwords without signing on (Email "Reset Password" links to users who request them from the signon page).
+
+            Default is false.'
+          type: boolean
+        isRecaptchaRequired:
+          description: 'Require users to respond to reCAPTCHA when resetting their password without signing on.
+
+            To enable this option reCAPTCHA should be configured.
+
+            Default is false.'
+          type: boolean
+        isSecurityQuestionsRequired:
+          description: 'Require users to answer security questions when resetting their password without signing on.
+
+            NOTE: Users will be required to select and answer security questions at next sign-on.
+
+            Default is false.'
+          type: boolean
+        passwordEmailLinkMaxAge:
+          description: Email links used in "Set Password" and "Reset Password" processes will expire after X minutes.
+          type: integer
+          format: int32
+      xml:
+        name: PasswordPermissionsUpdateRequest
+      type: object
+    IPWhitelistRequestModel:
+      properties:
+        ipAddress:
+          description: Whitelisted IP Address or IP Address Range.
+          type: string
+        comment:
+          description: Comment.
+          type: string
+      xml:
+        name: IPWhitelistRequestModel
+      type: object
+    PagedModelOfSimpleExpirationPolicyModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleExpirationPolicyModel'
+          readOnly: true
+          xml:
+            name: SimpleExpirationPolicyModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

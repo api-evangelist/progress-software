@@ -1,0 +1,1336 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Folder Content API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: FolderContent
+paths:
+  /api/v1/folders/{folderId}/files/{fileId}:
+    get:
+      tags:
+      - FolderContent
+      summary: Get file details in folder. Redirect
+      operationId: GETapi/v1/folders/{folderId}/files/{fileId}-1.0
+      parameters:
+      - name: folderId
+        in: path
+        description: Parent folder ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: fileId
+        in: path
+        description: File ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/folders/{folderId}/files/{fileId}/download:
+    get:
+      tags:
+      - FolderContent
+      summary: Download file. Redirect
+      description: The response header includes information about base64-encoded SHA1 digest value returned with file download response
+      operationId: GETapi/v1/folders/{folderId}/files/{fileId}/download-1.0
+      parameters:
+      - name: folderId
+        in: path
+        description: Parent folder ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: fileId
+        in: path
+        description: File ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/folders/{parentId}/subfolders/{subfolderId}:
+    get:
+      tags:
+      - FolderContent
+      summary: Get subfolder details. Redirect
+      operationId: GETapi/v1/folders/{parentId}/subfolders/{subfolderId}-1.0
+      parameters:
+      - name: parentId
+        in: path
+        description: Parent folder ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: subfolderId
+        in: path
+        description: Folder ID to Get
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '302':
+          description: Redirect
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    delete:
+      tags:
+      - FolderContent
+      summary: Delete subfolder. Redirect
+      operationId: DELETEapi/v1/folders/{parentId}/subfolders/{subfolderId}-1.0
+      parameters:
+      - name: parentId
+        in: path
+        description: Parent folder ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: subfolderId
+        in: path
+        description: Folder ID to Delete
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '302':
+          description: Redirect
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/folders/{Id}/subfolders:
+    get:
+      tags:
+      - FolderContent
+      summary: Get list of subfolders in folder
+      operationId: GETapi/v1/folders/{Id}/subfolders?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}&Name={Name}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Parent Folder ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Field to sort by; Default is name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Folder Name mask to search by
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFolderModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFolderModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFolderModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - FolderContent
+      summary: Create new subfolder in folder
+      operationId: POSTapi/v1/folders/{Id}/subfolders-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder where new folder should be added
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddFolderModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AddFolderModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/AddFolderModel'
+        description: Request body.
+        required: true
+  /api/v1/folders/{Id}/files:
+    get:
+      tags:
+      - FolderContent
+      summary: Get list of files in folder
+      operationId: GETapi/v1/folders/{Id}/files?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}&Name={Name}&NewOnly={NewOnly}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Parent Folder ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Field to sort by; Default is name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: File Name mask to search by
+        required: false
+        schema:
+          type: string
+      - name: newOnly
+        in: query
+        description: Filter new files
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFileResourceModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFileResourceModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFileResourceModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - FolderContent
+      summary: Upload file into folder
+      description: 'The content type of the request must be "multipart/form-data".
+
+        For large files upload (larger then maxAllowedContentLength attribute in Web.config) use chunked upload.'
+      operationId: POSTapi/v1/folders/{Id}/files?UploadType={UploadType}&PathHash={PathHash}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Folder ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumableFileUploadModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ResumableFileUploadModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ResumableFileUploadModel'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FileDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                hashtype:
+                  type: string
+                  description: Type of hash provided (sha-1, sha-256, sha-384, sha-512)
+                hash:
+                  type: string
+                  description: Hash of file
+                file:
+                  type: string
+                  description: File contents
+                  format: binary
+                comments:
+                  type: string
+                  description: File upload comments
+              required:
+              - file
+  /api/v1/folders/{Id}/content:
+    get:
+      tags:
+      - FolderContent
+      summary: Get content of the folder
+      operationId: GETapi/v1/folders/{Id}/content?PathHash={PathHash}&Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}&Name={Name}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Parent Folder ID
+        required: true
+        schema:
+          type: string
+      - name: pathHash
+        in: query
+        description: Parent Folder path hash
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Field to sort by; (type, time, size or name); Sorting order starts with type and ends with name
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Name mask to search by
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderContentItemModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderContentItemModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderContentItemModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    PagedModelOfFolderContentItemModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/FolderContentItemModel'
+          readOnly: true
+          xml:
+            name: FolderContentItemModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    FolderDetailsModel:
+      description: Represents a folder and all available attributes
+      properties:
+        orgId:
+          description: ID of the organization this folder exists in.
+          type: integer
+          format: int32
+        owner:
+          description: The username of this folder's owner. (Home folders only)
+          type: string
+        description:
+          description: Description of this folder.
+          type: string
+        systemType:
+          description: Indicates if this folder is under the control of users or the MOVEit Transfer system.
+          type: string
+          enum:
+          - User
+          - System
+        cleanType:
+          description: Describes what kind of automated clean up is regularly performed on this folder.
+          type: string
+          enum:
+          - Never
+          - AfterCleanTime
+        cleanTimeDays:
+          description: Describes after how many days old files in this folder will be cleaned up.
+          type: integer
+          format: int32
+        subfolderCleanTime:
+          description: Describes after how many days empty subfolders in this folder will be cleaned up.
+          type: integer
+          format: int32
+        uploadNotificationConfirmationType:
+          description: Describes what kind of upload confirmation notifications are used in this folder.
+          type: string
+          enum:
+          - None
+          - Batch
+          - Immediately
+        uploadNotificationConfirmationTime:
+          description: Describes how often batch notifications are sent.
+          type: integer
+          format: int32
+        newFileNotificationType:
+          description: Describes what kind of new file notifications are used in this folder.
+          type: string
+          enum:
+          - None
+          - Batch
+          - Immediately
+        newFileNotificationTime:
+          description: Describes how often new file batch notifications are sent.
+          type: integer
+          format: int32
+        alertSenderFileIsNotDownloadedTimeType:
+          description: Describes the unit of measurement for notifying the sender when the files have not been downloaded.
+          type: string
+          enum:
+          - None
+          - Hours
+          - Days
+          - Minutes
+          - Immediately
+        alertSenderFileIsNotDownloadedTime:
+          description: 'Describes after how many minutes, hours, days, depending on the value of {MOVEit.DMZ.WebApi.Models.Folders.FolderDetailsModel.AlertSenderFileIsNotDownloadedTimeType},
+
+            the sender will receive the notifiation that the sent files have not been downloaded.'
+          type: integer
+          format: int32
+        deliveryRecepientNotificationType:
+          description: Describes what kind of delivery recipient notifications are used in this folder.
+          type: string
+          enum:
+          - None
+          - Immediately
+        responseType:
+          description: For webpost folders, the webpost completion and redirection setting.
+          type: string
+          enum:
+          - RedirectImmediately
+          - RedirectAfter
+        responseText:
+          description: For webpost folders, text to display after a post to this folder.
+          type: string
+        responseTime:
+          description: For webpost folders, the time after which redirection occurs.
+          type: integer
+          format: int32
+        newTime:
+          description: The maximum amount of time, in days, that files in this folder are considered "new".
+          type: integer
+          format: int32
+        enforceUniqueFilenames:
+          description: Indicates whether files in this folder must have unique names.
+          type: boolean
+        allowFileOverwrite:
+          description: Indicates whether files of the same name will silently overwrite existing files of the same name.
+          type: boolean
+        parentInheritRights:
+          description: Indicates whether the folder inherits its permissions from its parent folder.
+          type: integer
+          format: int32
+        quota:
+          description: The folder quota, if any, in bytes.
+          type: integer
+          format: int64
+        totalFilesSize:
+          description: The total size of all files in this folder (and subfolders if applicable), in bytes.
+          type: integer
+          format: int64
+        fileMaskRule:
+          description: Indicates whether files uploaded to the folder that match the configured filemasks will be allowed or denied.
+          type: string
+          enum:
+          - AllowExceptMatching
+          - DenyExceptMatching
+        fileMasks:
+          description: Comma-delimited list of filemasks which all files uploaded to the folder will be matched against.
+          type: string
+        id:
+          description: The unique ID of this folder.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of this folder's parent folder or "0" if it does not have a parent folder.
+          type: integer
+          format: int32
+        name:
+          description: The (short) name of this folder.
+          type: string
+        lastContentChangeTime:
+          description: Last time the folder content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this folder.
+          type: string
+        isShared:
+          description: Indicates whether this folder is shared with someone
+          type: boolean
+        permission:
+          $ref: '#/components/schemas/IFolderPermission'
+          description: A MOVEit Permission describing the currently authorized user's permissions on this folder.
+        subfolderCount:
+          description: Number of subfolders in this folder
+          type: integer
+          format: int32
+        totalFileCount:
+          description: Number of files in this folder
+          type: integer
+          format: int32
+        sharedWithUsersCount:
+          description: Number of users this folder is shared with
+          type: integer
+          format: int32
+        sharedWithGroupsCount:
+          description: Number of groups this folder is shared with
+          type: integer
+          format: int32
+      xml:
+        name: FolderDetailsModel
+      type: object
+    FolderContentItemModel:
+      description: Represents information about items stored in folder.
+      properties:
+        id:
+          description: ID of the item.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of the parent folder.
+          type: integer
+          format: int32
+        type:
+          description: Content Type.
+          type: string
+          enum:
+          - Folder
+          - File
+        name:
+          description: The name of this item.
+          type: string
+        lastUpdateTime:
+          description: Last time this item changed
+          type: string
+        path:
+          description: Path to this item.
+          type: string
+        size:
+          description: Size of this item in bytes.
+          type: integer
+          format: int64
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        isShared:
+          description: Indicates whether folder has been shared with someone.
+          type: boolean
+      xml:
+        name: FolderContentItemModel
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagedModelOfSimpleFolderModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleFolderModel'
+          readOnly: true
+          xml:
+            name: SimpleFolderModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    SimpleFolderModel:
+      description: Represents basic folder data required for all scenarios
+      properties:
+        id:
+          description: The unique ID of this folder.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of this folder's parent folder or "0" if it does not have a parent folder.
+          type: integer
+          format: int32
+        name:
+          description: The (short) name of this folder.
+          type: string
+        lastContentChangeTime:
+          description: Last time the folder content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this folder.
+          type: string
+        isShared:
+          description: Indicates whether this folder is shared with someone
+          type: boolean
+        permission:
+          $ref: '#/components/schemas/IFolderPermission'
+          description: A MOVEit Permission describing the currently authorized user's permissions on this folder.
+        subfolderCount:
+          description: Number of subfolders in this folder
+          type: integer
+          format: int32
+        totalFileCount:
+          description: Number of files in this folder
+          type: integer
+          format: int32
+        sharedWithUsersCount:
+          description: Number of users this folder is shared with
+          type: integer
+          format: int32
+        sharedWithGroupsCount:
+          description: Number of groups this folder is shared with
+          type: integer
+          format: int32
+      xml:
+        name: SimpleFolderModel
+      type: object
+    IFolderPermission:
+      description: Represents folder permission object
+      properties:
+        canListSubfolders:
+          description: User can list the subfolders of a folder.
+          readOnly: true
+          type: boolean
+        canAddSubfolders:
+          description: User can add subfolders to the folder.
+          readOnly: true
+          type: boolean
+        canChangeSettings:
+          description: User can change the settings of the folder.
+          readOnly: true
+          type: boolean
+        canDelete:
+          description: User can delete the folder.
+          readOnly: true
+          type: boolean
+        canListFiles:
+          description: User can list the files in the folder.
+          readOnly: true
+          type: boolean
+        canReadFiles:
+          description: User can download the files in the folder.
+          readOnly: true
+          type: boolean
+        canWriteFiles:
+          description: User can upload files to the folder.
+          readOnly: true
+          type: boolean
+        canDeleteFiles:
+          description: User can delete files in the folder.
+          readOnly: true
+          type: boolean
+        canShare:
+          description: User can share files in the folder
+          readOnly: true
+          type: boolean
+      xml:
+        name: IFolderPermission
+      type: object
+    ResumableFileUploadModel:
+      description: Represents resumable file upload information after initial request
+      properties:
+        fileId:
+          type: string
+        bytes:
+          type: integer
+          format: int64
+        maxChunkSize:
+          type: integer
+          format: int64
+      xml:
+        name: ResumableFileUploadModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    PagedModelOfSimpleFileResourceModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleFileResourceModel'
+          readOnly: true
+          xml:
+            name: SimpleFileResourceModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    AddFolderModel:
+      properties:
+        name:
+          description: Folder name
+          type: string
+        inheritPermissions:
+          description: Indicates how parent folder permissions should be inherited
+          type: string
+          enum:
+          - None
+          - CopyOnly
+          - Always
+      xml:
+        name: AddFolderModel
+      type: object
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
+      properties:
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+    FileDetailsModel:
+      description: Represents a file and all available attributes
+      properties:
+        orgID:
+          description: ID of the organization this file exists in.
+          type: string
+        originalFileType:
+          description: Describes what type of file this file was originally.
+          type: string
+          enum:
+          - Any
+          - Text
+          - HTML
+          - CSV
+          - XML
+          - WebPost
+          - AuditLog
+          - Message
+          - MessageArchive
+          - MessageDraft
+          - MessageTemplate
+          - Upload31
+          - Upload32
+        currentFileType:
+          description: Describes what type of file this file is currently.
+          type: string
+          enum:
+          - Any
+          - Text
+          - HTML
+          - CSV
+          - XML
+          - WebPost
+          - AuditLog
+          - Message
+          - MessageArchive
+          - MessageDraft
+          - MessageTemplate
+          - Upload31
+          - Upload32
+        uploadComment:
+          description: Any optional comments uploaded with this file.
+          type: string
+        uploadIP:
+          description: The IP Address, if any, from which this file was uploaded.
+          type: string
+        uploadAgentBrand:
+          description: Brand of the agent used to upload this file.
+          type: string
+        uploadAgentVersion:
+          description: Version of the agent used to upload this file.
+          type: string
+        uploadIntegrity:
+          description: 1 if file was uploaded with integrity checking, 0 if file was not.
+          type: integer
+          format: int32
+        dlpChecked:
+          description: If true, the file was determined to not have a DLP violation; otherwise, the file was either not checked, or does contain a violation.
+          type: boolean
+        dlpMetaData:
+          description: If 1, the file’s metadata contains DLP violations, and should not be displayed. Otherwise, if 0, there are no DLP violations in the file metadata.
+          type: integer
+          format: int32
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the file contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        uploadUserFullName:
+          description: The real name of the user account which uploaded this file.
+          type: string
+        downloadCount:
+          description: Number of times this file has been downloaded.
+          type: integer
+          format: int32
+        originalFilename:
+          description: The original name of this file.
+          type: string
+        hash:
+          description: SHA-1 hash of the file
+          type: string
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: FileDetailsModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

@@ -1,0 +1,246 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation License API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: License
+  x-displayName: License
+paths:
+  /api/v0/license/apply:
+    post:
+      tags:
+      - License
+      operationId: License_ApplyLicense
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.license.ApplyLicenseResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.license.ApplyLicenseReq'
+        required: true
+      summary: License apply license
+      x-summary-source: derived
+  /api/v0/license/request:
+    post:
+      tags:
+      - License
+      operationId: License_RequestLicense
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.license.RequestLicenseResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.license.RequestLicenseReq'
+        required: true
+      summary: License request license
+      x-summary-source: derived
+  /api/v0/license/status:
+    get:
+      tags:
+      - License
+      operationId: License_GetStatus
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: License get status
+      x-summary-source: derived
+components:
+  schemas:
+    chef.automate.api.license.RequestLicenseResp:
+      type: object
+      properties:
+        license:
+          type: string
+        status:
+          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
+    chef.automate.api.license.ApplyLicenseResp:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.license.RequestLicenseReq:
+      type: object
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        gdpr_agree:
+          type: boolean
+        last_name:
+          type: string
+    chef.automate.api.license.GetStatusResp:
+      type: object
+      properties:
+        configured_at:
+          type: string
+          format: date-time
+        customer_name:
+          type: string
+        grace_period:
+          type: boolean
+        license_id:
+          type: string
+        license_type:
+          type: string
+        licensed_period:
+          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp.DateRange'
+    chef.automate.api.license.GetStatusResp.DateRange:
+      type: object
+      properties:
+        end:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+    chef.automate.api.license.ApplyLicenseReq:
+      type: object
+      properties:
+        license:
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

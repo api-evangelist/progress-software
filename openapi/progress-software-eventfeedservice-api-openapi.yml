@@ -1,0 +1,526 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Event Feed Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: EventFeedService
+  x-displayName: Event Feed
+paths:
+  /api/v0/event_task_counts:
+    get:
+      description: 'Returns the total counts of actions taken in an event. The counted actions are: update, create, and delete.
+
+
+        Example:
+
+        ```
+
+        event_task_counts?start=1592546400000&end=1593151199999
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        event:events:list
+
+        ```'
+      tags:
+      - EventFeedService
+      summary: List Counts of Individual Event Tasks
+      operationId: EventFeedService_GetEventTaskCounts
+      parameters:
+      - description: Filters to be applied to the request.
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Earliest events to return.
+        name: start
+        in: query
+        schema:
+          type: string
+          format: int64
+      - description: Latest events to return.
+        name: end
+        in: query
+        schema:
+          type: string
+          format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.event_feed.response.GetEventTaskCountsResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/event_type_counts:
+    get:
+      description: 'Returns totals for role, cookbook, and organization events.
+
+
+        Example:
+
+        ```
+
+        event_type_counts?start=1592546400000&end=1593151199999
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        event:events:list
+
+        ```'
+      tags:
+      - EventFeedService
+      summary: List Counts of Event Types
+      operationId: EventFeedService_GetEventTypeCounts
+      parameters:
+      - description: Filters to be applied to the request.
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Earliest events to return.
+        name: start
+        in: query
+        schema:
+          type: string
+          format: int64
+      - description: Latest events to return.
+        name: end
+        in: query
+        schema:
+          type: string
+          format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.event_feed.response.GetEventTypeCountsResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/eventfeed:
+    get:
+      description: 'Returns a list of recorded events in Chef Automate, such as Infra Server events (cookbook creation, policyfile updates, and node creation) and Chef Automate internal events (profile installs and scan job creation).
+
+        Adding a filter makes a list of all events that meet the filter criteria.
+
+
+        Example:
+
+        ```
+
+        eventfeed?collapse=true&filter=organization:4thcafe&page_size=100&start=1592546400000&end=1593151199999
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        event:events:list
+
+        ```'
+      tags:
+      - EventFeedService
+      summary: List Events
+      operationId: EventFeedService_GetEventFeed
+      parameters:
+      - description: Filters to be applied to the request.
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Earliest events to return.
+        name: start
+        in: query
+        schema:
+          type: string
+          format: int64
+      - description: Latest events to return.
+        name: end
+        in: query
+        schema:
+          type: string
+          format: int64
+      - description: Count of events to return per page.
+        name: page_size
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Used for pagination, to request results in ascending order.
+        name: after
+        in: query
+        schema:
+          type: string
+          format: int64
+      - description: Used for pagination, to request results in descending order.
+        name: before
+        in: query
+        schema:
+          type: string
+          format: int64
+      - description: Used for pagination, to bookmark next set of results.
+        name: cursor
+        in: query
+        schema:
+          type: string
+      - description: Used to group similar events together.
+        name: collapse
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.event_feed.response.GetEventFeedResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/eventstrings:
+    get:
+      description: 'Returns data that populates the guitar strings visual on the top of the event feed.
+
+
+        Example:
+
+        ```
+
+        eventstrings?timezone=America/Denver&hours_between=1&start=2020-06-19&end=2020-06-25
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        event:events:list
+
+        ```'
+      tags:
+      - EventFeedService
+      summary: List Summary Data of Events
+      operationId: EventFeedService_GetEventStringBuckets
+      parameters:
+      - description: Earliest events to return.
+        name: start
+        in: query
+        schema:
+          type: string
+      - description: Latest events to return.
+        name: end
+        in: query
+        schema:
+          type: string
+      - description: User timezone to apply to request.
+        name: timezone
+        in: query
+        schema:
+          type: string
+      - description: 'Interval for returned results, for example: 1 hour buckets.'
+        name: hours_between
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Filters to be applied to the request.
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.event_feed.response.GetEventStringBucketsResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+components:
+  schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.event_feed.response.GetEventStringBucketsResponse:
+      type: object
+      properties:
+        end:
+          type: string
+        hours_between:
+          type: integer
+          format: int32
+        start:
+          type: string
+        strings:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventString'
+    chef.automate.api.event_feed.response.GetEventFeedResponse:
+      type: object
+      properties:
+        events:
+          description: List of events.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.Event'
+        total_events:
+          description: Total count of events.
+          type: string
+          format: int64
+    chef.automate.api.event_feed.response.EventCollection:
+      type: object
+      properties:
+        events_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
+    chef.automate.api.event_feed.response.GetEventTypeCountsResponse:
+      type: object
+      properties:
+        counts:
+          description: Total count of events per type.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
+        total:
+          description: Total count of events.
+          type: string
+          format: int64
+    chef.automate.api.event_feed.response.EventCount:
+      type: object
+      properties:
+        count:
+          description: Count of events.
+          type: string
+          format: int64
+        name:
+          description: Event name.
+          type: string
+    chef.automate.api.event_feed.response.EventString:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCollection'
+        event_action:
+          type: string
+    chef.automate.api.event_feed.response.Event:
+      type: object
+      properties:
+        chef_infra_server:
+          type: string
+          title: Event's Chef Infra Server
+        chef_organization:
+          type: string
+          title: Event's Chef Organization
+        end_id:
+          type: string
+          title: Used for grouping events together; equal to start_id if not grouped
+        end_time:
+          type: string
+          format: date-time
+          title: Used for grouping events together; equal to start_time if not grouped
+        entity_name:
+          type: string
+        event_count:
+          description: Used for grouping events together.
+          type: integer
+          format: int32
+        event_type:
+          description: Type of event (cookbook, role, etc).
+          type: string
+        parent_name:
+          description: Used for grouping events together.
+          type: string
+        parent_type:
+          description: Used for grouping events together.
+          type: string
+        requestor_name:
+          description: Event record requestor name.
+          type: string
+        requestor_type:
+          description: Event record requestor type.
+          type: string
+        service_hostname:
+          description: Hostname from which the record was gathered.
+          type: string
+        start_id:
+          description: Used for grouping events together.
+          type: string
+        start_time:
+          description: Event start time.
+          type: string
+          format: date-time
+        task:
+          description: Type of event task (create, update, delete).
+          type: string
+    chef.automate.api.event_feed.response.GetEventTaskCountsResponse:
+      type: object
+      properties:
+        counts:
+          description: Total count of events per type.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
+        total:
+          description: Total count of events.
+          type: string
+          format: int64
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

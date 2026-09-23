@@ -1,0 +1,192 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Product API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: Product
+paths:
+  /api/v1/product/api:
+    get:
+      tags:
+      - Product
+      summary: Return current API version and information
+      operationId: Product_ApiVersion
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NameValuePairResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NameValuePairResults'
+      security:
+      - oauth2: []
+  /api/v1/product/version:
+    get:
+      tags:
+      - Product
+      summary: Return product version information
+      operationId: Product_ProductVersion
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NameValuePairResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NameValuePairResults'
+      security:
+      - oauth2: []
+  /api/v1/product/whoAmI:
+    get:
+      tags:
+      - Product
+      summary: Return current user information
+      operationId: Product_WhoAmI
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+      security:
+      - oauth2: []
+  /api/v1/product/installationId:
+    get:
+      tags:
+      - Product
+      summary: Returns an ID uniquely identifying this install of WUG
+      operationId: Product_InstallationId
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+      security:
+      - oauth2: []
+  /api/v1/product/timezone:
+    get:
+      tags:
+      - Product
+      summary: Gets the Local Timezone of the WUG Server
+      operationId: Product_GetLocalTimezone
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_String'
+      security:
+      - oauth2: []
+components:
+  schemas:
+    Result_String:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: string
+          readOnly: true
+    NameValuePair:
+      description: NameValuePair
+      type: object
+      properties:
+        name:
+          description: Name
+          type: string
+        value:
+          description: Value
+          type: string
+    Result_NameValuePairResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/NameValuePairResults'
+          description: The data payload
+          readOnly: true
+    NameValuePairResults:
+      description: Results from a name value pair list
+      type: object
+      properties:
+        values:
+          description: Set of name value pairs
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

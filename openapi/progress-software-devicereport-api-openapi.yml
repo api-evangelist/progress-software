@@ -1,0 +1,3436 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Device Report API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: DeviceReport
+paths:
+  /api/v1/devices/{deviceId}/reports/cpu-utilization:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return CPU utilization report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceCpuUtilizationReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="avgPercent"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - cpu
+          - cpuId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - minPercent
+          - maxPercent
+          - avgPercent
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - cpu
+          - cpuId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - minPercent
+          - maxPercent
+          - avgPercent
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: applyThreshold
+        in: query
+        description: indicates whether the threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: overThreshold
+        in: query
+        description: indicates if the threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: thresholdValue
+        in: query
+        description: the threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: rollupByDevice
+        in: query
+        description: report at device level and not individual resources, default=false, report individual resources
+        required: false
+        schema:
+          type: boolean
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_CpuUtilization'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_CpuUtilization'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/disk-free-space:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return disk free space report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceDiskFreeSpaceReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="minFree"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - disk
+          - diskId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - size
+          - minFree
+          - maxFree
+          - avgFree
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - disk
+          - diskId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - size
+          - minFree
+          - maxFree
+          - avgFree
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: applyThreshold
+        in: query
+        description: indicates whether the threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: overThreshold
+        in: query
+        description: indicates if the threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: thresholdValue
+        in: query
+        description: the threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DiskFreeSpace'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DiskFreeSpace'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/disk-utilization:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return disk utilization report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceDiskUtilizationReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="avgPercent"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - disk
+          - diskId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - size
+          - minUsed
+          - maxUsed
+          - avgUsed
+          - avgFree
+          - minPercent
+          - maxPercent
+          - avgPercent
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - disk
+          - diskId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - size
+          - minUsed
+          - maxUsed
+          - avgUsed
+          - avgFree
+          - minPercent
+          - maxPercent
+          - avgPercent
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: applyThreshold
+        in: query
+        description: indicates whether the threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: overThreshold
+        in: query
+        description: indicates if the threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: thresholdValue
+        in: query
+        description: the threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DiskUtilization'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DiskUtilization'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/interface-discards:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return interface discards report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceInterfaceDiscardsReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="totalAvg"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - interfaceName
+          - interfaceId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - rxMin
+          - rxMax
+          - rxAvg
+          - rxTotal
+          - txMin
+          - txMax
+          - txAvg
+          - txTotal
+          - totalAvg
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - interfaceName
+          - interfaceId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - rxMin
+          - rxMax
+          - rxAvg
+          - rxTotal
+          - txMin
+          - txMax
+          - txAvg
+          - txTotal
+          - totalAvg
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceErrorsDiscards'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceErrorsDiscards'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/interface-errors:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return interface errors report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceInterfaceErrorsReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="totalAvg"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - interfaceName
+          - interfaceId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - rxMin
+          - rxMax
+          - rxAvg
+          - rxTotal
+          - txMin
+          - txMax
+          - txAvg
+          - txTotal
+          - totalAvg
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - interfaceName
+          - interfaceId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - rxMin
+          - rxMax
+          - rxAvg
+          - rxTotal
+          - txMin
+          - txMax
+          - txAvg
+          - txTotal
+          - totalAvg
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceErrorsDiscards'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceErrorsDiscards'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/interface-traffic:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return interface traffic report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceInterfaceTrafficReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="totalPercent"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - ifSpeed
+          - ifRxSpeed
+          - ifTxSpeed
+          - totalTraffic
+          - rxSpeedAvg
+          - rxOctetsTotal
+          - txSpeedAvg
+          - txOctetsTotal
+          - rxSpeedMin
+          - rxSpeedMax
+          - txSpeedMin
+          - txSpeedMax
+          - rxPercentAvg
+          - txPercentAvg
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - ifSpeed
+          - ifRxSpeed
+          - ifTxSpeed
+          - totalTraffic
+          - rxSpeedAvg
+          - rxOctetsTotal
+          - txSpeedAvg
+          - txOctetsTotal
+          - rxSpeedMin
+          - rxSpeedMax
+          - txSpeedMin
+          - txSpeedMax
+          - rxPercentAvg
+          - txPercentAvg
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceTraffic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceTraffic'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/interface-utilization:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return interface utilization report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceInterfaceUtilizationReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="totalPercent"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - ifSpeed
+          - ifRxSpeed
+          - ifTxSpeed
+          - totalTraffic
+          - rxSpeedAvg
+          - rxOctetsTotal
+          - txSpeedAvg
+          - txOctetsTotal
+          - totalPercent
+          - rxPercentAvg
+          - txPercentAvg
+          - rxPercentMin
+          - txPercentMin
+          - rxPercentMax
+          - txPercentMax
+          - rxSpeedMin
+          - rxSpeedMax
+          - txSpeedMin
+          - txSpeedMax
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - ifSpeed
+          - ifRxSpeed
+          - ifTxSpeed
+          - totalTraffic
+          - rxSpeedAvg
+          - rxOctetsTotal
+          - txSpeedAvg
+          - txOctetsTotal
+          - totalPercent
+          - rxPercentAvg
+          - txPercentAvg
+          - rxPercentMin
+          - txPercentMin
+          - rxPercentMax
+          - txPercentMax
+          - rxSpeedMin
+          - rxSpeedMax
+          - txSpeedMin
+          - txSpeedMax
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: applyThreshold
+        in: query
+        description: indicates whether the threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: overThreshold
+        in: query
+        description: indicates if the threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: thresholdValue
+        in: query
+        description: the threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceUtilization'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_InterfaceUtilization'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/memory-utilization:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return memory utilization report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceMemoryUtilizationReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="avgPercent"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - memory
+          - memoryId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - size
+          - minUsed
+          - maxUsed
+          - avgUsed
+          - minPercent
+          - maxPercent
+          - avgPercent
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - memory
+          - memoryId
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+          - size
+          - minUsed
+          - maxUsed
+          - avgUsed
+          - minPercent
+          - maxPercent
+          - avgPercent
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: applyThreshold
+        in: query
+        description: indicates whether the threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: overThreshold
+        in: query
+        description: indicates if the threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: thresholdValue
+        in: query
+        description: the threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_MemoryUtilization'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_MemoryUtilization'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/ping-availability:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return disk ping availability report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DevicePingAvailabilityReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="percentPacketLoss"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - packetsLost
+          - packetsSent
+          - percentAvailable
+          - percentPacketLoss
+          - totalTimeMinutes
+          - timeUnavailableMinutes
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - packetsLost
+          - packetsSent
+          - percentAvailable
+          - percentPacketLoss
+          - totalTimeMinutes
+          - timeUnavailableMinutes
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: availableApplyThreshold
+        in: query
+        description: indicates whether the availability threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: availableOverThreshold
+        in: query
+        description: indicates if the availability threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: percentageAvailableThresholdValue
+        in: query
+        description: the availability percentage threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: packetLossApplyThreshold
+        in: query
+        description: indicates whether the packet loss threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: packetLossOverThreshold
+        in: query
+        description: indicates if the packet loss threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: packetLossPercentageThresholdValue
+        in: query
+        description: the packet loss percentage threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_PingAvailability'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_PingAvailability'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/ping-response-time:
+    get:
+      tags:
+      - DeviceReport
+      summary: Return ping response time report for a device
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DevicePingResponseTimeReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: date range to filter the data by. default=today
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Used when 'range' is set to custom values. The start date for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Used when 'range' is set to custom value. The end data for the report
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: used with the range field as a multiplier, default=1
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="avgMilliSec"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - minMilliSec
+          - maxMilliSec
+          - avgMilliSec
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=descending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - id
+          - deviceName
+          - interfaceId
+          - interfaceName
+          - minMilliSec
+          - maxMilliSec
+          - avgMilliSec
+          - pollTimeUtc
+          - timeFromLastPollSeconds
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: applyThreshold
+        in: query
+        description: indicates whether the threshold filter is applied. true if this instance is applied; otherwise, false default=false
+        required: false
+        schema:
+          type: boolean
+      - name: overThreshold
+        in: query
+        description: indicates if the threshold value is applied when over or under. true if this instance is applied; otherwise, false default=false.
+        required: false
+        schema:
+          type: boolean
+      - name: thresholdValue
+        in: query
+        description: the threshold filter value. default=0.0
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: businessHoursId
+        in: query
+        description: business hour filter to apply, default=do not apply
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_PingResponseTime'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_PingResponseTime'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/reports/state-change:
+    get:
+      tags:
+      - DeviceReport
+      summary: Device state change timeline report
+      description: 'Date range filter choices ( range ):
+
+        **Note:**
+
+        Unless otherwise specified all filters are relative to the wug service time zone.
+
+
+        * today - returned data generated today
+
+        * lastPolled - return data gathered on last poll
+
+        * yesterday - data gathered yesterday
+
+        * lastMonth - data gathered from previous month
+
+        * lastQuarter - data gathered from last quarter
+
+        * weekToDate - data gathered since the beginning of this week.
+
+        * monthToDate - data gathered since the beginning of the month
+
+        * quarterToDate - data gathered since the beginning of the quarter
+
+
+        The following choices for the Date range filter use the value of "rangeN" to indicate the number to increment the data filter by.
+
+        * lastNSeconds - data gathered in the last N seconds
+
+        * lastNMinutes - data gathered in the last N minutes
+
+        * lastNHours - data gathered in the last N hours
+
+        * lastNDays - data gathered in the last N days
+
+        * lastNWeeks - data gathered in the last N weeks
+
+        * lastNMonths - data gathered in the last N months
+
+
+        The following choices for the Date range filter uses the values of "rangeStartUtc" and "rangeEndUtc" to indicate the data to consider for the report.
+
+        * custom - data is gathered between ''rangeStartUtc'' and ''rangeEndUtc'' date.'
+      operationId: DeviceReport_DeviceStateChangeReport
+      parameters:
+      - name: deviceId
+        in: path
+        description: The ID of the device
+        required: true
+        schema:
+          type: string
+      - name: range
+        in: query
+        description: Date range for report. default=today. Works in conjunction with start, end and offset values
+        required: false
+        schema:
+          type: string
+          enum:
+          - today
+          - lastPolled
+          - yesterday
+          - lastWeek
+          - lastMonth
+          - lastQuarter
+          - weekToDate
+          - monthToDate
+          - quarterToDate
+          - lastNSeconds
+          - lastNMinutes
+          - lastNHours
+          - lastNDays
+          - lastNWeeks
+          - lastNMonths
+          - custom
+      - name: rangeStartUtc
+        in: query
+        description: Time to start the report at when custom date range is selected
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeEndUtc
+        in: query
+        description: Time to end the report when custom date range is selected
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: rangeN
+        in: query
+        description: Number to calculate when LastNSeconds, LastNMinutes, etc is selected
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: column name to sort report by. default="startTimeUtc"
+        required: false
+        schema:
+          type: string
+          enum:
+          - defaultColumn
+          - deviceName
+          - monitorTypeName
+          - stateName
+          - startTimeUtc
+          - endTimeUtc
+          - totalSeconds
+          - result
+      - name: sortByDir
+        in: query
+        description: direction to sort report. default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: groupBy
+        in: query
+        description: Column name to group the report by, default=no grouping
+        required: false
+        schema:
+          type: string
+          enum:
+          - noGrouping
+          - deviceName
+          - monitorTypeName
+          - stateName
+          - startTimeUtc
+          - endTimeUtc
+          - totalSeconds
+          - result
+      - name: groupByDir
+        in: query
+        description: direction to group report by, default=ascending
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: pageId
+        in: query
+        description: the pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_StateChangeTimeline'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_StateChangeTimeline'
+      security:
+      - oauth2: []
+components:
+  schemas:
+    PageResult_List_StateChangeTimeline:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_StateChangeTimeline'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/StateChangeTimeline'
+          readOnly: true
+    PageResult_List_InterfaceErrorsDiscards:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_InterfaceErrorsDiscards'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/InterfaceErrorsDiscards'
+          readOnly: true
+    PagingInfo_List_DiskUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_List_InterfaceErrorsDiscards:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DiskUtilizationSeriesItem:
+      description: Contains series item data for "Disk Utilization" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgPercent:
+          format: double
+          description: Average value of disk utilization (decimal number)
+          type: number
+        minPercent:
+          format: double
+          description: Min value of disk utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Max value of disk utilization (decimal number)
+          type: number
+    PingResponseTimeSeriesItem:
+      description: This class contain values of interface traffic indicators
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgMilliSec:
+          format: double
+          description: The average ping response time (in milliseconds) for the device across all sample data for this time period.
+          type: number
+        minMilliSec:
+          format: double
+          description: The min ping response time (in milliseconds) for the device across all sample data for this time period.
+          type: number
+        maxMilliSec:
+          format: double
+          description: The max ping response time (in milliseconds) for the device across all sample data for this time period.
+          type: number
+    PageResult_List_InterfaceUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_InterfaceUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/InterfaceUtilization'
+          readOnly: true
+    PagingInfo_List_CpuUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_PingAvailability:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_PingAvailability'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/PingAvailability'
+          readOnly: true
+    DiskFreeSpace:
+      description: This class implements a data-transfer object for a line in "Disk Free Space" report
+      type: object
+      properties:
+        minFree:
+          format: double
+          description: Min Free Disk size
+          type: number
+        maxFree:
+          format: double
+          description: Max Free Disk size
+          type: number
+        avgFree:
+          format: double
+          description: Avg Free disk size
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskFreeSpaceSeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        disk:
+          description: Disk description
+          type: string
+        diskId:
+          description: Disk identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        size:
+          format: double
+          description: Total disk size
+          type: number
+        id:
+          type: string
+    PageResult_List_InterfaceTraffic:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_InterfaceTraffic'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/InterfaceTraffic'
+          readOnly: true
+    PingResponseTime:
+      description: This class implements a data-transfer object for the report "Ping Response Time"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        interfaceId:
+          description: Interface identifier
+          type: string
+        interfaceName:
+          description: Interface description
+          type: string
+        minMilliSec:
+          format: double
+          description: The minimum ping response time (in milliseconds) for the device during the selected time period
+          type: number
+        maxMilliSec:
+          format: double
+          description: The maximum ping response time (in milliseconds) for the device during the selected time period.
+          type: number
+        avgMilliSec:
+          format: double
+          description: The average ping response time (in milliseconds) for the device across all sample data for this time period.
+          type: number
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/PingResponseTimeSeriesItem'
+        id:
+          type: string
+    PagingInfo_List_DiskFreeSpace:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    InterfaceTraffic:
+      description: This class implements a data-transfer object for the report "Interface Traffic"
+      type: object
+      properties:
+        rxSpeedMin:
+          format: double
+          description: The minimum k/bps received
+          type: number
+        rxSpeedMax:
+          format: double
+          description: The maximum k/bps received
+          type: number
+        txSpeedMin:
+          format: double
+          description: The minimum k/bps transmitted
+          type: number
+        txSpeedMax:
+          format: double
+          description: The maximum k/bps transmitted
+          type: number
+        rxPercentAvg:
+          format: double
+          description: The average receive utilization
+          type: number
+        txPercentAvg:
+          format: double
+          description: The average transmit utilization
+          type: number
+        series:
+          description: Individual poll results
+          type: array
+          items:
+            $ref: '#/components/schemas/TrafficSeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        interfaceId:
+          description: Interface identifier
+          type: string
+        interfaceName:
+          description: Interface description
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        ifSpeed:
+          format: int64
+          description: The maximum available interface speed (b/bps)
+          type: integer
+        ifRxSpeed:
+          format: int64
+          description: The maximum available receive interface speed (b/bps)
+          type: integer
+        ifTxSpeed:
+          format: int64
+          description: The maximum available transmit interface speed (b/bps)
+          type: integer
+        totalTraffic:
+          format: double
+          description: The total number of octets processed
+          type: number
+        rxSpeedAvg:
+          format: float
+          description: The average b/bps received
+          type: number
+        rxOctetsTotal:
+          format: double
+          description: The total bytes received
+          type: number
+        txSpeedAvg:
+          format: float
+          description: The average b/bps transmitted
+          type: number
+        txOctetsTotal:
+          format: double
+          description: The total bytes transmitted
+          type: number
+        id:
+          type: string
+    PingAvailability:
+      description: This class implements a data-transfer object for the report "Ping Availability"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        interfaceId:
+          description: Interface identifier
+          type: string
+        interfaceName:
+          description: Interface description
+          type: string
+        packetsLost:
+          format: int32
+          description: The total number of packets lost throughout the current group during the selected time period.
+          type: integer
+        packetsSent:
+          format: int32
+          description: The total number of packets sent throughout the current group during the selected time period.
+          type: integer
+        percentAvailable:
+          format: double
+          description: Gets or sets the percent available.
+          type: number
+        percentPacketLoss:
+          format: double
+          description: A percentage of packet loss throughout the current group for the selected time period with colorbar.
+          type: number
+        totalTimeMinutes:
+          format: double
+          description: Amount of total time (in minutes) that passed during the time period selected.
+          type: number
+        timeUnavailableMinutes:
+          format: double
+          description: Amount of total time (in minutes) that a device was unavailable in the group.
+          type: number
+        pollTimeUtc:
+          format: date-time
+          description: Displays the last time polled.
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/PingAvailabilitySeriesItem'
+        id:
+          type: string
+    PagingInfo_List_InterfaceTraffic:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_List_InterfaceUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    MemoryUtilization:
+      description: This class implements a data-transfer object for the report "Memory utilization"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        memory:
+          description: Memory name
+          type: string
+        memoryId:
+          description: Memory identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        size:
+          format: double
+          description: Total memory size.
+          type: number
+        minUsed:
+          format: double
+          description: Minimum value of used memory size
+          type: number
+        maxUsed:
+          format: double
+          description: Maximum value of used memory size
+          type: number
+        avgUsed:
+          format: double
+          description: Average value of used memory size
+          type: number
+        minPercent:
+          format: double
+          description: Minimum value of memory utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Maximum value of memory utilization (decimal number)
+          type: number
+        avgPercent:
+          format: double
+          description: Average value of memory utilization (decimal number)
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/MemorySeriesItem'
+        id:
+          type: string
+    InterfaceErrorsDiscards:
+      description: This class implements a data-transfer object for the reports "Interface Discards" and  "Interface Errors"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        interfaceName:
+          description: Interface description
+          type: string
+        interfaceId:
+          description: Interface identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        rxMin:
+          format: double
+          description: The minimum number of interface discard/error packets received  per minute.
+          type: number
+        rxMax:
+          format: double
+          description: The maximum number of interface discard/error packets received  per minute.
+          type: number
+        rxAvg:
+          format: double
+          description: The average number of interface discard/error packets received  per minute.
+          type: number
+        rxTotal:
+          format: double
+          description: The total number of interface discard/error packets received
+          type: number
+        txMin:
+          format: double
+          description: The minimum number of interface discard/error packets transmitted per minute.
+          type: number
+        txMax:
+          format: double
+          description: The maximum number of interface discard/error packets transmitted per minute.
+          type: number
+        txAvg:
+          format: double
+          description: The average number of interface discard/error packets transmitted per minute.
+          type: number
+        txTotal:
+          format: double
+          description: The total number of interface discard/error packets transmitted
+          type: number
+        totalAvg:
+          format: double
+          description: 'The total average number of interface discard/error packets transmitted and Received
+
+            (used for remote sortering)'
+          type: number
+        series:
+          description: Series of poll data collected for the device
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorsDiscardsSeriesItem'
+        id:
+          type: string
+    PagingInfo_List_PingResponseTime:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    InterfaceUtilization:
+      description: This class implements a data-transfer object for the report "Interface Utilization"
+      type: object
+      properties:
+        totalPercent:
+          format: double
+          description: Average value of utilization
+          type: number
+        rxPercentAvg:
+          format: double
+          description: The average receive utilization
+          type: number
+        txPercentAvg:
+          format: double
+          description: The average transmit utilization
+          type: number
+        rxPercentMin:
+          format: double
+          description: The min receive utilization
+          type: number
+        txPercentMin:
+          format: double
+          description: The min transmit utilization
+          type: number
+        rxPercentMax:
+          format: double
+          description: The max receive utilization
+          type: number
+        txPercentMax:
+          format: double
+          description: The max transmit utilization
+          type: number
+        rxSpeedMin:
+          format: double
+          description: The min b/bps received
+          type: number
+        rxSpeedMax:
+          format: double
+          description: The max b/bps received
+          type: number
+        txSpeedMin:
+          format: double
+          description: The min b/bps transmitted
+          type: number
+        txSpeedMax:
+          format: double
+          description: The max b/bps transmitted
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/SeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        interfaceId:
+          description: Interface identifier
+          type: string
+        interfaceName:
+          description: Interface description
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        ifSpeed:
+          format: int64
+          description: The maximum available interface speed (b/bps)
+          type: integer
+        ifRxSpeed:
+          format: int64
+          description: The maximum available receive interface speed (b/bps)
+          type: integer
+        ifTxSpeed:
+          format: int64
+          description: The maximum available transmit interface speed (b/bps)
+          type: integer
+        totalTraffic:
+          format: double
+          description: The total number of octets processed
+          type: number
+        rxSpeedAvg:
+          format: float
+          description: The average b/bps received
+          type: number
+        rxOctetsTotal:
+          format: double
+          description: The total bytes received
+          type: number
+        txSpeedAvg:
+          format: float
+          description: The average b/bps transmitted
+          type: number
+        txOctetsTotal:
+          format: double
+          description: The total bytes transmitted
+          type: number
+        id:
+          type: string
+    ErrorsDiscardsSeriesItem:
+      description: This class contain values of interface discards/error series item
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        rxAvg:
+          format: double
+          description: The average number of interface discard packets received  per minute.
+          type: number
+        rxMin:
+          format: double
+          description: The min number of interface discard packets received  per minute.
+          type: number
+        rxMax:
+          format: double
+          description: The max number of interface discard packets received  per minute.
+          type: number
+        txAvg:
+          format: double
+          description: The average number of interface discard packets transmitted per minute.
+          type: number
+        txMin:
+          format: double
+          description: The min number of interface discard packets transmitted per minute.
+          type: number
+        txMax:
+          format: double
+          description: The max number of interface discard packets transmitted per minute.
+          type: number
+    DiskUtilization:
+      description: This class implements a data-transfer object for the report "Disk Utilization Report"
+      type: object
+      properties:
+        minUsed:
+          format: double
+          description: Minimum value of used disk size
+          type: number
+        maxUsed:
+          format: double
+          description: Maximum value of used disk size
+          type: number
+        avgUsed:
+          format: double
+          description: Average value of used disk size
+          type: number
+        avgFree:
+          format: double
+          description: Free disk size
+          type: number
+        minPercent:
+          format: double
+          description: Minimum value of disk utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Maximum value of disk utilization (decimal number)
+          type: number
+        avgPercent:
+          format: double
+          description: Average value of disk utilization (decimal number)
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskUtilizationSeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        disk:
+          description: Disk description
+          type: string
+        diskId:
+          description: Disk identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        size:
+          format: double
+          description: Total disk size
+          type: number
+        id:
+          type: string
+    PingAvailabilitySeriesItem:
+      description: Class PingAvailabilityData.
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Displays the last time polled.
+          type: string
+        percentAvailable:
+          format: double
+          description: Gets or sets the percent available.
+          type: number
+        percentPacketLoss:
+          format: double
+          description: Gets or sets the percent packet loss.
+          type: number
+    PageResult_List_DiskFreeSpace:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DiskFreeSpace'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskFreeSpace'
+          readOnly: true
+    CpuSeriesItem:
+      description: Contains series item data for "Cpu Utilization" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgPercent:
+          format: double
+          description: Cpu utilization
+          type: number
+        maxPercent:
+          format: double
+          description: Max percent of cpu
+          type: number
+        minPercent:
+          format: double
+          description: Min percent of cpu
+          type: number
+    PagingInfo_List_PingAvailability:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_CpuUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_CpuUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/CpuUtilization'
+          readOnly: true
+    DiskFreeSpaceSeriesItem:
+      description: Contains series item data for "Disk Free Space" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgFree:
+          format: double
+          description: Disk free space
+          type: number
+        minFree:
+          format: double
+          description: Min value of disk free space (decimal number)
+          type: number
+        maxFree:
+          format: double
+          description: Max value of disk free space (decimal number)
+          type: number
+    PageResult_List_MemoryUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_MemoryUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryUtilization'
+          readOnly: true
+    StateChangeTimeline:
+      description: This class implements a data-transfer object for a line in State Change Timeline Report
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        monitorTypeName:
+          description: Monitor Type name
+          type: string
+        stateName:
+          description: Monitor Type name
+          type: string
+        internalMonitorState:
+          description: Internal monitor state identifier
+          enum:
+          - unknown
+          - uninitialized
+          - down
+          - maintenance
+          - up
+          - warning
+          type: string
+        startTimeUtc:
+          format: date-time
+          description: Start time
+          type: string
+        endTimeUtc:
+          format: date-time
+          description: End time
+          type: string
+        totalSeconds:
+          format: int32
+          description: Elapsed time in seconds
+          type: integer
+        result:
+          description: Start time
+          type: string
+        id:
+          type: string
+    TrafficSeriesItem:
+      description: Contains series item data for "Interface Traffic" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        rxSpeedAvg:
+          format: double
+          description: The average k/bps received
+          type: number
+        rxSpeedMin:
+          format: double
+          description: The min k/bps received
+          type: number
+        rxSpeedMax:
+          format: double
+          description: The max k/bps received
+          type: number
+        txSpeedAvg:
+          format: double
+          description: The average k/bps transmitted
+          type: number
+        txSpeedMin:
+          format: double
+          description: The min k/bps transmitted
+          type: number
+        txSpeedMax:
+          format: double
+          description: The max k/bps transmitted
+          type: number
+    SeriesItem:
+      description: Contains series item data for "Interface Utilization" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        rxPercentAvg:
+          format: double
+          description: The average receive utilization
+          type: number
+        rxPercentMin:
+          format: double
+          description: The minimum receive utilization
+          type: number
+        rxPercentMax:
+          format: double
+          description: The maximum receive utilization
+          type: number
+        txPercentAvg:
+          format: double
+          description: The average transmit utilization
+          type: number
+        txPercentMin:
+          format: double
+          description: The minimum transmit utilization
+          type: number
+        txPercentMax:
+          format: double
+          description: The maximum transmit utilization
+          type: number
+    MemorySeriesItem:
+      description: This class contains values of memory utilization series item
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgPercent:
+          format: double
+          description: Average percentage of memory used.
+          type: number
+        minPercent:
+          format: double
+          description: Min percentage of memory used.
+          type: number
+        maxPercent:
+          format: double
+          description: Max percentage of memory used.
+          type: number
+    PageResult_List_PingResponseTime:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_PingResponseTime'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/PingResponseTime'
+          readOnly: true
+    PagingInfo_List_MemoryUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_List_StateChangeTimeline:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_DiskUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DiskUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskUtilization'
+          readOnly: true
+    CpuUtilization:
+      description: This class implements a data-transfer object for the report "Cpu Utilization Report"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        cpu:
+          description: Cpu description
+          type: string
+        cpuId:
+          description: Cpu identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        minPercent:
+          format: double
+          description: Minimum value of Cpu utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Maximum value of Cpu utilization (decimal number)
+          type: number
+        avgPercent:
+          format: double
+          description: Average value of Cpu utilization (decimal number)
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/CpuSeriesItem'
+        id:
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

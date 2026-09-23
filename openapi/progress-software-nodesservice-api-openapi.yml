@@ -1,0 +1,828 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Nodes Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: NodesService
+  x-displayName: Managed Nodes
+paths:
+  /api/v0/nodes:
+    post:
+      description: 'Creates a node and adds it to the Chef Automate node manager.
+
+        Requires a FQDN or IP address, a user-specified name, and a ssh or winrm credential reference.
+
+        Useful for creating nodes for the purpose of running compliance scan jobs.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "name": "my-vagrant-node",
+
+        "manager":"automate",
+
+        "target_config": {
+
+        "backend":"ssh",
+
+        "host":"localhost",
+
+        "secrets":["b75195e5-a173-4502-9f59-d949adfe2c38"],
+
+        "port": 22
+
+        },
+
+        "tags": [
+
+        { "key":"test-node", "value":"is amazing" }
+
+        ]
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:create
+
+        ```'
+      tags:
+      - NodesService
+      summary: Create a Node
+      operationId: NodesService_Create
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.Id'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.v1.Node'
+        required: true
+  /api/v0/nodes/bulk-create:
+    post:
+      description: 'Creates multiple nodes from a list of node data.
+
+        `hosts` field is required. Multiple hosts may be defined in this field.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "name_prefix": "000-my-ssh-node",
+
+        "manager":"automate",
+
+        "target_config": {
+
+        "backend":"ssh",
+
+        "hosts":["localhost","127.0.0.1"],
+
+        "secrets":["b75195e5-a173-4502-9f59-d949adfe2c38"],
+
+        "port": 22
+
+        },
+
+        "tags": [
+
+        { "key":"test-node", "value":"is-amazing" },
+
+        ]
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:create
+
+        ```'
+      tags:
+      - NodesService
+      summary: Bulk Create Nodes
+      operationId: NodesService_BulkCreate
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.Ids'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.v1.Nodes'
+        required: true
+  /api/v0/nodes/delete:
+    post:
+      description: 'Deletes a set of nodes that match a filter.
+
+        Available filters: account_id, last_contact, manager_id, manager_type, name, platform_name,
+
+        platform_release, region, source_id, state, statechange_timerange, status,
+
+        last_run_timerange, last_scan_timerange, last_run_status, last_scan_status,
+
+        last_run_penultimate_status, last_scan_penultimate_status
+
+
+        Example:
+
+        ```
+
+        {"filters": [{"key": "name", "values": ["vj*"]}]}''
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:delete
+
+        ```'
+      tags:
+      - NodesService
+      summary: Bulk Delete Nodes by Filter
+      operationId: NodesService_BulkDelete
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.BulkDeleteResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.v1.Query'
+        required: true
+  /api/v0/nodes/delete/ids:
+    post:
+      description: 'Deletes a set of nodes given a list of IDs.
+
+        Invalid IDs will be ignored.
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:delete
+
+        ```'
+      tags:
+      - NodesService
+      summary: Bulk Delete Nodes by ID
+      operationId: NodesService_BulkDeleteById
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.BulkDeleteResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.v1.Ids'
+        required: true
+  /api/v0/nodes/id/{id}:
+    get:
+      description: 'Returns the details for a node given the node ID.
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:get
+
+        ```'
+      tags:
+      - NodesService
+      summary: Show Node Details
+      operationId: NodesService_Read
+      parameters:
+      - description: Unique node ID (UUID)
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.Node'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'This PUT operation overwrites ALL node details and requires the complete set of node details,
+
+        consisting of a FQDN or IP address, a user-specified name, and the ID for an ssh or winrm credential.
+
+        Substitute the desired values for the existing node details in the PUT message.
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:update
+
+        ```'
+      tags:
+      - NodesService
+      summary: Update Node
+      operationId: NodesService_Update
+      parameters:
+      - description: Unique node ID (UUID).
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.v1.Node'
+        required: true
+    delete:
+      description: 'Deletes the node with the node ID.
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:delete
+
+        ```'
+      tags:
+      - NodesService
+      summary: Delete a Node
+      operationId: NodesService_Delete
+      parameters:
+      - description: Unique node ID (UUID)
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/nodes/rerun/id/{id}:
+    get:
+      description: 'Use this to run an `inspec detect` job on the node, which updates the status to reflect that the node is reachable or unreachable.
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:rerun
+
+        ```'
+      tags:
+      - NodesService
+      summary: List Node Status
+      operationId: NodesService_Rerun
+      parameters:
+      - description: Unique node ID (UUID)
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.RerunResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/nodes/search:
+    post:
+      description: 'Makes a list of nodes.
+
+        Supports filtering, pagination, and sorting.
+
+        Adding a filter narrows the list of nodes to only those that match the filter or filters.
+
+        Supported filters:
+
+        account_id, last_contact, manager_id, manager_type, name, platform_name,
+
+        platform_release, region, source_id, state, statechange_timerange, status,
+
+        last_run_timerange, last_scan_timerange, last_run_status, last_scan_status,
+
+        last_run_penultimate_status, last_scan_penultimate_status
+
+
+        Example:
+
+        ```
+
+        {
+
+        "filters":[
+
+        {"key": "last_scan_status", "values": ["FAILED"]},
+
+        {"key": "last_scan_penultimate_status", "values": ["PASSED"]},
+
+        {"key": "name", "values": ["MyNode*"]}
+
+        ],
+
+        "page":1, "per_page":100,
+
+        "sort":"status", "order":"ASC"
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        infra:nodes:list
+
+        ```'
+      tags:
+      - NodesService
+      summary: List and Filter Nodes
+      operationId: NodesService_List
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.v1.Nodes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.v1.Query'
+        required: true
+components:
+  schemas:
+    chef.automate.api.nodes.v1.LastContactData:
+      description: Most recent node data from the latest Chef Infra run and InSpec scan.
+      type: object
+      properties:
+        end_time:
+          description: Last node report endtime.
+          type: string
+          format: date-time
+        id:
+          description: Chef Infra run report ID or InSpec scan report ID.
+          type: string
+        penultimate_status:
+          description: Next-to-last node status report.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData.Status'
+        status:
+          description: Last node report status.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData.Status'
+    chef.automate.api.nodes.v1.RerunResponse:
+      type: object
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.nodes.v1.Query:
+      type: object
+      properties:
+        filters:
+          description: Use filters to limit the set of nodes to delete.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Filter'
+        order:
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.Query.OrderType'
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        per_page:
+          description: The number of results on each page.
+          type: integer
+          format: int32
+        sort:
+          description: Sort the results on a specific field.
+          type: string
+    chef.automate.api.nodes.v1.Query.OrderType:
+      description: Return the results in ascending or descending order.
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
+    chef.automate.api.nodes.v1.ResultsRow:
+      description: Summary of the last Chef InSpec scan job run on the node.
+      type: object
+      properties:
+        end_time:
+          description: End time on the report.
+          type: string
+          format: date-time
+        job_id:
+          description: Unique ID of the scan job that generated the report.
+          type: string
+        node_id:
+          description: Unique node ID.
+          type: string
+        report_id:
+          description: Unique ID of the report generated by the InSpec scan.
+          type: string
+        result:
+          description: Error message returned after several failed attempts to contact a node.
+          type: string
+        start_time:
+          description: Start time on the report.
+          type: string
+          format: date-time
+        status:
+          description: Status of the report (failed, success, skipped).
+          type: string
+    chef.automate.api.nodes.v1.LastContactData.Status:
+      type: string
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - PASSED
+      - FAILED
+      - SKIPPED
+    chef.automate.api.nodes.v1.TargetConfig:
+      description: Details for ssh/winrm access of the node.
+      type: object
+      properties:
+        backend:
+          description: Node backend type (ssh, winrm, aws, ssm, azure, gcp).
+          type: string
+        host:
+          description: Node FQDN or IP address.
+          type: string
+        hosts:
+          description: List of hostnames (FQDN or IP address) for bulk creating nodes.
+          type: array
+          items:
+            type: string
+        port:
+          type: integer
+          format: int32
+          title: ssh or winrm connection port
+        secrets:
+          description: List of credential IDs for a node.
+          type: array
+          items:
+            type: string
+        self_signed:
+          description: Allow self-signed certificate (boolean).
+          type: boolean
+        ssl:
+          description: Check ssl (boolean).
+          type: boolean
+        sudo:
+          description: Uses `sudo` (boolean).
+          type: boolean
+        sudo_options:
+          description: Sudo options to use when accessing the node.
+          type: string
+        user:
+          description: Username from the credential ID for this node.
+          type: string
+    chef.automate.api.common.query.Kv:
+      type: object
+      properties:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
+    chef.automate.api.nodes.v1.Nodes:
+      type: object
+      properties:
+        nodes:
+          description: List of nodes.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.v1.Node'
+        total:
+          description: Total number of nodes in the system.
+          type: integer
+          format: int32
+        total_reachable:
+          description: Total number of reachable nodes in the system.
+          type: integer
+          format: int32
+        total_unknown:
+          description: Total number of unknown nodes in the system.
+          type: integer
+          format: int32
+        total_unreachable:
+          description: Total number of unreachable nodes in the system.
+          type: integer
+          format: int32
+    chef.automate.api.nodes.v1.Ids:
+      type: object
+      properties:
+        ids:
+          description: List of node UUIDs.
+          type: array
+          items:
+            type: string
+    chef.automate.api.nodes.v1.Id:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Unique node ID (UUID)
+    chef.automate.api.nodes.v1.BulkDeleteResponse:
+      type: object
+      properties:
+        names:
+          description: List of deleted nodes, by name.
+          type: array
+          items:
+            type: string
+    chef.automate.api.nodes.v1.Node:
+      description: Node information.
+      type: object
+      properties:
+        connection_error:
+          description: Last connection error received when trying to contact the node.
+          type: string
+        id:
+          description: Unique node ID (UUID).
+          type: string
+        last_contact:
+          description: Timestamp of the last `detect` or `exec` job.
+          type: string
+          format: date-time
+        last_job:
+          description: Results of the last compliance scan job for this node.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.ResultsRow'
+        manager:
+          description: Node manager (automate, aws-ec2, aws-api, azure-vm, azure-api, gcp).
+          type: string
+        manager_ids:
+          description: List of manager IDs for the node.
+          type: array
+          items:
+            type: string
+        name:
+          description: User-specified node name.
+          type: string
+        name_prefix:
+          description: Prefix for node name. The full node name is the prefix + the host.
+          type: string
+        platform:
+          description: Node platform.
+          type: string
+        platform_version:
+          description: Node platform version.
+          type: string
+        projects:
+          description: List of projects associated with the node.
+          type: array
+          items:
+            type: string
+        run_data:
+          description: Most recent node data from the last Chef Infra run results.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData'
+        scan_data:
+          description: Most recent compliance scan data for the node from the last InSpec scan.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData'
+        state:
+          description: Last known node state (running, stopped, terminated).
+          type: string
+        status:
+          description: Node status (unreachable, reachable, unknown).
+          type: string
+        tags:
+          description: Node tags.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        target_config:
+          description: Node configuration for ssh or winrm.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.TargetConfig'
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.common.query.Filter:
+      type: object
+      properties:
+        exclude:
+          description: "Include matches for this filter.(boolean)\n`true` (default) *includes* all nodes that match this filter. \n`false` *excludes* all nodes that match this filter."
+          type: boolean
+        key:
+          description: Field to filter on.
+          type: string
+        values:
+          description: Field values to filter on.
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

@@ -1,0 +1,670 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Teams API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- description: Teams are used to group local users for policy membership.
+  name: Teams
+  x-displayName: IAM Teams
+paths:
+  /apis/iam/v2/teams:
+    get:
+      description: 'Lists all local teams.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teams:list
+
+        ```'
+      tags:
+      - Teams
+      summary: Lists all local teams
+      operationId: Teams_ListTeams
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.ListTeamsResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    post:
+      description: 'Creates a local team that is used to group local users as members of IAM policies.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teams:create
+
+        ```'
+      tags:
+      - Teams
+      summary: Creates a local team
+      operationId: Teams_CreateTeam
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateTeamResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"id": "test-id", "name": "My Test Team", "projects": ["project1", "project2"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateTeamReq'
+        required: true
+  /apis/iam/v2/teams/{id}:
+    get:
+      description: 'Returns the details for a team.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teams:get
+
+        ```'
+      tags:
+      - Teams
+      summary: Get a team
+      operationId: Teams_GetTeam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.GetTeamResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'Updates a local team.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teams:update
+
+        ```'
+      tags:
+      - Teams
+      summary: Updates a local team
+      operationId: Teams_UpdateTeam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateTeamResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "My Update Test Team", "projects": ["project1", "projectnew"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateTeamReq'
+        required: true
+    delete:
+      description: 'Deletes a local team and removes it from any policies.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teams:delete
+
+        ```'
+      tags:
+      - Teams
+      summary: Deletes a local team
+      operationId: Teams_DeleteTeam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.DeleteTeamResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /apis/iam/v2/teams/{id}/users:
+    get:
+      description: 'Lists all users of a local team. Users are listed by their membership_id.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teamUsers:list
+
+        ```'
+      tags:
+      - Teams
+      summary: Gets local team membership
+      operationId: Teams_GetTeamMembership
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.GetTeamMembershipResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /apis/iam/v2/teams/{id}/users:add:
+    post:
+      description: 'Adds a list of users to a local team. Users are added by their membership_id.
+
+        The request currently does not validate that membership_id maps to a real user.
+
+
+        The membership_id for users can be found via GET /apis/apis/iam/v2/users/.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teamUsers:create
+
+        ```'
+      tags:
+      - Teams
+      summary: Adds local team membership
+      operationId: Teams_AddTeamMembers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.AddTeamMembersResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{membership_ids: ["527ed96f-2ecb-4f8f-abd7-0bf6511459ac", "987c8475-5747-4f9b-a766-c337f73965ae"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.AddTeamMembersReq'
+        required: true
+  /apis/iam/v2/teams/{id}/users:remove:
+    post:
+      description: 'Removes a list of users from a local team. Users are removed by their membership_id.
+
+        The request currently does not validate that membership_id maps to a real user.
+
+
+        The membership_id for users can be found via GET /apis/apis/iam/v2/users/.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:teamUsers:delete
+
+        ```'
+      tags:
+      - Teams
+      summary: Removes local team membership
+      operationId: Teams_RemoveTeamMembers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.RemoveTeamMembersResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{membership_ids: ["527ed96f-2ecb-4f8f-abd7-0bf6511459ac", "987c8475-5747-4f9b-a766-c337f73965ae"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.RemoveTeamMembersReq'
+        required: true
+  /apis/iam/v2/users/{membership_id}/teams:
+    get:
+      description: 'Lists all local teams for a specific user. You must use their membership_id in the request URL.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:userTeams:get
+
+        ```'
+      tags:
+      - Teams
+      summary: Gets team membership for a user
+      operationId: Teams_GetTeamsForMember
+      parameters:
+      - name: membership_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.GetTeamsForMemberResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+components:
+  schemas:
+    chef.automate.api.iam.v2.UpdateTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.RemoveTeamMembersResp:
+      type: object
+      properties:
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.CreateTeamReq:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projects:
+          type: array
+          items:
+            type: string
+      example:
+        id: my-team-id
+        name: My Test Team
+        projects:
+        - project1
+        - project2
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.AddTeamMembersReq:
+      type: object
+      required:
+      - id
+      - membership_ids
+      properties:
+        id:
+          type: string
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        id: admins
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.AddTeamMembersResp:
+      type: object
+      properties:
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.UpdateTeamReq:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projects:
+          type: array
+          items:
+            type: string
+      example:
+        id: my-team-id
+        name: My Test Team
+        projects:
+        - project1
+        - project2
+    chef.automate.api.iam.v2.GetTeamMembershipResp:
+      type: object
+      properties:
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.Team:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projects:
+          type: array
+          items:
+            type: string
+    chef.automate.api.iam.v2.ListTeamsResp:
+      type: object
+      properties:
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        teams:
+        - id: test-1
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+        - id: test-2
+          name: My Test Team 2
+          projects:
+          - project1
+    chef.automate.api.iam.v2.GetTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.DeleteTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.GetTeamsForMemberResp:
+      type: object
+      properties:
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        teams:
+        - id: test-1
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+        - id: test-2
+          name: My Test Team 2
+          projects:
+          - project1
+    chef.automate.api.iam.v2.CreateTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.RemoveTeamMembersReq:
+      type: object
+      required:
+      - id
+      - membership_ids
+      properties:
+        id:
+          type: string
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        id: admins
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

@@ -1,0 +1,1683 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Monitor API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: Monitor
+paths:
+  /api/v1/monitors/{monitorId}/assignments/-:
+    get:
+      tags:
+      - Monitor
+      summary: Get monitor assignments for a single monitor
+      operationId: Monitor_MonitorAssignmentsById
+      parameters:
+      - name: monitorId
+        in: path
+        description: monitor id to be returned
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor assignment, default=active
+        required: false
+        schema:
+          type: string
+          enum:
+          - active
+          - performance
+          - passive
+      - name: view
+        in: query
+        description: information level return for each assignment. Default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - minimum
+          - basic
+          - status
+      - name: deviceView
+        in: query
+        description: information level returned for each device with an assignment. default=id
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - card
+          - overview
+      - name: pageId
+        in: query
+        description: page to return, empty will provide 1st page of data. default=empty
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_AssignedMonitorWithDevice'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_AssignedMonitorWithDevice'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - Monitor
+      summary: Delete assignments for a monitor
+      description: 'Note: This call will only delete assignment to devices the caller has rights to modify'
+      operationId: Monitor_DeleteMonitorAssignmentsById
+      parameters:
+      - name: monitorId
+        in: path
+        description: monitor id to remove assignments for
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor assignment
+        required: true
+        schema:
+          type: string
+          enum:
+          - active
+          - performance
+          - passive
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+  /api/v1/monitors/-/assignments/-:
+    get:
+      tags:
+      - Monitor
+      summary: Get active monitor assignments for a single monitor
+      operationId: Monitor_MonitorAssignments
+      parameters:
+      - name: type
+        in: query
+        description: type of monitor assignment, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: view
+        in: query
+        description: information level return for each assignment. Default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - minimum
+          - basic
+          - status
+      - name: deviceView
+        in: query
+        description: information level returned for each device with an assignment. default=id
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - card
+          - overview
+      - name: search
+        in: query
+        description: return only assignments that contain this string in monitor type name, description or class id. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page to return, empty will provide 1st page of data. default=empty
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_AssignedMonitorWithDevice'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_AssignedMonitorWithDevice'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - Monitor
+      summary: Delete assignments for a monitor
+      description: 'Note: This call will only delete assignment for devices the caller has rights to modify only'
+      operationId: Monitor_DeleteMonitorAssignmentsByQuery
+      parameters:
+      - name: type
+        in: query
+        description: type of monitor assignment to delete, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: includeDeviceMonitors
+        in: query
+        description: match device specific monitor assignments, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: includeSystemMonitors
+        in: query
+        description: match assignments to monitors that are consider system, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: includeCoreMonitors
+        in: query
+        description: match assignments to monitors that are consider core, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: search
+        in: query
+        description: remove only assignments to monitors that contain this string in monitor type name, description or class id. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+  /api/v1/monitors/{monitorId}:
+    get:
+      tags:
+      - Monitor
+      summary: Return single monitor
+      operationId: Monitor_GetById
+      parameters:
+      - name: monitorId
+        in: path
+        description: ID of the monitor
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor to return, default=active
+        required: false
+        schema:
+          type: string
+          enum:
+          - active
+          - performance
+          - passive
+      - name: view
+        in: query
+        description: level of information returned, default=info
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - info
+          - summary
+          - details
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_MonitorTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_MonitorTemplateReadResults'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Monitor
+      summary: Update a monitor's configuration
+      description: 'This update method expects the calling application to include a populated properties array (configuration) for the monitor.
+
+        * If you pass this method an empty property value, this input can clear a previously set configuration value.
+
+        * Empty configuration properties can revert to default configuration values for properties with defined default values.
+
+        * If you pass this method an empty array, this reverts the monitor to its simplest default configuration.
+
+        \n\n**Tip:** When you want to update a monitor configuration, use the monitor ID to get a populated (or default) configuration
+
+        properties array. Then re-use it. Adjust property values as needed and include this configuration properties array with the request body.'
+      operationId: Monitor_UpdateMonitorById
+      parameters:
+      - name: monitorId
+        in: path
+        description: ID of the monitor
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor to update
+        required: true
+        schema:
+          type: string
+          enum:
+          - active
+          - performance
+          - passive
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorUpdate'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MonitorUpdate'
+        description: the changes to be made to the monitor
+        required: true
+    delete:
+      tags:
+      - Monitor
+      summary: Delete a monitor
+      description: 'Note: The user may have right to remove a monitor but not see or delete all assignment.'
+      operationId: Monitor_DeleteMonitorById
+      parameters:
+      - name: monitorId
+        in: path
+        description: monitor to be removed
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor
+        required: true
+        schema:
+          type: string
+          enum:
+          - active
+          - performance
+          - passive
+      - name: failIfInUse
+        in: query
+        description: do not delete monitor if in use. Default=true
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+  /api/v1/monitors/-:
+    get:
+      tags:
+      - Monitor
+      summary: Return set of monitors
+      operationId: Monitor_GetAll
+      parameters:
+      - name: type
+        in: query
+        description: filter for type of monitors. default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: view
+        in: query
+        description: level of information returned, default=info
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - info
+          - summary
+          - details
+      - name: includeDeviceMonitors
+        in: query
+        description: return device specific monitors, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: includeSystemMonitors
+        in: query
+        description: return monitors owned by the system and cannot be modified. default=false
+        required: false
+        schema:
+          type: boolean
+      - name: includeCoreMonitors
+        in: query
+        description: '"return monitors that are considers core, default=false"'
+        required: false
+        schema:
+          type: boolean
+      - name: search
+        in: query
+        description: return only monitors that contain this string in display name, description or classId. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: allMonitors
+        in: query
+        description: 'Deprecated: include both device and system monitors, etc. default=false'
+        required: false
+        schema:
+          type: boolean
+      - name: pageId
+        in: query
+        description: page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: maximum number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_MonitorTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_MonitorTemplateReadResults'
+      security:
+      - oauth2: []
+    post:
+      tags:
+      - Monitor
+      summary: Add to the monitor library
+      operationId: Monitor_CreateMonitor
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorAdd'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MonitorAdd'
+        description: add operation for a monitor
+        required: true
+    delete:
+      tags:
+      - Monitor
+      summary: Delete a set of monitors
+      description: 'Note: The user may have right to remove a monitor but not see or delete all assignment.'
+      operationId: Monitor_DeleteMonitors
+      parameters:
+      - name: type
+        in: query
+        description: type of monitor being deleted
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: includeDeviceMonitors
+        in: query
+        description: delete device specific monitors, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: includeSystemMonitors
+        in: query
+        description: delete monitors owned by the system and cannot be modified. default=false
+        required: false
+        schema:
+          type: boolean
+      - name: search
+        in: query
+        description: delete only monitors that contain this string in display name, description or classId. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: failIfInUse
+        in: query
+        description: do not delete monitor if in use. Default=true
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - Monitor
+      summary: Do multiple operations against the monitor library
+      operationId: Monitor_PatchMonitors
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MonitorBatch'
+        description: set of operations to preform
+        required: true
+  /api/v1/monitors/-/config/supported-types:
+    get:
+      tags:
+      - Monitor
+      summary: Return set of supported monitor types
+      operationId: Monitor_GetRegisteredTypes
+      parameters:
+      - name: type
+        in: query
+        description: filter by base monitor type. default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: includeCoreMonitorTypes
+        in: query
+        description: return supported monitor types considered core. default=false
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_MonitorSupportedType'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_MonitorSupportedType'
+      security:
+      - oauth2: []
+  /api/v1/monitors/{monitorId}/config/template:
+    get:
+      tags:
+      - Monitor
+      summary: Return template for a monitor
+      operationId: Monitor_GetTemplateById
+      parameters:
+      - name: monitorId
+        in: path
+        description: The id of the monitor
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: query
+        description: empty then sensitive data will be clear text. if an obfuscation key is provided, the same key will be required restore the sensitive data
+        required: false
+        schema:
+          type: string
+      - name: dropSensitiveData
+        in: query
+        description: replace sensitive data with an empty value
+        required: false
+        schema:
+          type: boolean
+      - name: type
+        in: query
+        description: type of monitor to return, default=active
+        required: false
+        schema:
+          type: string
+          enum:
+          - active
+          - performance
+          - passive
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_MonitorTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_MonitorTemplateReadResults'
+      security:
+      - oauth2: []
+  /api/v1/monitors/-/config/template:
+    get:
+      tags:
+      - Monitor
+      summary: Return set of monitor templates
+      operationId: Monitor_GetTemplates
+      parameters:
+      - name: key
+        in: query
+        description: empty then sensitive data will be clear text. When an obfuscation key is provided, the same key is required to restore the sensitive data
+        required: false
+        schema:
+          type: string
+      - name: replaceSensitiveData
+        in: query
+        description: replace sensitive data with empty value
+        required: false
+        schema:
+          type: boolean
+      - name: type
+        in: query
+        description: filter for type of monitors. default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: includeDeviceMonitors
+        in: query
+        description: return device specific monitors, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: includeSystemMonitors
+        in: query
+        description: return monitors owned by the system and cannot be modified. default=false
+        required: false
+        schema:
+          type: boolean
+      - name: search
+        in: query
+        description: return only monitors that contain this string in display name, description or classId. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: allMonitors
+        in: query
+        description: 'Deprecated: include both device and system monitors, etc. default=false'
+        required: false
+        schema:
+          type: boolean
+      - name: pageId
+        in: query
+        description: page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: maximum number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_MonitorTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_MonitorTemplateReadResults'
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - Monitor
+      summary: Apply multiple monitor templates
+      operationId: Monitor_ApplyMonitorTemplates
+      parameters:
+      - name: key
+        in: query
+        description: value used to unwrap sensitive data
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplyMonitorTemplates'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ApplyMonitorTemplates'
+        description: set of monitor templates to apply
+        required: true
+components:
+  schemas:
+    ActiveMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface active monitor assignment where comment is the interface description'
+          type: string
+        argument:
+          description: Gets or sets the argument.
+          type: string
+        interfaceId:
+          description: Gets or sets the network interface id
+          type: string
+        pollingIntervalSeconds:
+          format: int32
+          description: 'Gets or sets the polling interval for the monitor
+
+            Valid values are between 10 and 86400 seconds inclusive'
+          type: integer
+        criticalOrder:
+          format: int32
+          description: Gets or sets the critical order for the active monitor
+          type: integer
+        actionPolicyId:
+          description: Gets or sets the action policy id
+          type: string
+        actionPolicyName:
+          description: Gets or sets the action policy Name
+          type: string
+    DeviceOverview:
+      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
+      type: object
+      properties:
+        downActiveMonitors:
+          description: A collection of Down Active monitor status items
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorAssignmentStatus'
+        totalActiveMonitors:
+          format: int32
+          description: The total number of active monitors for this device
+          type: integer
+        totalActiveMonitorsDown:
+          format: int32
+          description: The total number of active monitors that are down for this device
+          type: integer
+        notes:
+          description: The notes field for the device
+          type: string
+        hostName:
+          description: The hostname for the device
+          type: string
+        networkAddress:
+          description: The current network address of the device. Usually an IP address.
+          type: string
+        role:
+          description: The primary role of the device (e.g. router, switch, etc.).
+          type: string
+        brand:
+          description: The brand for the device (e.g. Cisco)
+          type: string
+        os:
+          description: The operating system for the device (e.g. windows, linux, etc)
+          type: string
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    TemplateMap:
+      description: provides a mapping from a template id to the resulting generated id.
+      type: object
+      properties:
+        templateId:
+          description: Caller provided template Id
+          type: string
+        resultId:
+          description: Id generated when template was applied.
+          type: string
+    MonitorUpdate:
+      description: Update object for Monitors
+      type: object
+      properties:
+        name:
+          description: monitor description
+          type: string
+        description:
+          description: monitor description
+          type: string
+        propertyBags:
+          description: Configuration Data Field
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorPropertyBagAdd'
+        useInDiscovery:
+          description: 'Update the "useInDiscovery" value on monitor.
+
+            If null, no update will be attempted'
+          type: boolean
+    PerformanceMonitorTemplate:
+      description: Template representing a Performance monitor.
+      type: object
+      properties:
+        ownedByDevice:
+          $ref: '#/components/schemas/DeviceTemplateReferenceName'
+          description: Device Assignment Field
+        hasSensitiveData:
+          description: 'True if the monitor is a script based monitor and the user
+
+            does not have rights to see the property bags.'
+          type: boolean
+        templateId:
+          description: Unique identifier for this template
+          type: string
+        monitorTypeInfo:
+          $ref: '#/components/schemas/MonitorTypeInfo'
+          description: Gets or sets the monitor type information.
+        monitorId:
+          description: Monitor Id Field obsoleted 20.0
+          type: string
+        propertyBags:
+          description: Configuration Data Field
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorPropertyBag'
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    MonitorAdd:
+      description: Update object for Monitors
+      type: object
+      properties:
+        allowSystemMonitorCreation:
+          description: 'set true if using the add operation to create a system monitor.
+
+            each system monitor has its own creation rules. Default is false.'
+          type: boolean
+        name:
+          description: Name of monitor
+          type: string
+        description:
+          description: Description of monitor
+          type: string
+        monitorTypeInfo:
+          $ref: '#/components/schemas/MonitorTypeInfoAdd'
+          description: Type of monitor to create and type
+        propertyBags:
+          description: Configuration Data Field
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorPropertyBagAdd'
+        useInDiscovery:
+          description: 'Update the "useInDiscovery" value on monitor.
+
+            If null, no update will be attempted'
+          type: boolean
+        ownedByDevice:
+          $ref: '#/components/schemas/DeviceTemplateReferenceName'
+          description: Device Assignment Field
+    MonitorPropertyBagAdd:
+      description: 'List of attributes to be added to the device
+
+        Attribute Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of property'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for property.
+          type: string
+    PagingInfo_List_AssignedMonitorWithDevice:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    Result_MonitorTemplateReadResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MonitorTemplateReadResults'
+          description: The data payload
+          readOnly: true
+    MonitorTypeInfo:
+      description: DTO Object For Monitor Types
+      type: object
+      properties:
+        name:
+          description: The name of the monitor meta type
+          type: string
+        classId:
+          description: The COM class identifier (CLSID) for the monitor type
+          type: string
+        requiredCredentials:
+          description: The mask indicating what type of credentials are required by this meta type
+          type: array
+          items:
+            type: string
+        baseType:
+          description: Indicates the BaseType of this Monitor type
+          type: string
+        assemblyName:
+          description: Assembly Name that implements this Type
+          type: string
+        manufacturer:
+          description: Name of the Manufacturer of the Monitor
+          type: string
+        plugInName:
+          description: The Plugin Name this Monitor belongs to
+          type: string
+    ActiveMonitorTemplate:
+      description: Template representing an active monitor.
+      type: object
+      properties:
+        useInDiscovery:
+          description: 'Discovery flag for active monitors, when true, this active monitor will be tested during a discovery rescan operation.
+
+            default=false.'
+          type: boolean
+        hasSensitiveData:
+          description: 'True if the monitor is a script based monitor and the user
+
+            does not have rights to see the property bags.'
+          type: boolean
+        templateId:
+          description: Unique identifier for this template
+          type: string
+        monitorTypeInfo:
+          $ref: '#/components/schemas/MonitorTypeInfo'
+          description: Gets or sets the monitor type information.
+        monitorId:
+          description: Monitor Id Field obsoleted 20.0
+          type: string
+        propertyBags:
+          description: Configuration Data Field
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorPropertyBag'
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    MonitorAssignmentStatus:
+      description: The current monitoring status of this monitor
+      type: object
+      properties:
+        state:
+          description: The internal state of the monitor
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        reason:
+          description: The reason a monitor is in the current state
+          type: string
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface monitor assignment where comment is the interface description'
+          type: string
+        enabled:
+          description: Indicates whether the monitor is enabled
+          type: boolean
+        id:
+          type: string
+    PagingInfo_MonitorTemplateReadResults:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    MonitorBatch:
+      description: Batch operation against monitors
+      type: object
+      properties:
+        removeAssignments:
+          description: List of monitor ids to remove from library
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorResource'
+        removeAssignmentsByQuery:
+          description: remove monitor based on a query
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoveMonitorAssignmentQuery'
+        remove:
+          description: List of monitor ids to remove from library
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoveMonitorOp'
+        removeByQuery:
+          description: remove monitor based on a query
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoveMonitorTypeQuery'
+        changes:
+          description: List of monitor to be change
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorUpdateOp'
+        adds:
+          description: List of new monitors to add
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorAdd'
+    TemplateErrorMap:
+      description: A set of errors per template
+      type: object
+      properties:
+        templateId:
+          description: Template identifier error was created for.
+          type: string
+        messages:
+          description: Errors found with template
+          type: array
+          items:
+            type: string
+    MonitorPropertyBag:
+      description: 'List of attributes to be added to the device
+
+        Attribute Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of property'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for property.
+          type: string
+        isSensitive:
+          description: set true if data is sensitive based on sensitivity rules
+          type: boolean
+    ActionItem:
+      description: Action to be taken
+      type: object
+      properties:
+        actionTypeId:
+          description: Get action type id
+          type: string
+        actionTypeName:
+          description: Name of action type
+          type: string
+        actionTypeClassId:
+          description: Class of action type
+          type: string
+    PageResult_MonitorTemplateReadResults:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_MonitorTemplateReadResults'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/MonitorTemplateReadResults'
+          description: The data payload
+          readOnly: true
+    Result_List_MonitorSupportedType:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorSupportedType'
+          readOnly: true
+    MonitorSupportedType:
+      description: Supported Monitor Type
+      type: object
+      properties:
+        name:
+          description: The name of the monitor meta type
+          type: string
+        description:
+          description: The description of the monitor meta type
+          type: string
+        classId:
+          description: The COM class identifier (CLSID) for the monitor type
+          type: string
+        requiredCredentialsMask:
+          description: The mask indicating what type of credentials are required by this meta type
+          type: array
+          items:
+            type: string
+        baseType:
+          description: Indicates the BaseType of this Monitor type
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        assemblyName:
+          description: Assembly Name that implements this Type
+          type: string
+        manufacturer:
+          description: Name of the Manufacturer of the Monitor
+          type: string
+        plugInName:
+          description: The Plugin Name this Monitor belongs to
+          type: string
+    ApplyTemplateResults:
+      description: Results of an apply operations
+      type: object
+      properties:
+        idMap:
+          description: returns a list of template Id to device identifier that where created.
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateMap'
+        errors:
+          description: return a list of template to errors/warnings produced by each template
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateErrorMap'
+        update:
+          $ref: '#/components/schemas/TemplateUpdate'
+          description: return information about the update request that may be requested
+        operations:
+          format: int32
+          description: when possible, number of operations will be returned
+          type: integer
+        successful:
+          format: int32
+          description: when possible, number of successful operations will be returned
+          type: integer
+    PassiveMonitorTemplate:
+      description: Template representing an active monitor.
+      type: object
+      properties:
+        templateId:
+          description: Unique identifier for this template
+          type: string
+        monitorTypeInfo:
+          $ref: '#/components/schemas/MonitorTypeInfo'
+          description: Gets or sets the monitor type information.
+        monitorId:
+          description: Monitor Id Field obsoleted 20.0
+          type: string
+        propertyBags:
+          description: Configuration Data Field
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorPropertyBag'
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    ApplyMonitorTemplates:
+      description: Request to apply a set of monitor templates
+      type: object
+      properties:
+        activeMonitors:
+          description: Set of active monitor templates.
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveMonitorTemplate'
+        passiveMonitors:
+          description: Set of Passive monitor templates.
+          type: array
+          items:
+            $ref: '#/components/schemas/PassiveMonitorTemplate'
+        performanceMonitors:
+          description: Set of Performance monitor templates.
+          type: array
+          items:
+            $ref: '#/components/schemas/PerformanceMonitorTemplate'
+    Result_ApplyTemplateResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ApplyTemplateResults'
+          description: The data payload
+          readOnly: true
+    TemplateUpdate:
+      description: Request an update of the devices created while applying  template.
+      type: object
+      properties:
+        success:
+          description: Update request was successfully made
+          type: boolean
+        id:
+          description: Update returned by refresh/rescan request
+          type: string
+        name:
+          description: Device scan name returned by update request
+          type: string
+        description:
+          description: Device scan description returned by update request
+          type: string
+    MonitorResource:
+      description: simplest monitor resource
+      type: object
+      properties:
+        type:
+          description: Type of monitor being updated
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        id:
+          type: string
+    PerformanceMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        pollingIntervalMinutes:
+          format: int32
+          description: Gets or sets the polling interval for the monitor
+          type: integer
+    RemoveMonitorTypeQuery:
+      description: Monitor Remove Monitors by query
+      type: object
+      properties:
+        failInUse:
+          description: do not do operation if monitor is in use
+          type: boolean
+        includeSystemMonitors:
+          description: include monitors marked as system
+          type: boolean
+        includeDeviceMonitors:
+          description: remove monitors that are device specific
+          type: boolean
+        type:
+          description: Monitor type to query
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+          type: string
+        search:
+          description: search criteria to test name, description, classid, argument, comment
+          type: string
+    PassiveMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        actions:
+          description: Actions to be taken when passive monitor recieves an trap/event
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionItem'
+    PageResult_List_AssignedMonitorWithDevice:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_AssignedMonitorWithDevice'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/AssignedMonitorWithDevice'
+          readOnly: true
+    MonitorTypeInfoAdd:
+      description: Monitor type information
+      type: object
+      properties:
+        baseType:
+          description: type of monitor
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        classId:
+          description: class of monitor
+          type: string
+    RemoveMonitorAssignmentQuery:
+      description: Monitor Remove Associations by query
+      type: object
+      properties:
+        includeSystemMonitors:
+          description: include monitors marked as system
+          type: boolean
+        includeDeviceMonitors:
+          description: remove monitors that are device specific
+          type: boolean
+        includeCoreMonitors:
+          description: remove monitors that are device specific
+          type: boolean
+        type:
+          description: Monitor type to query
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+          type: string
+        search:
+          description: search criteria to test name, description, classid, argument, comment
+          type: string
+    MonitorTemplateReadResults:
+      description: Results returned when calling to read a monitor template
+      type: object
+      properties:
+        errors:
+          description: Set of errors encountered during the read request
+          type: array
+          items:
+            type: string
+        activeMonitors:
+          description: Set of active monitor templates.
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveMonitorTemplate'
+        passiveMonitors:
+          description: Set of Passive monitor templates.
+          type: array
+          items:
+            $ref: '#/components/schemas/PassiveMonitorTemplate'
+        performanceMonitors:
+          description: Set of Performance monitor templates.
+          type: array
+          items:
+            $ref: '#/components/schemas/PerformanceMonitorTemplate'
+    AssignedMonitorWithDevice:
+      description: Monitor assignment to devices
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceOverview'
+          description: information about the device the monitor is assigned
+        id:
+          description: assignment id
+          type: string
+        description:
+          description: Monitor library description for the monitor
+          type: string
+        status:
+          description: status of assigned monitor
+          type: string
+        type:
+          description: Type of monitor (active, performance, passive)
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeClassId:
+          description: The monitor type class id
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        enabled:
+          description: Monitors assignment is enabled if true
+          type: boolean
+        isGlobal:
+          description: Monitor Assignment is from the global monitor library if true.
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Setup active monitor assignment overrides
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: Setup performance monitor assignment overrides
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: Setup passive monitor assignment overrides
+    MonitorUpdateOp:
+      description: Update monitor operation
+      type: object
+      properties:
+        id:
+          description: Id to apply changes to, cannot be changed
+          type: string
+        type:
+          description: Type of monitor to be udpated, cannot be changed
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        name:
+          description: monitor description
+          type: string
+        description:
+          description: monitor description
+          type: string
+        propertyBags:
+          description: Configuration Data Field
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorPropertyBagAdd'
+        useInDiscovery:
+          description: 'Update the "useInDiscovery" value on monitor.
+
+            If null, no update will be attempted'
+          type: boolean
+    RemoveMonitorOp:
+      description: remove a single monitor from the system
+      type: object
+      properties:
+        failInUse:
+          description: do not do operation if monitor is in use
+          type: boolean
+        type:
+          description: Type of monitor being updated
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        id:
+          type: string
+    DeviceTemplateReferenceName:
+      description: Template for referenced names like groups or devices. Can include a group to better qualify the name.
+      type: object
+      properties:
+        parents:
+          description: 'List of parent nodes from "My Network" to the descendent container the name can
+
+            be found in.'
+          type: array
+          items:
+            type: string
+        name:
+          description: 'Required: Name of the object being referenced. If parents are no specified, than the
+
+            oldest object with that name will be used.'
+          type: string
+        id:
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

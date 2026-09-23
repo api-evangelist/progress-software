@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Miscellaneous Settings API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: MiscellaneousSettings
+paths:
+  /api/v1/settings/miscellaneous/aging/logs:
+    post:
+      tags:
+      - MiscellaneousSettings
+      summary: Update audit logs settings
+      operationId: POSTapi/v1/settings/miscellaneous/aging/logs-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogsSettingsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LogsSettingsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/LogsSettingsModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogsSettingsUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/LogsSettingsUpdateRequest'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/LogsSettingsUpdateRequest'
+        required: true
+components:
+  schemas:
+    LogsSettingsModel:
+      description: Represents audit logs settings.
+      properties:
+        logRetention:
+          description: 'Logs are retained ONLINE for a fixed number of days. After this period passes, logs are collected and saved as XML documents in the LOGS folder.
+
+            NOTE: This value must be greater than or equal to the current Delete User After Expiration value.'
+          type: integer
+          format: int32
+        archiveLogs:
+          description: Archive old log entries to /Archive/Logs before deleting.
+          type: boolean
+      xml:
+        name: LogsSettingsModel
+      type: object
+    LogsSettingsUpdateRequest:
+      properties:
+        logRetention:
+          description: 'Logs are retained ONLINE for a fixed number of days. After this period passes, logs are collected and saved as XML documents in the LOGS folder.
+
+            NOTE: This value must be greater than or equal to the current Delete User After Expiration value.'
+          type: integer
+          format: int32
+        archiveLogs:
+          description: Archive old log entries to /Archive/Logs before deleting.
+          type: boolean
+      xml:
+        name: LogsSettingsUpdateRequest
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

@@ -1,0 +1,178 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Public Organization Info API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: PublicOrganizationInfo
+paths:
+  /api/v1/info:
+    get:
+      tags:
+      - PublicOrganizationInfo
+      summary: Gets public information about organization
+      operationId: GETapi/v1/info?orgId={orgId}&language={language}-1.0
+      parameters:
+      - name: orgId
+        in: query
+        description: Organization ID
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: -1
+      - name: language
+        in: query
+        description: Response language
+        required: false
+        schema:
+          type: string
+          default: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrgModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PublicOrgModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PublicOrgModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    PublicOrgModel:
+      description: Represents organization data required for all scenarios
+      properties:
+        id:
+          description: Organization Id.
+          type: string
+        name:
+          description: Organization name.
+          type: string
+        shortName:
+          description: Organization short name.
+          type: string
+        language:
+          description: Organization language.
+          type: string
+        formattingLocale:
+          description: A Locale which is used for formatting dates and times in this organization.
+          type: string
+        securityBanner:
+          description: Organization security banner in default language.
+          type: string
+        securityNotice:
+          description: Organization security notice in default language.
+          type: string
+        securityNoticeStamp:
+          description: Organization security notice change stamp.
+          type: string
+        securityNoticeRequired:
+          description: Organization security notice requirement setting.
+          type: string
+          enum:
+          - NotRequired
+          - WhenNew
+          - Always
+        securityNoticeAcceptance:
+          description: Organization security acceptance notice in default language.
+          type: string
+        techInfo:
+          description: Organization tech support notice in default language.
+          type: string
+        techName:
+          description: Organization tech support name in default language.
+          type: string
+        techPhone:
+          description: Organization tech support phone in default language.
+          type: string
+        techEmail:
+          description: Organization tech support email in default language.
+          type: string
+        informationLink:
+          description: Organization information link in default language.
+          type: string
+        informationLinkName:
+          description: Organization information link name in default language.
+          type: string
+        contactLink:
+          description: Organization contact link in default language.
+          type: string
+        contactLinkName:
+          description: Organization contact link name in default language.
+          type: string
+        allowPassChangeRequests:
+          description: Organization allow password change requirement setting.
+          type: boolean
+        baseURL:
+          description: Organization base URL.
+          type: string
+        mfaTrustDeviceEnabled:
+          description: Defines if trust device functionality is enabled during mfa flow.
+          type: boolean
+        ssoAuthMode:
+          description: Defines SSO authentication mode.
+          type: string
+          enum:
+          - Invalid
+          - Optional
+          - Required
+        samlAuthMode:
+          readOnly: true
+          type: string
+      xml:
+        name: PublicOrgModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

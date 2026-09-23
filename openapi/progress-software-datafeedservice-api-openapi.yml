@@ -1,0 +1,575 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Datafeed Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: DatafeedService
+  x-displayName: Data Feed
+paths:
+  /api/v0/datafeed/config:
+    get:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_GlobalDataFeedConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.GlobalDataFeedConfigResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Datafeed service global data feed config
+      x-summary-source: derived
+  /api/v0/datafeed/destination:
+    post:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_AddDestination
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.AddDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.datafeed.AddDestinationRequest'
+        required: true
+      summary: Datafeed service add destination
+      x-summary-source: derived
+  /api/v0/datafeed/destination/enable/{id}:
+    patch:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_EnableDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.GetDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.datafeed.UpdateDestinationEnableRequest'
+        required: true
+      summary: Datafeed service enable destination
+      x-summary-source: derived
+  /api/v0/datafeed/destination/{id}:
+    get:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_GetDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.GetDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Datafeed service get destination
+      x-summary-source: derived
+    delete:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_DeleteDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.DeleteDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Datafeed service delete destination
+      x-summary-source: derived
+    patch:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_UpdateDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.UpdateDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.datafeed.UpdateDestinationRequest'
+        required: true
+      summary: Datafeed service update destination
+      x-summary-source: derived
+  /api/v0/datafeed/destinations:
+    post:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_ListDestinations
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.ListDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.datafeed.ListDestinationRequest'
+        required: true
+      summary: Datafeed service list destinations
+      x-summary-source: derived
+  /api/v0/datafeed/destinations/test:
+    post:
+      tags:
+      - DatafeedService
+      operationId: DatafeedService_TestDestination
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.datafeed.TestDestinationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.datafeed.URLValidationRequest'
+        required: true
+      summary: Datafeed service test destination
+      x-summary-source: derived
+components:
+  schemas:
+    chef.automate.api.datafeed.ListDestinationResponse:
+      type: object
+      properties:
+        destinations:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.datafeed.GetDestinationResponse'
+    chef.automate.api.datafeed.AWS:
+      type: object
+      properties:
+        access_key:
+          type: string
+        bucket:
+          type: string
+        region:
+          type: string
+        secret_access_key:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.datafeed.UpdateDestinationResponse:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+          format: int64
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    chef.automate.api.datafeed.AddDestinationRequest:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+          format: int64
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    chef.automate.api.datafeed.GlobalDataFeedConfigResponse:
+      type: object
+      properties:
+        accepted_status_codes:
+          type: array
+          items:
+            type: integer
+            format: int32
+        cidr_filter:
+          type: array
+          items:
+            type: string
+        disable_cidr_filter:
+          type: boolean
+        feed_interval:
+          type: string
+        node_batch_size:
+          type: string
+          format: int64
+        updated_nodes_only:
+          type: boolean
+    chef.automate.api.datafeed.GetDestinationResponse:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+          format: int64
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    chef.automate.api.datafeed.ListDestinationRequest:
+      type: object
+    chef.automate.api.datafeed.TestDestinationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+    chef.automate.api.datafeed.AddDestinationResponse:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+          format: int64
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    chef.automate.api.datafeed.UpdateDestinationEnableRequest:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+    chef.automate.api.datafeed.UpdateDestinationRequest:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    chef.automate.api.datafeed.UsernamePassword:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    chef.automate.api.datafeed.URLValidationRequest:
+      type: object
+      properties:
+        aws:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.AWS'
+        header:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.Header'
+        secret_id:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.SecretId'
+        secret_id_with_addon:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.SecretIdWithExtraPrams'
+        url:
+          type: string
+        username_password:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.UsernamePassword'
+    chef.automate.api.datafeed.Header:
+      type: object
+      properties:
+        value:
+          type: string
+    chef.automate.api.datafeed.DeleteDestinationResponse:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+          format: int64
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    chef.automate.api.common.query.Kv:
+      type: object
+      properties:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
+    chef.automate.api.datafeed.SecretIdWithExtraPrams:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        services:
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.datafeed.SecretId:
+      type: object
+      properties:
+        id:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

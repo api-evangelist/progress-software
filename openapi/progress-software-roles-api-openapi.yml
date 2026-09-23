@@ -1,0 +1,461 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Roles API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- description: A role encapsulates a list of actions. Chef Automate provides several default Chef-managed roles that cannot be altered but you may also define and use your own Custom roles.
+  name: Roles
+  x-displayName: IAM Roles
+paths:
+  /apis/iam/v2/roles:
+    get:
+      description: 'Lists all *Chef-managed* and *Custom* roles.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:roles:list
+
+        ```'
+      tags:
+      - Roles
+      summary: Lists all roles
+      operationId: Policies_ListRoles
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.ListRolesResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    post:
+      description: 'Creates a new role to be used in the policies that control permissions in Automate.
+
+
+        A role defines the scope of actions in a policy statement.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:roles:create
+
+        ```'
+      tags:
+      - Roles
+      summary: Creates a custom role
+      operationId: Policies_CreateRole
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateRoleResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"id": "custom-role", "name": "My Custom Secret Manager Role", "actions": ["secrets:*", "iam:projects:list"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.CreateRoleReq'
+        required: true
+  /apis/iam/v2/roles/{id}:
+    get:
+      description: 'Returns the details for a role.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:roles:get
+
+        ```'
+      tags:
+      - Roles
+      summary: Gets a role
+      operationId: Policies_GetRole
+      parameters:
+      - description: ID of the role.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.GetRoleResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'This operation overwrites all fields excepting ID,
+
+        including those omitted from the request, so be sure to specify all properties.
+
+        Properties that you do not include are reset to empty values.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:roles:update
+
+        ```'
+      tags:
+      - Roles
+      summary: Updates a custom role
+      operationId: Policies_UpdateRole
+      parameters:
+      - description: Unique ID. Cannot be changed.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateRoleResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      x-code-samples:
+      - lang: JSON
+        source: '{"name": "My Updated Custom Secret Manager Role", "actions": ["secrets:*", "iam:projects:list"]}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.iam.v2.UpdateRoleReq'
+        required: true
+    delete:
+      description: 'Deletes a specified custom role (you cannot delete Chef-managed roles) and remove it from any statements that may have been using it.
+
+        If such a statement has no other associated actions, the statement is deleted as well.
+
+        Similarly, if that statement removal results in a policy with no other statements,
+
+        that policy is removed as well.
+
+
+        Authorization Action:
+
+        ```
+
+        iam:roles:delete
+
+        ```'
+      tags:
+      - Roles
+      summary: Deletes a custom role
+      operationId: Policies_DeleteRole
+      parameters:
+      - description: ID of the role.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.iam.v2.DeleteRoleResp'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+components:
+  schemas:
+    chef.automate.api.iam.v2.UpdateRoleReq:
+      type: object
+      required:
+      - id
+      - name
+      - actions
+      properties:
+        actions:
+          description: List of actions that this role scopes to.
+          type: array
+          items:
+            type: string
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the role.
+          type: string
+        projects:
+          description: List of projects this role belongs to.
+          type: array
+          items:
+            type: string
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        name: My Updated Custom Secret Manager Role
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.DeleteRoleResp:
+      type: object
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
+    chef.automate.api.iam.v2.UpdateRoleResp:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
+    chef.automate.api.iam.v2.CreateRoleReq:
+      description: Does not contain type as the enduser can only create 'custom' roles.
+      type: object
+      required:
+      - id
+      - name
+      - actions
+      properties:
+        actions:
+          description: List of actions that this role scopes to.
+          type: array
+          items:
+            type: string
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the role.
+          type: string
+        projects:
+          description: List of projects this role belongs to.
+          type: array
+          items:
+            type: string
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
+    chef.automate.api.iam.v2.Type:
+      type: string
+      default: CHEF_MANAGED
+      enum:
+      - CHEF_MANAGED
+      - CUSTOM
+    chef.automate.api.iam.v2.Role:
+      type: object
+      properties:
+        actions:
+          description: List of actions this role scopes to. Will contain one or more.
+          type: array
+          items:
+            type: string
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the role.
+          type: string
+        projects:
+          description: List of projects this role belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        type:
+          description: Whether this policy is user created (`CUSTOM`) or chef managed (`CHEF_MANAGED`).
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
+    chef.automate.api.iam.v2.ListRolesResp:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
+      example:
+        roles:
+        - actions:
+          - secrets:*
+          - iam:projects:list
+          id: custom-role
+          name: My Custom Secret Manager Role
+        - actions:
+          - infra:*
+          id: custom-role-2
+          name: My Custom Secret Role 2
+    chef.automate.api.iam.v2.GetRoleResp:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
+    chef.automate.api.iam.v2.CreateRoleResp:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

@@ -1,0 +1,674 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Organizations API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Organizations
+paths:
+  /api/v1/organizations/{OrgId}:
+    get:
+      tags:
+      - Organizations
+      summary: Gets detailed information about organization
+      operationId: GETapi/v1/organizations/{OrgId}-1.0
+      parameters:
+      - name: OrgId
+        in: path
+        description: The Id of the target Org for this request
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+      security:
+      - Authorization: []
+  /api/v1/organizations:
+    get:
+      tags:
+      - Organizations
+      summary: Get list of organizations
+      operationId: GETapi/v1/organizations?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (name, id); Default is Name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleOrgModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleOrgModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleOrgModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Organizations
+      summary: Create new organization
+      operationId: POSTapi/v1/organizations-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgAddModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgAddModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgAddModel'
+        required: true
+  /api/v1/organizations/{orgId}/maxusercounts:
+    post:
+      tags:
+      - Organizations
+      summary: Update maximum user counts for the organization
+      operationId: POSTapi/v1/organizations/{orgId}/maxusercounts-1.0
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgMaxUserCountsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgMaxUserCountsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgMaxUserCountsModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgMaxUserCountsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgMaxUserCountsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgMaxUserCountsModel'
+        description: Represents maximum user counts for an organization.
+        required: true
+  /api/v1/organizations/{orgId}/packageaccess:
+    post:
+      tags:
+      - Organizations
+      summary: Update administrator package access for the organization
+      operationId: POSTapi/v1/organizations/{orgId}/packageaccess-1.0
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgPackageAccessModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgPackageAccessModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgPackageAccessModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgPackageAccessUpdateModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgPackageAccessUpdateModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgPackageAccessUpdateModel'
+        description: Represents administrator package access settings update model for an organization.
+        required: true
+  /api/v1/organizations/{orgId}/passwordreset:
+    post:
+      tags:
+      - Organizations
+      summary: Update administrators password reset settings for the organization
+      operationId: POSTapi/v1/organizations/{orgId}/passwordreset-1.0
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgAdminPasswordResetSettingsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgAdminPasswordResetSettingsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgAdminPasswordResetSettingsModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgAdminPasswordResetSettingsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgAdminPasswordResetSettingsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgAdminPasswordResetSettingsModel'
+        description: Represents administrator password reset settings for an organization.
+        required: true
+  /api/v1/organizations/{orgId}/interfaceconfiguration:
+    post:
+      tags:
+      - Organizations
+      summary: Update user interface configuration for the organization
+      operationId: POSTapi/v1/organizations/{orgId}/interfaceconfiguration-1.0
+      parameters:
+      - name: orgId
+        in: path
+        description: Organization id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgUiConfigurationModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgUiConfigurationModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgUiConfigurationModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgUiConfigurationModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgUiConfigurationModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgUiConfigurationModel'
+        description: Represents user interface configuration
+        required: true
+  /api/v1/organizations/{orgId}:
+    patch:
+      tags:
+      - Organizations
+      summary: Edit general organization information
+      operationId: PATCHapi/v1/organizations/{orgId}-1.0
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailedModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgPatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgPatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgPatchModel'
+        required: true
+components:
+  schemas:
+    OrgPackageAccessUpdateModel:
+      description: Represents administrator package access settings update model for an organization.
+      properties:
+        applyToAllOrganizations:
+          description: 'In the case of an update system organization by sysadmin the settings could apply to all other organizations.
+
+            Default is false.'
+          type: boolean
+        showAdHocTransferEntriesInLog:
+          description: 'This setting, when enabled, allows audit log entries related to Ad Hoc Transfer to be shown in the main Logs page.
+
+            This allows administrators to see all Ad Hoc Transfer related log entries in an organization.
+
+            Default is false.'
+          type: boolean
+        adminPackageAccess:
+          description: 'This setting, when enabled, allows administrators to view the mailboxes and packages for users under their control, and download any attachments associated with those packages.
+
+            In addition, this setting allows administrators to enable shared mailboxes for users.
+
+            Viewing a package or downloading an attachment will be audit logged and visible to the user, though no viewing or download limits will be affected.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - AdminOnly
+          - AdminAndGroupAdmin
+      xml:
+        name: OrgPackageAccessUpdateModel
+      type: object
+    PagedModelOfSimpleOrgModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleOrgModel'
+          readOnly: true
+          xml:
+            name: SimpleOrgModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    OrgAddModel:
+      description: Represents data required for create organization scenario
+      required:
+      - name
+      - passPhrase
+      properties:
+        name:
+          description: Organization name.
+          type: string
+        shortName:
+          description: Organization short name.
+          type: string
+        passPhrase:
+          description: Organization pass phrase.
+          type: string
+        techName:
+          description: Organization tech contact name.
+          type: string
+        techPhone:
+          description: Organization tech phone.
+          type: string
+        techEmail:
+          description: Organization tech email.
+          type: string
+      xml:
+        name: OrgAddModel
+      type: object
+    SimpleOrgModel:
+      properties:
+        id:
+          description: Organization Id
+          type: string
+        name:
+          description: Organization name
+          type: string
+        usersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        foldersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        filesCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+      xml:
+        name: SimpleOrgModel
+      type: object
+    OrgMaxUserCountsModel:
+      description: Represents maximum user counts for an organization.
+      properties:
+        totalUsers:
+          description: 'Defines the total number of users that may be created in the Organization, including Admins of all types, End Users, and Temporary Users.
+
+            Set to "0" for no organization level Maximum Total Users.
+
+            May not exceed the "system Maximum User Count", which is the maximum number of users licensed.'
+          type: integer
+          format: int32
+        endUsers:
+          description: 'Defines the total number of End Users that may be created in the Organization.
+
+            Set to "0" for no organization level Maximum End Users.
+
+            May not exceed the Maximum Total Users if that number is set to something other than 0.
+
+            May not exceed the "system Maximum User Count", which is the maximum number of users licensed.
+
+            Note: The sum of Maximum End Users and Maximum Temporary Users is allowed exceed the Total Maximum Users.'
+          type: integer
+          format: int32
+        tempUsers:
+          description: 'Defines the total number of Temporary Users that may be created in the Organization.
+
+            Set to "0" for no organization level Maximum Temp Users.
+
+            May not exceed the Maximum Total Users if that number is set to something other than 0.
+
+            Note: If the Maximum Total Users is set to 0, the Maximum Temp Users is allowed to exceed the "system Maximum User Count" (and will, in fact, not be capped by the system Maximum User Count).'
+          type: integer
+          format: int32
+      xml:
+        name: OrgMaxUserCountsModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    OrgPatchModel:
+      properties:
+        name:
+          description: Organization name.
+          type: string
+        shortName:
+          description: Organization short name.
+          type: string
+        baseUrl:
+          description: Organization base URL.
+          type: string
+        notes:
+          description: Organization notes.
+          type: string
+      xml:
+        name: OrgPatchModel
+      type: object
+    OrgPackageAccessModel:
+      description: Represents administrator package access settings for an organization.
+      properties:
+        showAdHocTransferEntriesInLog:
+          description: 'This setting, when enabled, allows audit log entries related to Ad Hoc Transfer to be shown in the main Logs page.
+
+            This allows administrators to see all Ad Hoc Transfer related log entries in an organization.
+
+            Default is false.'
+          type: boolean
+        adminPackageAccess:
+          description: 'This setting, when enabled, allows administrators to view the mailboxes and packages for users under their control, and download any attachments associated with those packages.
+
+            In addition, this setting allows administrators to enable shared mailboxes for users.
+
+            Viewing a package or downloading an attachment will be audit logged and visible to the user, though no viewing or download limits will be affected.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - AdminOnly
+          - AdminAndGroupAdmin
+      xml:
+        name: OrgPackageAccessModel
+      type: object
+    OrgAdminPasswordResetSettingsModel:
+      description: Represents administrator password reset settings for an organization.
+      properties:
+        enableAdminPasswordReset:
+          description: 'Enable/disable administrators to reset their own password.
+
+            Default is false.'
+          type: boolean
+      xml:
+        name: OrgAdminPasswordResetSettingsModel
+      type: object
+    OrgUiConfigurationModel:
+      description: Represents user interface configuration
+      properties:
+        showFileAndFolder:
+          description: Show file and folder options
+          type: boolean
+        showAdHocPackage:
+          description: Show ad hoc package options
+          type: boolean
+        showSecureFolderSharing:
+          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
+          type: boolean
+      xml:
+        name: OrgUiConfigurationModel
+      type: object
+    OrgDetailedModel:
+      description: Detailed information about organization
+      properties:
+        shortName:
+          description: Organization short name
+          type: string
+        language:
+          description: Organization language
+          type: string
+        formattingLocale:
+          description: A Locale which is used for formatting dates and times in this organization.
+          type: string
+        securityBanner:
+          description: Organization security banner in default language
+          type: string
+        securityNotice:
+          description: Organization security notice in default language
+          type: string
+        securityNoticeStamp:
+          description: Organization security notice change stamp
+          type: string
+        securityNoticeRequired:
+          description: Organization security notice requirement setting
+          type: string
+          enum:
+          - NotRequired
+          - WhenNew
+          - Always
+        techInfo:
+          description: Organization tech support notice in default language
+          type: string
+        techName:
+          description: Organization tech support name in default language
+          type: string
+        techPhone:
+          description: Organization tech support phone in default language
+          type: string
+        techEmail:
+          description: Organization tech support email in default language
+          type: string
+        informationLink:
+          description: Organization information link in default language
+          type: string
+        informationLinkName:
+          description: Organization information link name in default language
+          type: string
+        contactLink:
+          description: Organization contact link in default language
+          type: string
+        contactLinkName:
+          description: Organization contact link name in default language
+          type: string
+        allowPassChangeRequests:
+          description: Organization allow password change requirement setting
+          type: boolean
+        baseURL:
+          description: Organization base URL
+          type: string
+        notes:
+          description: Organization notes
+          type: string
+        id:
+          description: Organization Id
+          type: string
+        name:
+          description: Organization name
+          type: string
+        usersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        foldersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        filesCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+      xml:
+        name: OrgDetailedModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

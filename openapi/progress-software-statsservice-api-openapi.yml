@@ -1,0 +1,935 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Stats Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: StatsService
+  x-displayName: Stats
+paths:
+  /api/v0/compliance/reporting/stats/failures:
+    post:
+      description: 'Returns the top failures for the specified object. A types filter is required for this api.
+
+        Supported values are `platform`, `environment`, `control`, and `profile`.
+
+        By default, the top ten failed objects for the specified type are returned.
+
+        Supports filtering and respects `size` parameter.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "filters":[
+
+        {"type":"start_time","values":["2019-10-26T00:00:00Z"]},
+
+        {"type":"end_time","values":["2019-11-05T23:59:59Z"]},
+
+        {"type":"types","values":["platform","environment"]}
+
+        ]
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reportFailures:get
+
+        ```'
+      tags:
+      - StatsService
+      summary: Read Failures
+      operationId: StatsService_ReadFailures
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Failures'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Query'
+        required: true
+  /api/v0/compliance/reporting/stats/nodes/count:
+    get:
+      description: 'Returns the count of unique nodes with lastRun in a given time.
+
+        The time duration can be between the last time Telemetry data sent and the day before the current date.
+
+        If the duration 15 days
+
+        duration > 15 days --> duration
+
+
+        Authorization Action:
+
+        ```
+
+        iam:introspect:getAll
+
+        ```'
+      tags:
+      - StatsService
+      summary: GetNodesUsageCount
+      operationId: StatsService_GetNodesUsageCount
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.GetNodesUsageCountResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/compliance/reporting/stats/nodes/count/updated:
+    put:
+      description: 'Acknowledge API to updates the last complaince telemetry reported date in postgres
+
+
+        Authorization Action:
+
+        ```
+
+        iam:introspect:getAll
+
+        ```'
+      tags:
+      - StatsService
+      summary: UpdateTelemetryReported
+      operationId: StatsService_UpdateTelemetryReported
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.UpdateTelemetryReportedResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.UpdateTelemetryReportedRequest'
+        required: true
+  /api/v0/compliance/reporting/stats/profiles:
+    post:
+      description: 'Returns statistics and summary information for profiles executed as part of the compliance reports.
+
+        If called without specifying a profile ID (`id`), the API will return stats on all the profiles.
+
+        If the `id` field is provided (profile ID) as part of the query object, the `type` field must also be specified. Options are `controls` or `summary`.
+
+        Supports filtering.
+
+
+        ```
+
+        {
+
+        "type":"controls",
+
+        "id":"09adcbb3b9b3233d5de63cd98a5ba3e155b3aaeb66b5abed379f5fb1ff143988",
+
+        "filters":[
+
+        {"type":"environment","values":["dev*"]},
+
+        {"type":"start_time","values":["2019-10-26T00:00:00Z"]},
+
+        {"type":"end_time","values":["2019-11-05T23:59:59Z"]}
+
+        ]
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reportProfiles:get
+
+        ```'
+      tags:
+      - StatsService
+      summary: Read Profiles
+      operationId: StatsService_ReadProfiles
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Profile'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Query'
+        required: true
+  /api/v0/compliance/reporting/stats/summary:
+    post:
+      description: 'Returns summary statistics for compliance reports.
+
+        General report summary information is the default.
+
+        Adding a `type` value of `nodes` or `controls` will return summary statistics for that object.
+
+        Supports filtering.
+
+
+        The API supports date range filters when `end_time` is the current time
+
+        and `start_time` is any time in last 90 days. In case, the `end_time` is any
+
+        date other than the current date, the API would return data only for the `end_time`.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "type":"nodes",
+
+        "filters":[
+
+        {"type":"environment","values":["dev*"]},
+
+        {"type":"start_time","values":["2019-10-26T00:00:00Z"]},
+
+        {"type":"end_time","values":["2019-11-05T23:59:59Z"]}
+
+        ]
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reportSummary:get
+
+        ```'
+      tags:
+      - StatsService
+      summary: Read Summary
+      operationId: StatsService_ReadSummary
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Summary'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Query'
+        required: true
+  /api/v0/compliance/reporting/stats/trend:
+    post:
+      description: 'Returns trendgraph statistics for compliance reports.
+
+        The `type` field is required for this api call. Options are `nodes` or `controls`.
+
+        Requires minimum `interval` field of 3600 and defined start time and end time filters.
+
+        Supports filtering.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "type":"nodes",
+
+        "interval":86400,
+
+        "filters":[
+
+        {"type":"environment","values":["dev*"]},
+
+        {"type":"start_time","values":["2019-10-26T00:00:00Z"]},
+
+        {"type":"end_time","values":["2019-11-05T23:59:59Z"]}
+
+        ]
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reportTrend:get
+
+        ```'
+      tags:
+      - StatsService
+      summary: Read Trend
+      operationId: StatsService_ReadTrend
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Trends'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Query'
+        required: true
+components:
+  schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.compliance.reporting.stats.v1.UpdateTelemetryReportedResponse:
+      type: object
+    chef.automate.api.compliance.reporting.stats.v1.Failures:
+      type: object
+      properties:
+        controls:
+          description: Top failed controls across the infrastructure.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.FailureSummary'
+        environments:
+          description: Top failed environments across the infrastructure.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.FailureSummary'
+        platforms:
+          description: Top failed platforms across the infrastructure.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.FailureSummary'
+        profiles:
+          description: Top failed profiles across the infrastructure.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.FailureSummary'
+    chef.automate.api.compliance.reporting.stats.v1.ReportSummary:
+      description: Statistics on the overall compliance reports.
+      type: object
+      properties:
+        duration:
+          description: Not used.
+          type: number
+          format: double
+        start_date:
+          description: Not used.
+          type: string
+        stats:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Stats'
+        status:
+          description: Overall aggregated status for all the reports.
+          type: string
+    chef.automate.api.compliance.reporting.stats.v1.Stats:
+      description: General statistics about the reports.
+      type: object
+      properties:
+        controls:
+          description: The number of unique controls scanned in the reports.
+          type: integer
+          format: int32
+        environments:
+          description: The number of unique environments in the reports.
+          type: integer
+          format: int32
+        nodes:
+          type: string
+          format: int64
+          title: 'Deprecated. int64 types render into string types when serialized to satisfy all browsers
+
+            Replaced by the `nodes_cnt` field'
+        nodes_cnt:
+          description: The number of unique nodes scanned in the reports.
+          type: integer
+          format: int32
+        platforms:
+          description: The number of unique node platforms in the reports.
+          type: integer
+          format: int32
+        profiles:
+          description: The number of unique profiles in the reports.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.stats.v1.NodeSummary:
+      description: Statistics about the nodes scanned in the compliance reports.
+      type: object
+      properties:
+        compliant:
+          description: The total number of nodes that passed their compliance scans.
+          type: integer
+          format: int32
+        high_risk:
+          description: The total number of nodes that failed their compliance scan with one or more control of critical impact.
+          type: integer
+          format: int32
+        low_risk:
+          description: The total number of nodes that failed their compliance scan with one or more control of minor impact.
+          type: integer
+          format: int32
+        medium_risk:
+          description: The total number of nodes that failed their compliance scan with one or more control of major impact.
+          type: integer
+          format: int32
+        noncompliant:
+          description: The total number of nodes that failed their compliance scans.
+          type: integer
+          format: int32
+        skipped:
+          description: The total number of nodes that skipped their compliance scans.
+          type: integer
+          format: int32
+        waived:
+          description: The total number of nodes with a waived compliance scan.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.stats.v1.Summary:
+      type: object
+      properties:
+        controls_summary:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ControlsSummary'
+        node_summary:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.NodeSummary'
+        report_summary:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ReportSummary'
+    chef.automate.api.compliance.reporting.stats.v1.ProfileSummaryStats:
+      description: Statistics about the nodes that executed the profile.
+      type: object
+      properties:
+        failed:
+          description: Total number of failed nodes that executed the profile.
+          type: integer
+          format: int32
+        failed_nodes:
+          description: Not used.
+          type: integer
+          format: int32
+        passed:
+          description: Total number of passed nodes that executed the profile.
+          type: integer
+          format: int32
+        skipped:
+          description: Total number of skipped nodes that executed the profile.
+          type: integer
+          format: int32
+        total_nodes:
+          description: Not used.
+          type: integer
+          format: int32
+        waived:
+          description: Total number of waived controls for the given profile across nodes.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.stats.v1.GetNodesUsageCountResponse:
+      type: object
+      properties:
+        days_since_last_post:
+          type: string
+          format: int64
+          title: number of days since telematics was last posted
+        node_cnt:
+          type: string
+          format: int64
+          title: unique nodes count in a duration
+    chef.automate.api.compliance.reporting.stats.v1.ProfileList:
+      type: object
+      properties:
+        criticals:
+          description: Total number of failed nodes with critical control failures that executed the profile.
+          type: integer
+          format: int32
+        failures:
+          description: Total number of nodes that failed this profile.
+          type: integer
+          format: int32
+        id:
+          description: The profile SHA ID.
+          type: string
+        majors:
+          description: Total number of failed nodes with major control failures that executed the profile.
+          type: integer
+          format: int32
+        minors:
+          description: Total number of failed nodes with minor control failures that executed the profile.
+          type: integer
+          format: int32
+        name:
+          description: The profile name.
+          type: string
+        passed:
+          description: Total number of passed nodes that executed the profile.
+          type: integer
+          format: int32
+        skipped:
+          description: Total number of skipped nodes that executed the profile.
+          type: integer
+          format: int32
+        waived:
+          description: Total number of waived nodes that executed the profile.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.stats.v1.Profile:
+      type: object
+      properties:
+        control_stats:
+          description: Summary information about a specific profile's control results across the reports.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ControlStats'
+        profile_list:
+          description: Set of statistics about the profiles executed in the reports.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ProfileList'
+        profile_summary:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ProfileSummary'
+    chef.automate.api.compliance.reporting.stats.v1.ProfileSummary:
+      description: Summary information about a specific profile's execution across the reports.
+      type: object
+      properties:
+        copyright:
+          description: Copyright info for the profile.
+          type: string
+        copyright_email:
+          description: Copyright email info for the profile.
+          type: string
+        depends:
+          description: Dependency information about the profile (which profiles it inherits).
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Dependency'
+        license:
+          description: License info for the profile.
+          type: string
+        maintainer:
+          description: Maintainer for the profile.
+          type: string
+        name:
+          description: Name of the profile.
+          type: string
+        stats:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ProfileSummaryStats'
+        summary:
+          description: Summary description of the profile.
+          type: string
+        supports:
+          description: Supports information for the profile (which os it can run on).
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Support'
+        title:
+          description: Title of the profile.
+          type: string
+        version:
+          description: Version of the profile.
+          type: string
+    chef.automate.api.compliance.reporting.stats.v1.UpdateTelemetryReportedRequest:
+      type: object
+      properties:
+        last_telemetry_reported_at:
+          type: string
+          title: last complaince telemetry reported date
+    chef.automate.api.compliance.reporting.stats.v1.Support:
+      type: object
+      properties:
+        inspec_version:
+          description: InSpec Version compatible with the profile.
+          type: string
+        os_family:
+          description: OS Family compatible with the profile. This is legacy InSpec syntax.
+          type: string
+        os_name:
+          description: OS Name compatible with the profile. This is legacy InSpec syntax.
+          type: string
+        platform:
+          description: Platform compatible with the profile.
+          type: string
+        platform_family:
+          description: Platform Family compatible with the profile.
+          type: string
+        platform_name:
+          description: Platform Name compatible with the profile.
+          type: string
+        release:
+          description: OS Release compatible with the profile.
+          type: string
+    chef.automate.api.compliance.reporting.stats.v1.ControlStats:
+      type: object
+      properties:
+        control:
+          description: Control ID.
+          type: string
+        failed:
+          description: Count of failed nodes that executed the control.
+          type: integer
+          format: int32
+        impact:
+          description: Impact of the control.
+          type: number
+          format: float
+        passed:
+          description: Count of passed nodes that executed the control.
+          type: integer
+          format: int32
+        skipped:
+          description: Count of skipped nodes that executed the control.
+          type: integer
+          format: int32
+        title:
+          description: Control title.
+          type: string
+        waived:
+          description: Count of waived nodes that executed the control.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.stats.v1.ListFilter:
+      type: object
+      properties:
+        type:
+          description: The field to filter on.
+          type: string
+        values:
+          description: The list of values to filter on for the given type. We 'OR' between these fields.
+          type: array
+          items:
+            type: string
+    chef.automate.api.compliance.reporting.stats.v1.Trend:
+      type: object
+      properties:
+        failed:
+          description: Total failed objects (nodes or controls) on the reports at the given report time.
+          type: integer
+          format: int32
+        passed:
+          description: Total passed objects (nodes or controls) on the reports at the given report time.
+          type: integer
+          format: int32
+        report_time:
+          description: Time in point for which the passed/failed/skipped data is valid.
+          type: string
+        skipped:
+          description: Total skipped objects (nodes or controls) on the reports at the given report time.
+          type: integer
+          format: int32
+        waived:
+          description: Total waived objects (nodes or controls) on the reports at the given report time.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.v1.Dependency:
+      type: object
+      properties:
+        branch:
+          description: The specific git branch of the dependency.
+          type: string
+        commit:
+          description: The specific git commit of the dependency.
+          type: string
+        compliance:
+          description: The short name of the dependency stored on the Chef Automate or Chef Compliance server.
+          type: string
+        git:
+          description: The git URL of the profile.
+          type: string
+        github:
+          description: The short name of the dependency stored on Github.
+          type: string
+        name:
+          description: The name of the profile.
+          type: string
+        path:
+          description: The path to the profile on disk.
+          type: string
+        skip_message:
+          description: The reason this profile was skipped in the generated report, if any.
+          type: string
+        status:
+          description: The status of the dependency in the report.
+          type: string
+        supermarket:
+          description: The name of the dependency stored in Chef Supermarket.
+          type: string
+        tag:
+          description: The specific git tag of the dependency.
+          type: string
+        url:
+          description: The URL of the profile accessible over HTTP or HTTPS.
+          type: string
+        version:
+          description: The specific git version of the dependency.
+          type: string
+    chef.automate.api.compliance.reporting.stats.v1.Query.OrderType:
+      description: Sort the results in ascending or descending order.
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
+    chef.automate.api.compliance.reporting.stats.v1.Trends:
+      type: object
+      properties:
+        trends:
+          description: Set of statistics for passed/failed/skipped nodes or controls in a trendgraph friendly data format.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Trend'
+    chef.automate.api.compliance.reporting.stats.v1.ControlsSummary:
+      description: Statistics for the controls executed in the compliance reports.
+      type: object
+      properties:
+        criticals:
+          description: The total number of failed controls with an impact of 0.7 or higher.
+          type: integer
+          format: int32
+        failures:
+          description: The total number of failed controls in the reports.
+          type: integer
+          format: int32
+        majors:
+          description: The total number of failed controls with an impact between 0.4 and 0.7.
+          type: integer
+          format: int32
+        minors:
+          description: The total number of failed controls with an impact of 0.3 or less.
+          type: integer
+          format: int32
+        passed:
+          description: The total number of passed controls in the reports.
+          type: integer
+          format: int32
+        skipped:
+          description: The total number of skipped controls in the reports.
+          type: integer
+          format: int32
+        waived:
+          description: The total number of waived controls in the reports.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.reporting.stats.v1.FailureSummary:
+      type: object
+      properties:
+        failures:
+          description: Total count of failures.
+          type: integer
+          format: int32
+        id:
+          description: ID of the object, included if applicable.
+          type: string
+        name:
+          description: Name of the object failing.
+          type: string
+        profile:
+          description: Not used.
+          type: string
+    chef.automate.api.compliance.reporting.stats.v1.Query:
+      type: object
+      properties:
+        filters:
+          description: Filters applied to the results.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.ListFilter'
+        id:
+          description: Unique identifier, such as a profile ID.
+          type: string
+        interval:
+          description: The interval to use for ReadTrend results, in integer seconds. Default of one hour, 3600.
+          type: integer
+          format: int32
+        order:
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.stats.v1.Query.OrderType'
+        page:
+          description: The offset for paginating requests. An offset defines a place in the results in order to fetch the next page of the results.
+          type: integer
+          format: int32
+        per_page:
+          description: The number of results on each paginated request page.
+          type: integer
+          format: int32
+        size:
+          description: The number of results to return (used when pagination is not supported).
+          type: integer
+          format: int32
+        sort:
+          description: Sort the list of results by a field.
+          type: string
+        type:
+          description: Type of data being requested, used for ReadTrend and ReadSummary.
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

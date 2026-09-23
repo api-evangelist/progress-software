@@ -1,0 +1,427 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Notifications API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: Notifications
+  x-displayName: Notifications
+paths:
+  /api/v0/notifications/rules:
+    get:
+      tags:
+      - Notifications
+      operationId: Notifications_ListRules
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.RuleListResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Notifications list rules
+      x-summary-source: derived
+    post:
+      tags:
+      - Notifications
+      operationId: Notifications_AddRule
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.RuleAddResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.notifications.RuleAddRequest'
+        required: true
+      summary: Notifications add rule
+      x-summary-source: derived
+  /api/v0/notifications/rules/{id}:
+    get:
+      tags:
+      - Notifications
+      operationId: Notifications_GetRule
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.RuleGetResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Notifications get rule
+      x-summary-source: derived
+    put:
+      tags:
+      - Notifications
+      operationId: Notifications_UpdateRule
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.RuleUpdateResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.notifications.RuleUpdateRequest'
+        required: true
+      summary: Notifications update rule
+      x-summary-source: derived
+    delete:
+      tags:
+      - Notifications
+      operationId: Notifications_DeleteRule
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.RuleDeleteResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Notifications delete rule
+      x-summary-source: derived
+  /api/v0/notifications/version:
+    get:
+      tags:
+      - Notifications
+      operationId: Notifications_Version
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.VersionResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      summary: Notifications version
+      x-summary-source: derived
+  /api/v0/notifications/webhook:
+    post:
+      tags:
+      - Notifications
+      operationId: Notifications_ValidateWebhook
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.notifications.URLValidationResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.notifications.URLValidationRequest'
+        required: true
+      summary: Notifications validate webhook
+      x-summary-source: derived
+components:
+  schemas:
+    chef.automate.api.notifications.SlackAlert:
+      type: object
+      properties:
+        url:
+          type: string
+    chef.automate.api.notifications.RuleAddResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        messages:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.notifications.URLValidationResponse:
+      type: object
+    chef.automate.api.notifications.RuleUpdateResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+    chef.automate.api.notifications.URLValidationRequest:
+      type: object
+      properties:
+        none:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Empty'
+        secret_id:
+          $ref: '#/components/schemas/chef.automate.api.notifications.SecretId'
+        url:
+          type: string
+        username_password:
+          $ref: '#/components/schemas/chef.automate.api.notifications.UsernamePassword'
+    chef.automate.api.notifications.RuleAddRequest:
+      type: object
+      properties:
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.WebhookAlert:
+      type: object
+      properties:
+        url:
+          type: string
+    chef.automate.api.notifications.RuleDeleteResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+    chef.automate.api.notifications.SecretId:
+      type: object
+      properties:
+        id:
+          type: string
+    chef.automate.api.notifications.Rule.Event:
+      type: string
+      default: CCRFailure
+      enum:
+      - CCRFailure
+      - CCRSuccess
+      - ComplianceFailure
+      - ComplianceSuccess
+    chef.automate.api.notifications.UsernamePassword:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    chef.automate.api.notifications.Empty:
+      type: object
+    chef.automate.api.notifications.ServiceNowAlert:
+      type: object
+      properties:
+        critical_controls_only:
+          type: boolean
+        secret_id:
+          type: string
+        url:
+          type: string
+    chef.automate.api.notifications.RuleGetResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.RuleUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.RuleListResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.Rule:
+      type: object
+      properties:
+        ServiceNowAlert:
+          $ref: '#/components/schemas/chef.automate.api.notifications.ServiceNowAlert'
+        SlackAlert:
+          $ref: '#/components/schemas/chef.automate.api.notifications.SlackAlert'
+        WebhookAlert:
+          $ref: '#/components/schemas/chef.automate.api.notifications.WebhookAlert'
+        event:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule.Event'
+        id:
+          type: string
+        name:
+          type: string
+    chef.automate.api.notifications.VersionResponse:
+      type: object
+      properties:
+        version:
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

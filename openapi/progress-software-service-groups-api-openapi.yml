@@ -1,0 +1,836 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Service Groups API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: Service Groups
+  x-displayName: Service Groups and Services
+paths:
+  /api/v0/applications/delete_disconnected_services:
+    post:
+      description: 'Removes services marked as disconnected based on the `threshold_seconds` setting.
+
+        This function is not used by the API or CLI and is here for testing purposes.
+
+        The functionality is currently covered by a periodically running job that can be configured using `UpdateDeleteDisconnectedServicesConfig`.
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:delete
+
+        ```'
+      tags:
+      - Service Groups
+      summary: Remove Disconnected Services
+      operationId: ApplicationsService_DeleteDisconnectedServices
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.applications.DisconnectedServicesReq'
+        required: true
+  /api/v0/applications/delete_services_by_id:
+    post:
+      description: 'Authorization Action:
+
+        ```
+
+        applications:serviceGroups:delete
+
+        ```'
+      tags:
+      - Service Groups
+      summary: Delete the services with the given IDs
+      operationId: ApplicationsService_DeleteServicesByID
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.applications.DeleteServicesByIDReq'
+        required: true
+  /api/v0/applications/disconnected_services:
+    get:
+      description: 'Marks services as disconnected based on the `threshold_seconds` setting.
+
+        This function is not used by the API or CLI and is here for testing purposes.
+
+        The functionality is currently covered by a periodically running job that can be configured
+
+        by utilizing the `UpdateDisconnectedServicesConfig` endpoint.
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: Mark Services as Disconnected
+      operationId: ApplicationsService_GetDisconnectedServices
+      parameters:
+      - description: Threshold for marking services disconnected in seconds.
+        name: threshold_seconds
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/applications/service-groups:
+    get:
+      description: 'Lists service groups with name, health information, and application, environment, package, release metadata.
+
+        Accepts pagination, sorting, search, and status filters.
+
+
+        Example:
+
+        ```
+
+        applications/service-groups?sorting.field=percent_ok&sorting.order=ASC&pagination.page=1&pagination.size=25
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: List Service Groups
+      operationId: ApplicationsService_GetServiceGroups
+      parameters:
+      - description: "Applies search and status filters, in the format of `fieldname:value` or `status:value`.\n\nValid filter fieldnames are:\n* `origin`: origin component of the service's package identifier\n* `service`: the name component of the service's package identifier\n* `version`: the version number component of the service's package identifier\n* `buildstamp`: the build timestamp (also called \"release\") of the service's package identifier\n* `channel`: the package channel to which the service subscribes for updates\n* `application`: the application field of the service's event-stream metadata\n* `environment`: the environment field of the service's event-stream metadata\n* `site`: the site field of the service's event-stream metadata\n* `group`: the suffix of the service group name\n\n`status` filters refine the service group results by a service's\n most recent connected/disconnected state or healthcheck result.\n\n Valid status filter parameters are:\n* `status:disconnected`: returns service groups with at least one service in a disconnected state\n* `status:critical`: returns service groups with a with at least one service in a \"critical\" healthcheck result\n* `status:unknown`: returns service groups with at least one service with an \"unknown\" healthcheck result\n* `status:warning`: returns service groups with at least one service with a \"warning\" healthcheck result\n* `status:ok`: returns service groups with at least one service with an \"ok\" health check result"
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Page number of the results to return.
+        name: pagination.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Amount of results to include per page.
+        name: pagination.size
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Field to sort the list results on.
+        name: sorting.field
+        in: query
+        schema:
+          type: string
+      - description: Order the results should be returned in.
+        name: sorting.order
+        in: query
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+          default: ASC
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServiceGroups'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/applications/service-groups/{service_group_id}:
+    get:
+      description: 'List the services for a service group with health status and service metadata.
+
+        Uses the service group ID generated by Chef Automate instead of the Chef Habitat- provided ID.
+
+        Supports pagination and filtering.
+
+
+        Example:
+
+        ```
+
+        applications/service-groups/1dfff679054c60a10c51d059b6dbf81a765c46f8d3e8ce0752b22ffe8d4d9716?pagination.page=1&pagination.size=25
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: List Services for a Service Group
+      operationId: ApplicationsService_GetServicesBySG
+      parameters:
+      - description: Service group ID.
+        name: service_group_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Page number of the results to return.
+        name: pagination.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Amount of results to include per page.
+        name: pagination.size
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Field to sort the list results on.
+        name: sorting.field
+        in: query
+        schema:
+          type: string
+      - description: Order the results should be returned in.
+        name: sorting.order
+        in: query
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+          default: ASC
+      - description: 'Applies filters, in the format of `fieldname:value`.
+
+          See documentation for ServicesReq for valid filter parameters.'
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesBySGRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/applications/service_groups_health_counts:
+    get:
+      description: 'Lists the total service group health reports by critical, warning, ok and unknown responses. Supports search and status filtering.
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: List Service Groups Health Counts
+      operationId: ApplicationsService_GetServiceGroupsHealthCounts
+      parameters:
+      - description: 'Applies search filters, in the format of `fieldname:value`.
+
+          See the documentation for ServiceGroupsReq for valid filter parameters.'
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.HealthCounts'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/applications/services:
+    get:
+      description: 'Lists service health status and service metadata for services.
+
+        Supports pagination and search and status filtering. For a list of services for a specific service-group see "List Services for a Service Group" (GetServicesBySG endpoint).
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: List Services
+      operationId: ApplicationsService_GetServices
+      parameters:
+      - description: "Applies search filters, in the format of `fieldname:value`.\n\nValid filter fieldnames are:\n* `origin`: origin component of the service's package identifier\n* `service`: the name component of the service's package identifier\n* `version`: the version number component of the service's package identifier\n* `buildstamp`: the build timestamp (also called \"release\") of the service's package identifier\n* `channel`: the package channel to which the service subscribes for updates\n* `application`: the application field of the service's event-stream metadata\n* `environment`: the environment field of the service's event-stream metadata\n* `site`: the site field of the service's event-stream metadata\n* `group`: the suffix of the service group name\n\n`status` filters refine service results by a service's\n current state or most recent healthcheck result.\n Disconnected services keep their last healthcheck result\n until their reports are removed by Chef Automate.\n When you apply a healthcheck filter, the report includes\n all recently disconnected services.\n Valid status filter parameters are:\n* `status:disconnected`: returns services in a disconnected state\n* `status:critical`: returns services with a \"critical\" healthcheck result\n* `status:unknown`: returns services with an \"unknown\" healthcheck result\n* `status:warning`: returns services with a \"warning\" healthcheck result\n* `status:ok`: returns services with an  \"ok\" health check result"
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Page number of the results to return.
+        name: pagination.page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Amount of results to include per page.
+        name: pagination.size
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - description: Field to sort the list results on.
+        name: sorting.field
+        in: query
+        schema:
+          type: string
+      - description: Order the results should be returned in.
+        name: sorting.order
+        in: query
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+          default: ASC
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/applications/services-distinct-values:
+    get:
+      description: 'Lists all of the possible filter values for a given valid field.
+
+        Limit the returned values by providing at one or more characters in the `query_fragment` parameter.
+
+        Supports wildcard (* and ?)
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: List Filter Values
+      operationId: ApplicationsService_GetServicesDistinctValues
+      parameters:
+      - description: Field name of service values.
+        name: field_name
+        in: query
+        schema:
+          type: string
+      - description: Query value, supports wildcards (* and ?).
+        name: query_fragment
+        in: query
+        schema:
+          type: string
+      - description: 'Applies filters, in the format of `fieldname:value`.
+
+          See documentation for ServicesReq for valid filter parameters.'
+        name: filter
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesDistinctValuesRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/applications/stats:
+    get:
+      description: 'Shows a summary of service-groups, services, deployments, and supervisors.
+
+        Used for telemetry.
+
+        Does not support filtering.
+
+
+        Authorization Action:
+
+        ```
+
+        applications:serviceGroups:list
+
+        ```'
+      tags:
+      - Service Groups
+      summary: Show Summary
+      operationId: ApplicationsService_GetServicesStats
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.applications.ServicesStatsRes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+components:
+  schemas:
+    chef.automate.api.applications.ServiceGroup:
+      description: 'A service group message is the representation of an individual service group that
+
+        is internally generated by aggregating all of its services.'
+      type: object
+      properties:
+        application:
+          description: Application name for the service group.
+          type: string
+        disconnected_count:
+          description: Count of disconnected services within this service group.
+          type: integer
+          format: int32
+        environment:
+          description: Environment name for the service group.
+          type: string
+        health_percentage:
+          description: 'Percentage of services reporting OK status.
+
+            The health_percentage can be a number between 0-100.'
+          type: integer
+          format: int32
+        id:
+          description: Service group ID. This is a value constructed by Chef Automate and is not reported by Chef Habitat.
+          type: string
+        name:
+          description: Name of service group.
+          type: string
+        package:
+          description: 'Combination of the origin and package name in a single string.
+
+            Example: core/redis.'
+          type: string
+        release:
+          description: 'Combination of the version and release in a single string.
+
+            Example: 0.1.0/8743278934278923.'
+          type: string
+        services_health_counts:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthCounts'
+        status:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
+    chef.automate.api.applications.HealthCheckResult:
+      type: object
+      title: 'HealthCheckResult aggregates the stdout output, stderr output and process
+
+        exit status of a habitat health check'
+      properties:
+        exit_status:
+          type: integer
+          format: int32
+        stderr:
+          type: string
+        stdout:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.applications.ServiceGroups:
+      description: List of service groups.
+      type: object
+      properties:
+        service_groups:
+          description: List of service groups.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.ServiceGroup'
+    chef.automate.api.applications.ServicesRes:
+      description: Response message for GetServices.
+      type: object
+      properties:
+        services:
+          description: List of services.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.Service'
+    chef.automate.api.applications.DisconnectedServicesReq:
+      description: Request message for GetDisconnectedServices.
+      type: object
+      properties:
+        threshold_seconds:
+          description: Threshold for marking services disconnected in seconds.
+          type: integer
+          format: int32
+    chef.automate.api.applications.ServicesDistinctValuesRes:
+      description: Response message for GetServicesDistinctValues.
+      type: object
+      properties:
+        values:
+          description: List of distinct values fitting query_fragment and filters.
+          type: array
+          items:
+            type: string
+    chef.automate.api.applications.ServicesStatsRes:
+      description: Response message for ServicesStats.
+      type: object
+      properties:
+        total_deployments:
+          description: Total number of deployments reporting to Chef Automate.
+          type: integer
+          format: int32
+        total_service_groups:
+          description: Total number of service groups reporting to Chef Automate.
+          type: integer
+          format: int32
+        total_services:
+          description: Total number of services reporting to Chef Automate, counts both connected and disconnected services.
+          type: integer
+          format: int32
+        total_supervisors:
+          description: Total number of supervisors reporting to Chef Automate.
+          type: integer
+          format: int32
+    chef.automate.api.applications.HealthCounts:
+      description: Combined count values from the health status and disconnected status reports.
+      type: object
+      properties:
+        critical:
+          type: integer
+          format: int32
+        disconnected:
+          type: integer
+          format: int32
+        ok:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+        warning:
+          type: integer
+          format: int32
+    chef.automate.api.applications.ServicesBySGRes:
+      description: Response message for GetServicesBySG.
+      type: object
+      properties:
+        group:
+          description: Service group name.
+          type: string
+        services:
+          description: List of services.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.Service'
+        services_health_counts:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthCounts'
+    chef.automate.api.applications.DeleteServicesByIDReq:
+      type: object
+      properties:
+        ids:
+          description: List of the database IDs of the services to be deleted.
+          type: array
+          items:
+            type: string
+    chef.automate.api.applications.Service:
+      type: object
+      properties:
+        application:
+          description: Application name.
+          type: string
+        channel:
+          description: Chef Habitat channel that the service is subscribed to.
+          type: string
+        current_health_since:
+          description: Time interval of current health status from last status change until now.
+          type: string
+        disconnected:
+          description: 'Service connection information.
+
+            Based on time since last healthcheck received and disconnected service configuration.'
+          type: boolean
+        environment:
+          description: Environment name.
+          type: string
+        fqdn:
+          description: FQDN reported by a Chef Habitat Supervisor.
+          type: string
+        group:
+          description: Service group name.
+          type: string
+        health_check:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
+        health_check_result:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthCheckResult'
+        health_updated_at:
+          description: Timestamp since health status change.
+          type: string
+          format: date-time
+        id:
+          type: string
+          title: Internal ID
+        last_event_occurred_at:
+          description: Timestamp of last received health check message.
+          type: string
+          format: date-time
+        last_event_since:
+          description: Interval since last event received until now.
+          type: string
+        previous_health_check:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
+        release:
+          description: 'Combination of the service version and release in a single string.
+
+            Example: 0.1.0/8743278934278923.'
+          type: string
+        site:
+          description: Site reported by Chef Habitat service, a user defined flag.
+          type: string
+        supervisor_id:
+          description: The Chef Habitat Supervisor ID.
+          type: string
+        update_strategy:
+          description: Update strategy that the service employs.
+          type: string
+    chef.automate.api.applications.HealthStatus:
+      description: 'The HealthStatus enumerable matches the Chef Habitat implementation for health-check status:
+
+        => https://www.habitat.sh/docs/reference/#health-check
+
+        For a health status within a service group.
+
+        *critical* means that one or more services are in critical condition.
+
+        *warning* means that one or more services have a warning, but none are in critical condition.
+
+        *unknown* means that one or more services have not responded, but all of the remaining nodes responded to the health check as "OK".
+
+        *OK* means that all of the services are OK and all have responded to the health check.
+
+        *none* means that there is no health check information.'
+      type: string
+      default: OK
+      enum:
+      - OK
+      - WARNING
+      - CRITICAL
+      - UNKNOWN
+      - NONE
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

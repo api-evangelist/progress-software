@@ -1,0 +1,1977 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Folders API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Folders
+paths:
+  /api/v1/folders:
+    get:
+      tags:
+      - Folders
+      summary: Get list of folders current user can view
+      operationId: GETapi/v1/folders-1.0
+      parameters:
+      - name: name
+        in: query
+        description: File name mask for filtering list of Folders
+        required: false
+        schema:
+          type: string
+      - name: path
+        in: query
+        description: File path mask for filtering list of Folders
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (Name, Type or Path); Default is Path.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: sharedTo
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFolderModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFolderModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleFolderModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/folders/{Id}:
+    get:
+      tags:
+      - Folders
+      summary: Return folder details
+      operationId: GETapi/v1/folders/{Id}?SkipCounts={SkipCounts}&SkipFilesSize={SkipFilesSize}&PathHash={PathHash}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Folder ID
+        required: true
+        schema:
+          type: string
+      - name: skipCounts
+        in: query
+        description: 'Whether to skip including counts of various folder properties like files
+
+          and subfolders in the folder details results.'
+        required: false
+        schema:
+          type: boolean
+      - name: skipFilesSize
+        in: query
+        description: Whether to skip including total files size in a directory and its subdirectories(if any).
+        required: false
+        schema:
+          type: boolean
+      - name: pathHash
+        in: query
+        description: File path hash for getting proper folder relations
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    delete:
+      tags:
+      - Folders
+      summary: Delete folder
+      operationId: DELETEapi/v1/folders/{Id}?PathHash={PathHash}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Folder ID
+        required: true
+        schema:
+          type: string
+      - name: pathHash
+        in: query
+        description: File path hash for getting proper folder relations
+        required: false
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    patch:
+      tags:
+      - Folders
+      summary: Partial Folder update
+      operationId: PATCHapi/v1/folders/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to update
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderPatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/FolderPatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/FolderPatchModel'
+        description: Request body.
+        required: true
+  /api/v1/folders/{Id}/acls:
+    get:
+      tags:
+      - Folders
+      summary: Lists the Access Controls for a given folder
+      operationId: GETapi/v1/folders/{Id}/acls?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}&PathHash={PathHash}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Folder ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Field to sort by; Default is name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: pathHash
+        in: query
+        description: File path hash for getting proper folder relations
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    put:
+      tags:
+      - Folders
+      summary: Change the Access Controls for a given folder
+      operationId: PUTapi/v1/folders/{Id}/acls-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to change access control
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutFolderAclEntryRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PutFolderAclEntryRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/PutFolderAclEntryRequestModel'
+        description: Access control
+        required: true
+    post:
+      tags:
+      - Folders
+      summary: Set the Access Controls for a given folder
+      operationId: POSTapi/v1/folders/{Id}/acls-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to set access control
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfFolderAclEntryResourceModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetFolderAclEntryRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/SetFolderAclEntryRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/SetFolderAclEntryRequestModel'
+        description: Access control
+        required: true
+    delete:
+      tags:
+      - Folders
+      summary: Delete the Access Controls for a given folder
+      operationId: DELETEapi/v1/folders/{Id}/acls-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to delete access control
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteFolderAclEntryRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeleteFolderAclEntryRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/DeleteFolderAclEntryRequestModel'
+        description: Entity type and ID
+        required: true
+  /api/v1/folders/{Id}/copy:
+    post:
+      tags:
+      - Folders
+      summary: Copy folder into another folder
+      operationId: POSTapi/v1/folders/{Id}/copy-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to copy
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '409':
+          description: Operation Conflicted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCopyMoveModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/FolderCopyMoveModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/FolderCopyMoveModel'
+        description: Folder copy request details
+        required: true
+  /api/v1/folders/{Id}/move:
+    post:
+      tags:
+      - Folders
+      summary: Move folder into another folder
+      operationId: POSTapi/v1/folders/{Id}/move-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to move
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '409':
+          description: Operation Conflicted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCopyMoveModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/FolderCopyMoveModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/FolderCopyMoveModel'
+        description: Folder move request details
+        required: true
+  /api/v1/folders/{Id}/filemasks:
+    patch:
+      tags:
+      - Folders
+      summary: Change Allowed File Masks
+      operationId: PATCHapi/v1/folders/{Id}/filemasks-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderFileMasksSettingsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderFileMasksSettingsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderFileMasksSettingsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderFileMasksSettingsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderFileMasksSettingsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderFileMasksSettingsModel'
+        description: Folder update filemasks settings
+        required: true
+  /api/v1/folders/{Id}/maintenance:
+    patch:
+      tags:
+      - Folders
+      summary: Change Automated Maintenance Settings
+      operationId: PATCHapi/v1/folders/{Id}/maintenance-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderMaintenanceSettingsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderMaintenanceSettingsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderMaintenanceSettingsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderMaintenanceSettingsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderMaintenanceSettingsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderMaintenanceSettingsModel'
+        description: Folder update maintenance settings
+        required: true
+  /api/v1/folders/{Id}/miscellaneous:
+    patch:
+      tags:
+      - Folders
+      summary: Change Miscellaneous Settings
+      operationId: PATCHapi/v1/folders/{Id}/miscellaneous-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderMaintenanceSettingsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderMaintenanceSettingsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderMaintenanceSettingsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderMiscellaneousSettingsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderMiscellaneousSettingsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderMiscellaneousSettingsModel'
+        description: Folder update miscellaneous settings
+        required: true
+  /api/v1/folders/{Id}/notifications:
+    patch:
+      tags:
+      - Folders
+      summary: Change folder update notifications
+      operationId: PATCHapi/v1/folders/{Id}/notifications-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to change folder update notification settings
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderNotificationSettingsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderNotificationSettingsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderNotificationSettingsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderNotificationSettingsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderNotificationSettingsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderNotificationSettingsModel'
+        description: Folder update notification settings
+        required: true
+  /api/v1/folders/{Id}/acls/{entryId}:
+    patch:
+      tags:
+      - Folders
+      summary: Change the single user Access Controls for a given folder
+      operationId: PATCHapi/v1/folders/{Id}/acls/{entryId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to set access control
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: entryId
+        in: path
+        description: ID of the access control to change. The format of this entryId is type!id, where type can be user or group, and id is the user or group id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderAclEntryResourceModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderAclEntryResourceModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderAclEntryResourceModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderAclEntryRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderAclEntryRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderAclEntryRequestModel'
+        description: Access control
+        required: true
+  /api/v1/folders/{Id}/characterRestrictions:
+    patch:
+      tags:
+      - Folders
+      summary: Change file and folder name character restrictions
+      operationId: PATCHapi/v1/folders/{Id}/characterRestrictions-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the folder to change character restrictions
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderCharacterRestrictionsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/FolderCharacterRestrictionsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/FolderCharacterRestrictionsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderCharacterRestrictionsModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderCharacterRestrictionsModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderCharacterRestrictionsModel'
+        description: Folder character restrictions
+        required: true
+components:
+  schemas:
+    FolderNotificationSettingsModel:
+      description: Represents folder update notification settings.
+      properties:
+        uploadConfirmationToSenderTime:
+          type: integer
+          format: int32
+        newFileAlertToRecipientTime:
+          type: integer
+          format: int32
+        deliveryReceiptToSender:
+          type: string
+          enum:
+          - None
+          - Hours
+          - Days
+          - Minutes
+          - Immediately
+        alertSenderFileIsNotDownloadedTime:
+          type: integer
+          format: int32
+        alertSenderFileIsNotDownloadedTimeType:
+          type: string
+          enum:
+          - None
+          - Hours
+          - Days
+          - Minutes
+          - Immediately
+        notificationStyle:
+          type: string
+          enum:
+          - Normal
+          - InboxOutbox
+      xml:
+        name: FolderNotificationSettingsModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagedModelOfSimpleFolderModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleFolderModel'
+          readOnly: true
+          xml:
+            name: SimpleFolderModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    FolderQuota:
+      properties:
+        quota:
+          type: integer
+          format: int64
+        quotaLevel:
+          type: string
+          enum:
+          - KB
+          - MB
+        applyToFilesInSubfolders:
+          type: boolean
+      xml:
+        name: FolderQuota
+      type: object
+    SimpleFolderModel:
+      description: Represents basic folder data required for all scenarios
+      properties:
+        id:
+          description: The unique ID of this folder.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of this folder's parent folder or "0" if it does not have a parent folder.
+          type: integer
+          format: int32
+        name:
+          description: The (short) name of this folder.
+          type: string
+        lastContentChangeTime:
+          description: Last time the folder content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this folder.
+          type: string
+        isShared:
+          description: Indicates whether this folder is shared with someone
+          type: boolean
+        permission:
+          $ref: '#/components/schemas/IFolderPermission'
+          description: A MOVEit Permission describing the currently authorized user's permissions on this folder.
+        subfolderCount:
+          description: Number of subfolders in this folder
+          type: integer
+          format: int32
+        totalFileCount:
+          description: Number of files in this folder
+          type: integer
+          format: int32
+        sharedWithUsersCount:
+          description: Number of users this folder is shared with
+          type: integer
+          format: int32
+        sharedWithGroupsCount:
+          description: Number of groups this folder is shared with
+          type: integer
+          format: int32
+      xml:
+        name: SimpleFolderModel
+      type: object
+    FolderCopyMoveModel:
+      properties:
+        destinationFolderId:
+          type: integer
+          format: int32
+      xml:
+        name: FolderCopyMoveModel
+      type: object
+    PutFolderAclEntryRequestModel:
+      properties:
+        overrideBehaviourType:
+          description: Permissions behavior. Works for home user permissions only. Default is OverrideInherited.
+          type: string
+          enum:
+          - AddToInherited
+          - OverrideInherited
+        type:
+          description: Type of the entry.
+          type: string
+          enum:
+          - User
+          - Group
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+        permissions:
+          $ref: '#/components/schemas/FolderAclPermissionsModel'
+          description: Permissions set on the entry.
+      xml:
+        name: PutFolderAclEntryRequestModel
+      type: object
+    DeleteFolderAclEntryRequestModel:
+      description: 'Represents delete folder Access Control List entry
+
+        data suitable for use as user input.'
+      properties:
+        type:
+          description: Type of the entry.
+          type: string
+          enum:
+          - User
+          - Group
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+      xml:
+        name: DeleteFolderAclEntryRequestModel
+      type: object
+    UpdateFolderAclEntryRequestModel:
+      description: 'Represents folder Access Control entry
+
+        data suitable for user input.'
+      properties:
+        overrideBehaviourType:
+          description: Permissions behavior. Works for home user permissions only. Default is AddToInherited.
+          type: string
+          enum:
+          - AddToInherited
+          - OverrideInherited
+        permissions:
+          $ref: '#/components/schemas/FolderAclPermissionsModel'
+          description: Permissions set on the entry.
+      xml:
+        name: UpdateFolderAclEntryRequestModel
+      type: object
+    UpdateFolderMiscellaneousSettingsModel:
+      properties:
+        hideHistory:
+          type: boolean
+        createThumbnails:
+          type: boolean
+        enforceUniqueFilenames:
+          type: boolean
+        allowFileOverwrite:
+          type: boolean
+        customSortField:
+          type: string
+          enum:
+          - None
+          - Name
+          - DateTime
+          - FileSize
+          - UploadUsername
+          - DownloadCount
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderMiscellaneousSettingsModel
+      type: object
+    FolderAclEntryResourceModel:
+      description: 'Represents folder Access Control List entry
+
+        resource data suitable for output.'
+      properties:
+        name:
+          description: Name of the entity referenced by the entry.
+          type: string
+        type:
+          description: Type of the entry.
+          type: string
+          enum:
+          - None
+          - User
+          - Group
+          - Email
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+        entryId:
+          description: ID of the access control entry.
+          type: string
+        isHomeFolderUser:
+          description: Is home folder user permissions.
+          type: boolean
+        isEditable:
+          description: Is permissions can be edited by the current user.
+          type: boolean
+        isDeletable:
+          description: Is permissions can be deleted by the current user.
+          type: boolean
+        permissions:
+          $ref: '#/components/schemas/FolderAclPermissionsModel'
+          description: Permissions set on the entry.
+      xml:
+        name: FolderAclEntryResourceModel
+      type: object
+    FolderMaintenanceSettingsModel:
+      description: Represents folder maintenance settings.
+      properties:
+        folderCleanup:
+          $ref: '#/components/schemas/FolderCleanup'
+        displayNewFilesForDays:
+          type: integer
+          format: int32
+        folderQuota:
+          $ref: '#/components/schemas/FolderQuota'
+      xml:
+        name: FolderMaintenanceSettingsModel
+      type: object
+    FolderDetailsModel:
+      description: Represents a folder and all available attributes
+      properties:
+        orgId:
+          description: ID of the organization this folder exists in.
+          type: integer
+          format: int32
+        owner:
+          description: The username of this folder's owner. (Home folders only)
+          type: string
+        description:
+          description: Description of this folder.
+          type: string
+        systemType:
+          description: Indicates if this folder is under the control of users or the MOVEit Transfer system.
+          type: string
+          enum:
+          - User
+          - System
+        cleanType:
+          description: Describes what kind of automated clean up is regularly performed on this folder.
+          type: string
+          enum:
+          - Never
+          - AfterCleanTime
+        cleanTimeDays:
+          description: Describes after how many days old files in this folder will be cleaned up.
+          type: integer
+          format: int32
+        subfolderCleanTime:
+          description: Describes after how many days empty subfolders in this folder will be cleaned up.
+          type: integer
+          format: int32
+        uploadNotificationConfirmationType:
+          description: Describes what kind of upload confirmation notifications are used in this folder.
+          type: string
+          enum:
+          - None
+          - Batch
+          - Immediately
+        uploadNotificationConfirmationTime:
+          description: Describes how often batch notifications are sent.
+          type: integer
+          format: int32
+        newFileNotificationType:
+          description: Describes what kind of new file notifications are used in this folder.
+          type: string
+          enum:
+          - None
+          - Batch
+          - Immediately
+        newFileNotificationTime:
+          description: Describes how often new file batch notifications are sent.
+          type: integer
+          format: int32
+        alertSenderFileIsNotDownloadedTimeType:
+          description: Describes the unit of measurement for notifying the sender when the files have not been downloaded.
+          type: string
+          enum:
+          - None
+          - Hours
+          - Days
+          - Minutes
+          - Immediately
+        alertSenderFileIsNotDownloadedTime:
+          description: 'Describes after how many minutes, hours, days, depending on the value of {MOVEit.DMZ.WebApi.Models.Folders.FolderDetailsModel.AlertSenderFileIsNotDownloadedTimeType},
+
+            the sender will receive the notifiation that the sent files have not been downloaded.'
+          type: integer
+          format: int32
+        deliveryRecepientNotificationType:
+          description: Describes what kind of delivery recipient notifications are used in this folder.
+          type: string
+          enum:
+          - None
+          - Immediately
+        responseType:
+          description: For webpost folders, the webpost completion and redirection setting.
+          type: string
+          enum:
+          - RedirectImmediately
+          - RedirectAfter
+        responseText:
+          description: For webpost folders, text to display after a post to this folder.
+          type: string
+        responseTime:
+          description: For webpost folders, the time after which redirection occurs.
+          type: integer
+          format: int32
+        newTime:
+          description: The maximum amount of time, in days, that files in this folder are considered "new".
+          type: integer
+          format: int32
+        enforceUniqueFilenames:
+          description: Indicates whether files in this folder must have unique names.
+          type: boolean
+        allowFileOverwrite:
+          description: Indicates whether files of the same name will silently overwrite existing files of the same name.
+          type: boolean
+        parentInheritRights:
+          description: Indicates whether the folder inherits its permissions from its parent folder.
+          type: integer
+          format: int32
+        quota:
+          description: The folder quota, if any, in bytes.
+          type: integer
+          format: int64
+        totalFilesSize:
+          description: The total size of all files in this folder (and subfolders if applicable), in bytes.
+          type: integer
+          format: int64
+        fileMaskRule:
+          description: Indicates whether files uploaded to the folder that match the configured filemasks will be allowed or denied.
+          type: string
+          enum:
+          - AllowExceptMatching
+          - DenyExceptMatching
+        fileMasks:
+          description: Comma-delimited list of filemasks which all files uploaded to the folder will be matched against.
+          type: string
+        id:
+          description: The unique ID of this folder.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of this folder's parent folder or "0" if it does not have a parent folder.
+          type: integer
+          format: int32
+        name:
+          description: The (short) name of this folder.
+          type: string
+        lastContentChangeTime:
+          description: Last time the folder content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this folder.
+          type: string
+        isShared:
+          description: Indicates whether this folder is shared with someone
+          type: boolean
+        permission:
+          $ref: '#/components/schemas/IFolderPermission'
+          description: A MOVEit Permission describing the currently authorized user's permissions on this folder.
+        subfolderCount:
+          description: Number of subfolders in this folder
+          type: integer
+          format: int32
+        totalFileCount:
+          description: Number of files in this folder
+          type: integer
+          format: int32
+        sharedWithUsersCount:
+          description: Number of users this folder is shared with
+          type: integer
+          format: int32
+        sharedWithGroupsCount:
+          description: Number of groups this folder is shared with
+          type: integer
+          format: int32
+      xml:
+        name: FolderDetailsModel
+      type: object
+    UpdateFolderMaintenanceSettingsModel:
+      properties:
+        folderCleanup:
+          $ref: '#/components/schemas/FolderCleanup'
+        displayNewFilesForDays:
+          type: integer
+          format: int32
+        folderQuota:
+          $ref: '#/components/schemas/FolderQuota'
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderMaintenanceSettingsModel
+      type: object
+    FolderPatchModel:
+      description: Folder Update parameters.
+      properties:
+        name:
+          description: New file name to set.
+          type: string
+        description:
+          description: New file description to set.
+          type: string
+        inheritAccess:
+          description: Inherit Access From Parent.
+          type: boolean
+      xml:
+        name: FolderPatchModel
+      type: object
+    FolderCleanup:
+      properties:
+        isCleanupEnabled:
+          type: boolean
+        deleteOldFilesAfterDays:
+          type: integer
+          format: int32
+        deleteEmptySubfoldersAfterDays:
+          type: integer
+          format: int32
+      xml:
+        name: FolderCleanup
+      type: object
+    FolderCharacterRestrictionsModel:
+      description: Represents folder character restrictions.
+      properties:
+        charSet:
+          description: Character set.
+          type: string
+          enum:
+          - CheckParentFolder
+          - NoRestrictions
+          - WindowsNtfs
+          - CustomDisallow
+          - CustomAllow
+        customCharSet:
+          description: Custom character set.
+          type: string
+      xml:
+        name: FolderCharacterRestrictionsModel
+      type: object
+    FolderShareAclPermissionsModel:
+      properties:
+        readFiles:
+          type: boolean
+        writeFiles:
+          type: boolean
+        deleteFiles:
+          type: boolean
+        listFiles:
+          type: boolean
+        notify:
+          type: boolean
+        listUsers:
+          type: boolean
+      xml:
+        name: FolderShareAclPermissionsModel
+      type: object
+    IFolderPermission:
+      description: Represents folder permission object
+      properties:
+        canListSubfolders:
+          description: User can list the subfolders of a folder.
+          readOnly: true
+          type: boolean
+        canAddSubfolders:
+          description: User can add subfolders to the folder.
+          readOnly: true
+          type: boolean
+        canChangeSettings:
+          description: User can change the settings of the folder.
+          readOnly: true
+          type: boolean
+        canDelete:
+          description: User can delete the folder.
+          readOnly: true
+          type: boolean
+        canListFiles:
+          description: User can list the files in the folder.
+          readOnly: true
+          type: boolean
+        canReadFiles:
+          description: User can download the files in the folder.
+          readOnly: true
+          type: boolean
+        canWriteFiles:
+          description: User can upload files to the folder.
+          readOnly: true
+          type: boolean
+        canDeleteFiles:
+          description: User can delete files in the folder.
+          readOnly: true
+          type: boolean
+        canShare:
+          description: User can share files in the folder
+          readOnly: true
+          type: boolean
+      xml:
+        name: IFolderPermission
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SetFolderAclEntryRequestModel:
+      properties:
+        notificationMessage:
+          description: Optional notification message.
+          type: string
+        type:
+          description: Type of the entry.
+          type: string
+          enum:
+          - User
+          - Group
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+        permissions:
+          $ref: '#/components/schemas/FolderAclPermissionsModel'
+          description: Permissions set on the entry.
+      xml:
+        name: SetFolderAclEntryRequestModel
+      type: object
+    UpdateFolderCharacterRestrictionsModel:
+      description: Represents folder character restrictions
+      properties:
+        charSet:
+          description: Character set.
+          type: string
+          enum:
+          - NoRestrictions
+          - WindowsNtfs
+          - CustomDisallow
+          - CustomAllow
+        customCharSet:
+          description: Custom character set. Use with "CustomDisallow" or "CustomAllow" CharSet.
+          type: string
+        replaceIllegalCharacters:
+          description: Replace illegal characters.
+          type: boolean
+        replacementValue:
+          description: 'Automatically replace illegal characters with the value.
+
+            Use the [CharID] macro to return the illegal character''s hexadecimal code point value.'
+          type: string
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderCharacterRestrictionsModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    FolderFileMasksSettingsModel:
+      description: Represents folder filemasks settings.
+      properties:
+        rule:
+          type: string
+          enum:
+          - AllowExceptMatching
+          - DenyExceptMatching
+        masks:
+          description: List of filemasks.
+          items:
+            type: string
+          type: array
+      xml:
+        name: FolderFileMasksSettingsModel
+      type: object
+    UpdateFolderNotificationSettingsModel:
+      description: Represents folder notification settings
+      properties:
+        notificationStyle:
+          description: The Notification Style setting determines whom notifications are sent to when a new file is uploaded.
+          type: string
+          enum:
+          - Normal
+          - InboxOutbox
+        uploadConfirmationToSenderTime:
+          description: Upload Confirmation to Sender. Set -1 to turn off, 0 to send immediately or positive number (in minutes).
+          type: integer
+          format: int32
+        newFileAlertToRecipientTime:
+          description: New File Alert to Recipient. Set -1 to turn off, 0 to send immediately or positive number (in minutes).
+          type: integer
+          format: int32
+        deliveryReceiptToSender:
+          description: Delivery Receipt to Sender.
+          type: string
+          enum:
+          - None
+          - Immediately
+        alertSenderFileIsNotDownloadedTime:
+          description: Alert Sender if File is Not Downloaded. Set -1 to turn off or positive number.
+          type: integer
+          format: int32
+        alertSenderFileIsNotDownloadedTimeType:
+          description: Alert Sender if File is Not Downloaded time type. Used with "DeliveryReceiptToSender" set not to -1.
+          type: string
+          enum:
+          - Hours
+          - Days
+          - Minutes
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderNotificationSettingsModel
+      type: object
+    FolderAclPermissionsModel:
+      properties:
+        readFiles:
+          type: boolean
+        writeFiles:
+          type: boolean
+        deleteFiles:
+          type: boolean
+        listFiles:
+          type: boolean
+        notify:
+          type: boolean
+        addDeleteSubfolders:
+          type: boolean
+        share:
+          type: boolean
+        sharePermissions:
+          $ref: '#/components/schemas/FolderShareAclPermissionsModel'
+        admin:
+          type: boolean
+        listUsers:
+          type: boolean
+      xml:
+        name: FolderAclPermissionsModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    PagedModelOfFolderAclEntryResourceModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/FolderAclEntryResourceModel'
+          readOnly: true
+          xml:
+            name: FolderAclEntryResourceModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    UpdateFolderFileMasksSettingsModel:
+      properties:
+        rule:
+          type: string
+          enum:
+          - AllowExceptMatching
+          - DenyExceptMatching
+        masks:
+          description: List of filemasks.
+          items:
+            type: string
+          type: array
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderFileMasksSettingsModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

@@ -1,0 +1,834 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Profiles Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: ProfilesService
+  x-displayName: Profiles
+paths:
+  /api/v0/compliance/market/read/{name}/version/{version}:
+    get:
+      description: 'Show the details of an un-installed profile using the profile name and version.
+
+        in the UI, these are the profiles under the "Available" tab.
+
+        These profiles are created and maintained by Chef, shipped with Chef Automate.
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:marketProfiles:get
+
+        ```'
+      tags:
+      - ProfilesService
+      summary: Show an available profile
+      operationId: ProfilesService_ReadFromMarket
+      parameters:
+      - description: Name of the profile.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Version of the profile.
+        name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Automate user associated with the profile.
+        name: owner
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Profile'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/compliance/profiles:
+    post:
+      description: 'Upload a profile to Chef Automate. This can be a tarball or zip of the profile, or a reference to one of the market profiles.
+
+
+        Example:
+
+
+        ```api/v0/compliance/profiles?owner=admin -d ''{"name":"cis-amazonlinux-2014.09-2015.03-level2","version":"1.1.0-5"}''```
+
+
+        Example:
+
+
+        ```-F file=@/path-to-local-file/linux-baseline-2.0.0.zip api/v0compliance/profiles?contentType=application/x-gzip&owner=admin```
+
+
+        Authorization Action:
+
+        ```compliance:profiles:create```'
+      tags:
+      - ProfilesService
+      summary: Upload a Profile
+      operationId: Create
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.CheckResult'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.ProfilePostRequest'
+        required: true
+  /api/v0/compliance/profiles/metasearch:
+    post:
+      description: 'The endpoint takes an array of compliance profile sha256 IDs and returns the ones that the backend
+
+        doesn''t have metadata (profile title, copyright, controls title, code, tags, etc) for.
+
+        This is useful when deciding if a compliance report can be sent for ingestion without the associated profile metadata.
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:profiles:list
+
+        ```'
+      tags:
+      - ProfilesService
+      summary: Check if one or multiple profiles exist in the metadata database
+      operationId: ProfilesService_MetaSearch
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Missing'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Sha256'
+        required: true
+  /api/v0/compliance/profiles/read/{owner}/{name}/version/{version}:
+    get:
+      description: 'Show the details of an installed profile given the profile name, owner (Automate user associated with the profile), and version.
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:profiles:get
+
+        ```'
+      tags:
+      - ProfilesService
+      summary: Show an installed profile
+      operationId: ProfilesService_Read
+      parameters:
+      - description: Automate user associated with the profile.
+        name: owner
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of the profile.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Version of the profile.
+        name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Profile'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/compliance/profiles/search:
+    post:
+      description: 'Lists all profiles available for the Automate instance.
+
+        Empty params return all "market" profiles.
+
+        Specifying the `owner` field returns all profiles installed for the specified user.
+
+
+        Supports pagination, sorting, and filtering (wildcard supported).
+
+
+        Supported sort fields: title, name (default: title)
+
+        Supported filter fields: name, version, title
+
+
+        Example:
+
+        ```
+
+        {
+
+        "filters":[
+
+        {"type": "title", "values": [ "Dev*"]}
+
+        ],
+
+        "page": 1,
+
+        "per_page": 3,
+
+        "owner": "admin"
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:profiles:list
+
+        ```'
+      tags:
+      - ProfilesService
+      summary: List all available profiles
+      operationId: ProfilesService_List
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Profiles'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Query'
+        required: true
+  /api/v0/compliance/profiles/tar:
+    post:
+      description: 'Download a profile in tarball form. The profile will be downloaded to the user''s local workstation.
+
+
+        Example:
+
+
+        ```{"name":"cis-amazonlinux2-level1","version":"1.0.0-5"}''```
+
+
+        Authorization Action:
+
+        ```compliance:profiles:get```
+
+        ```compliance:marketProfiles:get```'
+      tags:
+      - ProfilesService
+      summary: Download a Profile
+      operationId: ReadTar
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.ProfileData'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.ProfileDetails'
+        required: true
+  /api/v0/compliance/profiles/{owner}/{name}/version/{version}:
+    delete:
+      description: 'Delete an installed profile given the profile name, owner (Automate user associated with the profile), and version.
+
+        Note: this action "uninstalls" the profile. This has no impact on the market profiles.
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:profiles:delete
+
+        ```'
+      tags:
+      - ProfilesService
+      summary: Delete an installed profile
+      operationId: ProfilesService_Delete
+      parameters:
+      - description: Automate user associated with the profile.
+        name: owner
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of the profile.
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Version of the profile.
+        name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+components:
+  schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.compliance.profiles.v1.Option:
+      type: object
+      properties:
+        default:
+          type: string
+        description:
+          type: string
+    chef.automate.api.compliance.profiles.v1.CheckResult:
+      type: object
+      properties:
+        errors:
+          description: Errors returned by the `inspec check` command.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.CheckMessage'
+        summary:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.ResultSummary'
+        warnings:
+          description: Warnings returned by the `inspec check` command.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.CheckMessage'
+    chef.automate.api.compliance.profiles.v1.ListFilter:
+      type: object
+      properties:
+        type:
+          description: The field to filter on.
+          type: string
+        values:
+          description: List of values to filter on.
+          type: array
+          items:
+            type: string
+    chef.automate.api.compliance.profiles.v1.Support:
+      type: object
+      properties:
+        inspec_version:
+          description: Minimum InSpec version required for the profile.
+          type: string
+        os_family:
+          description: OS family supported by the profile.
+          type: string
+        os_name:
+          description: OS name supported by the profile.
+          type: string
+        platform:
+          description: Platform supported by the profile.
+          type: string
+        release:
+          description: OS release supported by the profile.
+          type: string
+    chef.automate.api.compliance.profiles.v1.Control:
+      type: object
+      properties:
+        code:
+          description: The code (test) for the control.
+          type: string
+        desc:
+          description: The description of the control.
+          type: string
+        id:
+          description: The ID of the control.
+          type: string
+        impact:
+          description: The impact of the control.
+          type: number
+          format: float
+        refs:
+          description: The refs associated with the control.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Ref'
+        results:
+          description: The results of the control tests.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Result'
+        source_location:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.SourceLocation'
+        tags:
+          description: The tags associated with the control.
+          type: object
+          additionalProperties:
+            type: string
+        title:
+          description: The title of the control.
+          type: string
+    chef.automate.api.compliance.profiles.v1.SourceLocation:
+      type: object
+      properties:
+        line:
+          type: integer
+          format: int32
+        ref:
+          type: string
+    chef.automate.api.compliance.profiles.v1.Query:
+      type: object
+      properties:
+        filters:
+          type: array
+          title: Filters to apply to the query
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.ListFilter'
+        name:
+          description: Name of the profile (as defined in `inspec.yml`).
+          type: string
+        order:
+          description: Order in which to sort. Defaults to ASC.
+          $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Query.OrderType'
+        owner:
+          description: Automate user associated with the profile.
+          type: string
+        page:
+          description: Page of results requested.
+          type: integer
+          format: int32
+        per_page:
+          description: Number of results to return per page.
+          type: integer
+          format: int32
+        sort:
+          description: Field on which to sort.
+          type: string
+        version:
+          description: Version of the profile (as defined in `inspec.yml`).
+          type: string
+    chef.automate.api.compliance.profiles.v1.Profiles:
+      type: object
+      properties:
+        profiles:
+          description: List of profiles matching the query.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Profile'
+        total:
+          description: Total count of profiles matching the query.
+          type: integer
+          format: int32
+    chef.automate.api.compliance.profiles.v1.Ref:
+      type: object
+      properties:
+        ref:
+          description: Ref for the control.
+          type: string
+        url:
+          description: URL of the ref.
+          type: string
+    chef.automate.api.compliance.profiles.v1.ProfilePostRequest:
+      type: object
+      properties:
+        chunk:
+          description: Profile contents in byte form.
+          ref: '#/definitions/chef.automate.api.compliance.profiles.v1.Chunk'
+        meta:
+          description: Profile metadata.
+          ref: '#/definitions/chef.automate.api.compliance.profiles.v1.Metadata'
+        owner:
+          description: Associate a Chef Automate user with a profile. A profile is visible only to its associated user.
+          type: string
+    chef.automate.api.compliance.profiles.v1.Result:
+      type: object
+      properties:
+        code_desc:
+          description: The code (test) executed.
+          type: string
+        message:
+          description: The failure message.
+          type: string
+        run_time:
+          description: The amount of time it took to execute the test.
+          type: number
+          format: float
+        skip_message:
+          description: Reason for skipping the test.
+          type: string
+        start_time:
+          description: The time the test started.
+          type: string
+        status:
+          description: Status of the test results (passed, failed, skipped).
+          type: string
+    chef.automate.api.compliance.profiles.v1.ProfileDetails:
+      type: object
+      properties:
+        data:
+          description: Profile contents in byte form.
+          type: bytes
+        name:
+          description: Profile name.
+          type: string
+        owner:
+          description: Chef Automate user associated with the profile.
+          type: string
+        version:
+          description: Profile version.
+          type: string
+    chef.automate.api.compliance.profiles.v1.ProfileData:
+      type: object
+      properties:
+        data:
+          description: Profile contents in byte form.
+          type: string
+          format: byte
+        name:
+          description: Name of the profile.
+          type: string
+        owner:
+          description: Automate user associated with the profile.
+          type: string
+        version:
+          description: Version of the profile.
+          type: string
+    chef.automate.api.compliance.profiles.v1.Profile:
+      type: object
+      properties:
+        attributes:
+          description: The list of attributes in the profile.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Attribute'
+        controls:
+          description: The list of controls in the profile.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Control'
+        copyright:
+          type: string
+          title: The profile copyright, as specified in the inspec.yml
+        copyright_email:
+          type: string
+          title: The profile copyright email, as specified in the inspec.yml
+        depends:
+          type: array
+          title: The list of dependencies the profile has, as specified in the inspec.yml
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Dependency'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Group'
+        latest_version:
+          description: The latest version of the profile.
+          type: string
+        license:
+          type: string
+          title: The profile license, as specified in the inspec.yml
+        maintainer:
+          type: string
+          title: The profile maintainer, as specified in the inspec.yml
+        name:
+          type: string
+          title: The profile name, as specified in the inspec.yml
+        owner:
+          description: The Automate user associated with the profile.
+          type: string
+        sha256:
+          description: The SHA256 of the profile.
+          type: string
+        summary:
+          type: string
+          title: The profile summary, as specified in the inspec.yml
+        supports:
+          type: array
+          title: The list of operating systems compatible with the profile, as specified in the inspec.yml
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Support'
+        title:
+          type: string
+          title: The profile title, as specified in the inspec.yml
+        version:
+          type: string
+          title: The profile version, as specified in the inspec.yml
+    chef.automate.api.compliance.profiles.v1.Group:
+      type: object
+      properties:
+        controls:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+        title:
+          type: string
+    chef.automate.api.compliance.profiles.v1.Sha256:
+      type: object
+      properties:
+        sha256:
+          description: An array of profile sha256 IDs.
+          type: array
+          items:
+            type: string
+    chef.automate.api.compliance.profiles.v1.Dependency:
+      type: object
+      properties:
+        branch:
+          description: Branch of the profile.
+          type: string
+        commit:
+          description: Commit sha for the profile.
+          type: string
+        compliance:
+          description: Automate address of the profile.
+          type: string
+        git:
+          description: Git location of the profile.
+          type: string
+        github:
+          description: Github address of the profile.
+          type: string
+        name:
+          description: Name of the profile.
+          type: string
+        path:
+          description: Path of the profile.
+          type: string
+        supermarket:
+          description: Supermarket address of the profile.
+          type: string
+        tag:
+          description: Tag associated with the profile.
+          type: string
+        url:
+          description: URL of the profile.
+          type: string
+        version:
+          description: Version of the profile.
+          type: string
+    chef.automate.api.compliance.profiles.v1.Attribute:
+      type: object
+      properties:
+        name:
+          type: string
+        options:
+          $ref: '#/components/schemas/chef.automate.api.compliance.profiles.v1.Option'
+    chef.automate.api.compliance.profiles.v1.CheckMessage:
+      type: object
+      properties:
+        column:
+          description: Column where the error or warning exists.
+          type: integer
+          format: int32
+        control_id:
+          description: Control ID associated with the error or warning.
+          type: string
+        file:
+          description: Profile file where the error or warning exists.
+          type: string
+        line:
+          description: Profile line where the error or warning exists.
+          type: integer
+          format: int32
+        msg:
+          description: Message associated with the error or warning.
+          type: string
+    chef.automate.api.compliance.profiles.v1.Query.OrderType:
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
+    chef.automate.api.compliance.profiles.v1.Missing:
+      type: object
+      properties:
+        missing_sha256:
+          description: An array of profile sha256 IDs that are missing from the backend metadata store.
+          type: array
+          items:
+            type: string
+    chef.automate.api.compliance.profiles.v1.ResultSummary:
+      type: object
+      properties:
+        controls:
+          description: Count of controls in the profile.
+          type: integer
+          format: int32
+        location:
+          description: Path of the checked profile.
+          type: string
+        timestamp:
+          description: Timestamp of when the `inspec check` command was executed.
+          type: string
+        valid:
+          description: Boolean that denotes if the profile is valid or not (as reported by `inspec check`).
+          type: boolean
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

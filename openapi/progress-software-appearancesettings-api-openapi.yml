@@ -1,0 +1,185 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Appearance Settings API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: AppearanceSettings
+paths:
+  /api/v1/settings/appearance/brand/logos:
+    post:
+      tags:
+      - AppearanceSettings
+      summary: Update the organization branding logos
+      description: The content type of the request must be "multipart/form-data".
+      operationId: POSTapi/v1/settings/appearance/brand/logos-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogosModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LogosModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/LogosModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                leftlogo:
+                  type: string
+                  description: Left logo file
+                  format: binary
+                rightlogo:
+                  type: string
+                  description: Right logo file
+                  format: binary
+                backgroundlogo:
+                  type: string
+                  description: Header background logo file
+                  format: binary
+                usecustomnotifbranding:
+                  type: string
+                  description: Whether to enable or disable custom notification branding (1 or 0)
+                resetrightlogo:
+                  type: string
+                  description: When set to 1, resets the right logo to an empty image
+                resetbackgroundlogo:
+                  type: string
+                  description: When set to 1, resets the header background logo to an empty image
+components:
+  schemas:
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    LogosModel:
+      properties:
+        leftLogoFilename:
+          type: string
+        rightLogoFilename:
+          type: string
+        backgroundLogoFilename:
+          type: string
+        useCustomNotifBranding:
+          type: boolean
+      xml:
+        name: LogosModel
+      type: object
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
+      properties:
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

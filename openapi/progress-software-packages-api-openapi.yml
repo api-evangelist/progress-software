@@ -1,0 +1,1456 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Packages API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Packages
+paths:
+  /api/v1/packages:
+    get:
+      tags:
+      - Packages
+      summary: Get all packages current user can view
+      operationId: GETapi/v1/packages-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (sendStamp); Default is sendStamp.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: newOnly
+        in: query
+        description: Filter new files
+        required: false
+        schema:
+          type: boolean
+      - name: sentTo
+        in: query
+        description: Filter by recipients
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: receivedFrom
+        in: query
+        description: Filter by senders
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: mailboxId
+        in: query
+        description: Filter by mailbox ID
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimplePackageModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimplePackageModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimplePackageModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Packages
+      summary: Save or send package
+      operationId: POSTapi/v1/packages-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePackageRequestModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreatePackageRequestModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/CreatePackageRequestModel'
+        description: Request body.
+        required: true
+  /api/v1/packages/requirements:
+    get:
+      tags:
+      - Packages
+      summary: Get package requirements
+      operationId: GETapi/v1/packages/requirements-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageRequirementsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageRequirementsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PackageRequirementsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/packages/{Id}/recipients:
+    get:
+      tags:
+      - Packages
+      summary: Get package recipient info
+      operationId: GETapi/v1/packages/{Id}/recipients?MailboxId={MailboxId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Package id
+        required: true
+        schema:
+          type: string
+      - name: mailboxId
+        in: query
+        description: Mailbox id
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRecipientListItem'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRecipientListItem'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRecipientListItem'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/packages/{Id}:
+    get:
+      tags:
+      - Packages
+      summary: Get package info
+      operationId: GETapi/v1/packages/{Id}?Action={Action}&MailboxId={MailboxId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Package id
+        required: true
+        schema:
+          type: string
+      - name: action
+        in: query
+        description: Package action (Reply, ReplyAll, Forward, Resend)
+        required: false
+        schema:
+          type: string
+      - name: mailboxId
+        in: query
+        description: Mailbox id
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    delete:
+      tags:
+      - Packages
+      summary: Remove package from user's mailboxes
+      operationId: DELETEapi/v1/packages/{Id}?MailboxId={MailboxId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Package id
+        required: true
+        schema:
+          type: string
+      - name: mailboxId
+        in: query
+        description: Mailbox id
+        required: false
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    patch:
+      tags:
+      - Packages
+      summary: Partial package update
+      operationId: PATCHapi/v1/packages/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the package to update
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimplePackageModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SimplePackageModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/SimplePackageModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackagePatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackagePatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/PackagePatchModel'
+        description: Request body.
+        required: true
+  /api/v1/packages/{Id}/notification:
+    get:
+      tags:
+      - Packages
+      summary: Get package notification message
+      operationId: GETapi/v1/packages/{Id}/notification?IncludeImages={IncludeImages}&MailboxId={MailboxId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Package id
+        required: true
+        schema:
+          type: string
+      - name: includeImages
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: mailboxId
+        in: query
+        description: Mailbox id
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/NotificationModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/NotificationModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/packages/attachments:
+    post:
+      tags:
+      - Packages
+      summary: Upload attachment
+      description: 'The content type of the request must be "multipart/form-data".
+
+        For large files upload (larger then maxAllowedContentLength attribute in Web.config) use chunked upload.
+
+        Some clients, like Swagger and Postman, are not using chunked upload, so the upload might fail with unexpected error (404.13)
+
+        More info how to setup chunked upload: https://www.ipswitch.com/Transfer2018/ChunkedUploaderExample/'
+      operationId: POSTapi/v1/packages/attachments-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                hashtype:
+                  type: string
+                  description: Type of hash provided (sha-1, sha-256, sha-384, sha-512)
+                hash:
+                  type: string
+                  description: Hash of file
+                file:
+                  type: string
+                  description: File contents
+                  format: binary
+                comments:
+                  type: string
+                  description: File upload comments
+              required:
+              - file
+  /api/v1/packages/attachments/{Id}:
+    delete:
+      tags:
+      - Packages
+      summary: Delete attachment
+      operationId: DELETEapi/v1/packages/attachments/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: File ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    Recipient:
+      properties:
+        type:
+          description: Recipient type
+          type: string
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+        role:
+          description: Recipient role
+          type: string
+          enum:
+          - To
+          - CC
+          - BCC
+        identifier:
+          description: Recipient identifier
+          type: string
+        name:
+          description: Recipient name (read only)
+          type: string
+      xml:
+        name: Recipient
+      type: object
+    CreatePackageRequestModel:
+      properties:
+        attachments:
+          description: List of file IDs
+          items:
+            $ref: '#/components/schemas/FileIdModel'
+          xml:
+            name: FileIdModel
+            wrapped: true
+          type: array
+        body:
+          description: Note of the package
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        maxAttachDownloads:
+          description: Maximum downloads of attachments
+          type: integer
+          format: int32
+        noReply:
+          description: Used to prevent reply
+          type: string
+          enum:
+          - AllowAll
+          - DenyReplyAll
+          - DenyAllReplies
+        recipients:
+          description: List of recipients
+          items:
+            $ref: '#/components/schemas/Recipient'
+          xml:
+            name: Recipient
+            wrapped: true
+          type: array
+        recipToList:
+          description: Recipients To list
+          items:
+            type: string
+          type: array
+        recipCCList:
+          description: Recipients CC list
+          items:
+            type: string
+          type: array
+        recipBCCList:
+          description: Recipients BCC list
+          items:
+            type: string
+          type: array
+        type:
+          description: Package type. Use Draft or template for saving package and General for sending package.
+          type: string
+          enum:
+          - General
+          - Draft
+          - Template
+        composerType:
+          description: Composer package type. Use Request for requesting files.
+          type: string
+          enum:
+          - General
+          - Request
+        subject:
+          description: Subject of package. Required
+          type: string
+        parentId:
+          description: Parent ID
+          type: string
+        isSecureBody:
+          description: Set true to secure package body
+          type: boolean
+        derivativeId:
+          description: Derivative ID. Use to delete draft
+          type: string
+        packageClassificationTypeId:
+          description: Package Classification Type ID
+          type: integer
+          format: int32
+        skipNotifyFromTransfer:
+          description: Send notification from Transfer (true if being sent from Outlook)
+          type: boolean
+      xml:
+        name: CreatePackageRequestModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PackageDetailsModel:
+      description: Represents a package and all available attributes
+      properties:
+        isSecureBody:
+          description: If true body is secured
+          type: boolean
+        attachments:
+          description: List of attachments
+          items:
+            $ref: '#/components/schemas/SimpleFileResourceModel'
+          xml:
+            name: SimpleFileResourceModel
+            wrapped: true
+          type: array
+        body:
+          description: Package body
+          type: string
+        maxAttachDownloads:
+          description: Maximum downloads of attachment
+          type: integer
+          format: int32
+        recipients:
+          description: List of recipients
+          items:
+            $ref: '#/components/schemas/Recipient'
+          xml:
+            name: Recipient
+            wrapped: true
+          type: array
+        noReply:
+          description: Used to prevent reply
+          type: string
+          enum:
+          - AllowAll
+          - DenyReplyAll
+          - DenyAllReplies
+        id:
+          description: Package id. The value is null for action operations
+          type: integer
+          format: int32
+        orgId:
+          description: Organization id
+          type: integer
+          format: int32
+        mailboxId:
+          description: Mailbox id
+          type: string
+        sendStamp:
+          description: Mailbox time stamp
+          type: string
+        parentId:
+          description: Parent id
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        recalled:
+          description: True if package is recalled
+          type: boolean
+        isNew:
+          description: True if package is new
+          type: boolean
+        subject:
+          description: Package subject
+          type: string
+        sender:
+          $ref: '#/components/schemas/SimpleUserModel'
+          description: Sender info
+        composerType:
+          description: Composer package type
+          type: string
+          enum:
+          - General
+          - Request
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        packageClassificationType:
+          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
+          description: Package classification type
+        readStatus:
+          description: Package read status
+          type: string
+          enum:
+          - None
+          - Some
+          - All
+      xml:
+        name: PackageDetailsModel
+      type: object
+    FileDetailsModel:
+      description: Represents a file and all available attributes
+      properties:
+        orgID:
+          description: ID of the organization this file exists in.
+          type: string
+        originalFileType:
+          description: Describes what type of file this file was originally.
+          type: string
+          enum:
+          - Any
+          - Text
+          - HTML
+          - CSV
+          - XML
+          - WebPost
+          - AuditLog
+          - Message
+          - MessageArchive
+          - MessageDraft
+          - MessageTemplate
+          - Upload31
+          - Upload32
+        currentFileType:
+          description: Describes what type of file this file is currently.
+          type: string
+          enum:
+          - Any
+          - Text
+          - HTML
+          - CSV
+          - XML
+          - WebPost
+          - AuditLog
+          - Message
+          - MessageArchive
+          - MessageDraft
+          - MessageTemplate
+          - Upload31
+          - Upload32
+        uploadComment:
+          description: Any optional comments uploaded with this file.
+          type: string
+        uploadIP:
+          description: The IP Address, if any, from which this file was uploaded.
+          type: string
+        uploadAgentBrand:
+          description: Brand of the agent used to upload this file.
+          type: string
+        uploadAgentVersion:
+          description: Version of the agent used to upload this file.
+          type: string
+        uploadIntegrity:
+          description: 1 if file was uploaded with integrity checking, 0 if file was not.
+          type: integer
+          format: int32
+        dlpChecked:
+          description: If true, the file was determined to not have a DLP violation; otherwise, the file was either not checked, or does contain a violation.
+          type: boolean
+        dlpMetaData:
+          description: If 1, the file’s metadata contains DLP violations, and should not be displayed. Otherwise, if 0, there are no DLP violations in the file metadata.
+          type: integer
+          format: int32
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the file contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        uploadUserFullName:
+          description: The real name of the user account which uploaded this file.
+          type: string
+        downloadCount:
+          description: Number of times this file has been downloaded.
+          type: integer
+          format: int32
+        originalFilename:
+          description: The original name of this file.
+          type: string
+        hash:
+          description: SHA-1 hash of the file
+          type: string
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: FileDetailsModel
+      type: object
+    RecipientListItem:
+      description: 'Expansion of the {MOVEit.DMZ.Application.Contracts.Packages.Recipient.Recipient} class for use with detailed recipient lists,
+
+        such as for a view status list or send receipt.'
+      properties:
+        viewStatus:
+          description: View status for the recipient for a given package.
+          type: string
+          enum:
+          - None
+          - Some
+          - All
+        password:
+          description: Password of the recipient.
+          type: string
+        allowChildExpansion:
+          description: Whether child entries of the recipient should be shown.
+          type: boolean
+        children:
+          description: Child entries of the recipient.
+          items:
+            $ref: '#/components/schemas/RecipientListItem'
+          xml:
+            name: RecipientListItem
+            wrapped: true
+          type: array
+        type:
+          description: Recipient type
+          type: string
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+        role:
+          description: Recipient role
+          type: string
+          enum:
+          - To
+          - CC
+          - BCC
+        identifier:
+          description: Recipient identifier
+          type: string
+        name:
+          description: Recipient name (read only)
+          type: string
+      xml:
+        name: RecipientListItem
+      type: object
+    SimpleUserModel:
+      description: Simple user model for user lists.
+      properties:
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: SimpleUserModel
+      type: object
+    SimplePackageClassificationTypeModel:
+      properties:
+        id:
+          description: Gets or sets id of classification type
+          type: integer
+          format: int32
+        value:
+          description: Gets or sets value of classification type
+          type: string
+      xml:
+        name: SimplePackageClassificationTypeModel
+      type: object
+    PackagePatchModel:
+      description: Package Update parameters
+      properties:
+        recalled:
+          description: Set true to recall the package
+          type: boolean
+        isNew:
+          description: IsNew to set
+          type: boolean
+      xml:
+        name: PackagePatchModel
+      type: object
+    InlineAttachment:
+      description: Data class defining an inline attachment used in a notification message.
+      properties:
+        filename:
+          description: Name of attachment file; this will also be the content ID value used to reference the attachment in the notification message body
+          type: string
+        base64Content:
+          description: Base64-encoded content of the attachment
+          type: string
+      xml:
+        name: InlineAttachment
+      type: object
+    NotificationModel:
+      properties:
+        subject:
+          description: Notification subject
+          type: string
+        body:
+          description: Main notification body
+          type: string
+        isHtml:
+          description: Whether the main notification body is HTML-formatted
+          type: boolean
+        alternateBody:
+          description: Alternate text-formatted body if the main body is HTML-formatted
+          type: string
+        inlineAttachments:
+          description: Collection of inline attachments to include with notification
+          items:
+            $ref: '#/components/schemas/InlineAttachment'
+          xml:
+            name: InlineAttachment
+            wrapped: true
+          type: array
+      xml:
+        name: NotificationModel
+      type: object
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    PackageRequirementsModel:
+      properties:
+        allowSendPackages:
+          description: Whether the user is allowed to send packages at all.
+          type: boolean
+        allowAttachFiles:
+          description: Whether the user is allowed to attach files to packages.
+          type: boolean
+        defaultUserPackageExpirationHours:
+          description: 'Value in hours which users can set specific expirations on their packages.
+
+            -1 if not allowed.'
+          type: integer
+          format: int32
+        maxUserPackageExpirationHours:
+          description: 'Number of hours after packages expire and delete.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        defaultAttachmentDownloads:
+          description: 'Default download limit on user''s packages which users can modify.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        maxAttachmentDownloads:
+          description: 'Number that specifies a download limit of a file from any package.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        maxFilesPerPackageLimit:
+          description: 'Number that specifies a maximum number of files per package.
+
+            -1 if the user is not authorized.'
+          type: integer
+          format: int32
+        defaultSecureNote:
+          description: Whether the Secure The Note setting is enabled by default.
+          type: boolean
+        allowChangeSecureNote:
+          description: Whether the user is allowed to change the Secure The Note setting value.
+          type: boolean
+        isClassificationFieldRequired:
+          description: Gets or sets is classification type required
+          type: boolean
+        classificationTypes:
+          description: Gets or sets classification types list
+          items:
+            $ref: '#/components/schemas/PackageClassificationTypeModel'
+          xml:
+            name: PackageClassificationTypeModel
+            wrapped: true
+          type: array
+      xml:
+        name: PackageRequirementsModel
+      type: object
+    CollectionModelOfRecipientListItem:
+      description: Represents a collection of resources
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/RecipientListItem'
+          readOnly: true
+          xml:
+            name: RecipientListItem
+            wrapped: true
+          type: array
+      xml:
+        name: CollectionModel`1
+      type: object
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
+      properties:
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SimplePackageModel:
+      description: Represents basic package data required for all scenarios
+      properties:
+        toRecipients:
+          description: List of To recipients
+          items:
+            type: string
+          type: array
+        id:
+          description: Package id. The value is null for action operations
+          type: integer
+          format: int32
+        orgId:
+          description: Organization id
+          type: integer
+          format: int32
+        mailboxId:
+          description: Mailbox id
+          type: string
+        sendStamp:
+          description: Mailbox time stamp
+          type: string
+        parentId:
+          description: Parent id
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        recalled:
+          description: True if package is recalled
+          type: boolean
+        isNew:
+          description: True if package is new
+          type: boolean
+        subject:
+          description: Package subject
+          type: string
+        sender:
+          $ref: '#/components/schemas/SimpleUserModel'
+          description: Sender info
+        composerType:
+          description: Composer package type
+          type: string
+          enum:
+          - General
+          - Request
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        packageClassificationType:
+          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
+          description: Package classification type
+        readStatus:
+          description: Package read status
+          type: string
+          enum:
+          - None
+          - Some
+          - All
+      xml:
+        name: SimplePackageModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    PackageClassificationTypeModel:
+      properties:
+        orderIndex:
+          description: Gets or sets order of classification types
+          type: integer
+          format: int32
+        id:
+          description: Gets or sets id of classification type
+          type: integer
+          format: int32
+        value:
+          description: Gets or sets value of classification type
+          type: string
+      xml:
+        name: PackageClassificationTypeModel
+      type: object
+    FileIdModel:
+      description: File id model.
+      properties:
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: FileIdModel
+      type: object
+    PagedModelOfSimplePackageModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimplePackageModel'
+          readOnly: true
+          xml:
+            name: SimplePackageModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

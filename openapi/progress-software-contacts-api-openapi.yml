@@ -1,0 +1,479 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Contacts API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Contacts
+paths:
+  /api/v1/contacts:
+    get:
+      tags:
+      - Contacts
+      summary: List contacts
+      operationId: GETapi/v1/contacts?SearchString={SearchString}&OnBehalfOf={OnBehalfOf}&Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}-1.0
+      parameters:
+      - name: searchString
+        in: query
+        description: Search String. The Name and Email values will be searched.
+        required: false
+        schema:
+          type: string
+      - name: onBehalfOf
+        in: query
+        description: User to get contacts on behalf of.
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (email, name); Default is Name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfContactModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfContactModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfContactModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Contacts
+      summary: Create new contact
+      operationId: POSTapi/v1/contacts-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ContactModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ContactModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactAddModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ContactAddModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/ContactAddModel'
+        required: true
+  /api/v1/contacts/{Id}:
+    delete:
+      tags:
+      - Contacts
+      summary: Delete contact
+      operationId: DELETEapi/v1/contacts/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Contact ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    patch:
+      tags:
+      - Contacts
+      summary: Update existing contact
+      operationId: PATCHapi/v1/contacts/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Invalid Request Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableEntityErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactUpdateModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ContactUpdateModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/ContactUpdateModel'
+        required: true
+components:
+  schemas:
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    ContactModel:
+      description: Represents basic contact data required for all scenarios
+      properties:
+        name:
+          description: Contact name.
+          type: string
+        email:
+          description: Contact email address.
+          type: string
+        identifier:
+          description: Contact ID.
+          type: string
+        type:
+          description: Contact type (user, group, unreg).
+          type: string
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+      xml:
+        name: ContactModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagedModelOfContactModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/ContactModel'
+          readOnly: true
+          xml:
+            name: ContactModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    ContactUpdateModel:
+      properties:
+        name:
+          description: Contact name.
+          type: string
+        email:
+          description: Contact email address.
+          type: string
+      xml:
+        name: ContactUpdateModel
+      type: object
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
+      properties:
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    ContactAddModel:
+      description: Represents contact data required for create contact scenario
+      required:
+      - email
+      properties:
+        name:
+          description: Contact name.
+          type: string
+        email:
+          description: Contact email address.
+          type: string
+      xml:
+        name: ContactAddModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

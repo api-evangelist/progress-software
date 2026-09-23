@@ -1,0 +1,642 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Jobs Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: JobsService
+  x-displayName: Scan Jobs
+paths:
+  /api/v0/compliance/scanner/jobs:
+    post:
+      description: 'Creates a scan job. A scan job executes Chef InSpec against the specified nodes.
+
+        Requires a user-specified name. Type should be `detect` (checks if the node is reachable and reports the
+
+        platform information for the nodes) or `exec` (executes a set of profiles against the nodes).
+
+        Nodes to scan may be specified by including an array of node IDs to scan or a node manager ID along with some optional
+
+        filtering information.
+
+        Exec jobs require at least one profile to be used as part of the Chef InSpec scan.
+
+        Optional recurrence schedules enable regularly scheduled (repeating) scans.
+
+
+        Example:
+
+        ```
+
+        {
+
+        "name": "my testjob",
+
+        "tags": [],
+
+        "type": "exec",
+
+        "nodes": ["i07uc612-7e97-43f2-9b19-256abh785820"],
+
+        "profiles": ["https://github.com/dev-sec/linux-baseline/archive/master.tar.gz", "compliance://admin/ssh-baseline#2.2.0"],
+
+        "retries": 1,
+
+        "node_selectors":[
+
+        {
+
+        "manager_id":"e69dc612-7e67-43f2-9b19-256afd385820",
+
+        "filters":[{"key":"name","values":["ins*"],"exclude":false}]
+
+        }
+
+        ],
+
+        "recurrence":"DTSTART=20191231T045100Z;FREQ=DAILY;INTERVAL=1"
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+
+        ```
+
+        compliance:scannerJobs:create
+
+        ```'
+      tags:
+      - JobsService
+      summary: Create a scan job
+      operationId: JobsService_Create
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Id'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Job'
+        required: true
+  /api/v0/compliance/scanner/jobs/id/{id}:
+    get:
+      description: 'Read the details of a scan job given an ID.
+
+
+        Authorization Action:
+
+
+        ```
+
+        compliance:scannerJobs:get
+
+        ```'
+      tags:
+      - JobsService
+      summary: Read a scan job
+      operationId: JobsService_Read
+      parameters:
+      - description: Unique ID (UUID) assigned to object.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of object.
+        name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Job'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'PUT operation to update the details for a scan job, such as the name, profiles, node set, or recurrence schedule.
+
+        Please note that this is a PUT operation, so all scan job details included in the create function
+
+        should be included in the PUT message to update.
+
+
+        Authorization Action:
+
+
+        ```
+
+        compliance:scannerJobs:update
+
+        ```'
+      tags:
+      - JobsService
+      summary: Update a job
+      operationId: JobsService_Update
+      parameters:
+      - description: Unique ID (UUID) of the scan job.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Job'
+        required: true
+    delete:
+      description: 'Delete a scan job given an ID. Note this does not delete the report(s) generated by the scan job.
+
+
+        Authorization Action:
+
+
+        ```
+
+        compliance:scannerJobs:delete
+
+        ```'
+      tags:
+      - JobsService
+      summary: Delete a scan job
+      operationId: JobsService_Delete
+      parameters:
+      - description: Unique ID (UUID) assigned to object.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of object.
+        name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/compliance/scanner/jobs/rerun/id/{id}:
+    get:
+      description: 'Does not create a new job in the database. Reads the job info given the job ID
+
+        and runs a scan. The latest job information is then updated to reflect this latest run.
+
+
+        Authorization Action:
+
+
+        ```
+
+        compliance:scannerJobs:rerun
+
+        ```'
+      tags:
+      - JobsService
+      summary: Rerun a scan job
+      operationId: JobsService_Rerun
+      parameters:
+      - description: Unique ID (UUID) assigned to object.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Name of object.
+        name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.RerunResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/compliance/scanner/jobs/search:
+    post:
+      description: 'Returns a list of scan jobs matching the query.
+
+        Supports filtering, sorting, and pagination.
+
+        Valid filtering fields: job_type, parent_job, status
+
+        Valid sorting fields: name, type, status, start_time, end_time
+
+
+        Example:
+
+        ```
+
+        {
+
+        "filters":[
+
+        {"key":"job_type","values":["exec"]},
+
+        {"key":"parent_job","values":[""]}
+
+        ],
+
+        "page":1,
+
+        "per_page":100,
+
+        "sort":"end_time",
+
+        "order":"DESC"
+
+        }
+
+        ```
+
+
+        Authorization Action:
+
+
+        ```
+
+        compliance:scannerJobs:list
+
+        ```'
+      tags:
+      - JobsService
+      summary: List of scan jobs
+      operationId: JobsService_List
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Jobs'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Query'
+        required: true
+components:
+  schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.compliance.scanner.jobs.v1.ManagerFilter:
+      type: object
+      properties:
+        filters:
+          description: Use filters to limit the set of items returned.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Filter'
+        manager_id:
+          description: Unique ID of a node manager.
+          type: string
+    chef.automate.api.compliance.scanner.jobs.v1.RerunResponse:
+      type: object
+    chef.automate.api.compliance.scanner.jobs.v1.Id:
+      type: object
+      properties:
+        id:
+          description: Unique ID (UUID) assigned to object.
+          type: string
+        name:
+          description: Name of object.
+          type: string
+    chef.automate.api.common.query.Kv:
+      type: object
+      properties:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
+    chef.automate.api.compliance.scanner.jobs.v1.Query.OrderType:
+      description: Return the results in ascending or descending order.
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
+    chef.automate.api.compliance.scanner.jobs.v1.Query:
+      type: object
+      properties:
+        filters:
+          description: Use filters to limit the set of items returned.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Filter'
+        order:
+          $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Query.OrderType'
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        per_page:
+          description: The number of results on each page.
+          type: integer
+          format: int32
+        sort:
+          description: Sort the results on a specific field.
+          type: string
+    chef.automate.api.compliance.scanner.jobs.v1.ResultsRow:
+      type: object
+      properties:
+        end_time:
+          description: End time of the scan.
+          type: string
+          format: date-time
+        job_id:
+          description: ID of the scan.
+          type: string
+        node_id:
+          description: ID of the scanned node.
+          type: string
+        report_id:
+          description: ID of the report generated by the scan.
+          type: string
+        result:
+          description: Result error message for failed scans.
+          type: string
+        start_time:
+          description: Start time of the scan.
+          type: string
+          format: date-time
+        status:
+          description: Status of the scan (completed, failed, aborted).
+          type: string
+    chef.automate.api.compliance.scanner.jobs.v1.Job:
+      type: object
+      properties:
+        deleted:
+          description: Boolean used to denote the job has been marked as "deleted" by the user.
+          type: boolean
+        end_time:
+          description: End time of the scan job, assigned by the service.
+          type: string
+          format: date-time
+        id:
+          description: Unique ID (UUID) of the scan job.
+          type: string
+        job_count:
+          description: Count of scans executed by the job.
+          type: integer
+          format: int32
+        name:
+          description: User-specified name of the scan job.
+          type: string
+        node_count:
+          description: Count of nodes to be scanned as part of the job, assigned by the service.
+          type: integer
+          format: int32
+        node_selectors:
+          description: Set of node manager IDs and filters to associate with the scan job.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.ManagerFilter'
+        nodes:
+          description: List of node IDs to associate with the scan job.
+          type: array
+          items:
+            type: string
+        parent_id:
+          description: ID of parent job to associate with the job, if any.
+          type: string
+        profile_count:
+          description: Count of profiles to be executed as part of the job.
+          type: integer
+          format: int32
+        profiles:
+          description: List of profiles to execute as part of the scan job.
+          type: array
+          items:
+            type: string
+        recurrence:
+          description: Recurrence schedule string for the job.
+          type: string
+        results:
+          description: Results of the scan job, including a report ID if one was generated.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.ResultsRow'
+        retries:
+          description: 'Number of times to retry the scan job. Default: 3.'
+          type: integer
+          format: int32
+        retries_left:
+          description: Number of retries left, assigned by the service.
+          type: integer
+          format: int32
+        scheduled_time:
+          description: Next scheduled scan execution time.
+          type: string
+          format: date-time
+        start_time:
+          description: Start time of the scan job, assigned by the service.
+          type: string
+          format: date-time
+        status:
+          description: Status of the scan job, assigned by the service.
+          type: string
+        tags:
+          description: Tags to assign to the scan job.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        timeout:
+          description: 'Desired timeout (in seconds) for the scan job execution. Default: 7200 for exec jobs, 600 for detect jobs.'
+          type: integer
+          format: int32
+        type:
+          description: Determines the type of Chef InSpec run, `detect` or `exec`.
+          type: string
+    chef.automate.api.compliance.scanner.jobs.v1.Jobs:
+      type: object
+      properties:
+        jobs:
+          description: List of jobs.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.scanner.jobs.v1.Job'
+        total:
+          description: Total number of jobs in the system.
+          type: integer
+          format: int32
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.common.query.Filter:
+      type: object
+      properties:
+        exclude:
+          description: "Include matches for this filter.(boolean)\n`true` (default) *includes* all nodes that match this filter. \n`false` *excludes* all nodes that match this filter."
+          type: boolean
+        key:
+          description: Field to filter on.
+          type: string
+        values:
+          description: Field values to filter on.
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

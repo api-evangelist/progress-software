@@ -1,0 +1,785 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Node Manager Service API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: NodeManagerService
+  x-displayName: Node Managers
+paths:
+  /api/v0/nodemanagers:
+    post:
+      description: 'Creates a node manager given a name, credential id *or* credential data, and type.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:create
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Create a Node Manager
+      operationId: NodeManagerService_Create
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Ids'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManager'
+        required: true
+  /api/v0/nodemanagers/id/{id}:
+    get:
+      description: 'List the details of a node manager.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:get
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: View a Node Manager
+      operationId: NodeManagerService_Read
+      parameters:
+      - description: UUID for the node manager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManager'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+    put:
+      description: 'Update a node manager''s metadata, such as its name, associated credential id, or data.
+
+        This is a PUT operation and it overwrites ALL of the existing node manager metadata. Include all fields, because a PUT operation overwrites any missing fields to empty ("").
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:update
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Update a Node Manager
+      operationId: NodeManagerService_Update
+      parameters:
+      - description: UUID for the nodemanager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManager'
+        required: true
+    delete:
+      description: 'Delete a single node manager. This deletes the node manager itself and
+
+        reassigns its associated nodes to the Automate node manager.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:delete
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Delete a Node Manager
+      operationId: NodeManagerService_Delete
+      parameters:
+      - description: UUID for the node manager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/nodemanagers/id/{id}/with-node-state/stopped:
+    delete:
+      description: 'Delete a node manager and update its associated nodes to `stopped`.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:delete
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Delete a Node Manager and Stop Nodes
+      operationId: NodeManagerService_DeleteWithNodeStateStopped
+      parameters:
+      - description: UUID for the node manager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/nodemanagers/id/{id}/with-node-state/terminated:
+    delete:
+      description: 'Delete a node manager and update its associated nodes to `terminated`.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:delete
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Delete a Node Manager and Terminate Nodes
+      operationId: NodeManagerService_DeleteWithNodeStateTerminated
+      parameters:
+      - description: UUID for the node manager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/nodemanagers/id/{id}/with-nodes:
+    delete:
+      description: 'Delete a node manager and all of its associated nodes.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:delete
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Delete a Node Manager and Delete Nodes
+      operationId: NodeManagerService_DeleteWithNodes
+      parameters:
+      - description: UUID for the node manager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Ids'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/nodemanagers/id/{node_manager_id}/search-fields:
+    post:
+      description: 'Searches the available values for a given field across all nodes associated with the nodemanager id.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:list
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Search Node Fields
+      operationId: NodeManagerService_SearchNodeFields
+      parameters:
+      - description: Node manager ID.
+        name: node_manager_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Fields'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.FieldQuery'
+        required: true
+  /api/v0/nodemanagers/id/{node_manager_id}/search-nodes:
+    post:
+      description: 'Searches the available nodes for a single node manager by id.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:list
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Search nodes
+      operationId: NodeManagerService_SearchNodes
+      parameters:
+      - description: Node manager ID.
+        name: node_manager_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Nodes'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeQuery'
+        required: true
+  /api/v0/nodemanagers/rerun/id/{id}:
+    post:
+      description: 'Attempts to reach the API for the given nodemanager id to validate the
+
+        credentials associated with the nodemanager.
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:rerun
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: Connect
+      operationId: NodeManagerService_Connect
+      parameters:
+      - description: UUID for the node manager.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.ConnectResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Id'
+        required: true
+  /api/v0/nodemanagers/search:
+    post:
+      description: 'Returns a list of node managers.
+
+        Supports filtering, sorting, and pagination.
+
+
+        Valid filtering fields: manager_type
+
+
+        Authorization Action:
+
+
+        ```
+
+        infra:nodeManagers:list
+
+        ```'
+      tags:
+      - NodeManagerService
+      summary: List all Node Managers
+      operationId: NodeManagerService_List
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManagers'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Query'
+        required: true
+components:
+  schemas:
+    chef.automate.api.nodes.manager.v1.CredentialsByTags:
+      type: object
+      required:
+      - tag_key
+      - tag_value
+      - credential_ids
+      properties:
+        credential_ids:
+          description: List of credential ids to associate with the key/value pair.
+          type: array
+          items:
+            type: string
+        tag_key:
+          description: Tag key to match on.
+          type: string
+        tag_value:
+          description: Tag value to match on.
+          type: string
+    chef.automate.api.nodes.manager.v1.ConnectResponse:
+      type: object
+    chef.automate.api.nodes.manager.v1.Query.OrderType:
+      description: Sort the results in ascending or descending order.
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
+    chef.automate.api.nodes.manager.v1.Id:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          description: UUID for the node manager.
+          type: string
+      example:
+        uuid: cd3ad3d9-2776-4ef1-a904-4c229d1642ee
+    chef.automate.api.nodes.manager.v1.NodeManager:
+      type: object
+      required:
+      - id
+      - credential_id
+      - credential_data
+      - type
+      properties:
+        account_id:
+          description: Account id associated with the nodemanager.
+          type: string
+        credential_data:
+          description: 'Use either ''credential_data'' OR ''credential_id''.
+
+            ''credential_data'' will overwrite values in ''credential_id''.
+
+            Use ''credential_data'' when you have not yet created node credentials
+
+            and provide credential data (such as AWS_ACCESS_KEY) inline.'
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        credential_id:
+          description: 'Use either ''credential_id'' OR ''credential_data''.
+
+            ''credential_data'' will overwrite values in ''credential_id''.
+
+            The ''credential_id'' is the UUID of credential with the information
+
+            you need to connect to aws, azure, or gcp.'
+          type: string
+        date_added:
+          description: Date the nodemanager was created.
+          type: string
+          format: date-time
+        id:
+          description: UUID for the nodemanager.
+          type: string
+        instance_credentials:
+          description: 'List of tag and credential UUID associations for making node managers.
+
+            These are ssh, winrm, and sudo creds used to access instances.'
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.CredentialsByTags'
+        name:
+          description: User defined name for the node manager.
+          type: string
+        status:
+          description: Status of the nodemanager (reachable, unreachable).
+          type: string
+        type:
+          description: Type of nodemanager (aws-ec2, azure-vm, aws-api, azure-api, gcp).
+          type: string
+      example:
+        account_id: 12345EXAMPLE
+        credential_ID: my-credential-UUID
+        credential_data:
+        - key: AWS_ACCESS_KEY_ID
+          value: REDACTED_AWS_ACCESS_KEY_ID
+        - key: AWS_SECRET_ACCESS_KEY
+          value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+        - key: AWS_SESSION_TOKEN
+          value: AQoDYXdzEPT//////////wEXAMPLEt==
+        id: cd3ad3d9-2776-4ef1-a904-1EXAMPLEUUID
+        instance_credentials: []
+        name: my aws api integration with session token
+        type: aws-ec2
+    chef.automate.api.nodes.manager.v1.Nodes:
+      type: object
+      properties:
+        nodes:
+          description: List of node names matching the request.
+          type: array
+          items:
+            type: string
+        total:
+          description: Total count of node names matching the request.
+          type: integer
+          format: int32
+    chef.automate.api.nodes.manager.v1.Fields:
+      type: object
+      properties:
+        fields:
+          description: 'One or more fields: regions, tags, name, subscription_id.'
+          type: array
+          items:
+            type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.nodes.manager.v1.Ids:
+      type: object
+      properties:
+        ids:
+          description: List of node manager UUIDs.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Id'
+    chef.automate.api.nodes.manager.v1.NodeManagers:
+      type: object
+      properties:
+        managers:
+          description: List of nodemanagers.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManager'
+        total:
+          description: Total count of nodemanagers.
+          type: integer
+          format: int32
+      example:
+        total: '1'
+    chef.automate.api.common.query.Kv:
+      type: object
+      properties:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
+    chef.automate.api.nodes.manager.v1.FieldQuery:
+      type: object
+      required:
+      - node_manager_id
+      properties:
+        field:
+          description: 'Possible search fields: regions, tags, name, subscription_id.'
+          type: string
+        node_manager_id:
+          description: Node manager ID.
+          type: string
+        query:
+          description: Query details (filters) to be applied to the results.
+          $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Query'
+    chef.automate.api.nodes.manager.v1.NodeQuery:
+      type: object
+      required:
+      - node_manager_id
+      properties:
+        node_manager_id:
+          description: Node manager ID.
+          type: string
+        query:
+          description: 'Valid search filters: manager_type.'
+          $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Query'
+    chef.automate.api.nodes.manager.v1.Query:
+      type: object
+      required:
+      - filter_map
+      properties:
+        filter_map:
+          description: 'Filters for the query: "manager_type".'
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Filter'
+        order:
+          $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Query.OrderType'
+        page:
+          description: 'Starting page for the list. For example, if your query returns 100 pages,
+
+            and you know you''re looking for a node manager somewhere in the middle,
+
+            you might want to start on page 50.'
+          type: integer
+          format: int32
+        per_page:
+          description: Number of results on each page.
+          type: integer
+          format: int32
+        sort:
+          description: 'Field to use for sorting.
+
+            Valid fields are: name, type, status, status_message, date_added.'
+          type: string
+      example:
+        filter_map:
+        - key: manager_type
+          values:
+          - aws-ec2
+        sort: date_added
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.common.query.Filter:
+      type: object
+      properties:
+        exclude:
+          description: "Include matches for this filter.(boolean)\n`true` (default) *includes* all nodes that match this filter. \n`false` *excludes* all nodes that match this filter."
+          type: boolean
+        key:
+          description: Field to filter on.
+          type: string
+        values:
+          description: Field values to filter on.
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

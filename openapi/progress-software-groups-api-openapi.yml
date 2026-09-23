@@ -1,0 +1,522 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Groups API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Groups
+paths:
+  /api/v1/groups:
+    get:
+      tags:
+      - Groups
+      summary: Get list of groups current user can view
+      operationId: GETapi/v1/groups?Page={Page}&PerPage={PerPage}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfGroupModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfGroupModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfGroupModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Groups
+      summary: Create new group
+      operationId: POSTapi/v1/groups-1.0
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/GroupModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/GroupModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseGroupModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BaseGroupModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/BaseGroupModel'
+        required: true
+  /api/v1/groups/{Id}/members:
+    get:
+      tags:
+      - Groups
+      summary: Get a list of the members of a group
+      operationId: GETapi/v1/groups/{Id}/members?Page={Page}&PerPage={PerPage}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Groups
+      summary: Add members(s) to group
+      operationId: POSTapi/v1/groups/{Id}/members-1.0
+      parameters:
+      - name: Id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupAddMemberRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/GroupAddMemberRequest'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/GroupAddMemberRequest'
+        required: true
+  /api/v1/groups/{Id}/members/{UserId}:
+    delete:
+      tags:
+      - Groups
+      summary: Remove member from group
+      operationId: DELETEapi/v1/groups/{Id}/members/{UserId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      - name: UserId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfSimpleUserModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    GroupAddMemberRequest:
+      properties:
+        id:
+          description: Group ID
+          type: string
+        userIds:
+          description: List of user ids
+          items:
+            type: string
+          type: array
+      xml:
+        name: GroupAddMemberRequest
+      type: object
+    BaseGroupModel:
+      properties:
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
+          type: string
+      xml:
+        name: BaseGroupModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    GroupModel:
+      description: Represents group's requested information.
+      properties:
+        id:
+          description: Unique ID for this group.
+          type: integer
+          format: int32
+        membersCount:
+          description: Amount of users, who are members of this particular group.
+          type: integer
+          format: int32
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
+          type: string
+      xml:
+        name: GroupModel
+      type: object
+    PagedModelOfSimpleUserModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleUserModel'
+          readOnly: true
+          xml:
+            name: SimpleUserModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    PagedModelOfGroupModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/GroupModel'
+          readOnly: true
+          xml:
+            name: GroupModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    SimpleUserModel:
+      description: Simple user model for user lists.
+      properties:
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: SimpleUserModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

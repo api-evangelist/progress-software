@@ -1,0 +1,470 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Device Scan API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: DeviceScan
+paths:
+  /api/v1/device-scan/{scanId}/devices:
+    get:
+      tags:
+      - DeviceScan
+      summary: Return devices updated using scanned data
+      description: 'A scanId is provided as part of the return values for operations like "new device", "refresh" and "listing of scan statuses"
+
+
+        Note:
+
+        The set of devices updated by a scan will change over time based on add, update, deletes operations and general aging out of tracking information'
+      operationId: DeviceScan_UpdatedDevices
+      parameters:
+      - name: scanId
+        in: path
+        description: Id of the scan
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: information level returned for each device
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - card
+          - overview
+      - name: search
+        in: query
+        description: optional search text ; case-insensitive ; searches the display name, hostname and network address
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: The page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit number of items on a page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_ScanDeviceSummaryList'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_ScanDeviceSummaryList'
+      security:
+      - oauth2: []
+  /api/v1/device-scan/{scanId}/status:
+    get:
+      tags:
+      - DeviceScan
+      summary: Return current status
+      description: A scanId is provided as part of the return values for operations like "new device", "rescan" and "listing of scan statuses"
+      operationId: DeviceScan_Status
+      parameters:
+      - name: scanId
+        in: path
+        description: ID of the scan
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ActiveScan'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ActiveScan'
+      security:
+      - oauth2: []
+  /api/v1/device-scan/{scanId}/cancel:
+    put:
+      tags:
+      - DeviceScan
+      summary: Request a active scan to be canceled
+      description: A scanId is provided as part of the return values for operations like "new device", "rescan" and "listing of scan statuses"
+      operationId: DeviceScan_Cancel
+      parameters:
+      - name: scanId
+        in: path
+        description: ID of the scan
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/device-scan/-/status:
+    get:
+      tags:
+      - DeviceScan
+      summary: Status for each scan
+      operationId: DeviceScan_ListStatus
+      parameters:
+      - name: model
+        in: query
+        description: 'type of scans. Default: all'
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - standard
+          - newDevice
+          - refresh
+          - staging
+          - rescan
+      - name: activeOnly
+        in: query
+        description: 'Return only scans with an operation in progress. Default: true'
+        required: false
+        schema:
+          type: boolean
+      - name: search
+        in: query
+        description: optional search text ; case-insensitive ; searches the display name and description
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_ActiveScan'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_ActiveScan'
+      security:
+      - oauth2: []
+components:
+  schemas:
+    MonitorAssignmentStatus:
+      description: The current monitoring status of this monitor
+      type: object
+      properties:
+        state:
+          description: The internal state of the monitor
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        reason:
+          description: The reason a monitor is in the current state
+          type: string
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface monitor assignment where comment is the interface description'
+          type: string
+        enabled:
+          description: Indicates whether the monitor is enabled
+          type: boolean
+        id:
+          type: string
+    DeviceOverview:
+      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
+      type: object
+      properties:
+        downActiveMonitors:
+          description: A collection of Down Active monitor status items
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorAssignmentStatus'
+        totalActiveMonitors:
+          format: int32
+          description: The total number of active monitors for this device
+          type: integer
+        totalActiveMonitorsDown:
+          format: int32
+          description: The total number of active monitors that are down for this device
+          type: integer
+        notes:
+          description: The notes field for the device
+          type: string
+        hostName:
+          description: The hostname for the device
+          type: string
+        networkAddress:
+          description: The current network address of the device. Usually an IP address.
+          type: string
+        role:
+          description: The primary role of the device (e.g. router, switch, etc.).
+          type: string
+        brand:
+          description: The brand for the device (e.g. Cisco)
+          type: string
+        os:
+          description: The operating system for the device (e.g. windows, linux, etc)
+          type: string
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    Result_ActiveScan:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ActiveScan'
+          description: The data payload
+          readOnly: true
+    PageResult_List_ActiveScan:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_ActiveScan'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveScan'
+          readOnly: true
+    PagingInfo_ScanDeviceSummaryList:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_ScanDeviceSummaryList:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_ScanDeviceSummaryList'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/ScanDeviceSummaryList'
+          description: The data payload
+          readOnly: true
+    ScanDeviceSummaryList:
+      description: A list of device summary items
+      type: object
+      properties:
+        devices:
+          description: The set of device summaries
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceOverview'
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    PagingInfo_List_ActiveScan:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+    ActiveScan:
+      description: Class DiscoveryActiveScanDto.
+      type: object
+      properties:
+        isExport:
+          description: Gets or sets a value indicating whether this instance is export.
+          type: boolean
+        progress:
+          format: double
+          description: Overall progress.
+          type: number
+        scanUtc:
+          format: date-time
+          description: Gets or sets the timestamp.
+          type: string
+        devicesFound:
+          format: int32
+          description: Gets or sets the devices found.
+          type: integer
+        devicesComplete:
+          format: int32
+          description: Gets or sets the devices complete.
+          type: integer
+        addressResponsive:
+          format: int32
+          description: Gets or sets the address responsive.
+          type: integer
+        addressAttempts:
+          format: int32
+          description: Gets or sets the address attempts.
+          type: integer
+        addressTotal:
+          format: int32
+          description: Gets or sets the address total.
+          type: integer
+        model:
+          description: security model enforced on this scan
+          enum:
+          - all
+          - standard
+          - newDevice
+          - refresh
+          - staging
+          - rescan
+          type: string
+        type:
+          description: type of settings for this scan
+          enum:
+          - unknown
+          - user
+          - system
+          - temporary
+          - staging
+          - plugin
+          - runOnce
+          type: string
+        phaseProgress:
+          format: double
+          description: Progress in this phase
+          type: number
+        phase:
+          description: Current phase of discovery
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

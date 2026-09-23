@@ -1,0 +1,2759 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Device Role API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: DeviceRole
+paths:
+  /api/v1/device-role/{roleId}:
+    get:
+      tags:
+      - DeviceRole
+      summary: Return device role information
+      operationId: DeviceRole_GetSummaryTemplateById
+      parameters:
+      - name: roleId
+        in: path
+        description: ID of the device role
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: amount of role data to retrieve, default=simple
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - simple
+          - basic
+          - summary
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceRoleSummary'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceRoleSummary'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - DeviceRole
+      summary: Delete a role from the library
+      operationId: DeviceRole_RemoveRoleById
+      parameters:
+      - name: roleId
+        in: path
+        description: role to be removed
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/device-role/{roleId}/config/template:
+    get:
+      tags:
+      - DeviceRole
+      summary: Return template for a device role
+      description: 'Options:
+
+        * all: all information is made available in the template
+
+        * transfer: only data required to transfer or update a role on another system is include in the template
+
+        * copy: only data required to make a copy of the role is added to the role. Will generate a new role on the new system.'
+      operationId: DeviceRole_GetTemplateById
+      parameters:
+      - name: roleId
+        in: path
+        description: The id of the role
+        required: true
+        schema:
+          type: string
+      - name: options
+        in: query
+        description: type of template to be created, default=transfer
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - clone
+          - transfer
+          - update
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceRoleTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceRoleTemplateReadResults'
+      security:
+      - oauth2: []
+  /api/v1/device-role/{roleId}/enable:
+    put:
+      tags:
+      - DeviceRole
+      summary: Enable a device role for use
+      operationId: DeviceRole_EnableRoleById
+      parameters:
+      - name: roleId
+        in: path
+        description: Role to be enabled
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/device-role/{roleId}/disable:
+    put:
+      tags:
+      - DeviceRole
+      summary: Disable a role from being used
+      operationId: DeviceRole_DisableRoleById
+      parameters:
+      - name: roleId
+        in: path
+        description: role to be disabled
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/device-role/{roleId}/restore:
+    put:
+      tags:
+      - DeviceRole
+      summary: Restore system role to shipped defaults
+      operationId: DeviceRole_RestoreSystemDefaultsById
+      parameters:
+      - name: roleId
+        in: path
+        description: role to be restored
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/device-role/{roleId}/assignments/-:
+    get:
+      tags:
+      - DeviceRole
+      summary: Returns role assignments to devices
+      operationId: DeviceRole_RoleAssignmentsById
+      parameters:
+      - name: roleId
+        in: path
+        description: id of role being requested
+        required: true
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: optional filter; case-insensitive; filter on role name and alternate names, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: deviceView
+        in: query
+        description: type of device information to be returned, default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - card
+          - overview
+      - name: deviceFilter
+        in: query
+        description: optional filter; case-insensitive ; searches the device address, display and hostnames, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page to start at
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: the number of assignments per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_RoleAssignment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_RoleAssignment'
+      security:
+      - oauth2: []
+  /api/v1/device-role/-/assignments/-:
+    get:
+      tags:
+      - DeviceRole
+      summary: Returns all role assignments to devices
+      operationId: DeviceRole_AllRoleAssignments
+      parameters:
+      - name: kind
+        in: query
+        description: type of role to filter on. default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - role
+          - brand
+          - os
+          - subRole
+      - name: filter
+        in: query
+        description: optional filter; case-insensitive ; filter on role id, name or alternate names
+        required: false
+        schema:
+          type: string
+      - name: includeUnassignedRoles
+        in: query
+        description: 'false - (default) only roles that match filters and have assignments will be returned.
+
+          true - all roles that match role filter will be returned.'
+        required: false
+        schema:
+          type: boolean
+      - name: deviceView
+        in: query
+        description: type of device information to be returned, default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - card
+          - overview
+      - name: deviceFilter
+        in: query
+        description: optional filter ; case-insensitive ; searches the device address, display and hostnames
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page to start at
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: the number of assignments per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_RoleAssignment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_RoleAssignment'
+      security:
+      - oauth2: []
+  /api/v1/device-role/-:
+    get:
+      tags:
+      - DeviceRole
+      summary: Return set of device roles
+      operationId: DeviceRole_GetSummaryList
+      parameters:
+      - name: view
+        in: query
+        description: type of data to return, default=simple
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - simple
+          - basic
+          - summary
+      - name: kind
+        in: query
+        description: return role of the the specified kind. default=any
+        required: false
+        schema:
+          type: string
+          enum:
+          - any
+          - role
+          - brand
+          - os
+          - subRole
+          - monitor
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+      - name: source
+        in: query
+        description: filter based on the source of the role. default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - system
+          - systemModified
+          - userDefined
+          - allSystem
+          - allModified
+      - name: name
+        in: query
+        description: filter based on display name or internal name. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: filter roles that contain this string in display name, description, id or internal name. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: enabledOnly
+        in: query
+        description: return only enabled roles, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: pageId
+        in: query
+        description: The pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DeviceRoleSummary'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DeviceRoleSummary'
+      security:
+      - oauth2: []
+  /api/v1/device-role/-/config/template:
+    get:
+      tags:
+      - DeviceRole
+      summary: Return set of device role templates
+      description: 'Options:
+
+        * all: all information is made available in the template
+
+        * transfer: only data required to transfer or update a role on another system is include in the template
+
+        * copy: only data required to make a copy of the role is added to the role. Will generate a new role on the new system.'
+      operationId: DeviceRole_GetTemplate
+      parameters:
+      - name: options
+        in: query
+        description: empty is the default options. Multiple options may be passed separated by commas, default=transfer
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - clone
+          - transfer
+          - update
+      - name: kind
+        in: query
+        description: return role of the the specified kind. default=any
+        required: false
+        schema:
+          type: string
+          enum:
+          - any
+          - role
+          - brand
+          - os
+          - subRole
+          - monitor
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+      - name: source
+        in: query
+        description: filter based on the source of the role. default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - system
+          - systemModified
+          - userDefined
+          - allSystem
+          - allModified
+      - name: name
+        in: query
+        description: filter based on display name or internal name. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: filter roles that contain this string in display name, description, id or internal name. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: enabledOnly
+        in: query
+        description: return only enabled roles, default=false
+        required: false
+        schema:
+          type: boolean
+      - name: pageId
+        in: query
+        description: The pageId, empty will return first page
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the number of entries per page, is also limited by service. 0 or empty will give the maximum number per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_DeviceRoleTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_DeviceRoleTemplateReadResults'
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - DeviceRole
+      summary: Apply multiple device role templates
+      operationId: DeviceRole_ApplyTemplates
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRoleTemplateBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRoleTemplateBatch'
+        description: set of role templates to apply
+        required: true
+  /api/v1/device-role/-/config/export/content:
+    post:
+      tags:
+      - DeviceRole
+      summary: Inventory of a package based on options
+      operationId: DeviceRole_PackageExportContent
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageContentResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageContentResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackageRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackageRequest'
+        required: true
+  /api/v1/device-role/-/config/export:
+    post:
+      tags:
+      - DeviceRole
+      summary: Generate a package for delivery to another WhatsUp Gold System
+      operationId: DeviceRole_PackageExport
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageSignedResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageSignedResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackageRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackageRequest'
+        required: true
+  /api/v1/device-role/-/config/import/verify:
+    post:
+      tags:
+      - DeviceRole
+      summary: Inventory/Verify the contents of the a package
+      operationId: DeviceRole_VerifyPackage
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageContentOpResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageContentOpResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackageApply'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackageApply'
+        description: the signed package to be examined
+        required: true
+  /api/v1/device-role/-/config/import:
+    post:
+      tags:
+      - DeviceRole
+      summary: Apply a package
+      operationId: DeviceRole_ApplyPackage
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageContentOpResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageContentOpResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackageApply'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackageApply'
+        description: options and signed package to be applied
+        required: true
+  /api/v1/device-role/-/percentVariables:
+    get:
+      tags:
+      - DeviceRole
+      summary: Return a list of percent variables by type
+      operationId: DeviceRole_GetPercentVariables
+      parameters:
+      - name: choice
+        in: query
+        description: Type of variables requested, default=discoveryDevice
+        required: false
+        schema:
+          type: string
+          enum:
+          - discoveryDevice
+          - discoverySession
+          - monitoredDevice
+          - discoveredNetwork
+          - device
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_String'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_String'
+      security:
+      - oauth2: []
+components:
+  schemas:
+    PackageRoleId:
+      description: provide a list of starting roles to be included in package.
+      type: object
+      properties:
+        name:
+          description: "name of role, \n\tloses to id\n\tincludes as starting roles, all roles with same name unless kind is provided"
+          type: string
+        kind:
+          description: filter starting roles to a particular kind of role.
+          type: string
+        id:
+          description: explicit role identifier as a starting role (preferred)
+          type: string
+    TemplateMap:
+      description: provides a mapping from a template id to the resulting generated id.
+      type: object
+      properties:
+        templateId:
+          description: Caller provided template Id
+          type: string
+        resultId:
+          description: Id generated when template was applied.
+          type: string
+    PackageSignedResult:
+      description: a signed package result
+      type: object
+      properties:
+        pkg:
+          $ref: '#/components/schemas/SignedPackage'
+          description: the signed package
+        result:
+          $ref: '#/components/schemas/PackageResult'
+          description: the result package
+        diag:
+          $ref: '#/components/schemas/PackageDiagnostics'
+    PackageKeyOp:
+      description: Operation on the key
+      type: object
+      properties:
+        op:
+          description: operation being preformed
+          enum:
+          - unknown
+          - noop
+          - add
+          - modify
+          type: string
+        complete:
+          description: set true if operation was successfully completed
+          type: boolean
+        signer:
+          $ref: '#/components/schemas/PackageSignerId'
+          description: signer of the key
+    PackageRoleOp:
+      description: Package Role Operation
+      type: object
+      properties:
+        op:
+          description: operation being preformed
+          enum:
+          - unknown
+          - noop
+          - add
+          - modify
+          type: string
+          readOnly: true
+        complete:
+          description: set true if operation was applied, if op is noop, value will always be false
+          type: boolean
+          readOnly: true
+        system_op:
+          description: Operation on role for system settings
+          enum:
+          - unknown
+          - noop
+          - add
+          - modify
+          type: string
+        system_complete:
+          description: set true if operation was applied, if op is noop, value will always be false
+          type: boolean
+        system_signer:
+          $ref: '#/components/schemas/PackageSignerId'
+          description: system signer of role
+        vendor_op:
+          description: Operation on role for user/vendor adjustable settings
+          enum:
+          - unknown
+          - noop
+          - add
+          - modify
+          type: string
+        vendor_complete:
+          description: set true if operation was applied, if op is noop, value will always be false
+          type: boolean
+        vendor_signer:
+          $ref: '#/components/schemas/PackageSignerId'
+          description: vendor signer of role
+        internal_name:
+          description: internal name for role
+          type: string
+        description:
+          description: description of role
+          type: string
+        name:
+          description: "name of role, \n\tloses to id\n\tincludes as starting roles, all roles with same name unless kind is provided"
+          type: string
+        kind:
+          description: filter starting roles to a particular kind of role.
+          type: string
+        id:
+          description: explicit role identifier as a starting role (preferred)
+          type: string
+    PackageRole:
+      description: device role
+      type: object
+      properties:
+        systemId:
+          description: system role identifier, may be empty
+          type: string
+        id:
+          description: unique identifier
+          type: string
+        refId:
+          description: package identifier
+          type: string
+        name:
+          description: name of the role
+          type: string
+        kind:
+          description: type of role
+          type: string
+        isNetworkDevice:
+          description: if device has this role, then consider it a network device
+          type: boolean
+        isEnabled:
+          description: role is enabled, default is true
+          type: boolean
+        elements:
+          description: list of associated data
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageRoleRule'
+    DeviceOsDetailFinder:
+      description: OS Detail Finder
+      type: object
+      properties:
+        type:
+          description: type of routine for finding os details
+          type: string
+        groups:
+          description: criteria group for retrieving os version
+          type: array
+          items:
+            $ref: '#/components/schemas/CriteriaGroup'
+    PackageHeader:
+      description: Provide general information about the package and processing
+      type: object
+      properties:
+        name:
+          description: name of the package provided by creator. (REQUIRED)
+          type: string
+        description:
+          description: description for the package provided by creator (Optional)
+          type: string
+        author:
+          description: provider of this package (Optional)
+          type: string
+        creation_time:
+          format: date-time
+          description: time this package was created (utc)
+          type: string
+        format_version:
+          description: package format version (Optional)
+          type: string
+        okey_required:
+          description: true if an obfuscation key was used to create this package. If not present, default value is false
+          type: boolean
+        scripting_required:
+          description: scripting monitor was detected
+          type: boolean
+        has_sensitive_data:
+          description: a monitor or others has sensitive data
+          type: boolean
+        sensitive_data_removed:
+          description: a monitor or others sensitive data was dropped
+          type: boolean
+    DeviceRoleApmMatch:
+      description: Apm Match rules
+      type: object
+      properties:
+        applyDiscovered:
+          description: Apply no tasks.
+          type: boolean
+        onComplete:
+          description: What to do after this action is complete
+          enum:
+          - next
+          - stop
+          type: string
+    PackageSignerId:
+      description: Set of information required for a key request
+      type: object
+      properties:
+        name:
+          description: The "name" for the key. For use with acceptance dialog shown to the end user. (optional)
+          type: string
+        kid:
+          description: 'The "kid" (key ID) Header Parameter is a hint indicating which key was used to secure the JWS.This parameter allows originators to explicitly signal a change of key to recipients.The structure of the "kid" value is unspecified.Its value MUST be a case-sensitive string. Use of this Header Parameter is REQUIRED.
+
+            Current suggested implementation is limited to 150 characters. (required)'
+          type: string
+        alg:
+          description: The "alg" (algorithm) identifies the cryptographic algorithm used. (required)
+          type: string
+        kver:
+          description: The "kver" (key version) parameter contains the current version of the key. If empty, version will be "0.0.0". (Optional)
+          type: string
+        issue_time:
+          format: date-time
+          description: date at which this key will or became active
+          type: string
+    ScanCriteriaGroup:
+      description: ScanCriteriaGroup
+      type: object
+      properties:
+        upgradeGuid:
+          description: Element GUID
+          type: string
+        scanCriteria:
+          description: The scanning criteria that define this template.
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanCriteria'
+        relationBetweenCriteria:
+          description: "Indicates if a template is a match if any of its multiple criteria is a match (OR), \nor if all of its criteria are matches (AND)."
+          enum:
+          - and
+          - or
+          type: string
+    RoleTemplate:
+      description: RoleTemplate
+      type: object
+      properties:
+        templateId:
+          description: 'Id user can assign for the template.
+
+            Default the system will be assigned by the system.
+
+            All error messages, etc will be contain the template id.'
+          type: string
+        vendor:
+          description: vendor of the base role
+          type: string
+        version:
+          description: Version of the role information
+          type: string
+        deviceTypeNamingScheme:
+          description: scheme to name device type if needed. Valid on device roles
+          type: string
+        isExclusive:
+          description: truncate evaluation on first successful matching criteria. Used as part of OS evaluation
+          type: boolean
+        doNotRecord:
+          description: do not record this sub-role in the device sub-role list.
+          type: boolean
+        dynamicRoleOptions:
+          description: remove this sub-role if match criteria fails on next update monitoring request
+          type: array
+          items:
+            enum:
+            - dynamic
+            - userCanAssign
+            type: string
+        scanCriteriaGroups:
+          description: List of scanning criteria that define this template.
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanCriteriaGroup'
+        osDetailFinder:
+          $ref: '#/components/schemas/DeviceOsDetailFinder'
+          description: class factory to create a OS detail probe for this template (only applies to OS templates).
+        relatedRoleTemplates:
+          description: 'List of devicce roles that are associated with this template. Currently
+
+            hold the relationship between OS roles -&gt; device roles and sub roles.'
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleResource'
+        assignedSubroles:
+          description: List of assigned sub roles.
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleResource'
+        activeMonitors:
+          description: list of active monitors to be examined and applied
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveMonitor'
+        templateActiveMonitors:
+          description: active monitor templates to be examinded and applied
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateActiveMonitor'
+        templatePerformanceMonitors:
+          description: DefaultPerformanceMonitors
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplatePerformanceMonitor'
+        customPerformanceMonitors:
+          description: CustomPerformanceMonitors
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomPerformanceMonitor'
+        passiveMonitors:
+          description: PassiveMonitors
+          type: array
+          items:
+            $ref: '#/components/schemas/PassiveMonitor'
+        actionPolicy:
+          $ref: '#/components/schemas/ActionPolicyResource'
+          description: Action Policy to be applied to device. Applied only on device roles
+        customLinks:
+          description: CustomLinks
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomLinks'
+        attributes:
+          description: Attributes applied when role is applied
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceRoleAttribute'
+        note:
+          $ref: '#/components/schemas/DeviceNote'
+          description: Notes, only enforced on device role
+        filterGroups:
+          description: List of filters that define this template.
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterCriteriaGroup'
+        apmMatch:
+          $ref: '#/components/schemas/DeviceRoleApmMatch'
+          description: ''
+        apmRules:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceRoleApmRule'
+        configMgmtMatch:
+          $ref: '#/components/schemas/DeviceRoleConfigMgmtMatch'
+          description: ''
+        configMgmtRules:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceRoleConfigMgmtRule'
+        kind:
+          description: Kind (type) of role. Cannot be changed
+          enum:
+          - all
+          - role
+          - brandModel
+          - os
+          - subRole
+          - monitor
+          - template
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+          type: string
+        internalName:
+          description: Internal name of the role.
+          type: string
+        weight:
+          format: int32
+          description: 'Weight order used to apply role. System weights
+
+            0 to 100 - reserved for system roles (user can change wieghts.
+
+            101 to 1000 - user defined roles'
+          type: integer
+        parentTemplate:
+          $ref: '#/components/schemas/RoleResource'
+          description: The ID of the parent scan template
+        siblingLoadOrder:
+          format: int32
+          description: order in which siblings should be evalutated when
+          type: integer
+        isNetworkDevice:
+          description: A device is a network device if it has this role, default is false
+          type: boolean
+        pollUsingName:
+          description: setup new network interfaces as poll using name. default is false
+          type: boolean
+        source:
+          description: Source, values are System, System Modified and User Defined
+          enum:
+          - system
+          - systemModified
+          - userDefined
+          - alternateName
+          type: string
+        isEnabled:
+          description: Is role enabled/disabled.
+          type: boolean
+        icon:
+          $ref: '#/components/schemas/IconResource'
+          description: Device Role Icon
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+    Result_ApplyTemplateResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ApplyTemplateResults'
+          description: The data payload
+          readOnly: true
+    PackagePropertyBag:
+      description: Simple name/value pair for storing monitor configuration (optional)
+      type: object
+      properties:
+        name:
+          description: name of the bag (required)
+          type: string
+        value:
+          description: configured value, can be empty (required)
+          type: string
+        sensitive:
+          description: this value was/is considered sensitive
+          type: boolean
+        blanked:
+          description: sensitive data was blanked
+          type: boolean
+    PackageKeyRequest:
+      description: 'Set of information required for a key request
+
+
+        +3.+.'
+      type: object
+      properties:
+        public_only:
+          description: "When required, only public key will be added to packet. \nDefault: true. (optional)\nIf false and needed, private key will be added to packet.\nWhen private keys are added to packet an obfuscation key will be required."
+          type: boolean
+        okey:
+          description: obfuscation key to use on the associated private key
+          type: string
+        name:
+          description: The "name" for the key. For use with acceptance dialog shown to the end user. (optional)
+          type: string
+        kid:
+          description: 'The "kid" (key ID) Header Parameter is a hint indicating which key was used to secure the JWS.This parameter allows originators to explicitly signal a change of key to recipients.The structure of the "kid" value is unspecified.Its value MUST be a case-sensitive string. Use of this Header Parameter is REQUIRED.
+
+            Current suggested implementation is limited to 150 characters. (required)'
+          type: string
+        alg:
+          description: The "alg" (algorithm) identifies the cryptographic algorithm used. (required)
+          type: string
+        kver:
+          description: The "kver" (key version) parameter contains the current version of the key. If empty, version will be "0.0.0". (Optional)
+          type: string
+        issue_time:
+          format: date-time
+          description: date at which this key will or became active
+          type: string
+    DeviceSummary:
+      description: "The high level summary information describing a given \ndevice. This is mostly intended for grids and quick\naccess to basic information about a device."
+      type: object
+      properties:
+        hostName:
+          description: The hostname for the device
+          type: string
+        networkAddress:
+          description: The current network address of the device. Usually an IP address.
+          type: string
+        role:
+          description: The primary role of the device (e.g. router, switch, etc.).
+          type: string
+        brand:
+          description: The brand for the device (e.g. Cisco)
+          type: string
+        os:
+          description: The operating system for the device (e.g. windows, linux, etc)
+          type: string
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    CustomLinks:
+      description: ''
+      type: object
+      properties:
+        name:
+          description: ''
+          type: string
+        hyperLink:
+          description: ''
+          type: string
+    PackageDiag:
+      description: package diagnostics
+      type: object
+      properties:
+        norm_json:
+          description: normalized version of signed documents
+          type: array
+          items:
+            type: string
+    PackageRoleRule:
+      description: Role rule data
+      type: object
+      properties:
+        upgradeId:
+          description: upgrade indicator
+          type: string
+        type:
+          description: type of data held in this rule
+          type: string
+        isEditable:
+          description: is the user allowed to edit the value
+          type: boolean
+        isEnabled:
+          description: is this rule enabled for the role
+          type: boolean
+        value:
+          description: data for the rule
+          type: string
+    DeviceRoleTemplateReadResults:
+      description: Results returned when calling to read a monitor template
+      type: object
+      properties:
+        roleCount:
+          format: int32
+          description: Number of device roles used to generate this structure include device roles with only errors.
+          type: integer
+        errors:
+          description: Set of errors encountered during the read request
+          type: array
+          items:
+            type: string
+        templates:
+          description: Set of templates matching filter criteria.
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleTemplate'
+    PackageSignature:
+      description: signature of the normalized json object at this level of the package
+      type: object
+      properties:
+        signers:
+          description: contains different signers of the package (optional, requires one)
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageSigner'
+    DeviceRoleAttribute:
+      description: Start monitoring attribute definitions if the role is applied.
+      type: object
+      properties:
+        name:
+          description: Name of attribute
+          type: string
+        value:
+          description: Value for attribute. Can use discovery percent variables.
+          type: string
+        doNotRecordIfEmpty:
+          description: do not record attribute if once resolved, the value is an empty string.
+          type: boolean
+    PagingInfo_List_RoleAssignment:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_DeviceRoleTemplateReadResults:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PackageMonitorOp:
+      description: infomration about monitor to share
+      type: object
+      properties:
+        op:
+          description: operation being preformed
+          enum:
+          - unknown
+          - noop
+          - add
+          - modify
+          type: string
+        complete:
+          description: set true if operation was applied, if op is noop, value will always be false
+          type: boolean
+        signer:
+          $ref: '#/components/schemas/PackageSignerId'
+          description: monitor signer
+        errors:
+          description: signer of monitor
+          type: array
+          items:
+            type: string
+        description:
+          description: descript for monitor
+          type: string
+        isScripting:
+          description: monitor is considered to be a scripting monitor
+          type: boolean
+        hasSensitiveData:
+          description: monitor has sensitive data
+          type: boolean
+        sensitiveDataRemoved:
+          description: monitor properties has sensitive data removed for it, will need to be configured
+          type: boolean
+        isSigned:
+          description: true if monitor provides a signature
+          type: boolean
+        name:
+          description: 'name of monitor to share
+
+            must provide name, classId or baseType or any combination thereof.'
+          type: string
+        classId:
+          description: "identifer for basic functionality of the system\n must provide name, classId or baseType or any combination thereof."
+          type: string
+        baseType:
+          description: "type of monitor\n must provide name, classId or baseType or any combination thereof."
+          type: string
+    ScanCriteria:
+      description: List of criteria values for a single scan criteria
+      type: object
+      properties:
+        options:
+          description: Name and values for criteria to be checked
+          type: array
+          items:
+            $ref: '#/components/schemas/CriteriaValue'
+    ApplyTemplateResults:
+      description: Results of an apply operations
+      type: object
+      properties:
+        idMap:
+          description: returns a list of template Id to device identifier that where created.
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateMap'
+        errors:
+          description: return a list of template to errors/warnings produced by each template
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateErrorMap'
+        update:
+          $ref: '#/components/schemas/TemplateUpdate'
+          description: return information about the update request that may be requested
+        operations:
+          format: int32
+          description: when possible, number of operations will be returned
+          type: integer
+        successful:
+          format: int32
+          description: when possible, number of successful operations will be returned
+          type: integer
+    TemplateUpdate:
+      description: Request an update of the devices created while applying  template.
+      type: object
+      properties:
+        success:
+          description: Update request was successfully made
+          type: boolean
+        id:
+          description: Update returned by refresh/rescan request
+          type: string
+        name:
+          description: Device scan name returned by update request
+          type: string
+        description:
+          description: Device scan description returned by update request
+          type: string
+    PageResult_List_DeviceRoleSummary:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DeviceRoleSummary'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceRoleSummary'
+          readOnly: true
+    PackageTaggedValues:
+      description: Provide a tag list combination
+      type: object
+      properties:
+        tag:
+          description: tag for this list
+          type: string
+        values:
+          description: list of values to be applied
+          type: array
+          items:
+            type: string
+    PassiveMonitor:
+      description: 'passive monitor selection. Must exist in the db already for
+
+        role template to be valid. Prefers id.'
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        id:
+          type: string
+    PackageMonitor:
+      description: Provide a template for creating library monitors on the destination system
+      type: object
+      properties:
+        refId:
+          description: package reference
+          type: string
+        classId:
+          description: identifer for basic functionality of the system (Required)
+          type: string
+        baseType:
+          description: type of monitor (Required)
+          type: string
+        name:
+          description: display name of the monitor (Required)
+          type: string
+        description:
+          description: description of the monitor (Optional)
+          type: string
+        useInDiscovery:
+          description: "determines if this monitor should be used during the rescaning of a device. \nonly valid for active monitors and default = false (Optional)"
+          type: boolean
+        hasSensitiveData:
+          description: monitor properties has sensitive data
+          type: boolean
+        sensitiveDataRemoved:
+          description: monitor properties has sensitive data removed for it, will need to be configured
+          type: boolean
+        propertyBags:
+          description: configuration data for the monitor (Optional)
+          type: array
+          items:
+            $ref: '#/components/schemas/PackagePropertyBag'
+    PackageContent:
+      description: summary of a package or what will be applied
+      type: object
+      properties:
+        package:
+          $ref: '#/components/schemas/PackageHeader'
+          description: general package info
+        keys:
+          description: set of key definitions
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyHeader'
+        roles:
+          description: set of role definitions
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageRoleContent'
+        monitors:
+          description: set of monitors
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageMonitorContent'
+        icons:
+          description: set of icons
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageIconContent'
+        signers:
+          description: suggested signer for the package
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyUsage'
+    PackageResult:
+      description: Result of a package operation
+      type: object
+      properties:
+        complete:
+          description: returns true if operation was fully applied. False if partial application or errors occured
+          type: boolean
+        errors:
+          description: 'list of errors give the request
+
+            will block the creation/application of the package'
+          type: array
+          items:
+            type: string
+        information:
+          description: 'informational unsupported features, etc.
+
+            will not block the creation of the package'
+          type: array
+          items:
+            type: string
+    IconResource:
+      description: Pointer to an icon in the system. Only id is required.
+      type: object
+      properties:
+        name:
+          description: Name of icon
+          type: string
+        id:
+          type: string
+    TemplateActiveMonitor:
+      description: 'Template for active monitor on a device role
+
+        Will be applied if on device or sub roles.'
+      type: object
+      properties:
+        autoConfigLevel:
+          description: 'Test the monitor prior to apply (during discovery/rescan)
+
+            or always apply the monitor and do not testing.'
+          enum:
+          - rules
+          - always
+          type: string
+        filter:
+          $ref: '#/components/schemas/RoleResource'
+          description: 'filter for use when applying monitor.  Current implementation
+
+            only apply filter to the default "Interface" active monitor.
+
+            Default=null'
+        isCritical:
+          description: 'when adding an active monitor to a device, indicate that the monitor
+
+            is critical. Will be added to the end of the polling list.'
+          type: boolean
+        pollingInterval:
+          format: int32
+          description: 'when adding an active monitor to a device, this will be the polling interval
+
+            setup for the monitor. If not set, the default polling interval will be used.'
+          type: integer
+        name:
+          description: 'Name of the monitor if not a template.
+
+            If this is a template, when a monitor needs to be created, this name will be used
+
+            Required for template'
+          type: string
+        description:
+          description: 'Description of the monitor if not a template.
+
+            If this is a template, when a monitor needs to be created, this description will be used
+
+            Required for template'
+          type: string
+        classId:
+          description: 'Type of the active monitor if not a template.
+
+            If this is a template, when a monitor needs to be created, this type of monitor will be created
+
+            Required for template'
+          type: string
+        nameValuePairs:
+          description: Only filled in for templates. List of property bags to be applied when monitor is created.
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
+        meaningfulNames:
+          description: 'Only filled in for templates.
+
+            List of property bag names to be compared to nameValuePairs for a match'
+          type: array
+          items:
+            type: string
+        useInRescan:
+          description: 'Set to true if monitor should be used in rescan.
+
+            default=true'
+          type: boolean
+    FilterCriteriaGroup:
+      description: FilterCriteriaGroup
+      type: object
+      properties:
+        upgradeGuid:
+          description: Element GUID
+          type: string
+        filterCriteria:
+          description: The filter criteria that define this template.
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanCriteria'
+        relationBetweenCriteria:
+          description: "Indicates wether a template is a match if any of its multiple criteria is a match (OR), \nor if all of its criteria are matches (AND)."
+          enum:
+          - and
+          - or
+          type: string
+    PackageIcon:
+      description: infomration about icon to share
+      type: object
+      properties:
+        refId:
+          description: package identifier
+          type: string
+        data:
+          description: content of icon file
+          type: array
+          items:
+            type: string
+        name:
+          description: name of monitor to share
+          type: string
+        id:
+          description: identifer for basic functionality of the system (Required)
+          type: string
+        userDefined:
+          description: type of monitor (Required)
+          type: boolean
+    CriteriaGroup:
+      description: individual bag for a criteria value
+      type: object
+      properties:
+        options:
+          description: List of options for this criteria
+          type: array
+          items:
+            $ref: '#/components/schemas/CriteriaValue'
+    PackageApply:
+      description: Request to apply a package to system
+      required:
+      - pkg
+      type: object
+      properties:
+        pkg:
+          $ref: '#/components/schemas/SignedPackage'
+          description: signed package being applied
+        apply:
+          $ref: '#/components/schemas/PackageApplyContent'
+          description: options for appling the package, can be empty or null
+    Result_DeviceRoleSummary:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceRoleSummary'
+          description: The data payload
+          readOnly: true
+    DeviceRoleSummary:
+      description: Additional information pass basic information for a role
+      type: object
+      properties:
+        monitors:
+          description: List of monitors.
+          type: array
+          items:
+            type: string
+        kind:
+          description: Kind (type) of role. Cannot be changed
+          enum:
+          - all
+          - role
+          - brandModel
+          - os
+          - subRole
+          - monitor
+          - template
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+          type: string
+        internalName:
+          description: Internal name of the role.
+          type: string
+        weight:
+          format: int32
+          description: 'Weight order used to apply role. System weights
+
+            0 to 100 - reserved for system roles (user can change wieghts.
+
+            101 to 1000 - user defined roles'
+          type: integer
+        parentTemplate:
+          $ref: '#/components/schemas/RoleResource'
+          description: The ID of the parent scan template
+        siblingLoadOrder:
+          format: int32
+          description: order in which siblings should be evalutated when
+          type: integer
+        isNetworkDevice:
+          description: A device is a network device if it has this role, default is false
+          type: boolean
+        pollUsingName:
+          description: setup new network interfaces as poll using name. default is false
+          type: boolean
+        source:
+          description: Source, values are System, System Modified and User Defined
+          enum:
+          - system
+          - systemModified
+          - userDefined
+          - alternateName
+          type: string
+        isEnabled:
+          description: Is role enabled/disabled.
+          type: boolean
+        icon:
+          $ref: '#/components/schemas/IconResource'
+          description: Device Role Icon
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    PackageContentOp:
+      description: summary of a package or what will be applied
+      type: object
+      properties:
+        package:
+          $ref: '#/components/schemas/PackageHeader'
+          description: general package info
+        keys:
+          description: set of key definitions
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyOp'
+        roles:
+          description: set of role definitions
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageRoleOp'
+        monitors:
+          description: set of monitors
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageMonitorOp'
+        icons:
+          description: set of icons
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageIconOp'
+        signers:
+          description: suggested signer for the package
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyUsage'
+    PagingInfo_List_DeviceRoleSummary:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    Result_List_String:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            type: string
+          readOnly: true
+    DeviceRoleApmRule:
+      description: Custom and template apm policies
+      type: object
+      properties:
+        upgradeGuid:
+          description: APM update guid.
+          type: string
+        name:
+          description: Only here for logging, application name cached.
+          type: string
+        autoConfigLevel:
+          description: Auto Configlevel, should be always for now.
+          enum:
+          - rules
+          - always
+          type: string
+        id:
+          type: string
+    NameValuePair:
+      description: NameValuePair
+      type: object
+      properties:
+        name:
+          description: Name
+          type: string
+        value:
+          description: Value
+          type: string
+    PackageIconContent:
+      description: infomration about monitor to share
+      type: object
+      properties:
+        name:
+          description: name of monitor to share
+          type: string
+        id:
+          description: identifer for basic functionality of the system (Required)
+          type: string
+        userDefined:
+          description: type of monitor (Required)
+          type: boolean
+    RoleAssignment:
+      description: Role Association
+      type: object
+      properties:
+        kind:
+          description: kind of role association
+          enum:
+          - all
+          - role
+          - brandModel
+          - os
+          - subRole
+          - monitor
+          - template
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+          type: string
+        deviceCount:
+          format: int32
+          description: number of devices
+          type: integer
+          readOnly: true
+        devices:
+          description: list of associated devices
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceSummary'
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    PackageKeyHeader:
+      description: Set of information required for a key request.
+      type: object
+      properties:
+        name:
+          description: The "name" for the key. For use with acceptance dialog shown to the end user. (optional)
+          type: string
+        description:
+          description: The "description" parameter holds a description of the key. May be used with acceptance dialog shown to the end user.  (Optional)
+          type: string
+        allowed:
+          description: The "allowed" parameter is a list of functions this key is permitted to be used for. (Required)
+          type: array
+          items:
+            type: string
+        kprop:
+          description: The "kprop" (key property)parameter contains a list of properties this key fulfills. (Required)
+          type: array
+          items:
+            type: string
+        expiration_time:
+          format: date-time
+          description: last time this key can be used to sign new objects
+          type: string
+        kid:
+          description: 'The "kid" (key ID) Header Parameter is a hint indicating which key was used to secure the JWS.This parameter allows originators to explicitly signal a change of key to recipients.The structure of the "kid" value is unspecified.Its value MUST be a case-sensitive string. Use of this Header Parameter is REQUIRED.
+
+            Current suggested implementation is limited to 150 characters. (required)'
+          type: string
+        alg:
+          description: The "alg" (algorithm) identifies the cryptographic algorithm used. (required)
+          type: string
+        kver:
+          description: The "kver" (key version) parameter contains the current version of the key. If empty, version will be "0.0.0". (Optional)
+          type: string
+        issue_time:
+          format: date-time
+          description: date at which this key will or became active
+          type: string
+    RoleResource:
+      description: Pointer to another role in the system. Only id is required.
+      type: object
+      properties:
+        name:
+          description: Name of a role
+          type: string
+        kind:
+          description: Type of role being referred to since names are unique based on kind.
+          enum:
+          - all
+          - role
+          - brandModel
+          - os
+          - subRole
+          - monitor
+          - template
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+          type: string
+        internalName:
+          description: A unique name the role is known by. Normally used in OS roles
+          type: string
+        id:
+          type: string
+    PackageKeyUsage:
+      description: Use of key for package
+      type: object
+      properties:
+        usage:
+          description: 'usage for key signing. If empty, key will be used for all items it is capable of.
+
+            If conflicting usage, system will choose which to use'
+          type: array
+          items:
+            type: string
+        key:
+          $ref: '#/components/schemas/PackageSignerId'
+          description: key information
+    PackageGenKeyRequest:
+      description: Provide data for generation of vendor key request, obfuscation key will be required
+      type: object
+      properties:
+        kid:
+          description: 'The "kid" (key ID) Header Parameter is a hint indicating which key was used to secure the JWS.This parameter allows originators to explicitly signal a change of key to recipients.The structure of the "kid" value is unspecified.Its value MUST be a case-sensitive string. Use of this Header Parameter is REQUIRED.
+
+            Current suggested implementation is limited to 150 characters. (required)'
+          type: string
+        kver:
+          description: The "kver" (key version) parameter contains the current version of the key. If empty, version will be "0.0.0". (Optional)
+          type: string
+        name:
+          description: The "name" for the key. For use with acceptance dialog shown to the end user. (optional)
+          type: string
+        description:
+          description: The "description" of the key. May be used with acceptance dialog shown to the end user.  (Optional)
+          type: string
+        allowed:
+          description: "list of features the new key will inherit from the signer and is allowed to sign. \nThe key up the chain is only allowed to pass on features it is assigned. \nThe ability to generate new keys cannot be transfered and is reserved as a \"base key\" ability only."
+          type: array
+          items:
+            type: string
+        priority:
+          format: int32
+          description: 'The "priority" determine which key is preferred when signing. Priority is used when the kprop of "private" is set.
+
+            The parameter consists of an unsigned integer value and should not be included in a normalized key signature
+
+            If empty, will be assumed to be lowest priority. (optional)'
+          type: integer
+        expiration_days:
+          format: int32
+          description: 'number of days the new key will be allowed to issues related keys
+
+            null or less than 1 defaults to 366 days'
+          type: integer
+        okey:
+          description: when not empty, this key will be used to obfuscate the generated private key,
+          type: string
+    CustomPerformanceMonitor:
+      description: User defined performance monitors
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        autoConfigLevel:
+          description: Rule to apply when testing or applying the monitor
+          enum:
+          - rules
+          - always
+          type: string
+        id:
+          type: string
+    PageResult_DeviceRoleTemplateReadResults:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_DeviceRoleTemplateReadResults'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/DeviceRoleTemplateReadResults'
+          description: The data payload
+          readOnly: true
+    Result_DeviceRoleTemplateReadResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceRoleTemplateReadResults'
+          description: The data payload
+          readOnly: true
+    ActionPolicyResource:
+      description: Pointer to an icon in the system. Only id is required.
+      type: object
+      properties:
+        name:
+          description: Name of action policy
+          type: string
+        id:
+          type: string
+    PageResult_List_RoleAssignment:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_RoleAssignment'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleAssignment'
+          readOnly: true
+    DeviceNote:
+      description: Note configuration, only valid on device role
+      type: object
+      properties:
+        text:
+          description: note to be added to device. Can use discovery percent variables.
+          type: string
+    DeviceRoleConfigMgmtRule:
+      description: Custom and template config mgmt tasks
+      type: object
+      properties:
+        name:
+          description: 'Name of the task being referred to.
+
+            Will be used to match task over id.'
+          type: string
+        autoConfigLevel:
+          description: Auto Configlevel, should be always for now.
+          enum:
+          - rules
+          - always
+          type: string
+        id:
+          type: string
+    DeviceRoleTemplateBatch:
+      description: Provide a set of device templates to be applied
+      type: object
+      properties:
+        options:
+          description: Set of options for applying the template
+          type: array
+          items:
+            type: string
+        templates:
+          description: 'Set of templates to be applied. All templates will attempt to create a new device.
+
+            No attempt will be made to match a device'
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleTemplate'
+    PackageSigner:
+      description: an individual signer. Algrothm/Key Id are the unique combination to match up the public or private key
+      type: object
+      properties:
+        signing_time:
+          format: date-time
+          description: Time the object
+          type: string
+        signature:
+          description: resulting signature (required)
+          type: string
+        kid:
+          description: 'The "kid" (key ID) Header Parameter is a hint indicating which key was used to secure the JWS.This parameter allows originators to explicitly signal a change of key to recipients.The structure of the "kid" value is unspecified.Its value MUST be a case-sensitive string. Use of this Header Parameter is REQUIRED.
+
+            Current suggested implementation is limited to 150 characters. (required)'
+          type: string
+        alg:
+          description: The "alg" (algorithm) identifies the cryptographic algorithm used. (required)
+          type: string
+        kver:
+          description: The "kver" (key version) parameter contains the current version of the key. If empty, version will be "0.0.0". (Optional)
+          type: string
+        issue_time:
+          format: date-time
+          description: date at which this key will or became active
+          type: string
+    ActiveMonitor:
+      description: User defined performance monitors
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        filter:
+          $ref: '#/components/schemas/RoleResource'
+          description: 'filter for use when applying monitor.  Current implementation
+
+            only apply filter to the default "Interface" active monitor.
+
+            Default=null'
+        isCritical:
+          description: 'when adding an active monitor to a device, indicate that the monitor
+
+            is critical. Will be added to the end of the polling list.'
+          type: boolean
+        pollingInterval:
+          format: int32
+          description: 'when adding an active monitor to a device, this will be the polling interval
+
+            setup for the monitor. If not set, the default polling interval will be used.'
+          type: integer
+        autoConfigLevel:
+          description: 'Test the monitor prior to apply (during discovery/rescan)
+
+            or always apply the monitor and do not testing.'
+          enum:
+          - rules
+          - always
+          type: string
+        id:
+          type: string
+    TemplatePerformanceMonitor:
+      description: Copied here to not include discovery utilities.
+      type: object
+      properties:
+        name:
+          description: Suggested name of monitor
+          type: string
+        description:
+          description: Description for monitor
+          type: string
+        classId:
+          description: class id for monitor
+          type: string
+        nameValuePairs:
+          description: property bags for monitor
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
+        meaningfulNames:
+          description: property bag values that must match for monitor in db to match template
+          type: array
+          items:
+            type: string
+        collectionType:
+          description: type of data to collect for interface monitors
+          enum:
+          - all
+          - active
+          - defaultSet
+          - custom
+          type: string
+        autoConfigLevel:
+          description: policy to test and apply the monitor
+          enum:
+          - rules
+          - always
+          type: string
+        guidUnique:
+          description: allow monitor to match on class id only if a better match is not available
+          type: boolean
+        license:
+          description: license attribute that must be enabled before monitor is created.
+          type: string
+        pollingInterval:
+          format: int32
+          description: polling interval to setup monitor with
+          type: integer
+        criteriaGroups:
+          description: addtional match criteria that must be met before monitor is applied
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanCriteriaGroup'
+    TemplateErrorMap:
+      description: A set of errors per template
+      type: object
+      properties:
+        templateId:
+          description: Template identifier error was created for.
+          type: string
+        messages:
+          description: Errors found with template
+          type: array
+          items:
+            type: string
+    PackageRequestInfo:
+      description: General request information for a package
+      type: object
+      properties:
+        name:
+          description: name of package, name or  author is required
+          type: string
+        description:
+          description: description  for package
+          type: string
+        author:
+          description: author of package, name or author is required
+          type: string
+        okey:
+          description: 'obfuscation key. Only required for transport and application of sensitive data
+
+            Will error during package creation or application if required and key is not provided or incorrect'
+          type: string
+    PackageIconOp:
+      description: operation being preformed on the icon
+      type: object
+      properties:
+        op:
+          description: operation being preformed
+          enum:
+          - unknown
+          - noop
+          - add
+          - modify
+          type: string
+        complete:
+          description: set true if operation was applied, if op is noop, value will always be false
+          type: boolean
+        name:
+          description: name of monitor to share
+          type: string
+        id:
+          description: identifer for basic functionality of the system (Required)
+          type: string
+        userDefined:
+          description: type of monitor (Required)
+          type: boolean
+    PackageResultWithChange:
+      description: Result of a package operation
+      type: object
+      properties:
+        has_changes:
+          description: only filled in by verify and apply. True if changes will or was made to the system
+          type: boolean
+        complete:
+          description: returns true if operation was fully applied. False if partial application or errors occured
+          type: boolean
+        errors:
+          description: 'list of errors give the request
+
+            will block the creation/application of the package'
+          type: array
+          items:
+            type: string
+        information:
+          description: 'informational unsupported features, etc.
+
+            will not block the creation of the package'
+          type: array
+          items:
+            type: string
+    PackageMonitorId:
+      description: infomration about monitor to share
+      type: object
+      properties:
+        name:
+          description: 'name of monitor to share
+
+            must provide name, classId or baseType or any combination thereof.'
+          type: string
+        classId:
+          description: "identifer for basic functionality of the system\n must provide name, classId or baseType or any combination thereof."
+          type: string
+        baseType:
+          description: "type of monitor\n must provide name, classId or baseType or any combination thereof."
+          type: string
+    SignedPackage:
+      description: Set of signed objects to transfer from one WhatsUp Gold system to another.
+      type: object
+      properties:
+        package:
+          $ref: '#/components/schemas/PackageHeader'
+          description: General information about this package and how it can be used
+        keys:
+          description: set of keys required by this package or being delivered to the destation system
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKey'
+        monitors:
+          description: set of monitors being delivered to the destantion system
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageMonitor'
+        roles:
+          description: Defintion of a device role being updated
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageRole'
+        icons:
+          description: icons being provided by package
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageIcon'
+        __cleartext_signature:
+          $ref: '#/components/schemas/PackageSignature'
+          description: contains different signers of the package (optional, requires one signer)
+    PackageMonitorExportRequest:
+      description: infomration about monitor to share
+      type: object
+      properties:
+        meaningful_names:
+          description: "List of property name to be used when comparing or\nsigning this monitor. All property names must exist on \ntemplate monitor"
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageTaggedValues'
+        name:
+          description: 'name of monitor to share
+
+            must provide name, classId or baseType or any combination thereof.'
+          type: string
+        classId:
+          description: "identifer for basic functionality of the system\n must provide name, classId or baseType or any combination thereof."
+          type: string
+        baseType:
+          description: "type of monitor\n must provide name, classId or baseType or any combination thereof."
+          type: string
+    PackageKey:
+      description: Key used for signing packages
+      type: object
+      properties:
+        key:
+          description: 'The "key" contains an encoded public or private value represented as a single string.  Can be replaced by the appropriate set of header parameters for the chosen algorithm.
+
+            priority. (required)'
+          type: string
+        priority:
+          format: int32
+          description: "The \"priority\" determine which key is preferred when signing each piece of a package. Is used when the kprop of \"public\". \nThe parameter consists of an unsigned integer value and should not be included in key signature\nIf empty, will be assumed to be lowest priority. (optional)"
+          type: integer
+        encoded:
+          description: set to true if obfuscation key is required to use the key
+          type: boolean
+        store_clear:
+          description: save key as cleartext in store
+          type: boolean
+        __cleartext_signature:
+          $ref: '#/components/schemas/PackageSignature'
+          description: signature of the monitor based on the complete definition (Optional)
+        name:
+          description: The "name" for the key. For use with acceptance dialog shown to the end user. (optional)
+          type: string
+        description:
+          description: The "description" parameter holds a description of the key. May be used with acceptance dialog shown to the end user.  (Optional)
+          type: string
+        allowed:
+          description: The "allowed" parameter is a list of functions this key is permitted to be used for. (Required)
+          type: array
+          items:
+            type: string
+        kprop:
+          description: The "kprop" (key property)parameter contains a list of properties this key fulfills. (Required)
+          type: array
+          items:
+            type: string
+        expiration_time:
+          format: date-time
+          description: last time this key can be used to sign new objects
+          type: string
+        kid:
+          description: 'The "kid" (key ID) Header Parameter is a hint indicating which key was used to secure the JWS.This parameter allows originators to explicitly signal a change of key to recipients.The structure of the "kid" value is unspecified.Its value MUST be a case-sensitive string. Use of this Header Parameter is REQUIRED.
+
+            Current suggested implementation is limited to 150 characters. (required)'
+          type: string
+        alg:
+          description: The "alg" (algorithm) identifies the cryptographic algorithm used. (required)
+          type: string
+        kver:
+          description: The "kver" (key version) parameter contains the current version of the key. If empty, version will be "0.0.0". (Optional)
+          type: string
+        issue_time:
+          format: date-time
+          description: date at which this key will or became active
+          type: string
+    PackageRequest:
+      description: Request parameters for a package
+      required:
+      - pkg
+      type: object
+      properties:
+        pkg:
+          $ref: '#/components/schemas/PackageRequestInfo'
+          description: general package info
+        keys:
+          description: desired list of key definitions, empty or null all needed keys will be add
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyRequest'
+        roles:
+          description: desired list of roles, if null or empty all items will be added
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageRoleId'
+        monitors:
+          description: desired list of monitors, if null or empty all items will be added
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageMonitorExportRequest'
+        icons:
+          description: desired list of icons, if null or empty all icons will be added
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageIconContent'
+        options:
+          description: list of options allow changing of output of package
+          type: array
+          items:
+            type: string
+        key_generation:
+          description: generate a set of vendor public and private key pairs.
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageGenKeyRequest'
+        suggested_signers:
+          description: 'list of suggest signers for the package, if not specified, the default
+
+            signers will be used'
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageSignerRequest'
+    CriteriaValue:
+      description: individual bag for a criteria value
+      type: object
+      properties:
+        name:
+          description: Name of criteria value
+          type: string
+        value:
+          description: value for criteria
+          type: string
+    PackageMonitorContent:
+      description: infomration about monitor to share
+      type: object
+      properties:
+        description:
+          description: descript for monitor
+          type: string
+        isScripting:
+          description: monitor is considered to be a scripting monitor
+          type: boolean
+        hasSensitiveData:
+          description: monitor has sensitive data
+          type: boolean
+        sensitiveDataRemoved:
+          description: monitor properties has sensitive data removed for it, will need to be configured
+          type: boolean
+        isSigned:
+          description: true if monitor provides a signature
+          type: boolean
+        name:
+          description: 'name of monitor to share
+
+            must provide name, classId or baseType or any combination thereof.'
+          type: string
+        classId:
+          description: "identifer for basic functionality of the system\n must provide name, classId or baseType or any combination thereof."
+          type: string
+        baseType:
+          description: "type of monitor\n must provide name, classId or baseType or any combination thereof."
+          type: string
+    PackageSignerRequest:
+      description: request a set of signers for the package
+      type: object
+      properties:
+        allowed:
+          description: "requesting items to be signed, \nat minmum a valid requested signer must be found for each allowed element of the package\nIf package is not in allowed list, then a suggested signer will be used"
+          type: array
+          items:
+            type: string
+        signers:
+          description: 'Request an explicit signers of data.  (Optional)
+
+            Signer must be a vendor key typle
+
+            Signer must have a private key in the key store'
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyRequest'
+    PackageApplyContent:
+      description: summary of a package or what will be applied
+      type: object
+      properties:
+        options:
+          description: set of key definitions
+          type: array
+          items:
+            type: string
+        package:
+          $ref: '#/components/schemas/PackageHeaderApply'
+          description: general package info
+        keys:
+          description: set of key definitions
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageKeyRequest'
+        roles:
+          description: set of role definitions
+          type: array
+          items:
+            type: string
+        monitors:
+          description: set of monitors
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageMonitorId'
+        icons:
+          description: set of monitors
+          type: array
+          items:
+            type: string
+    PackageContentResult:
+      description: Packaged make-up result
+      type: object
+      properties:
+        pkg:
+          $ref: '#/components/schemas/PackageContent'
+          description: data about a package. What is needed, what makes it up
+        result:
+          $ref: '#/components/schemas/PackageResult'
+          description: operation results
+        diag:
+          $ref: '#/components/schemas/PackageDiagnostics'
+    PackageRoleContent:
+      description: provide a list of starting roles to be included in package.
+      type: object
+      properties:
+        internal_name:
+          description: internal name for role
+          type: string
+        description:
+          description: description of role
+          type: string
+        name:
+          description: "name of role, \n\tloses to id\n\tincludes as starting roles, all roles with same name unless kind is provided"
+          type: string
+        kind:
+          description: filter starting roles to a particular kind of role.
+          type: string
+        id:
+          description: explicit role identifier as a starting role (preferred)
+          type: string
+    PackageHeaderApply:
+      description: Apply general settings
+      type: object
+      properties:
+        okey:
+          description: obfuscation key for package
+          type: string
+    DeviceRoleConfigMgmtMatch:
+      description: Config Mgmt Matching rules
+      type: object
+      properties:
+        applyDiscovered:
+          description: Apply no tasks.
+          type: boolean
+        onComplete:
+          description: What to do after this action is complete
+          enum:
+          - next
+          - stop
+          type: string
+    PackageDiagnostics:
+      description: diagnostics for package operation
+      type: object
+      properties:
+        keyStore:
+          $ref: '#/components/schemas/PackageDiag'
+          description: key store diagnostics
+        key:
+          $ref: '#/components/schemas/PackageDiag'
+          description: key diagnostics
+        monitor:
+          $ref: '#/components/schemas/PackageDiag'
+          description: monitor diagnostics
+        role:
+          $ref: '#/components/schemas/PackageDiag'
+          description: role diagnostics
+        package:
+          $ref: '#/components/schemas/PackageDiag'
+          description: package diagnostics
+    PackageContentOpResult:
+      description: Packaged make-up result
+      type: object
+      properties:
+        pkg:
+          $ref: '#/components/schemas/PackageContentOp'
+          description: data about a package. What is needed, what makes it up
+        result:
+          $ref: '#/components/schemas/PackageResultWithChange'
+          description: any issues found with package. Errors and informational
+        diag:
+          $ref: '#/components/schemas/PackageDiagnostics'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

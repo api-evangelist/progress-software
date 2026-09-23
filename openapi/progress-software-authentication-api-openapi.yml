@@ -1,0 +1,647 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Authentication API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Authentication
+paths:
+  /api/v1/auth/identityproviders:
+    get:
+      tags:
+      - Authentication
+      summary: Get list of identity providers in the organization
+      operationId: GETapi/v1/auth/identityproviders?Page={Page}&PerPage={PerPage}&SortField={SortField}&SortDirection={SortDirection}&OrgId={OrgId}-1.0
+      parameters:
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection; Default is 25
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by. (name); Default is Name.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: orgId
+        in: query
+        description: Organization Id.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfPublicIdPInformationModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfPublicIdPInformationModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelOfPublicIdPInformationModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/auth/actasadmin:
+    post:
+      tags:
+      - Authentication
+      summary: Become administrator in specific organization
+      operationId: POSTapi/v1/auth/actasadmin-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActAsAdminDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ActAsAdminDto'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ActAsAdminDto'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrgRequest'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/OrgRequest'
+        required: true
+  /api/v1/token:
+    post:
+      tags:
+      - Authentication
+      summary: Retrieve API token
+      operationId: Auth_GetToken
+      responses:
+        '200':
+          description: Represents successful token request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenAcquiredModel'
+        '400':
+          description: Authentication failed error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestTokenError'
+        400 (Password Change Required):
+          description: Password change required error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestTokenPasswordChangeRequiredError'
+        400 (Security Notice Acceptance Required):
+          description: Security notice acceptance required error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestTokenSecurityNoticeAcceptanceRequiredError'
+        '401':
+          description: Multi-factor authentication required error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestTokenMfaError'
+        '412':
+          description: Setup multi-factor authentication required error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestTokenError'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - password
+                  - refresh_token
+                  - otp
+                  - code
+                  - external_token
+                  - oidc_token
+                  description: Type of authentication used
+                username:
+                  type: string
+                  description: User name. Use with "password" or "otp" grant_type
+                password:
+                  type: string
+                  description: User password. Use with "password" or "otp" grant_type
+                language:
+                  type: string
+                  description: Language to use. Optional. Use with "password", "otp" or "code" grant_type
+                orgId:
+                  type: string
+                  description: Organization ID to authenticate against. Optional. Use with "password", "otp" or "code" grant_type
+                refresh_token:
+                  type: string
+                  description: Refresh token. Use with "refresh_token" grant_type
+                mfa_access_token:
+                  type: string
+                  description: Multi-factor authentication access token. Use with "otp" grant_type
+                otp:
+                  type: string
+                  description: One-time password. Use with "otp" grant_type
+                code:
+                  type: string
+                  description: Authorization code. Use with "code" grant_type
+                code_verifier:
+                  type: string
+                  description: Code verifier. Use with "code" grant_type
+                accept_security_notice:
+                  type: bool
+                  description: Accept security notice. Use with "password", "otp" or "oidc_token" grant_type
+                mfa_remember_this_device:
+                  type: bool
+                  description: Multi-factor authentication remember this device. Use with "otp" grant_type
+                mfa_trust_device_token:
+                  type: string
+                  description: Multi-factor authentication trust device token. Use with "password" grant_type
+                external_token_type:
+                  type: string
+                  enum:
+                  - MicrosoftOutlook
+                  description: External token type. Use with "external_token" grant_type
+                external_token:
+                  type: string
+                  description: External token. Use with "external_token" grant type
+                new_password:
+                  type: string
+                  description: New password to apply to account when required to change password. Use with "password" or "otp" grant_type.
+                id_token:
+                  type: string
+                  description: OIDC id token. Use with "oidc_token" grant type
+                idp_id:
+                  type: string
+                  description: Identity provider identifier. Use with "oidc_token" grant type
+              required:
+              - grant_type
+  /api/v1/token/revoke:
+    post:
+      tags:
+      - Authentication
+      summary: Revokes API token
+      description: Response for Revoke token operation
+      operationId: Auth_RevokeToken
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeTokenResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeTokenResponse'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Access token or Refresh token to revoke
+              required:
+              - token
+  /api/v1/token/otp:
+    post:
+      tags:
+      - Authentication
+      summary: Send one-time password
+      description: Response for send otp operation
+      operationId: Auth_SendOtp
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendOtpResponseModel'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeTokenResponse'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                mfa_access_token:
+                  type: string
+                  description: Multi-factor authentication access token
+              required:
+              - mfa_access_token
+components:
+  schemas:
+    RevokeTokenResponse:
+      description: Response for Revoke token operation
+      properties:
+        message:
+          description: Message
+          type: string
+      xml:
+        name: RevokeTokenResponse
+      type: object
+    RequestTokenSecurityNoticeAcceptanceRequiredError:
+      description: Authentication error object resulting from a security notice acceptance being required.
+      properties:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        user:
+          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
+          description: Information about the user signing on.
+        error:
+          readOnly: true
+          type: string
+          default: accept_security_notice_required
+        error_code:
+          readOnly: true
+          type: integer
+          format: int32
+          default: 3985
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenSecurityNoticeAcceptanceRequiredError
+      type: object
+    RequestTokenMfaError:
+      description: Authentication failed error
+      properties:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        mfa_supported_methods:
+          $ref: '#/components/schemas/MfaSupportedMethodsHeaderDto'
+          description: MFA supported types
+        error:
+          readOnly: true
+          type: string
+          default: mfa_required
+        error_code:
+          readOnly: true
+          type: integer
+          format: int32
+          default: 2028
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenMfaError
+      type: object
+    RequestTokenPasswordChangeRequiredError:
+      description: Authentication error object resulting from a password change being required.
+      properties:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        password_requirements:
+          $ref: '#/components/schemas/PasswordRequirementsHeaderDto'
+          description: Password requirements in effect for the current organization.
+        user:
+          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
+          description: Information about the user signing on.
+        error:
+          readOnly: true
+          type: string
+          default: password_change_required
+        error_code:
+          readOnly: true
+          type: integer
+          format: int32
+          default: 3988
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenPasswordChangeRequiredError
+      type: object
+    SendOtpResponseModel:
+      description: Response for send one-time password operation
+      properties:
+        user:
+          $ref: '#/components/schemas/SendOtpUserModel'
+          description: User to whom the email was sent.
+      xml:
+        name: SendOtpResponseModel
+      type: object
+    PublicIdPInformationModel:
+      properties:
+        name:
+          description: Name of the identity provider.
+          type: string
+        link:
+          description: Direct link to the identity provider.
+          type: string
+      xml:
+        name: PublicIdPInformationModel
+      type: object
+    SignonUserInfoHeaderDto:
+      properties:
+        org_id:
+          type: integer
+          format: int32
+      xml:
+        name: SignonUserInfoHeaderDto
+      type: object
+    PagedModelOfPublicIdPInformationModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/PublicIdPInformationModel'
+          readOnly: true
+          xml:
+            name: PublicIdPInformationModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    ActAsAdminDto:
+      properties:
+        orgId:
+          type: integer
+          format: int32
+        permission:
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+      xml:
+        name: ActAsAdminDto
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    SendOtpUserModel:
+      description: User model to whom the email was sent
+      properties:
+        masked_email:
+          description: Masked email of the user.
+          type: string
+      xml:
+        name: SendOtpUserModel
+      type: object
+    PasswordRequirementsHeaderDto:
+      description: Object containing password requirements
+      properties:
+        minimum_length:
+          description: Minimum number of characters in passwords
+          type: integer
+          format: int32
+        username_match_requirement:
+          description: Username matching limitation requirement
+          type: string
+          enum:
+          - None
+          - MustNotMatch
+          - MustNotContain
+          - MustNotResemble
+        require_letters_numbers:
+          description: Whether both letters and numbers are required in passwords
+          type: boolean
+        no_dictionary_words:
+          description: Whether dictionary words are prohibited from passwords
+          type: boolean
+        require_mixed_case:
+          description: Whether both upper- and lower-case letters are required in passwords
+          type: boolean
+        require_non_alphanumeric:
+          description: Whether non-alphanumeric characters are required in passwords
+          type: boolean
+      xml:
+        name: PasswordRequirementsHeaderDto
+      type: object
+    MfaSupportedMethodsHeaderDto:
+      properties:
+        is_mfa_authenticator_enabled:
+          type: boolean
+        is_mfa_email_enabled:
+          type: boolean
+      xml:
+        name: MfaSupportedMethodsHeaderDto
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    OrgRequest:
+      properties:
+        orgId:
+          description: The Id of the target Org for this request
+          type: integer
+          format: int32
+      xml:
+        name: OrgRequest
+      type: object
+    RequestTokenError:
+      description: Authentication failed error
+      properties:
+        error:
+          description: Error title
+          type: string
+        error_code:
+          description: Error code
+          type: integer
+          format: int32
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenError
+      type: object
+    TokenAcquiredModel:
+      description: Represents successful token request response
+      properties:
+        access_token:
+          description: API Token
+          type: string
+        token_type:
+          description: Type of the token
+          type: string
+        expires_in:
+          description: Number of seconds till token expiration
+          type: integer
+          format: int32
+        refresh_token:
+          description: Refresh token
+          type: string
+        mfa_trust_device_token:
+          description: (Optional) Multi-factor authentication trust device token. Could be returned in case of using "otp" grant_type and "mfa_remember_this_device" set to true.
+          type: string
+        mfa_trust_device_token_expire_date:
+          description: (Optional) Multi-factor authentication trust device token expire date. Could be returned in case of using "otp" grant_type and "mfa_remember_this_device" set to true.
+          type: string
+      xml:
+        name: TokenAcquiredModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

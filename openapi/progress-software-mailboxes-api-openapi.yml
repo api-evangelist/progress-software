@@ -1,0 +1,938 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Mailboxes API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Mailboxes
+paths:
+  /api/v1/mailboxes:
+    get:
+      tags:
+      - Mailboxes
+      summary: Retrieve mailboxes list
+      operationId: GETapi/v1/mailboxes-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MailboxModel'
+                xml:
+                  name: MailboxModel
+                  wrapped: true
+                type: array
+            text/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MailboxModel'
+                xml:
+                  name: MailboxModel
+                  wrapped: true
+                type: array
+            application/problem+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MailboxModel'
+                xml:
+                  name: MailboxModel
+                  wrapped: true
+                type: array
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/mailboxes/{Id}:
+    get:
+      tags:
+      - Mailboxes
+      summary: Retrieve mailbox info
+      operationId: GETapi/v1/mailboxes/{Id}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the mailbox
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailboxModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MailboxModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/MailboxModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/mailboxes/{Id}/packages:
+    get:
+      tags:
+      - Mailboxes
+      summary: Retrieve mailbox content
+      operationId: GETapi/v1/mailboxes/{Id}/packages-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the mailbox
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SimplePackageModel'
+                xml:
+                  name: SimplePackageModel
+                  wrapped: true
+                type: array
+            text/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SimplePackageModel'
+                xml:
+                  name: SimplePackageModel
+                  wrapped: true
+                type: array
+            application/problem+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SimplePackageModel'
+                xml:
+                  name: SimplePackageModel
+                  wrapped: true
+                type: array
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    post:
+      tags:
+      - Mailboxes
+      summary: Move package
+      operationId: POSTapi/v1/mailboxes/{Id}/packages-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the destination mailbox
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackageMovePatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackageMovePatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/PackageMovePatchModel'
+        description: Request body.
+        required: true
+  /api/v1/mailboxes/{Id}/packages/{PackageId}:
+    get:
+      tags:
+      - Mailboxes
+      summary: Get package info
+      operationId: GETapi/v1/mailboxes/{Id}/packages/{PackageId}?Action={Action}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: Mailbox id
+        required: true
+        schema:
+          type: string
+      - name: packageId
+        in: query
+        description: Package id
+        required: true
+        schema:
+          type: string
+      - name: action
+        in: query
+        description: Package action (Reply, ReplyAll, Forward, Resend)
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PackageDetailsModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+  /api/v1/mailboxes/{Id}/packages/{packageId}:
+    delete:
+      tags:
+      - Mailboxes
+      summary: Remove package from user's mailbox
+      operationId: DELETEapi/v1/mailboxes/{Id}/packages/{packageId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the mailbox
+        required: true
+        schema:
+          type: string
+      - name: packageId
+        in: path
+        description: ID of the package to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+    patch:
+      tags:
+      - Mailboxes
+      summary: Partial package update
+      operationId: PATCHapi/v1/mailboxes/{Id}/packages/{packageId}-1.0
+      parameters:
+      - name: Id
+        in: path
+        description: ID of the mailbox
+        required: true
+        schema:
+          type: string
+      - name: packageId
+        in: path
+        description: ID of the package to update
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimplePackageModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SimplePackageModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/SimplePackageModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PackagePatchModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PackagePatchModel'
+          application/problem+json:
+            schema:
+              $ref: '#/components/schemas/PackagePatchModel'
+        description: Request body.
+        required: true
+  /api/v1/mailboxes/trash:
+    delete:
+      tags:
+      - Mailboxes
+      summary: Empty trash
+      operationId: DELETEapi/v1/mailboxes/trash-1.0
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    Recipient:
+      properties:
+        type:
+          description: Recipient type
+          type: string
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+        role:
+          description: Recipient role
+          type: string
+          enum:
+          - To
+          - CC
+          - BCC
+        identifier:
+          description: Recipient identifier
+          type: string
+        name:
+          description: Recipient name (read only)
+          type: string
+      xml:
+        name: Recipient
+      type: object
+    SimplePackageClassificationTypeModel:
+      properties:
+        id:
+          description: Gets or sets id of classification type
+          type: integer
+          format: int32
+        value:
+          description: Gets or sets value of classification type
+          type: string
+      xml:
+        name: SimplePackageClassificationTypeModel
+      type: object
+    PackageMovePatchModel:
+      description: Package Update parameters
+      properties:
+        packageId:
+          description: New package mailbox to set
+          type: string
+        mailboxId:
+          description: Source Mailbox Id
+          type: string
+      xml:
+        name: PackageMovePatchModel
+      type: object
+    PackagePatchModel:
+      description: Package Update parameters
+      properties:
+        recalled:
+          description: Set true to recall the package
+          type: boolean
+        isNew:
+          description: IsNew to set
+          type: boolean
+      xml:
+        name: PackagePatchModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    SimplePackageModel:
+      description: Represents basic package data required for all scenarios
+      properties:
+        toRecipients:
+          description: List of To recipients
+          items:
+            type: string
+          type: array
+        id:
+          description: Package id. The value is null for action operations
+          type: integer
+          format: int32
+        orgId:
+          description: Organization id
+          type: integer
+          format: int32
+        mailboxId:
+          description: Mailbox id
+          type: string
+        sendStamp:
+          description: Mailbox time stamp
+          type: string
+        parentId:
+          description: Parent id
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        recalled:
+          description: True if package is recalled
+          type: boolean
+        isNew:
+          description: True if package is new
+          type: boolean
+        subject:
+          description: Package subject
+          type: string
+        sender:
+          $ref: '#/components/schemas/SimpleUserModel'
+          description: Sender info
+        composerType:
+          description: Composer package type
+          type: string
+          enum:
+          - General
+          - Request
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        packageClassificationType:
+          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
+          description: Package classification type
+        readStatus:
+          description: Package read status
+          type: string
+          enum:
+          - None
+          - Some
+          - All
+      xml:
+        name: SimplePackageModel
+      type: object
+    MailboxModel:
+      description: Represents basic mailbox data required for all scenarios
+      properties:
+        id:
+          description: The unique ID of this mailbox.
+          type: string
+        parentId:
+          description: The ID of this mailbox's parent folder or "0" if it does not have a parent mailbox.
+          type: string
+        name:
+          description: The (short) name of this mailbox.
+          type: string
+        lastContentChangeTime:
+          description: Last time the mailbox content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this mailbox.
+          type: string
+        isShared:
+          description: Indicates whether this mailbox is shared with someone
+          type: boolean
+        newPackagesCount:
+          description: Number of new packages
+          type: integer
+          format: int32
+        allPackagesCount:
+          description: Number of all packages
+          type: integer
+          format: int32
+        orderIndex:
+          description: Mailbox order index
+          type: integer
+          format: int32
+        systemType:
+          description: Mailbox system type
+          type: integer
+          format: int32
+        owner:
+          description: Mailbox owner username
+          type: string
+        relationship:
+          description: Mailbox relationship
+          type: integer
+          format: int32
+        ownerLoginName:
+          description: Mailbox owner login name
+          type: string
+        ownerRealName:
+          description: Mailbox owner real name
+          type: string
+      xml:
+        name: MailboxModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    PackageDetailsModel:
+      description: Represents a package and all available attributes
+      properties:
+        isSecureBody:
+          description: If true body is secured
+          type: boolean
+        attachments:
+          description: List of attachments
+          items:
+            $ref: '#/components/schemas/SimpleFileResourceModel'
+          xml:
+            name: SimpleFileResourceModel
+            wrapped: true
+          type: array
+        body:
+          description: Package body
+          type: string
+        maxAttachDownloads:
+          description: Maximum downloads of attachment
+          type: integer
+          format: int32
+        recipients:
+          description: List of recipients
+          items:
+            $ref: '#/components/schemas/Recipient'
+          xml:
+            name: Recipient
+            wrapped: true
+          type: array
+        noReply:
+          description: Used to prevent reply
+          type: string
+          enum:
+          - AllowAll
+          - DenyReplyAll
+          - DenyAllReplies
+        id:
+          description: Package id. The value is null for action operations
+          type: integer
+          format: int32
+        orgId:
+          description: Organization id
+          type: integer
+          format: int32
+        mailboxId:
+          description: Mailbox id
+          type: string
+        sendStamp:
+          description: Mailbox time stamp
+          type: string
+        parentId:
+          description: Parent id
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        recalled:
+          description: True if package is recalled
+          type: boolean
+        isNew:
+          description: True if package is new
+          type: boolean
+        subject:
+          description: Package subject
+          type: string
+        sender:
+          $ref: '#/components/schemas/SimpleUserModel'
+          description: Sender info
+        composerType:
+          description: Composer package type
+          type: string
+          enum:
+          - General
+          - Request
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        packageClassificationType:
+          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
+          description: Package classification type
+        readStatus:
+          description: Package read status
+          type: string
+          enum:
+          - None
+          - Some
+          - All
+      xml:
+        name: PackageDetailsModel
+      type: object
+    SimpleUserModel:
+      description: Simple user model for user lists.
+      properties:
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: SimpleUserModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

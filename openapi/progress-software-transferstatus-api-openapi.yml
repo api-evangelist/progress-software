@@ -1,0 +1,391 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Transfer Status API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: TransferStatus
+paths:
+  /api/v1/xferstatus:
+    get:
+      tags:
+      - TransferStatus
+      summary: Gets Transfer status information
+      operationId: GETapi/v1/xferstatus-1.0
+      parameters:
+      - name: recentlyCompletedPeriod
+        in: query
+        description: 'Time period in seconds to return recently completed data. Default: 0'
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: statusDistributionPeriod
+        in: query
+        description: 'Time period in seconds to calculate status distribution for. Default: RecentlyCompletedPeriod'
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: userLoginName
+        in: query
+        description: Filter expression for Login name
+        required: false
+        schema:
+          type: string
+      - name: userFullName
+        in: query
+        description: Filter expression for User Display name
+        required: false
+        schema:
+          type: string
+      - name: userIp
+        in: query
+        description: Filter expression for User IP
+        required: false
+        schema:
+          type: string
+      - name: folderName
+        in: query
+        description: Filter expression for Folder name
+        required: false
+        schema:
+          type: string
+      - name: fileName
+        in: query
+        description: Filter expression for File name
+        required: false
+        schema:
+          type: string
+      - name: transferStatus
+        in: query
+        description: Filter for status. Uses OR logic
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - Failed
+            - Stalled
+            - Active
+            - Completed
+      - name: search
+        in: query
+        description: 'Filter expression for several fields. Fields are matched with OR logic. AND logic is used if you provide expression for each particular query. Fields being matched: userLoginName, userFullName, userIp, folderName, fileName'
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number to display
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: perPage
+        in: query
+        description: Items per page in result collection
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sortField
+        in: query
+        description: Name of field to sort the results by.
+        required: false
+        schema:
+          type: string
+      - name: sortDirection
+        in: query
+        description: Sort direction; Default is ascending.
+        required: false
+        schema:
+          type: string
+      - name: useDisplayTimeZone
+        in: query
+        description: 'Whether to convert timestamps returned by the endpoint from the server''s
+
+          time zone to the user''s configured display time zone.'
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferStatusPagedModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/TransferStatusPagedModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/TransferStatusPagedModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    TransferStatusModel:
+      description: Represents active transfer information
+      properties:
+        nodeNum:
+          description: Web Farm node number
+          type: integer
+          format: int32
+        moduleName:
+          description: Module which performs transfer
+          type: string
+          enum:
+          - Other
+          - FTP
+          - SSH
+          - ISAPI
+          - REST
+        direction:
+          description: Transfer direction
+          type: string
+          enum:
+          - Upload
+          - Download
+        transferStatus:
+          description: Transfer status
+          type: string
+          enum:
+          - Failed
+          - Stalled
+          - Active
+          - Completed
+        statusMessage:
+          description: Information about the transfer status, such as an error message
+          type: string
+        errorCode:
+          description: Information about the transfer status, such as an error code
+          type: integer
+          format: int32
+        orgId:
+          description: ID of organization this file belongs to
+          type: integer
+          format: int32
+        userId:
+          description: ID of the user
+          type: string
+        userLoginName:
+          description: User Login Name
+          type: string
+        userFullName:
+          description: User Real Name
+          type: string
+        userIp:
+          description: IP Address of user
+          type: string
+        timeStarted:
+          description: Time when transfer started
+          type: string
+        timeEnded:
+          description: Time when transfer ended. Null if transfer is in progress
+          type: string
+        currentBytes:
+          description: Bytes already transferred
+          type: integer
+          format: int64
+        totalBytes:
+          description: Total file size, if known
+          type: integer
+          format: int64
+        transferRate:
+          description: Rate of the transfer
+          type: integer
+          format: int64
+        fileId:
+          description: ID of the file
+          type: string
+        fileName:
+          description: File Name
+          type: string
+        folderId:
+          description: Parent Folder ID
+          type: string
+        folderName:
+          description: Parent Folder Name
+          type: string
+        folderPath:
+          description: Parent Folder Path
+          type: string
+        folderType:
+          description: Parent Folder Type
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        agentVersion:
+          description: User agent version
+          type: string
+        agentBrand:
+          description: User agent brand
+          type: string
+        integrityVerified:
+          description: Integrity Verified
+          type: boolean
+      xml:
+        name: TransferStatusModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    TransferStatusDistribution:
+      description: Distribution of available statuses in collection
+      properties:
+        active:
+          description: Number of records in Active state
+          type: integer
+          format: int32
+        stalled:
+          description: Number of records in Stalled state
+          type: integer
+          format: int32
+        completed:
+          description: Number of records in Succeeded state
+          type: integer
+          format: int32
+        failed:
+          description: Number of records in Failed state
+          type: integer
+          format: int32
+        lingeringTransfers:
+          description: Number of transfers that have recently been completed but still are displayed as in progress
+          type: integer
+          format: int32
+      xml:
+        name: TransferStatusDistribution
+      type: object
+    TransferStatusPagedModel:
+      properties:
+        statusDistribution:
+          $ref: '#/components/schemas/TransferStatusDistribution'
+          description: Status distribution
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/TransferStatusModel'
+          readOnly: true
+          xml:
+            name: TransferStatusModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: TransferStatusPagedModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

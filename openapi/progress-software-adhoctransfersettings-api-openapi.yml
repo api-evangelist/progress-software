@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Ad Hoc Transfer Settings API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: AdHocTransferSettings
+paths:
+  /api/v1/settings/adhoctransfer/maintenance/agingexpiration:
+    get:
+      tags:
+      - AdHocTransferSettings
+      summary: Get aging and expiration in the organization
+      operationId: GETapi/v1/settings/adhoctransfer/maintenance/agingexpiration-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdHocTransferAgingExpirationModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AdHocTransferAgingExpirationModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AdHocTransferAgingExpirationModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      security:
+      - Authorization: []
+components:
+  schemas:
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    AdHocTransferAgingExpirationModel:
+      properties:
+        packageRemainsNewForHours:
+          description: Number of hours packages remain new.
+          type: integer
+          format: int32
+        maxUserPackageExpirationHours:
+          description: 'Number of hours after packages expire and delete.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        archivePackages:
+          description: Archive expired packages to the location before deleting.
+          type: boolean
+        defaultUserPackageExpirationHours:
+          description: 'Value in hours which users can set specific expirations on their packages.
+
+            -1 if not allowed.'
+          type: integer
+          format: int32
+      xml:
+        name: AdHocTransferAgingExpirationModel
+      type: object
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header

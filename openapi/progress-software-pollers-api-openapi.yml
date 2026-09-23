@@ -1,0 +1,390 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Pollers API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: Pollers
+paths:
+  /api/v1/pollers:
+    get:
+      tags:
+      - Pollers
+      summary: Get All configured pollers and their status
+      operationId: Pollers_GetAllPollers
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResult_ApiPollerConfigWithStatus'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ListResult_ApiPollerConfigWithStatus'
+      security:
+      - oauth2: []
+    post:
+      tags:
+      - Pollers
+      summary: Create a new poller
+      operationId: Pollers_CreatePoller
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiPollerConfigCreate'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ApiPollerConfigCreate'
+        required: true
+  /api/v1/pollers/{pollerId}:
+    get:
+      tags:
+      - Pollers
+      summary: Get a single Poller by ID
+      operationId: Pollers_GetPollerById
+      parameters:
+      - name: pollerId
+        in: path
+        description: PollerId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Pollers
+      summary: Update poller config
+      operationId: Pollers_UpdatePoller
+      parameters:
+      - name: pollerId
+        in: path
+        description: Poller Id to update
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiPollerConfigCreate'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ApiPollerConfigCreate'
+        description: Updated Poller Config
+        required: true
+    delete:
+      tags:
+      - Pollers
+      summary: Remove poller config
+      operationId: Pollers_UpdatePoller
+      parameters:
+      - name: pollerId
+        in: path
+        description: PollerId to remove
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/pollers/by-name/{name}:
+    post:
+      tags:
+      - Pollers
+      summary: Create a new poller (called by the Scalability Poller Install to ensure there…
+      operationId: Pollers_CreatePollerWithName
+      parameters:
+      - name: name
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApiPollerConfig'
+      security:
+      - oauth2: []
+components:
+  schemas:
+    ApiPollerConfig:
+      description: Provides information about Poller configured in the system
+      type: object
+      properties:
+        pollerGuid:
+          format: uuid
+          description: Unique Identifier for the poller
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          description: Display name and at the same time name of the remote poller used during registration
+          type: string
+        description:
+          description: Description
+          type: string
+        isEnabled:
+          description: Is poller enabled
+          type: boolean
+        useForLoadBalance:
+          description: Should this poller poll devices which has no specific association with any poller
+          type: boolean
+        assignedDeviceIds:
+          description: 'Devices associated with this poller
+
+            Those devices will be polled by this poller if it is available'
+          type: array
+          items:
+            format: int32
+            type: integer
+        assignedSubnets:
+          description: 'Subnets associated with this poller
+
+            Devices in those subnets will be polled by this poller if it is available'
+          type: array
+          items:
+            type: string
+    ApiPollerConfigWithStatus:
+      description: Describes current status of configured poller
+      type: object
+      properties:
+        isLocal:
+          description: Is this "Local Poller"
+          type: boolean
+        state:
+          description: Current state of the poller
+          enum:
+          - Offline
+          - Unknown
+          - Initial
+          - Loading
+          - Ready
+          - Running
+          - Stopping
+          - Error
+          type: string
+        lagTimeSeconds:
+          format: int32
+          description: Size of Poller Lag in seconds
+          type: integer
+        polledDevicesCount:
+          format: int32
+          description: Number of devices currently polled by this poller
+          type: integer
+        polledActiveMonitorsCount:
+          format: int32
+          description: Number of Active Monitors polled by this poller
+          type: integer
+        polledPerformanceMonitorsCount:
+          format: int32
+          description: Number of Performance Monitors polled by this poller
+          type: integer
+        pollerGuid:
+          format: uuid
+          description: Unique Identifier for the poller
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          description: Display name and at the same time name of the remote poller used during registration
+          type: string
+        description:
+          description: Description
+          type: string
+        isEnabled:
+          description: Is poller enabled
+          type: boolean
+        useForLoadBalance:
+          description: Should this poller poll devices which has no specific association with any poller
+          type: boolean
+        assignedDeviceIds:
+          description: 'Devices associated with this poller
+
+            Those devices will be polled by this poller if it is available'
+          type: array
+          items:
+            format: int32
+            type: integer
+        assignedSubnets:
+          description: 'Subnets associated with this poller
+
+            Devices in those subnets will be polled by this poller if it is available'
+          type: array
+          items:
+            type: string
+    Result_SuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SuccessResult'
+          description: The data payload
+          readOnly: true
+    ListResult_ApiPollerConfigWithStatus:
+      description: A result envelope that carries list data
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiPollerConfigWithStatus'
+          readOnly: true
+    Result_ApiPollerConfig:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ApiPollerConfig'
+          description: The data payload
+          readOnly: true
+    ApiPollerConfigCreate:
+      description: Poller Create DTO
+      type: object
+      properties:
+        name:
+          description: Display name and at the same time name of the remote poller used during registration
+          type: string
+        description:
+          description: Description
+          type: string
+        isEnabled:
+          description: Is poller enabled
+          type: boolean
+        useForLoadBalance:
+          description: Should this poller poll devices which has no specific association with any poller
+          type: boolean
+        assignedDeviceIds:
+          description: 'Devices associated with this poller
+
+            Those devices will be polled by this poller if it is available'
+          type: array
+          items:
+            format: int32
+            type: integer
+        assignedSubnets:
+          description: 'Subnets associated with this poller
+
+            Devices in those subnets will be polled by this poller if it is available'
+          type: array
+          items:
+            type: string
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

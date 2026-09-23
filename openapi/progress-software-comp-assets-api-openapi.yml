@@ -1,0 +1,387 @@
+openapi: 3.2.0
+info:
+  description: '# Authentication
+
+    The Chef Automate API typically uses an API token passed in the header of your API request.'
+  title: Chef Automate API Documentation Comp Assets API
+  termsOfService: https://www.chef.io/terms-and-conditions-of-use/
+  contact:
+    url: https://www.chef.io/support/
+    email: support@chef.io
+  license:
+    name: Apache 2.0
+    url: https://github.com/chef/automate/blob/main/LICENSE
+  version: version not set
+  x-logo:
+    altText: Chef logo
+    url: /images/chef-automate-logo.svg
+servers:
+- url: https://automate.chef.io
+tags:
+- name: Comp_Assets
+  x-displayName: Assets Management
+paths:
+  /api/v0/compliance/reporting/assets/config:
+    put:
+      description: 'SetAssetConfig sets the compliance config with the parameters of no of days
+
+        And API returns the policy name and no of the days which will set in the compliance data base
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reports:update
+
+        ```'
+      tags:
+      - Comp_Assets
+      summary: Set Unreachable Assets Config
+      operationId: ReportingService_SetAssetConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ComplianceConfigResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ComplianceConfigRequest'
+        required: true
+  /api/v0/compliance/reporting/assets/config/search:
+    get:
+      description: 'GetAssetConfig gets the config details from the compliance data base
+
+        and API return the policy name and no of days
+
+        Authorization Action:
+
+        ```
+
+        compliance:reports:get
+
+        ```'
+      tags:
+      - Comp_Assets
+      summary: Get Assets Config
+      operationId: ReportingService_GetAssetConfig
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ComplianceConfigResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+  /api/v0/compliance/reporting/assets/count:
+    post:
+      description: 'Count the compliance assets based on different filter options.
+
+        The API returns the response based on reported and unreported assets
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reports:list
+
+        ```'
+      tags:
+      - Comp_Assets
+      summary: Assets Count
+      operationId: ReportingService_AssetCount
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.AssetSummary'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ListFilters'
+        required: true
+  /api/v0/compliance/reporting/assets/search:
+    post:
+      description: 'Lists the compliance assets based on different filter options.
+
+        The API works with filtering assets based on collected, uncollected, unreported and unreachable assets
+
+
+        Authorization Action:
+
+        ```
+
+        compliance:reports:list
+
+        ```'
+      tags:
+      - Comp_Assets
+      summary: List Assets
+      operationId: ReportingService_ListAsset
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.AssetListResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/grpc.gateway.runtime.Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.AssetListRequest'
+        required: true
+components:
+  schemas:
+    chef.automate.api.compliance.reporting.v1.AssetListResponse:
+      type: object
+      properties:
+        assets:
+          type: array
+          title: Assets list as per the filters applied
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Assets'
+    chef.automate.api.compliance.reporting.v1.AssetSummary:
+      type: object
+      properties:
+        collected:
+          title: Accessing the collected from Collected Message
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Collected'
+        total_assets:
+          type: integer
+          format: int32
+          title: Total number of total assets
+        uncollected:
+          title: Total number of not collected assests
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Uncollected'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.compliance.reporting.v1.Assets:
+      type: object
+      properties:
+        first_run:
+          type: string
+          title: First Run details of asset
+        last_run:
+          type: string
+          title: Last run details of asset
+        node_uuid:
+          type: string
+          title: Node UUid for the asset
+        status:
+          type: string
+          title: Status of the last run of the asset
+    chef.automate.api.compliance.reporting.v1.ComplianceConfigResponse:
+      type: object
+      title: ComplianceConfigResponse to get the policy name and no of days
+      properties:
+        policy_name:
+          type: string
+          title: Policy name to get from config
+        value:
+          type: integer
+          format: int32
+          title: No of days to get for config
+    chef.automate.api.compliance.reporting.v1.Uncollected:
+      type: object
+      properties:
+        unreachable:
+          type: integer
+          format: int32
+          title: Total count of unreachable assets
+        unreported:
+          type: integer
+          format: int32
+          title: Total count of unreported assets
+    chef.automate.api.compliance.reporting.v1.Collected:
+      type: object
+      properties:
+        failed:
+          type: integer
+          format: int32
+          title: Total collected and failed in the assets
+        passed:
+          type: integer
+          format: int32
+          title: Total collected and passsed in the assets
+        skipped:
+          type: integer
+          format: int32
+          title: Total collected and skipped in the assets
+        waived:
+          type: integer
+          format: int32
+          title: Total collected and waived in the assets
+    chef.automate.api.compliance.reporting.v1.ComplianceConfigRequest:
+      type: object
+      title: ComplianceConfigRequest to update no of days in the config
+      properties:
+        value:
+          type: integer
+          format: int32
+          title: No of days for the config
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.compliance.reporting.v1.AssetListRequest:
+      type: object
+      properties:
+        assets_type:
+          type: string
+          title: Asset Type as collected, unreported, unreachable, uncollected
+        filters:
+          type: array
+          title: List of the filters to be applied
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ListFilter'
+        from:
+          description: The offset for paginating requests. An offset defines a place in the results in order to show the next page of the results.
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+          title: Size of the asset list
+        sort:
+          type: string
+          title: Sort required from the which field
+    chef.automate.api.compliance.reporting.v1.ListFilters:
+      type: object
+      properties:
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ListFilter'
+    chef.automate.api.compliance.reporting.v1.ListFilter:
+      type: object
+      properties:
+        type:
+          description: The field to filter on.
+          type: string
+        values:
+          description: Filters applied to the list.
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    APIToken:
+      description: Authenticate with the Automate API using an API Token.
+      type: apiKey
+      name: api-token
+      in: header
+x-tagGroups:
+- name: Compliance
+  tags:
+  - ReportingService
+  - StatsService
+  - JobsService
+  - ProfilesService
+  - Comp_Assets
+- name: Report Manager
+  tags:
+  - ReportManagerService
+- name: Infra
+  tags:
+  - ConfigMgmt
+  - InfraProxy
+- name: Ingest
+  tags:
+  - ChefIngester
+  - JobScheduler
+- name: Node Management
+  tags:
+  - NodeManagerService
+  - NodesService
+- name: Event Feed
+  tags:
+  - EventFeedService
+- name: Secrets
+  tags:
+  - SecretsService
+- name: Applications
+  tags:
+  - service_groups
+  - retention
+  - ApplicationsService
+- name: Data Feed
+  tags:
+  - DatafeedService
+- name: Data Lifecycle
+  tags:
+  - DataLifecycle
+- name: Notifications
+  tags:
+  - Notifications
+- name: Content Delivery
+  tags:
+  - Cds
+- name: Audit and Settings
+  tags:
+  - UserSettingsService
+- name: System
+  tags:
+  - Gateway
+  - Deployment
+  - License
+  - Telemetry
+  - LegacyDataCollector
+- name: Identity
+  tags:
+  - users
+  - teams
+  - tokens
+- name: Access Management
+  tags:
+  - policies
+  - roles
+  - projects
+  - rules
+  - Authorization

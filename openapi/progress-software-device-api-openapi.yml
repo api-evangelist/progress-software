@@ -1,0 +1,4844 @@
+openapi: 3.2.0
+info:
+  version: v1
+  title: WhatsUp Gold Device API
+  x-logo:
+    url: images/wug_logo.svg
+  description: '**Version 2026.0**
+
+
+    *Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts.*
+
+
+    !'
+servers:
+- url: https://10.40.67.158:9644
+tags:
+- name: Device
+paths:
+  /api/v1/devices/{deviceId}/attributes/{attributeId}:
+    get:
+      tags:
+      - Device
+      summary: Return individual attribute
+      operationId: Device_GetAttribute
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: attributeId
+        in: path
+        description: ID of attribute to return
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceAttribute'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceAttribute'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Update individual attribute
+      operationId: Device_UpdateAttribute
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device to update
+        required: true
+        schema:
+          type: string
+      - name: attributeId
+        in: path
+        description: ID of attribute to update
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: name of device attribute
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: value for device attribute
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - Device
+      summary: Delete individual attribute
+      operationId: Device_DeleteAttribute
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: attributeId
+        in: path
+        description: ID of attribute to delete
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/attributes/-:
+    get:
+      tags:
+      - Device
+      summary: Return list of attributes for device
+      operationId: Device_FindAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of the device
+        required: true
+        schema:
+          type: string
+      - name: names
+        in: query
+        description: List of attribute names to return. If empty, all attributes will be returned
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: nameContains
+        in: query
+        description: Filter and return only attributes with names that contain this value. If empty all attributes will pass
+        required: false
+        schema:
+          type: string
+      - name: valueContains
+        in: query
+        description: Filter and return only attributes with values that contain this value. If empty all attributes will pass
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: max number of attributes/values
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DeviceAttribute'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DeviceAttribute'
+      security:
+      - oauth2: []
+    post:
+      tags:
+      - Device
+      summary: Add attribute to device
+      operationId: Device_AddAttribute
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device to add an attribute to
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: name of new attribute
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: value of new attribute
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceAttribute'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceAttribute'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - Device
+      summary: Delete all attributes from device
+      operationId: Device_DeleteAllAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID for device that attributes should be deleted from
+        required: true
+        schema:
+          type: string
+      - name: names
+        in: query
+        description: List of attribute names to delete. If empty, all attributes will be considered
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: nameContains
+        in: query
+        description: List of attributes with names that contain this value. If empty all attributes will be considered
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: valueContains
+        in: query
+        description: List of attributes with values that contain this value. Adding an empty string will match attributes with no content. If empty list all attributes will be considered
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - Device
+      summary: Batch attribute operations (remove, add, modify) for given device
+      operationId: Device_BatchAttributes
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID for device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceAttributeBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceAttributeBatch'
+        description: Attribute operations to apply to device
+        required: true
+  /api/v1/devices/{deviceId}/group/{groupId}:
+    delete:
+      tags:
+      - Device
+      summary: Remove a group assignment for device
+      description: 'This function will error if the last static device group assignment is attempted to be removed.
+
+        This function will error if a dynamic or dyname layer2 group assignment is attempt to be removed'
+      operationId: Device_DeleteAssignedGroup
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve assigned groups for
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        description: group to remove device from
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/group/-:
+    get:
+      tags:
+      - Device
+      summary: Return device group assignments for a device
+      operationId: Device_DeviceGroupAssignments
+      parameters:
+      - name: deviceId
+        in: path
+        description: device the device group assignments are associated with
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: how much information for the group, default=summary
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - summary
+          - detail
+      - name: type
+        in: query
+        description: type of groups to retrieve, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - static_group
+          - dynamic_group
+          - layer2
+      - name: search
+        in: query
+        description: return only groups that contain this string in display name. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page of data to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: maximum number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DeviceGroupSummary'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_DeviceGroupSummary'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Assign group to a device
+      operationId: Device_AssignDeviceGroup
+      parameters:
+      - name: deviceId
+        in: path
+        description: device being operated on
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+        description: group to assign
+        required: true
+    patch:
+      tags:
+      - Device
+      summary: Batch attribute operations (remove, add) for given device
+      operationId: Device_PatchDeviceGroupAssignment
+      parameters:
+      - name: deviceId
+        in: path
+        description: device being operatored on
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceGroupAssignmentBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceGroupAssignmentBatch'
+        description: Device group assignment operations to apply to device
+        required: true
+  /api/v1/devices/{deviceId}/group/{groupId}/is-member:
+    get:
+      tags:
+      - Device
+      summary: Return sucessful if a device is assigned to a group
+      operationId: Device_DeviceHasGroupAssignments
+      parameters:
+      - name: deviceId
+        in: path
+        description: device being looked at
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        description: group being looked for
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/interfaces/default:
+    get:
+      tags:
+      - Device
+      summary: Return device's default network interface
+      operationId: Device_GetDefaultInterface
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/interfaces/{interfaceId}:
+    get:
+      tags:
+      - Device
+      summary: Return individual network interface
+      operationId: Device_GetInterface
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: interfaceId
+        in: path
+        description: ID of interface to return
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Update individual interface
+      operationId: Device_UpdateNetworkInterface
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device to update
+        required: true
+        schema:
+          type: string
+      - name: interfaceId
+        in: path
+        description: ID of network interface to update
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkInterfaceUpdate'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/NetworkInterfaceUpdate'
+        description: changed to be made to interface
+        required: true
+    delete:
+      tags:
+      - Device
+      summary: Delete individual interface
+      operationId: Device_DeleteNetworkInterface
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: interfaceId
+        in: path
+        description: ID of interface to delete
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/interfaces/-:
+    get:
+      tags:
+      - Device
+      summary: Return list of network interfaces for device
+      operationId: Device_FindNetworkInterfaces
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of the device
+        required: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: optional search text ; case-insensitive ; searches the address and hostname for partial matches
+        required: false
+        schema:
+          type: string
+      - name: pageId
+        in: query
+        description: page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: max number of network interfaces
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_NetworkInterface'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_NetworkInterface'
+      security:
+      - oauth2: []
+    post:
+      tags:
+      - Device
+      summary: Add a network interface to device
+      operationId: Device_AddNetworkInterface
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device to add a network interface to
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NetworkInterface'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkInterfaceData'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/NetworkInterfaceData'
+        description: interface to add
+        required: true
+    delete:
+      tags:
+      - Device
+      summary: Delete from device, all network interfaces except default interface
+      operationId: Device_DeleteAllNetworkInterfaces
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID for device that network interfaces should be deleted from
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - Device
+      summary: Batch network interface operations (remove, add, modify) for a given device
+      operationId: Device_BatchNetworkInterfaces
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID for device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkNetworkInterfaceBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkNetworkInterfaceBatch'
+        description: Network interface operations to apply to device
+        required: true
+  /api/v1/devices/{deviceId}/credentials/{credentialId}:
+    delete:
+      tags:
+      - Device
+      summary: Remove an assigned credential from a device
+      operationId: Device_DeleteAssignedCredentials
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve credentials from
+        required: true
+        schema:
+          type: string
+      - name: credentialId
+        in: path
+        description: credential to be unassigned
+        required: true
+        schema:
+          type: string
+      - name: preventOrphanActiveMonitors
+        in: query
+        description: prevent operation if an active monitor will be orphaned, default=true
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/credentials/-:
+    get:
+      tags:
+      - Device
+      summary: Return assigned credentials for a device
+      operationId: Device_Credentials
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve credentials from
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: how much information for the credential, default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - summary
+          - details
+      - name: type
+        in: query
+        description: type of credential to retrieve, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - snmp
+          - windows
+          - ado
+          - telnet
+          - ssh
+          - vmware
+          - jmx
+          - smis
+          - aws
+          - azure
+          - meraki
+          - restapi
+          - ubiquiti
+          - redfish
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_Credential'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_Credential'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Assign a credential to a device
+      operationId: Device_DeviceAssignCredentials
+      parameters:
+      - name: deviceId
+        in: path
+        description: device be operated on
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+        description: credential to assign
+        required: true
+    delete:
+      tags:
+      - Device
+      summary: Remove assigned credentials from a device by type
+      operationId: Device_DeleteDeviceAssignedCredentials
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to remove credentials from
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: kind of credential to be unassigned, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - snmp
+          - windows
+          - ado
+          - telnet
+          - ssh
+          - vmware
+          - jmx
+          - smis
+          - aws
+          - azure
+          - meraki
+          - restapi
+          - ubiquiti
+          - redfish
+      - name: preventOrphanActiveMonitors
+        in: query
+        description: prevent operation if an active monitor will be orphaned, default=true
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/monitors/{assignmentId}:
+    get:
+      tags:
+      - Device
+      summary: Return monitor assignment for given device
+      operationId: Device_GetMonitorById
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve monitor assignments from
+        required: true
+        schema:
+          type: string
+      - name: assignmentId
+        in: path
+        description: ID for monitor assignment
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: type of data about the monitor to include, default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - minimum
+          - basic
+          - status
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_AssignedMonitor'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_AssignedMonitor'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Update a monitor assignment on a device
+      operationId: Device_UpdateMonitorById
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve monitor assignments from
+        required: true
+        schema:
+          type: string
+      - name: assignmentId
+        in: path
+        description: ID for monitor assignment
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorAssignmentBasic'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MonitorAssignmentBasic'
+        description: type of data about the monitor to include, default=basic
+        required: true
+    delete:
+      tags:
+      - Device
+      summary: Remove an assigned monitor from a device
+      operationId: Device_DeleteMonitorAssignment
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve monitor assignments from
+        required: true
+        schema:
+          type: string
+      - name: assignmentId
+        in: path
+        description: monitor id to be unassigned
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/monitors/-:
+    get:
+      tags:
+      - Device
+      summary: Return assigned monitors for a device
+      operationId: Device_GetMonitors
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to retrieve monitor assignments from
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor assignments, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: view
+        in: query
+        description: type of data about the monitor to include, default=basic
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - minimum
+          - basic
+          - status
+      - name: search
+        in: query
+        description: return only monitors that contain this string in display name, description, classId, argument or comment. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: monitorTypeId
+        in: query
+        description: filter by monitor type id
+        required: false
+        schema:
+          type: string
+      - name: enabledOnly
+        in: query
+        description: return only enabled monitors, default=true
+        required: false
+        schema:
+          type: boolean
+      - name: pageId
+        in: query
+        description: page to return
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: max number of attributes/values
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_AssignedMonitor'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/PageResult_List_AssignedMonitor'
+      security:
+      - oauth2: []
+    post:
+      tags:
+      - Device
+      summary: Assign monitor to a device
+      operationId: Device_DeviceAssignMonitor
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleAssignMonitor'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/SimpleAssignMonitor'
+        description: Monitor to assign
+        required: true
+    delete:
+      tags:
+      - Device
+      summary: Remove assigned monitors from device
+      operationId: Device_DeleteMonitorAssignments
+      parameters:
+      - name: deviceId
+        in: path
+        description: device to remove monitor assignments from
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type of monitor assignments, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+      - name: search
+        in: query
+        description: return only monitors that contain this string in display name, description, classId, argument or comment. Case-insensitive, empty value is ignored
+        required: false
+        schema:
+          type: string
+      - name: monitorTypeId
+        in: query
+        description: ID of monitor type
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - Device
+      summary: Batch modify monitor assignments for given device
+      operationId: Device_DeviceAssignMonitors
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorAssignmentBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MonitorAssignmentBatch'
+        description: Set of monitor assignment changes
+        required: true
+  /api/v1/devices/{deviceId}/config/polling:
+    get:
+      tags:
+      - Device
+      summary: Return the device general polling configuration summary
+      operationId: Device_GetPollingConfig
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of the device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DevicePollingConfig'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DevicePollingConfig'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Update device general polling configuration
+      operationId: Device_UpdatePollingConfig
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of the device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevicePollingConfigUpdate'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DevicePollingConfigUpdate'
+        description: Update values
+        required: true
+  /api/v1/devices/{deviceId}/config/maintenance:
+    put:
+      tags:
+      - Device
+      summary: Update maintenance mode settings for a given device
+      operationId: Device_UpdateMaintenanceById
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceConfigBasic'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceConfigBasic'
+        description: Manual maintenance mode configuration
+        required: true
+  /api/v1/devices/{deviceId}/config/maintenance/schedule:
+    put:
+      tags:
+      - Device
+      summary: Update maintenance mode settings for a given device (scheduled)
+      operationId: Device_UpdateMaintenanceSchedule
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device to change
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceSchedule'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceSchedule'
+        description: Maintenance schedule
+        required: true
+  /api/v1/devices/{deviceId}/poll-now:
+    put:
+      tags:
+      - Device
+      summary: Request the polling service to poll this device immediately
+      description: 'This request notifies the poller that the device should ignore its polling interval and be polled immediately.
+
+        Device will return to normal polling interval for next cycle.'
+      operationId: Device_PollNow
+      parameters:
+      - name: deviceId
+        in: path
+        description: The device to poll
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/-/config/maintenance:
+    patch:
+      tags:
+      - Device
+      summary: Update maintenance mode settings for batch of devices
+      operationId: Device_UpdateMaintenanceBatch
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceConfigManualBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceConfigManualBatch'
+        description: The maintenance configuration
+        required: true
+  /api/v1/devices/-/config/maintenance/schedule:
+    patch:
+      tags:
+      - Device
+      summary: Update maintenance mode settings for a set of devices (scheduled)
+      operationId: Device_UpdateMaintenanceBatchSchedule
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceScheduleBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceScheduleBatch'
+        description: Maintenance schedule
+        required: true
+  /api/v1/devices/-/config/polling:
+    patch:
+      tags:
+      - Device
+      summary: Update a set of devices with general polling configuration
+      operationId: Device_UpdatePollingConfigBatch
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevicePollingConfigUpdateBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DevicePollingConfigUpdateBatch'
+        description: Update values
+        required: true
+  /api/v1/devices/-/poll-now:
+    patch:
+      tags:
+      - Device
+      summary: Request polling service to poll multiple devices immediately
+      description: 'This request notifies the poller that the device should ignore its polling interval and be polled immediately.
+
+        Device will return to normal polling interval for next cycle.'
+      operationId: Device_BulkPollNow
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceBatch'
+        description: set of devices to be polled
+        required: true
+  /api/v1/devices/{deviceId}/properties:
+    get:
+      tags:
+      - Device
+      summary: Returns device properties
+      operationId: Device_GetProperties
+      parameters:
+      - name: deviceId
+        in: path
+        description: The id of the device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceProperties'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceProperties'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Updates the properties on the device
+      operationId: Device_UpdateProperties
+      parameters:
+      - name: deviceId
+        in: path
+        description: The device to change
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevicePropertiesWithName'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DevicePropertiesWithName'
+        description: The properties to be updated
+        required: true
+  /api/v1/devices/-/properties:
+    patch:
+      tags:
+      - Device
+      summary: Updates the properties on the device
+      operationId: Device_UpdatePropertiesBatch
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevicePropertiesBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DevicePropertiesBatch'
+        description: Update a set of device properties
+        required: true
+  /api/v1/devices/{deviceId}/refresh:
+    put:
+      tags:
+      - Device
+      summary: Request a device to refresh configuration based on the phyiscal device
+      operationId: Device_Refresh
+      parameters:
+      - name: deviceId
+        in: path
+        description: The device to be refreshed
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NamedResourceSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NamedResourceSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRefreshOptions'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeviceRefreshOptions'
+        description: set of options to be applied during this operations
+        required: true
+  /api/v1/devices/-/refresh:
+    patch:
+      tags:
+      - Device
+      summary: Request a set of devices to refresh configuration based on the phyiscal device
+      description: 'This request notifies the discovery service to scan a device and update the inventory, links, network information etc. The id returned can be used to check
+
+        the status of the refresh operation.'
+      operationId: Device_BulkRefresh
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_NamedResourceSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_NamedResourceSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceRefresh'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceRefresh'
+        description: the set of devices and configuration to use when refreshing devices
+        required: true
+  /api/v1/devices/{deviceId}/roles/{roleId}:
+    delete:
+      tags:
+      - Device
+      summary: Remove assigned role from a device
+      operationId: Device_DeleteRoleAssignment
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device to delete role from
+        required: true
+        schema:
+          type: string
+      - name: roleId
+        in: path
+        description: role ID to be unassigned
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/roles/-:
+    get:
+      tags:
+      - Device
+      summary: Return roles assignment for a given device
+      operationId: Device_GetRoles
+      parameters:
+      - name: deviceId
+        in: path
+        description: Identifier of device to retrieve roles from
+        required: true
+        schema:
+          type: string
+      - name: kind
+        in: query
+        description: type of roles to retrieve, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - role
+          - brand
+          - os
+          - subRole
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_DeviceRoleAssignment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_List_DeviceRoleAssignment'
+      security:
+      - oauth2: []
+    put:
+      tags:
+      - Device
+      summary: Assign a role to a device
+      operationId: Device_DeviceAssignRole
+      parameters:
+      - name: deviceId
+        in: path
+        description: Identifier of device
+        required: true
+        schema:
+          type: string
+      - name: roleId
+        in: query
+        description: role identifier to assign
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - Device
+      summary: Remove device role assignment by role type
+      operationId: Device_DeleteDeviceAssignedRoles
+      parameters:
+      - name: deviceId
+        in: path
+        description: Identifier of device to remove monitors from
+        required: true
+        schema:
+          type: string
+      - name: kind
+        in: query
+        description: kind of role to be unassigned, default=all
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+          - role
+          - brand
+          - os
+          - subRole
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/roles/brand:
+    put:
+      tags:
+      - Device
+      summary: Assign a brand to a device
+      operationId: Device_DeviceAssignBrandRole
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of device
+        required: true
+        schema:
+          type: string
+      - name: brand
+        in: query
+        description: Brand name or identifier to assign
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/-/roles/brand:
+    patch:
+      tags:
+      - Device
+      summary: Assign a brand to multiple devices
+      operationId: Device_MultiDeviceBulkAssignBrand
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkAssignDeviceRoleWithName'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkAssignDeviceRoleWithName'
+        required: true
+  /api/v1/devices/{deviceId}/roles/os:
+    put:
+      tags:
+      - Device
+      summary: Assign operating system to a device
+      operationId: Device_DeviceAssignOsRole
+      parameters:
+      - name: deviceId
+        in: path
+        description: identifier of device
+        required: true
+        schema:
+          type: string
+      - name: osName
+        in: query
+        description: Operating system name or identifier to assign
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/-/roles/os:
+    patch:
+      tags:
+      - Device
+      summary: Assign a operating system to multiple devices
+      operationId: Device_MultiDeviceBulkAssignOS
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkAssignDeviceRoleWithName'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkAssignDeviceRoleWithName'
+        required: true
+  /api/v1/devices/{deviceId}/roles/primary:
+    put:
+      tags:
+      - Device
+      summary: Assign primary role to a device
+      operationId: Device_AssignPrimaryToDevice
+      parameters:
+      - name: deviceId
+        in: path
+        description: Identifier of device
+        required: true
+        schema:
+          type: string
+      - name: primary
+        in: query
+        description: Primary role name or identifier to assign
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/-/roles/primary:
+    patch:
+      tags:
+      - Device
+      summary: Assign a primary role to multiple devices
+      operationId: Device_MultiDeviceBulkAssignPrimaryRole
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkAssignDeviceRoleWithName'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkAssignDeviceRoleWithName'
+        required: true
+  /api/v1/devices/{deviceId}/roles/sub-role:
+    put:
+      tags:
+      - Device
+      summary: Sub role operations on a device
+      operationId: Device_AssignSubRolesToDevice
+      parameters:
+      - name: deviceId
+        in: path
+        description: Identifier of device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAssignSubRoleOperation'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAssignSubRoleOperation'
+        description: Sub role operation to preform
+        required: true
+  /api/v1/devices/-/roles/sub-role:
+    patch:
+      tags:
+      - Device
+      summary: Perform a sub role operation on multiple devices
+      operationId: Device_MultiDeviceBulkAssignSubRoles
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceAssignSubRole'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceAssignSubRole'
+        required: true
+  /api/v1/devices/{deviceId}/config/template:
+    get:
+      tags:
+      - Device
+      summary: Returns a template for the device
+      description: 'This is a summary of the device''s configuration settings including references to credentials, monitors, groups, etc.
+
+
+        Options:
+
+        * all: all basic options are included. (default)
+
+        * l2: include layer 2 data such as inventory, links and other information used by the system
+
+        * tempip: use ip address as the template id instead of the database identifier.
+
+        * simple: return all data in it simplest form, dropping items like parents, classid, etc.
+
+
+        Basic Options:
+
+        * action: include device action
+
+        * active: include active monitors
+
+        * attribute: include device attributes
+
+        * brand: include brand
+
+        * creds: include credentials
+
+        * custom: include custom links
+
+        * dependency: include dependencies
+
+        * devicetype: include device type
+
+        * groups: include group memberships
+
+        * interface: include network interfaces
+
+        * note: include device note
+
+        * oid: include SNMP system oid
+
+        * os: include OS Role
+
+        * passive: include passive monitors
+
+        * perf: include performance monitors
+
+        * polling-interval: include Device Level polling interval
+
+        * refresh: include refresh settings
+
+        * roles: include device roles and sub roles.
+
+        * task: include NCM tasks'
+      operationId: Device_GetTemplate
+      parameters:
+      - name: deviceId
+        in: path
+        description: The id of the device
+        required: true
+        schema:
+          type: string
+      - name: options
+        in: query
+        description: empty is the default set of options. Multiple options may be passed separated by commas
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceTemplateReadResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceTemplateReadResults'
+      security:
+      - oauth2: []
+  /api/v1/devices/-/config/template:
+    patch:
+      tags:
+      - Device
+      summary: Apply a set of device templates
+      description: 'Each template will create a new device in the system. If a template can only be partially applied,
+
+        an error will be returned for the template.
+
+
+        Options:
+
+        * all: all basic options are applied (default)
+
+        * l2: apply layer 2 data such as inventory, links and other information used by the system
+
+        * update: after applying templates, issue a refresh request for all new devices
+
+        * update-interface-state: after applying templates, issue a rescan request to enable or disable Interface Active Monitors
+
+        * update-interface-names: after applying templates, issue a rescan request to update names for Interface Active Monitors
+
+        * update-active-monitors: after applying templates, issue a rescan request to apply the "Use in rescan" options for Active Monitors
+
+
+        Basic:
+
+        * action: apply device action
+
+        * active: apply active monitors
+
+        * attribute: apply device attributes
+
+        * brand: apply brand
+
+        * creds: apply credentials
+
+        * custom: apply custom links
+
+        * dependency: apply dependencies
+
+        * devicetype: apply device type
+
+        * groups: apply group memberships
+
+        * interface: apply network interfaces
+
+        * note: apply device note
+
+        * oid: apply SNMP system oid
+
+        * os: apply OS Role
+
+        * passive: apply passive monitors
+
+        * perf: apply performance monitors
+
+        * polling-interval: apply Device Level polling interval
+
+        * refresh: apply refresh settings
+
+        * roles: apply device roles and sub roles.
+
+        * task: apply NCM tasks'
+      operationId: Device_ApplyTemplates
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_ApplyTemplateResults'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTemplateBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTemplateBatch'
+        description: Set of templates for creating new devices
+        required: true
+  /api/v1/devices/{deviceId}:
+    get:
+      tags:
+      - Device
+      summary: Return device overview for a given device
+      operationId: Device_GetOverview
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID of the device
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: The view to use for the returned data. Default=card
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - basic
+          - card
+          - overview
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceOverview'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceOverview'
+      security:
+      - oauth2: []
+    delete:
+      tags:
+      - Device
+      summary: Remove a given device
+      operationId: Device_DeleteDevice
+      parameters:
+      - name: deviceId
+        in: path
+        description: ID the device to delete
+        required: true
+        schema:
+          type: string
+      - name: deleteDiscoveredDevices
+        in: query
+        description: '* default/false - only delete device
+
+          * true - request associated device in discovered device list also be deleted'
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_SuccessResult'
+      security:
+      - oauth2: []
+  /api/v1/devices/{deviceId}/status:
+    get:
+      tags:
+      - Device
+      summary: Return status for the device. This does not include all of the monitor status
+      operationId: Device_GetStatus
+      parameters:
+      - name: deviceId
+        in: path
+        description: The id of the device
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceStatus'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_DeviceStatus'
+      security:
+      - oauth2: []
+  /api/v1/devices/-:
+    patch:
+      tags:
+      - Device
+      summary: Operate on a set of devices
+      operationId: Device_BulkOperationDevice
+      parameters:
+      - name: Authorization
+        in: header
+        description: oauth2 access_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Result_CountedSuccessResult'
+      security:
+      - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceOpsBatch'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeviceOpsBatch'
+        description: set of devices to be operated on and related parameters
+        required: true
+components:
+  schemas:
+    AppliedDuration:
+      description: 'duration to be applied, default=24 hours.
+
+        both start and end times must be provided.'
+      type: object
+      properties:
+        startTime:
+          $ref: '#/components/schemas/TimeOfDay'
+          description: Start time of the scheduled task
+        endTime:
+          $ref: '#/components/schemas/TimeOfDay'
+          description: end time of day
+    TemplateMap:
+      description: provides a mapping from a template id to the resulting generated id.
+      type: object
+      properties:
+        templateId:
+          description: Caller provided template Id
+          type: string
+        resultId:
+          description: Id generated when template was applied.
+          type: string
+    Result_NetworkInterface:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/NetworkInterface'
+          description: The data payload
+          readOnly: true
+    MonitorAssignmentUpdate:
+      description: update an active monitor assignment
+      type: object
+      properties:
+        id:
+          description: The id of the resource
+          type: string
+        enabled:
+          description: Mark monitor as enabled
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Active monitor configuration choices
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: passive monitor configuration choices
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: performance monitor configuration choices
+    DevicePollingConfigUpdateBatch:
+      description: Update general polling information in a batch
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            type: string
+        pollingIntervalSeconds:
+          format: int32
+          description: 'The device-level default for how often active
+
+            monitors are polled.'
+          type: integer
+    PagingInfo_List_AssignedMonitor:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_DeviceGroupSummary:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DeviceGroupSummary'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceGroupSummary'
+          readOnly: true
+    BulkDeviceAttributeBatch:
+      description: The set of devices attributes to be operated on
+      type: object
+      properties:
+        deleteAllAttributes:
+          description: 'remove all attributes from device
+
+            Optional. This will be applied first.'
+          type: boolean
+        attributesToDelete:
+          description: 'The list of attribute ids to remove from device. Attribute Id not found on device will be skipped.
+
+            Optional. This will be applied second.'
+          type: array
+          items:
+            type: string
+        attributeNamesToDelete:
+          description: 'The list of attribute names to remove from device. case insensitive
+
+            Optional. This list will be applied thrid'
+          type: array
+          items:
+            type: string
+        attributeNameContainsToDelete:
+          description: 'If attribute names contains one of these values. Case insensitive.
+
+            Optional. This list will be applied third'
+          type: array
+          items:
+            type: string
+        attributeValueContainsToDelete:
+          description: 'If attribute value contains one of these values. Case insensitive.
+
+            Optional. This list will be applied thrid'
+          type: array
+          items:
+            type: string
+        attributeToModify:
+          description: 'The list of device attributes to modify
+
+            Optional. This list will be applied fourth'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttributeModifier'
+        attributesToAdd:
+          description: 'The list of device attributes add to device
+
+            Optional. This list will be applied last'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttributeNameValue'
+    DeviceAttributeNameValue:
+      description: The devices attributes for add operations
+      type: object
+      properties:
+        name:
+          description: Name of attribute
+          type: string
+        value:
+          description: value of attribute
+          type: string
+    MaintenanceConfigBasic:
+      description: The maintenance mode configuration for a device
+      type: object
+      properties:
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        endUtc:
+          format: date-time
+          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
+          type: string
+        reason:
+          description: Indicates the Reason for the Maintenance (Max 250 Characters)
+          maxLength: 250
+          minLength: 0
+          type: string
+    DaysOfTheWeek:
+      description: 'Day of the week,
+
+        Set each day of the week the event should happen on to true.
+
+        To be valid, at least one day of the week must be set to true.'
+      type: object
+      properties:
+        sunday:
+          description: Sunday
+          type: boolean
+        monday:
+          description: Monday
+          type: boolean
+        tuesday:
+          description: Tuesday
+          type: boolean
+        wednesday:
+          description: Wednesday
+          type: boolean
+        thursday:
+          description: Thursday
+          type: boolean
+        friday:
+          description: Friday
+          type: boolean
+        saturday:
+          description: Saturday
+          type: boolean
+    Result_AssignedMonitor:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignedMonitor'
+          description: The data payload
+          readOnly: true
+    DeviceGroupDetails:
+      description: Details about group membership, monitor state, type of group, etc.
+      type: object
+      properties:
+        groupType:
+          description: DeviceType of the device group entry
+          type: string
+        monitorState:
+          description: MonitorState of the device group entry
+          type: string
+        childrenCount:
+          format: int32
+          description: number of child groups
+          type: integer
+        deviceChildrenCount:
+          format: int32
+          description: Count of the number of devices directly under the device group entry
+          type: integer
+        deviceDescendantCount:
+          format: int32
+          description: Count of the number of devices in all recursive levels under the device group entry
+          type: integer
+    BulkDeviceOpsBatch:
+      description: The set of devices to be deleted and associated parameters
+      type: object
+      properties:
+        operation:
+          description: 'remove associated discovered resources
+
+            default/false, remove device only
+
+            true: request the removal of all associated discovered devices'
+          enum:
+          - delete
+          type: string
+        devices:
+          description: The list of device ids to be operated on
+          type: array
+          items:
+            type: string
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+    DeviceAttributeModifier:
+      description: Attribute modify operation for a device
+      type: object
+      properties:
+        attributeId:
+          description: unique identifier for this attribute value combo
+          type: string
+        name:
+          description: Name of attribute
+          type: string
+        value:
+          description: value of attribute
+          type: string
+    Result_NamedResourceSuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/NamedResourceSuccessResult'
+          description: The data payload
+          readOnly: true
+    Result_ApplyTemplateResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ApplyTemplateResults'
+          description: The data payload
+          readOnly: true
+    DeviceTemplateReadResults:
+      description: Results returned when calling to read a device template
+      type: object
+      properties:
+        deviceCount:
+          format: int32
+          description: Number of devices used to generate this structure include devices with only errors.
+          type: integer
+        errors:
+          description: Set of errors encountered during the read request
+          type: array
+          items:
+            type: string
+        templates:
+          description: Set of templates matching filter criteria.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplate'
+    NamedResource2:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    Result_DeviceAttribute:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceAttribute'
+          description: The data payload
+          readOnly: true
+    Result_List_Credential:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/Credential'
+          readOnly: true
+    DeviceTemplateReferenceName:
+      description: Template for referenced names like groups or devices. Can include a group to better qualify the name.
+      type: object
+      properties:
+        parents:
+          description: 'List of parent nodes from "My Network" to the descendent container the name can
+
+            be found in.'
+          type: array
+          items:
+            type: string
+        name:
+          description: 'Required: Name of the object being referenced. If parents are no specified, than the
+
+            oldest object with that name will be used.'
+          type: string
+        id:
+          type: string
+    MonthlySchedule:
+      description: "Recur monthly\n            \nThe event can be schedule on a particular day of the month and repeated every x months.\n            \nShortest schedule is every month\nLongest schedule is once every 12 months or once a year.\n            \nIf the day of the month the event is to be fired on does not have 29, 30 or 31 days,\nthen the event is fired on the last day of the month.\n            \nday:\n    first can be used to indicated the 1st day of the month,\n    last can be used to indicated the last day of the month."
+      type: object
+      properties:
+        repeat:
+          format: int32
+          description: 'Recurring interval, number of months
+
+            ie, recur every (1,2...) months'
+          type: integer
+        day:
+          description: 'day of the month to fire the event.
+
+            1-31 will happen on the explicit day
+
+            "first" will be first day of the month
+
+            "last" will be last day of the month'
+          type: string
+    DeviceOverview:
+      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
+      type: object
+      properties:
+        downActiveMonitors:
+          description: A collection of Down Active monitor status items
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorAssignmentStatus'
+        totalActiveMonitors:
+          format: int32
+          description: The total number of active monitors for this device
+          type: integer
+        totalActiveMonitorsDown:
+          format: int32
+          description: The total number of active monitors that are down for this device
+          type: integer
+        notes:
+          description: The notes field for the device
+          type: string
+        hostName:
+          description: The hostname for the device
+          type: string
+        networkAddress:
+          description: The current network address of the device. Usually an IP address.
+          type: string
+        role:
+          description: The primary role of the device (e.g. router, switch, etc.).
+          type: string
+        brand:
+          description: The brand for the device (e.g. Cisco)
+          type: string
+        os:
+          description: The operating system for the device (e.g. windows, linux, etc)
+          type: string
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    BulkDeviceBatch:
+      description: The set of devices to be operated on
+      type: object
+      properties:
+        devices:
+          description: The list of device ids to be operated on
+          type: array
+          items:
+            type: string
+    Result_DeviceOverview:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceOverview'
+          description: The data payload
+          readOnly: true
+    PageResult_List_NetworkInterface:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_NetworkInterface'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterface'
+          readOnly: true
+    NetworkInterfaceUpdateWithId:
+      description: Update a network interface's data
+      type: object
+      properties:
+        interfaceId:
+          description: configured interface identifier, this field is required to use this structure.
+          type: string
+        hostName:
+          description: Ip or Host/Dns name for network interface, if empty, no change
+          type: string
+        address:
+          description: ip for network interface, if empty, no change
+          type: string
+        defaultInterface:
+          description: set this interface as default. If empty or false, no change
+          type: boolean
+        pollUsingName:
+          description: When using this interface to poll, use hostname instead of address. if not set, no change
+          type: boolean
+    NamedResourceSuccessResult:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        success:
+          type: boolean
+    PagingInfo_List_NetworkInterface:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DeviceAssignSubRoleOperation:
+      description: operation to assign, clear, delete subroles
+      type: object
+      properties:
+        operation:
+          description: Gets or sets the operation.
+          enum:
+          - clear
+          - add
+          - delete
+          - replace
+          type: string
+        subroles:
+          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
+          type: array
+          items:
+            type: string
+    MonitorAssignmentBasic:
+      description: Add or update an active monitor assignment
+      type: object
+      properties:
+        enabled:
+          description: Mark monitor as enabled
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Active monitor configuration choices
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: passive monitor configuration choices
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: performance monitor configuration choices
+    YearlySchedule:
+      description: "recur once a year\n            \nrepeat event once a year on a particular day.\nif the month does not support the day, the event will happen last day of the month.\nthis allows for schedules like 29 Feb for leap years.\n            \nshortest schedule once a year\nlongest schedule once a year"
+      type: object
+      properties:
+        day:
+          description: 'day of the month to fire the event.
+
+            1-31 will happen on the explicit day
+
+            "first" will be first day of the month
+
+            "last" will be last day of the month'
+          type: string
+        month:
+          description: Month of the year
+          enum:
+          - january
+          - february
+          - march
+          - april
+          - may
+          - june
+          - july
+          - august
+          - september
+          - october
+          - november
+          - december
+          type: string
+    Result_CountedSuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CountedSuccessResult'
+          description: The data payload
+          readOnly: true
+    DeviceTemplateInterface:
+      description: List of interfaces for the device. Every device requires at least one valid device.
+      type: object
+      properties:
+        defaultInterface:
+          description: True if interface is default. Only one per device.
+          type: boolean
+        pollUsingNetworkName:
+          description: Poll Using Network Name
+          type: boolean
+        networkAddress:
+          description: 'Required: Network Address. Must be a valid ip address.'
+          maxLength: 100
+          minLength: 0
+          type: string
+        networkName:
+          description: 'Network Name. Name used when interface is set to poll by name.
+
+            Should be an ip address or a resolve name by server.'
+          maxLength: 256
+          minLength: 0
+          type: string
+        interfaceId:
+          format: int32
+          description: Network interface Id
+          type: integer
+    PagingInfo_List_DeviceAttribute:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    MaintenanceSchedule:
+      description: The maintenance mode schedule for a device
+      type: object
+      properties:
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleAndDuration'
+    DeviceTemplateNCMTask:
+      description: NCM tasks being assigned to the device.
+      type: object
+      properties:
+        name:
+          description: Required. Name of task to be assigned. Oldest task with name and type will be used.
+          type: string
+    YearlyAdvanceSchedule:
+      description: "recur once a year advance\n            \nschedule event for once a year, for the n occurence of a day in a particular month.\n            \nshortest schedule, once a year\nlongest schedule, once a year\n            \nThe day of the month chosen is the x occurence of that day in that month.\nFor example, 3rd Monday, 2nd Tuesday, etc."
+      type: object
+      properties:
+        week:
+          description: recur week of a month
+          enum:
+          - first
+          - second
+          - third
+          - fourth
+          - last
+          type: string
+        dayOfWeek:
+          description: Day of the week
+          enum:
+          - sunday
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          type: string
+        month:
+          description: Month of the year
+          enum:
+          - january
+          - february
+          - march
+          - april
+          - may
+          - june
+          - july
+          - august
+          - september
+          - october
+          - november
+          - december
+          type: string
+    ApplyTemplateResults:
+      description: Results of an apply operations
+      type: object
+      properties:
+        idMap:
+          description: returns a list of template Id to device identifier that where created.
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateMap'
+        errors:
+          description: return a list of template to errors/warnings produced by each template
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateErrorMap'
+        update:
+          $ref: '#/components/schemas/TemplateUpdate'
+          description: return information about the update request that may be requested
+        operations:
+          format: int32
+          description: when possible, number of operations will be returned
+          type: integer
+        successful:
+          format: int32
+          description: when possible, number of successful operations will be returned
+          type: integer
+    CredentialAssignment:
+      description: representation of a credential assignment
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceOverview'
+          description: Unique device ID
+    MonitorTypeAssignmentQuery:
+      description: 'Set of information used to query for monitors matching a particular type
+
+        At minimum, one of the three values must be filled in to be valid'
+      type: object
+      properties:
+        type:
+          description: Monitor type to query
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+          type: string
+        search:
+          description: search criteria to test name, description, classid, argument, comment
+          type: string
+        typeId:
+          format: int32
+          description: id of monitor type to query
+          type: integer
+    TemplateUpdate:
+      description: Request an update of the devices created while applying  template.
+      type: object
+      properties:
+        success:
+          description: Update request was successfully made
+          type: boolean
+        id:
+          description: Update returned by refresh/rescan request
+          type: string
+        name:
+          description: Device scan name returned by update request
+          type: string
+        description:
+          description: Device scan description returned by update request
+          type: string
+    NetworkInterface:
+      description: Network interface associated with a device
+      type: object
+      properties:
+        interfaceId:
+          description: unique identifier for this network interface
+          type: string
+        hostName:
+          description: 'Ip or Host/Dns name for network interface, required
+
+            Must be a valid ip, host name or dns name.'
+          type: string
+        address:
+          description: 'ip for network interface, required
+
+            Must be a valid ip address'
+          type: string
+        defaultInterface:
+          description: 'this network interface is the default interface for the device, default: false'
+          type: boolean
+        pollUsingName:
+          description: 'when using this interface to poll, use hostname field instead of address. default: false'
+          type: boolean
+    MaintenanceConfigManual:
+      description: The maintenance mode configuration for a device
+      type: object
+      properties:
+        userId:
+          description: user that placed device into maintenance mode
+          type: string
+        user:
+          description: user name that placed device into maintenance mode
+          type: string
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        endUtc:
+          format: date-time
+          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
+          type: string
+        reason:
+          description: Indicates the Reason for the Maintenance (Max 250 Characters)
+          maxLength: 250
+          minLength: 0
+          type: string
+    PerformanceMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        pollingIntervalMinutes:
+          format: int32
+          description: Gets or sets the polling interval for the monitor
+          type: integer
+    BulkNetworkInterfaceBatch:
+      description: "The set of network interface operated to apply. Operations are done in group in order specified. \nSame rules for duplicates and default network interface apply at the end of each operation.\n         Simply not duplicate ip addresse\n         A device must have one and only one default network interface at the end of each operation\n         The network interface currently marked as default cannot be deleted\n         To change the default network interface, another network interface must be specified"
+      type: object
+      properties:
+        deleteAllInterfaces:
+          description: "remove all network interfaces expect default interface from device\nThis device's default network interface cannot be remomved. \nOptional. This is applied first. Default: false"
+          type: boolean
+        interfacesToDelete:
+          description: "The list of network interface ids to remove from device. Network Interface Id not found on device will be skipped. \nThis device's default network interface cannot be remomved. \nOptional. This will be applied second."
+          type: array
+          items:
+            type: string
+        addressOrHostNameToDelete:
+          description: "The list of strings to do partial matches on address or host name and remove from device.\nThis device's default network interface will not be removed. \nOptional. This list will be applied third\nNote:"
+          type: array
+          items:
+            type: string
+        interfaceToModify:
+          description: 'The list of network interfaces to modify. These will be applied in order. Same rules as single update is applied to each operation.
+
+            Optional. This list will be applied fourth'
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterfaceUpdateWithId'
+        interfacesToAdd:
+          description: 'The list of network interfaces being added to the device. These will be applied in order. Same rules as single add is applied for each operation.
+
+            Optional. This list will be applied last'
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterfaceData'
+    SimpleAssignMonitor:
+      description: Assign a monitor to a given device
+      type: object
+      properties:
+        type:
+          description: Type of monitor (active, performance, passive)
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeClassId:
+          description: The monitor type class id
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        enabled:
+          description: Monitors assignment is enabled if true
+          type: boolean
+        isGlobal:
+          description: Monitor Assignment is from the global monitor library if true.
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Setup active monitor assignment overrides
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: Setup performance monitor assignment overrides
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: Setup passive monitor assignment overrides
+    DeviceRefreshOptions:
+      description: 'Options for requesting refresh configuration information from the phyiscal device
+
+        All options false is equivalent to ''Refresh Device Details''. Chosing an option is equalivant to doing a ''Rescan Device'' give UI seperation of operation'
+      type: object
+      properties:
+        updateNamesForTableActiveMonitor:
+          description: 'Update the comments for matching table active monitors based on physical device settings.
+
+            This includes interface and SNMP table active monitors
+
+            Default: false'
+          type: boolean
+        updateEnableSettingsForTableActiveMonitor:
+          description: 'Enable or disable matching table active monitors based on physical device interface settings.
+
+            This includes interface and SNMP table active monitors
+
+            Default: false'
+          type: boolean
+        addUseInRescanActiveMonitor:
+          description: 'test and apply passing active monitors mark for ''use in rescon'' to device. Default: false'
+          type: boolean
+        includeAssignedRoles:
+          description: 'include current role, subrole, brand and OS as matching. Collect data for all matching roles and apply to device. Default: false'
+          type: boolean
+        resetOptions:
+          description: "list of reset options to be applied. Case-insenstive\nwhen empty reset will not be preformed on the device.\n\nReplace data currently known with only data received in this scan\n\n\tDefault Options:\n\t*\tinventory - replace inventory information gathered about device\n\t*\tresources - replace resource information from api provider like AWS, Azure, Meraki\n\t*\tmac - drop MAC address information stored in inventory, attributes and associated tables\n\t*\tinterfaces - drop Network Interface information exception default Network Interface\n\t*\troles - replace primary role\n\t*\tos - replace OS role\n\t*\tbrand - replace Brand Information\n\t*\tsnmp - replace system oid in device properties, attributes and inventory\n\t*\tdisplayName - replace display name with current determined name\n\t*\tattributes - remove role-base attributes from device and add attributes based on new set of roles\n\t*   notes - remove device notes and replace with new role note\n\t\n\tAdditional Options:\n\t*   default - include default options\n\t*\tmonitors - remove all monitors on the device and reset monitor (Note: this will lose monitor history)\n\t*\tprimaryIp - change the default Network Interface with interface determined by scan\n\t*\thistory - remove device refresh history\n\t*\tcredentials - replace credentials with those validated in the scan\n\t*   allAttributes - remove all attributes from device and add attributes based on new set of roles"
+          type: array
+          items:
+            type: string
+        dropDataOlderThanHours:
+          format: int32
+          description: 'remove stale inventory data collected prior to x hours ago, less than 0 ignored, 0 will use system default hours, Defaut: -1'
+          type: integer
+    AssignedMonitor:
+      description: Class MonitorDto.
+      type: object
+      properties:
+        id:
+          description: assignment id
+          type: string
+        description:
+          description: Monitor library description for the monitor
+          type: string
+        status:
+          description: status of assigned monitor
+          type: string
+        type:
+          description: Type of monitor (active, performance, passive)
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeClassId:
+          description: The monitor type class id
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        enabled:
+          description: Monitors assignment is enabled if true
+          type: boolean
+        isGlobal:
+          description: Monitor Assignment is from the global monitor library if true.
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Setup active monitor assignment overrides
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: Setup performance monitor assignment overrides
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: Setup passive monitor assignment overrides
+    MaintenanceConfigManualBatch:
+      description: The maintenance mode configuration for a list of devices
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            type: string
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        endUtc:
+          format: date-time
+          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
+          type: string
+        reason:
+          description: Indicates the Reason for the Maintenance (Max 250 Characters)
+          maxLength: 250
+          minLength: 0
+          type: string
+    DeviceTemplateDependencyMonitor:
+      description: Set of dependency monitors to apply to the device.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Name of active monitor to be used when looking up name'
+          type: string
+        argument:
+          description: arguments used for interface active monitor matching
+          type: string
+        comment:
+          description: comment used for interface active monitor matching
+          type: string
+    ScheduleAndDuration:
+      description: 'Add a duration to a schedule that also can be expired. This is used for maintenance mode along with
+
+        other schedules in the system.  Duration is setup by default as 24 hours and should not exceed 24 hours.'
+      type: object
+      properties:
+        duration:
+          $ref: '#/components/schemas/AppliedDuration'
+          description: Duration to be applied
+        effectiveStartDate:
+          $ref: '#/components/schemas/Date'
+          description: Date at which this schedule should be activated
+        effectiveExpirationDate:
+          $ref: '#/components/schemas/Date'
+          description: Date at which this schedule should be de-activated
+        daily:
+          $ref: '#/components/schemas/DailySchedule'
+          description: recur on a daily schedule
+        weekly:
+          $ref: '#/components/schemas/WeeklySchedule'
+          description: recur on a weekly schedule
+        monthly:
+          $ref: '#/components/schemas/MonthlySchedule'
+          description: recur on a monthly schedule
+        monthlyAdvance:
+          $ref: '#/components/schemas/MonthlyAdvanceSchedule'
+          description: recur on a advance monthly schedule
+        yearly:
+          $ref: '#/components/schemas/YearlySchedule'
+          description: recur on a yearly schedule
+        yearlyAdvance:
+          $ref: '#/components/schemas/YearlyAdvanceSchedule'
+          description: recur on a advance yearly schedule
+    DailySchedule:
+      description: "daily schedule\n            \nAllow an event to be schedule every x days.\nShortest time allowed is 1 day\nLongest time allowed is 366 day or 1 leap year."
+      type: object
+      properties:
+        repeat:
+          format: int32
+          description: 'Recurring interval for timed intervals
+
+            ie, recur every (1,2...) days'
+          type: integer
+    Credential:
+      description: Credential template structure
+      type: object
+      properties:
+        type:
+          description: Type of credential
+          type: string
+        propertyBags:
+          description: 'set of properties for this credential
+
+            available if credential view is set to details.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialPropertyBag'
+        assignments:
+          description: 'List of devices this credential is assigned to.
+
+            returned if includeAssignments is true.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialAssignment'
+        usedInFailover:
+          description: Set if includeAssignments is true;
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    Result_DeviceStatus:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceStatus'
+          description: The data payload
+          readOnly: true
+    DeviceTemplatePassiveMonitor:
+      description: List of Passive Monitors to be used.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        actions:
+          description: Set of policies to be applied to monitor
+          type: array
+          items:
+            type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    DeviceTemplatePerformanceMonitor:
+      description: List of performance monitors.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        pollingInterval:
+          description: In minutes
+          type: string
+        protocol:
+          description: 'Alternate protocol to be used. Currently WMI is only supported.
+
+            Not all performance monitors support all protocols.'
+          type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    DeviceAttribute:
+      description: Attribute associated with the device
+      type: object
+      properties:
+        attributeId:
+          description: unique identifier for this attribute value combo
+          type: string
+        name:
+          description: Name of attribute
+          type: string
+        value:
+          description: value of attribute
+          type: string
+        discovered:
+          description: 'value set based on scan/refresh/rescan results
+
+            value is considered custom if ''value'' and ''discovered'' do not match
+
+            value will be empty if attribute has not matching discovered values'
+          type: string
+        id:
+          type: string
+    Date:
+      description: structure for generic date
+      type: object
+      properties:
+        day:
+          format: int32
+          description: day of the month, 1 to 31
+          type: integer
+        month:
+          description: Month of the year
+          enum:
+          - january
+          - february
+          - march
+          - april
+          - may
+          - june
+          - july
+          - august
+          - september
+          - october
+          - november
+          - december
+          type: string
+        year:
+          format: int32
+          description: year, valid values 1901 to 9999
+          type: integer
+    BulkAssignDeviceRoleWithName:
+      description: Bulk operation brand assignment information
+      type: object
+      properties:
+        devices:
+          description: List of device identifiers to be updated
+          type: array
+          items:
+            type: string
+        name:
+          description: Name or identifier of role to be assigned
+          type: string
+    Result_SuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SuccessResult'
+          description: The data payload
+          readOnly: true
+    DeviceTemplateCredentials:
+      description: Credential information
+      type: object
+      properties:
+        credentialType:
+          description: 'Type of credential being requested. Empty value will only
+
+            match on name. Oldest credential with name will match.'
+          type: string
+        credential:
+          description: "Required: Credential Name, within credential type when \ntype is provided. If type is not provide, than oldest credential\nwith name will be used. Ignored if credential with name is not found."
+          type: string
+        credentialId:
+          format: int32
+          description: Credential Id
+          type: integer
+    DeviceRoleAssignment:
+      description: Role history structure
+      type: object
+      properties:
+        kind:
+          description: The kind of the role.
+          enum:
+          - all
+          - role
+          - brandModel
+          - os
+          - subRole
+          - monitor
+          - template
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
+          type: string
+        isNetworkDevice:
+          description: Marks the role as a network device role
+          type: boolean
+        addedByUser:
+          description: Signifies whether the user added the role.
+          type: boolean
+        lastSeenUtc:
+          format: date-time
+          description: The Last time the role was seen on the device.
+          type: string
+        alternateName:
+          description: Alternate name for the role. This name should be used if non-empty or null
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    NetworkInterfaceUpdate:
+      description: Update a network interface's data
+      type: object
+      properties:
+        hostName:
+          description: Ip or Host/Dns name for network interface, if empty, no change
+          type: string
+        address:
+          description: ip for network interface, if empty, no change
+          type: string
+        defaultInterface:
+          description: set this interface as default. If empty or false, no change
+          type: boolean
+        pollUsingName:
+          description: When using this interface to poll, use hostname instead of address. if not set, no change
+          type: boolean
+    BulkDeviceRefresh:
+      description: provide a set of devices for refresh/rescan to be preformed
+      type: object
+      properties:
+        deviceIds:
+          description: List of device ids to be refreshed
+          type: array
+          items:
+            type: string
+        updateNamesForTableActiveMonitor:
+          description: 'Update the comments for matching table active monitors based on physical device settings.
+
+            This includes interface and SNMP table active monitors
+
+            Default: false'
+          type: boolean
+        updateEnableSettingsForTableActiveMonitor:
+          description: 'Enable or disable matching table active monitors based on physical device interface settings.
+
+            This includes interface and SNMP table active monitors
+
+            Default: false'
+          type: boolean
+        addUseInRescanActiveMonitor:
+          description: 'test and apply passing active monitors mark for ''use in rescon'' to device. Default: false'
+          type: boolean
+        includeAssignedRoles:
+          description: 'include current role, subrole, brand and OS as matching. Collect data for all matching roles and apply to device. Default: false'
+          type: boolean
+        resetOptions:
+          description: "list of reset options to be applied. Case-insenstive\nwhen empty reset will not be preformed on the device.\n\nReplace data currently known with only data received in this scan\n\n\tDefault Options:\n\t*\tinventory - replace inventory information gathered about device\n\t*\tresources - replace resource information from api provider like AWS, Azure, Meraki\n\t*\tmac - drop MAC address information stored in inventory, attributes and associated tables\n\t*\tinterfaces - drop Network Interface information exception default Network Interface\n\t*\troles - replace primary role\n\t*\tos - replace OS role\n\t*\tbrand - replace Brand Information\n\t*\tsnmp - replace system oid in device properties, attributes and inventory\n\t*\tdisplayName - replace display name with current determined name\n\t*\tattributes - remove role-base attributes from device and add attributes based on new set of roles\n\t*   notes - remove device notes and replace with new role note\n\t\n\tAdditional Options:\n\t*   default - include default options\n\t*\tmonitors - remove all monitors on the device and reset monitor (Note: this will lose monitor history)\n\t*\tprimaryIp - change the default Network Interface with interface determined by scan\n\t*\thistory - remove device refresh history\n\t*\tcredentials - replace credentials with those validated in the scan\n\t*   allAttributes - remove all attributes from device and add attributes based on new set of roles"
+          type: array
+          items:
+            type: string
+        dropDataOlderThanHours:
+          format: int32
+          description: 'remove stale inventory data collected prior to x hours ago, less than 0 ignored, 0 will use system default hours, Defaut: -1'
+          type: integer
+    BulkDeviceAssignSubRole:
+      description: Assign sub roles to a set of devices
+      type: object
+      properties:
+        devices:
+          description: list of devices to operate on
+          type: array
+          items:
+            type: string
+        operation:
+          description: Gets or sets the operation.
+          enum:
+          - clear
+          - add
+          - delete
+          - replace
+          type: string
+        subroles:
+          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
+          type: array
+          items:
+            type: string
+    PassiveMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        actions:
+          description: Actions to be taken when passive monitor recieves an trap/event
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionItem'
+    DeviceTemplate:
+      description: Template for creating a device
+      type: object
+      properties:
+        templateId:
+          description: 'Id user can assign for the template.
+
+            the system will assign one if needed.
+
+            All error messages, etc will be contain the template id.'
+          type: string
+        displayName:
+          description: 'Required: Display Name for the device, required field'
+          maxLength: 150
+          minLength: 0
+          type: string
+        deviceType:
+          description: Device Type being used for this device, default="Workstation"
+          type: string
+        snmpOid:
+          description: Snmp System OID assigned to the device. default=empty
+          maxLength: 256
+          minLength: 0
+          type: string
+        snmpPort:
+          description: Snmp port assigned to the device. default=empty
+          type: string
+        pollInterval:
+          description: Default polling interval assigned to the device. In seconds, between 10 and 84600
+          type: string
+        primaryRole:
+          description: 'Primary Role assigned to the device. default="Device".
+
+            If primary role is not valid or disabled than "Device" will be used.'
+          type: string
+        primaryRoleId:
+          format: uuid
+          description: Primary role Id
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        subRoles:
+          description: 'List of sub-roles that will be assigned. default=empty
+
+            Invalid or disabled sub-role will not be assigned'
+          type: array
+          items:
+            type: string
+        subRoleIds:
+          description: SubRole Ids
+          type: array
+          items:
+            format: uuid
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        os:
+          description: 'OS role name assigned to the device. default="not set"
+
+            If OS role is invalid or disabled, than it will not be assigned.'
+          type: string
+        brand:
+          description: 'Brand role name to assign the device, default="not set"
+
+            If Brand role does not match up, than the Discovery Brand Role will be used with an alternate name'
+          maxLength: 256
+          minLength: 0
+          type: string
+        actionPolicy:
+          description: 'Name of action policy assigned to the device.
+
+            If empty, or not found, default=empty'
+          type: string
+        note:
+          description: Note to be used for the device. default=empty.
+          type: string
+        autoRefresh:
+          description: '"Keep device current" flag in device properties.
+
+            Values: true or false, default=true.'
+          type: string
+        credentials:
+          description: List of credentials to be added to the device. Limited to one credential per type.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateCredentials'
+        interfaces:
+          description: 'List of interfaces to be added to the device.
+
+            Required: At least one interface must be provided.'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateInterface'
+        attributes:
+          description: List of attributes to add to device
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateAttribute'
+        customLinks:
+          description: List of custom links to add to device
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateCustomLink'
+        activeMonitors:
+          description: List of active monitors being assigned to the device
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateActiveMonitor'
+        performanceMonitors:
+          description: List of performance monitors being assigned to the device
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplatePerformanceMonitor'
+        passiveMonitors:
+          description: List of passive monitors to be setup for device
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplatePassiveMonitor'
+        dependencies:
+          description: List of dependencies setup for the device
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateDependency'
+        ncmTasks:
+          description: 'List of NCM Tasks to be added to the device
+
+            If NCM is not found, request will be ignored.'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateNCMTask'
+        applicationProfiles:
+          description: 'List of Application Profilesto be added to the device
+
+            If profile is not found, request will be ignored.'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateApplicationProfile'
+        layer2Data:
+          description: 'Hexidecimal string of the layer2 data that should be associated with the device.
+
+            If empty, than default layer2 data will be created from device data'
+          type: string
+        groups:
+          description: 'list of groups that device will be added to.
+
+            if no groups are given, device will be added under "discovered devices"
+
+            if "discovered devices" does not exists, it will be put under "my network"'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateReferenceName'
+    DeviceTemplateDependency:
+      description: Dependency to be added to the device.
+      type: object
+      properties:
+        direction:
+          description: 'Required: Up or Down'
+          type: string
+        dependency:
+          $ref: '#/components/schemas/DeviceTemplateReferenceName'
+          description: 'Required: The dependent device'
+        matchAny:
+          description: 'Any Monitors must be down to trigger dependency, default: false'
+          type: boolean
+        matchAllActive:
+          description: 'All monitors must be down to trigger the dependency, default: false'
+          type: boolean
+        monitors:
+          description: Set of monitors to be applied. At least one monitor is required.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateDependencyMonitor'
+        deviceId:
+          format: int32
+          description: DeviceId the dependency points to
+          type: integer
+    MaintenanceScheduleBatch:
+      description: The maintenance mode configuration for a list of devices
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            type: string
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleAndDuration'
+    TimeOfDay:
+      description: Time of the day
+      type: object
+      properties:
+        hour:
+          format: int32
+          description: 0 to 23, hours of the day
+          type: integer
+        minute:
+          format: int32
+          description: minute, 0 to 59
+          type: integer
+    DeviceTemplateCustomLink:
+      description: List of custom links to be applied to the device.
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of the link'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Value for the link. Can be empty and can use Device % variables.
+          maxLength: 1024
+          minLength: 0
+          type: string
+    NetworkInterfaceData:
+      description: Configured network interface data
+      type: object
+      properties:
+        hostName:
+          description: 'Ip or Host/Dns name for network interface, required
+
+            Must be a valid ip, host name or dns name.'
+          type: string
+        address:
+          description: 'ip for network interface, required
+
+            Must be a valid ip address'
+          type: string
+        defaultInterface:
+          description: 'this network interface is the default interface for the device, default: false'
+          type: boolean
+        pollUsingName:
+          description: 'when using this interface to poll, use hostname field instead of address. default: false'
+          type: boolean
+    DeviceTemplateBatch:
+      description: Provide a set of device templates to be applied
+      type: object
+      properties:
+        options:
+          description: Set of options for applying the template
+          type: array
+          items:
+            type: string
+        templates:
+          description: 'Set of templates to be applied. All templates will attempt to create a new device.
+
+            No attempt will be made to match a device'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplate'
+    DevicePollingConfigUpdate:
+      description: Update general polling values
+      type: object
+      properties:
+        pollingIntervalSeconds:
+          format: int32
+          description: 'The device-level default for how often active
+
+            monitors are polled.'
+          type: integer
+    PageResult_List_DeviceAttribute:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DeviceAttribute'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttribute'
+          readOnly: true
+    ActiveMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface active monitor assignment where comment is the interface description'
+          type: string
+        argument:
+          description: Gets or sets the argument.
+          type: string
+        interfaceId:
+          description: Gets or sets the network interface id
+          type: string
+        pollingIntervalSeconds:
+          format: int32
+          description: 'Gets or sets the polling interval for the monitor
+
+            Valid values are between 10 and 86400 seconds inclusive'
+          type: integer
+        criticalOrder:
+          format: int32
+          description: Gets or sets the critical order for the active monitor
+          type: integer
+        actionPolicyId:
+          description: Gets or sets the action policy id
+          type: string
+        actionPolicyName:
+          description: Gets or sets the action policy Name
+          type: string
+    Result_DevicePollingConfig:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DevicePollingConfig'
+          description: The data payload
+          readOnly: true
+    DeviceProperties:
+      description: General device properties
+      type: object
+      properties:
+        id:
+          description: The id of the resource
+          type: string
+        displayName:
+          description: Get or set displayName of the device
+          type: string
+        isWireless:
+          description: Gets or sets a value indicating whether this instance is wireless.
+          type: boolean
+        collectWireless:
+          description: Gets or sets a value indicating whether this instance would collect wireless information.
+          type: boolean
+        keepDetailsCurrent:
+          description: Gets or sets a value indicating whether [keep details current].
+          type: boolean
+        note:
+          description: Gets or sets the note.
+          type: string
+        snmpOid:
+          description: Gets or sets the SNMP oid.
+          type: string
+        actionPolicy:
+          $ref: '#/components/schemas/NamedResource2'
+          description: Get or set the action policy for the device
+    DeviceTemplateAttribute:
+      description: 'List of attributes to be added to the device
+
+        Attribute Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of attribute'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for attribugte.
+          maxLength: 3000
+          minLength: 0
+          type: string
+    MonitorAssignmentStatus:
+      description: The current monitoring status of this monitor
+      type: object
+      properties:
+        state:
+          description: The internal state of the monitor
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        reason:
+          description: The reason a monitor is in the current state
+          type: string
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface monitor assignment where comment is the interface description'
+          type: string
+        enabled:
+          description: Indicates whether the monitor is enabled
+          type: boolean
+        id:
+          type: string
+    TemplateErrorMap:
+      description: A set of errors per template
+      type: object
+      properties:
+        templateId:
+          description: Template identifier error was created for.
+          type: string
+        messages:
+          description: Errors found with template
+          type: array
+          items:
+            type: string
+    ActionItem:
+      description: Action to be taken
+      type: object
+      properties:
+        actionTypeId:
+          description: Get action type id
+          type: string
+        actionTypeName:
+          description: Name of action type
+          type: string
+        actionTypeClassId:
+          description: Class of action type
+          type: string
+    DevicePropertiesBatch:
+      description: Update properties on multiple devices. Do not allow display names to be updated
+      type: object
+      properties:
+        devices:
+          description: The list of device ids to be operated on
+          type: array
+          items:
+            type: string
+        isWireless:
+          description: Gets or sets a value indicating whether this instance is wireless.
+          type: boolean
+        collectWireless:
+          description: Gets or sets a value indicating whether this instance would collect wireless information.
+          type: boolean
+        keepDetailsCurrent:
+          description: Gets or sets a value indicating whether [keep details current].
+          type: boolean
+        note:
+          description: Gets or sets the note.
+          type: string
+        snmpOid:
+          description: Gets or sets the SNMP oid.
+          type: string
+        actionPolicy:
+          $ref: '#/components/schemas/NamedResource2'
+          description: Get or set the action policy for the device
+    MonthlyAdvanceSchedule:
+      description: "Recur monthly advance\n            \nThe event can be schedule x occurence a day (Monday...Sunday) of the month and repeated every n months.\n            \nShortest schedule is every month\nLongest schedule is once every 12 months or once a year.\n            \nThe day of the month chosen is the x occurence of that day in the month.\nFor example, 3rd Monday, 2nd Tuesday, etc."
+      type: object
+      properties:
+        repeat:
+          format: int32
+          description: 'Recurring interval, number of months
+
+            ie, recur every (1,2...) months'
+          type: integer
+        occurence:
+          description: recur week of a month
+          enum:
+          - first
+          - second
+          - third
+          - fourth
+          - last
+          type: string
+        dayOfWeek:
+          description: Day of the week
+          enum:
+          - sunday
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          type: string
+    PageResult_List_AssignedMonitor:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_AssignedMonitor'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/AssignedMonitor'
+          readOnly: true
+    MonitorAssignmentBatch:
+      description: Batch operation against monitor assignments on a device
+      type: object
+      properties:
+        remove:
+          description: List of monitor assignment ids to remove from the device
+          type: array
+          items:
+            type: string
+        removeByQuery:
+          description: remove monitor assignments based on a query
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorTypeAssignmentQuery'
+        newAssignments:
+          description: List of new monitors assignments to be added to a device
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleAssignMonitor'
+        assignmentChanges:
+          description: List of monitor assignments to be changed on a device
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitorAssignmentUpdate'
+    Result_DeviceProperties:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceProperties'
+          description: The data payload
+          readOnly: true
+    DeviceGroupSummary:
+      description: "The high level summary information describing a given \ndevice group. This is mostly intended for grids and quick\naccess to basic information about a device group."
+      type: object
+      properties:
+        parentGroupId:
+          description: Immediate parent group id. Empty if root group.d
+          type: string
+        details:
+          $ref: '#/components/schemas/DeviceGroupDetails'
+          description: Additional details filled out when detail view is selected
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    PagingInfo_List_DeviceGroupSummary:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    Result_List_DeviceRoleAssignment:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceRoleAssignment'
+          readOnly: true
+    DeviceTemplateActiveMonitor:
+      description: Active Monitor template
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Name of active monitor to be used when looking up name. If multiple monitors
+
+            are found, oldest monitor will be used.'
+          type: string
+        argument:
+          description: Argument value for device monitor.
+          maxLength: 150
+          minLength: 0
+          type: string
+        comment:
+          description: comments value for device monitor
+          maxLength: 150
+          minLength: 0
+          type: string
+        interface:
+          description: 'Address or hostName of interface to be used with this device monitor
+
+            Address will be check first.'
+          type: string
+        pollingInterval:
+          description: Polling interval in seconds for device monitor
+          type: string
+        isCritical:
+          description: boolean to indicate if device monitor should be added to end of critical list.
+          type: string
+        pollingOrder:
+          description: 'an integer value used to order the application of critical monitors, all critical monitors without this
+
+            set will be added after those with order set.'
+          type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    DevicePollingConfig:
+      description: "The basic configuration for a device. This includes \nthe first class settings such as polling interval,\npoll-by-host setting, and a few others. It is intended\nfor quick access and configuration of basic settings."
+      type: object
+      properties:
+        pollingIntervalSeconds:
+          format: int32
+          description: 'The device-level default for how often active
+
+            monitors are polled.'
+          type: integer
+        pollByHostName:
+          description: "Indicates monitors should use the host name to \nresolve the target ip address when polling."
+          type: boolean
+        maintenance:
+          $ref: '#/components/schemas/MaintenanceConfig'
+          description: maintenance mode configuration
+    Result_DeviceTemplateReadResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceTemplateReadResults'
+          description: The data payload
+          readOnly: true
+    CountedSuccessResult:
+      type: object
+      properties:
+        successfulOperations:
+          format: int32
+          type: integer
+        resourcesNotAllowed:
+          type: array
+          items:
+            type: string
+        resourcesWithErros:
+          type: array
+          items:
+            type: string
+        errors:
+          type: array
+          items:
+            type: string
+        limitReached:
+          type: boolean
+        maximumReached:
+          type: boolean
+        success:
+          type: boolean
+    WeeklySchedule:
+      description: "recur weekly\n            \nWeekly schedule contains the number of weeks between events\nand the days of the event week the event will happen\nThe shortest time is every week, every day\nThe longest time between events is once every 52 weeks (a year) on a single day of the week"
+      type: object
+      properties:
+        repeat:
+          format: int32
+          description: 'Recurring interval for timed intervals
+
+            ie, recur every (1,2...) weeks'
+          type: integer
+        daysOfTheWeek:
+          $ref: '#/components/schemas/DaysOfTheWeek'
+          description: 'Used for weekly scheduling
+
+            if an entry is true, the scheduled event is fired on
+
+            the selected day of the week'
+    CredentialPropertyBag:
+      description: 'List of properties to be added to the device
+
+        Property Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of property'
+          maxLength: 50
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for property.
+          type: string
+    DeviceStatus:
+      description: The current monitoring status for a device
+      type: object
+      properties:
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
+          type: string
+    BulkDeviceGroupAssignmentBatch:
+      description: The set of device group assignments to be operated on
+      type: object
+      properties:
+        groupsToDelete:
+          description: "The list of group ids to remove from device. \nOnly static device groups can be deleted.\nGroup Ids device is not a member of will be skipped.\nDeletes are processed before adds.\nAt the end of operations, the device must belong to one or more static groups"
+          type: array
+          items:
+            type: string
+        groupsToAdd:
+          description: 'The list of group ids to be added to the device.
+
+            Only static device group assignments can be added
+
+            Group Ids device are already a member of, will be skipped.
+
+            Deletes are processed before adds.
+
+            At the end of operations, the device must belong to one or more static groups'
+          type: array
+          items:
+            type: string
+    DevicePropertiesWithName:
+      description: General device properties
+      type: object
+      properties:
+        displayName:
+          description: Get or set displayName of the device
+          type: string
+        isWireless:
+          description: Gets or sets a value indicating whether this instance is wireless.
+          type: boolean
+        collectWireless:
+          description: Gets or sets a value indicating whether this instance would collect wireless information.
+          type: boolean
+        keepDetailsCurrent:
+          description: Gets or sets a value indicating whether [keep details current].
+          type: boolean
+        note:
+          description: Gets or sets the note.
+          type: string
+        snmpOid:
+          description: Gets or sets the SNMP oid.
+          type: string
+        actionPolicy:
+          $ref: '#/components/schemas/NamedResource2'
+          description: Get or set the action policy for the device
+    MaintenanceConfig:
+      description: The maintenance mode configuration for a device
+      type: object
+      properties:
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleAndDuration'
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        manual:
+          $ref: '#/components/schemas/MaintenanceConfigManual'
+          description: Manual maintenance mode configuration
+    DeviceTemplateApplicationProfile:
+      description: Set of application profiles to apply to the device.
+      type: object
+      properties:
+        upgradeGuid:
+          description: 'Upgrade guid associated with profile. Required if name is not provided.
+
+            Preferred when evaluating'
+          type: string
+        name:
+          description: Name of application profile, Name required if UpgradeGuid is not provided.
+          type: string
+        actionPolicy:
+          description: 'Name of action policy assigned to the device.
+
+            If empty, or not found, default=empty'
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: http://localhost:8734/api/v1/token
+      description: OAuth2 Password Grant

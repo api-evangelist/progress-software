@@ -1,0 +1,49 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: MOVEit Transfer REST Server Info API
+  x-swagger-net-version: 8.5.28.001
+  x-logo:
+    url: images/MOVEitLogo.svg
+  description: '**Release 2025.1**, **version 17.01**
+
+
+    *MOVEit securely collects, stores, manages, and distributes information within organizations, between businesses, and more...*
+
+
+    > **Important!**
+
+    The REST API is an optionally licensed feature that runs at the MOVEit Transfer Server.'
+servers:
+- url: https://127.0.0.1
+tags:
+- name: Server Info
+paths:
+  /api/v1/serverinfo:
+    get:
+      tags:
+      - Server Info
+      summary: Gets information about server
+      operationId: GETapi/v1/serverinfo-1.0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - Authorization: []
+components:
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      description: 'Transfer API token. Put token value obtained using following format: "Bearer {token}"'
+      name: Authorization
+      in: header
