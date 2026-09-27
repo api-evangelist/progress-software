@@ -333,90 +333,6 @@ paths:
               - mfa_access_token
 components:
   schemas:
-    RevokeTokenResponse:
-      description: Response for Revoke token operation
-      properties:
-        message:
-          description: Message
-          type: string
-      xml:
-        name: RevokeTokenResponse
-      type: object
-    RequestTokenSecurityNoticeAcceptanceRequiredError:
-      description: Authentication error object resulting from a security notice acceptance being required.
-      properties:
-        mfa_access_token:
-          description: MFA access token
-          type: string
-        user:
-          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
-          description: Information about the user signing on.
-        error:
-          readOnly: true
-          type: string
-          default: accept_security_notice_required
-        error_code:
-          readOnly: true
-          type: integer
-          format: int32
-          default: 3985
-        error_description:
-          description: Error details
-          type: string
-      xml:
-        name: RequestTokenSecurityNoticeAcceptanceRequiredError
-      type: object
-    RequestTokenMfaError:
-      description: Authentication failed error
-      properties:
-        mfa_access_token:
-          description: MFA access token
-          type: string
-        mfa_supported_methods:
-          $ref: '#/components/schemas/MfaSupportedMethodsHeaderDto'
-          description: MFA supported types
-        error:
-          readOnly: true
-          type: string
-          default: mfa_required
-        error_code:
-          readOnly: true
-          type: integer
-          format: int32
-          default: 2028
-        error_description:
-          description: Error details
-          type: string
-      xml:
-        name: RequestTokenMfaError
-      type: object
-    RequestTokenPasswordChangeRequiredError:
-      description: Authentication error object resulting from a password change being required.
-      properties:
-        mfa_access_token:
-          description: MFA access token
-          type: string
-        password_requirements:
-          $ref: '#/components/schemas/PasswordRequirementsHeaderDto'
-          description: Password requirements in effect for the current organization.
-        user:
-          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
-          description: Information about the user signing on.
-        error:
-          readOnly: true
-          type: string
-          default: password_change_required
-        error_code:
-          readOnly: true
-          type: integer
-          format: int32
-          default: 3988
-        error_description:
-          description: Error details
-          type: string
-      xml:
-        name: RequestTokenPasswordChangeRequiredError
-      type: object
     SendOtpResponseModel:
       description: Response for send one-time password operation
       properties:
@@ -426,24 +342,83 @@ components:
       xml:
         name: SendOtpResponseModel
       type: object
-    PublicIdPInformationModel:
+    TokenAcquiredModel:
+      description: Represents successful token request response
       properties:
-        name:
-          description: Name of the identity provider.
+        access_token:
+          description: API Token
           type: string
-        link:
-          description: Direct link to the identity provider.
+        token_type:
+          description: Type of the token
           type: string
-      xml:
-        name: PublicIdPInformationModel
-      type: object
-    SignonUserInfoHeaderDto:
-      properties:
-        org_id:
+        expires_in:
+          description: Number of seconds till token expiration
           type: integer
           format: int32
+        refresh_token:
+          description: Refresh token
+          type: string
+        mfa_trust_device_token:
+          description: (Optional) Multi-factor authentication trust device token. Could be returned in case of using "otp" grant_type and "mfa_remember_this_device" set to true.
+          type: string
+        mfa_trust_device_token_expire_date:
+          description: (Optional) Multi-factor authentication trust device token expire date. Could be returned in case of using "otp" grant_type and "mfa_remember_this_device" set to true.
+          type: string
       xml:
-        name: SignonUserInfoHeaderDto
+        name: TokenAcquiredModel
+      type: object
+    MfaSupportedMethodsHeaderDto:
+      properties:
+        is_mfa_authenticator_enabled:
+          type: boolean
+        is_mfa_email_enabled:
+          type: boolean
+      xml:
+        name: MfaSupportedMethodsHeaderDto
+      type: object
+    ActAsAdminDto:
+      properties:
+        orgId:
+          type: integer
+          format: int32
+        permission:
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+      xml:
+        name: ActAsAdminDto
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    RevokeTokenResponse:
+      description: Response for Revoke token operation
+      properties:
+        message:
+          description: Message
+          type: string
+      xml:
+        name: RevokeTokenResponse
       type: object
     PagedModelOfPublicIdPInformationModel:
       description: Represents paged response object with proper navigations
@@ -471,23 +446,45 @@ components:
       xml:
         name: PagedModel`1
       type: object
-    ActAsAdminDto:
+    RequestTokenSecurityNoticeAcceptanceRequiredError:
+      description: Authentication error object resulting from a security notice acceptance being required.
       properties:
-        orgId:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        user:
+          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
+          description: Information about the user signing on.
+        error:
+          readOnly: true
+          type: string
+          default: accept_security_notice_required
+        error_code:
+          readOnly: true
           type: integer
           format: int32
-        permission:
+          default: 3985
+        error_description:
+          description: Error details
           type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
       xml:
-        name: ActAsAdminDto
+        name: RequestTokenSecurityNoticeAcceptanceRequiredError
+      type: object
+    RequestTokenError:
+      description: Authentication failed error
+      properties:
+        error:
+          description: Error title
+          type: string
+        error_code:
+          description: Error code
+          type: integer
+          format: int32
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenError
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -512,26 +509,29 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    SortFieldDto:
+    RequestTokenMfaError:
+      description: Authentication failed error
       properties:
-        sortField:
+        mfa_access_token:
+          description: MFA access token
           type: string
-        sortDirection:
+        mfa_supported_methods:
+          $ref: '#/components/schemas/MfaSupportedMethodsHeaderDto'
+          description: MFA supported types
+        error:
+          readOnly: true
           type: string
-          enum:
-          - asc
-          - desc
+          default: mfa_required
+        error_code:
+          readOnly: true
+          type: integer
+          format: int32
+          default: 2028
+        error_description:
+          description: Error details
+          type: string
       xml:
-        name: SortFieldDto
-      type: object
-    SendOtpUserModel:
-      description: User model to whom the email was sent
-      properties:
-        masked_email:
-          description: Masked email of the user.
-          type: string
-      xml:
-        name: SendOtpUserModel
+        name: RequestTokenMfaError
       type: object
     PasswordRequirementsHeaderDto:
       description: Object containing password requirements
@@ -563,32 +563,6 @@ components:
       xml:
         name: PasswordRequirementsHeaderDto
       type: object
-    MfaSupportedMethodsHeaderDto:
-      properties:
-        is_mfa_authenticator_enabled:
-          type: boolean
-        is_mfa_email_enabled:
-          type: boolean
-      xml:
-        name: MfaSupportedMethodsHeaderDto
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
     OrgRequest:
       properties:
         orgId:
@@ -598,46 +572,72 @@ components:
       xml:
         name: OrgRequest
       type: object
-    RequestTokenError:
-      description: Authentication failed error
+    SortFieldDto:
       properties:
-        error:
-          description: Error title
+        sortField:
           type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    RequestTokenPasswordChangeRequiredError:
+      description: Authentication error object resulting from a password change being required.
+      properties:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        password_requirements:
+          $ref: '#/components/schemas/PasswordRequirementsHeaderDto'
+          description: Password requirements in effect for the current organization.
+        user:
+          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
+          description: Information about the user signing on.
+        error:
+          readOnly: true
+          type: string
+          default: password_change_required
         error_code:
-          description: Error code
+          readOnly: true
           type: integer
           format: int32
+          default: 3988
         error_description:
           description: Error details
           type: string
       xml:
-        name: RequestTokenError
+        name: RequestTokenPasswordChangeRequiredError
       type: object
-    TokenAcquiredModel:
-      description: Represents successful token request response
+    PublicIdPInformationModel:
       properties:
-        access_token:
-          description: API Token
+        name:
+          description: Name of the identity provider.
           type: string
-        token_type:
-          description: Type of the token
-          type: string
-        expires_in:
-          description: Number of seconds till token expiration
-          type: integer
-          format: int32
-        refresh_token:
-          description: Refresh token
-          type: string
-        mfa_trust_device_token:
-          description: (Optional) Multi-factor authentication trust device token. Could be returned in case of using "otp" grant_type and "mfa_remember_this_device" set to true.
-          type: string
-        mfa_trust_device_token_expire_date:
-          description: (Optional) Multi-factor authentication trust device token expire date. Could be returned in case of using "otp" grant_type and "mfa_remember_this_device" set to true.
+        link:
+          description: Direct link to the identity provider.
           type: string
       xml:
-        name: TokenAcquiredModel
+        name: PublicIdPInformationModel
+      type: object
+    SendOtpUserModel:
+      description: User model to whom the email was sent
+      properties:
+        masked_email:
+          description: Masked email of the user.
+          type: string
+      xml:
+        name: SendOtpUserModel
+      type: object
+    SignonUserInfoHeaderDto:
+      properties:
+        org_id:
+          type: integer
+          format: int32
+      xml:
+        name: SignonUserInfoHeaderDto
       type: object
   securitySchemes:
     Authorization:

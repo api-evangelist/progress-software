@@ -1277,549 +1277,27 @@ paths:
         required: true
 components:
   schemas:
-    Result_OverallStatusSummary:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/OverallStatusSummary'
-          description: The data payload
-          readOnly: true
-    DeviceOverview:
-      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
-      type: object
-      properties:
-        downActiveMonitors:
-          description: A collection of Down Active monitor status items
-          type: array
-          items:
-            $ref: '#/components/schemas/MonitorAssignmentStatus'
-        totalActiveMonitors:
-          format: int32
-          description: The total number of active monitors for this device
-          type: integer
-        totalActiveMonitorsDown:
-          format: int32
-          description: The total number of active monitors that are down for this device
-          type: integer
-        notes:
-          description: The notes field for the device
-          type: string
-        hostName:
-          description: The hostname for the device
-          type: string
-        networkAddress:
-          description: The current network address of the device. Usually an IP address.
-          type: string
-        role:
-          description: The primary role of the device (e.g. router, switch, etc.).
-          type: string
-        brand:
-          description: The brand for the device (e.g. Cisco)
-          type: string
-        os:
-          description: The operating system for the device (e.g. windows, linux, etc)
-          type: string
-        bestState:
-          description: The best state of the device, like Up
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        worstState:
-          description: The worst state of the device, like Down
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    PagingInfo_List_CredentialsByDevice:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    BulkDeviceBatch:
-      description: The set of devices to be operated on
-      type: object
-      properties:
-        devices:
-          description: The list of device ids to be operated on
-          type: array
-          items:
-            type: string
-    Credential:
-      description: Credential template structure
-      type: object
-      properties:
-        type:
-          description: Type of credential
-          type: string
-        propertyBags:
-          description: 'set of properties for this credential
-
-            available if credential view is set to details.'
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialPropertyBag'
-        assignments:
-          description: 'List of devices this credential is assigned to.
-
-            returned if includeAssignments is true.'
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialAssignment'
-        usedInFailover:
-          description: Set if includeAssignments is true;
-          type: boolean
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    Result_DeviceGroupDefinition:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeviceGroupDefinition'
-          description: The data payload
-          readOnly: true
-    NewDeviceOptions:
-      description: Options for creating a new device
-      type: object
-      properties:
-        forceAdd:
-          description: 'Add device without scanning, default: false'
-          type: boolean
-        forceCreate:
-          description: "Used in conjunction with forceAdd option. \nIf forceAdd and forceCreate are true, a new device will be created even if new device will match another device\nDefault: false"
-          type: boolean
-        forceRole:
-          description: 'Devices will be added with explicit role assignment, default: empty'
-          type: string
-        preferSnmpSystemNameAsDisplayName:
-          description: 'Prefer Snmp System Names, default: false'
-          type: boolean
-        resolveDNSHostNames:
-          description: 'Use DNS to do reverse lookup of ip address to find host names, default: false'
-          type: boolean
-        snmpPortToUse:
-          format: int32
-          description: snmp port to use, 0 will use the default snmp port of 161
-          type: integer
-        expandVirtualEnvironment:
-          description: 'expand virtual environment hosts and guests, default: true'
-          type: boolean
-        expandWirelessEnvironment:
-          description: 'expand wireless environment, default: true'
-          type: boolean
-        includeWirelessClients:
-          description: 'include devices connected to wireless access points, default: true'
-          type: boolean
-        expandStorageEnvironment:
-          description: 'expand storage environment, default: true'
-          type: boolean
-        useAllCredentials:
-          description: 'Test all credentials in library until all credentials are filled in, default: true'
-          type: boolean
-        credentials:
-          description: 'credentials to test, tested in order provided, default: empty (no order)
-
-            if ''useAllCredentials'', non-listed credentials will be added after this list'
-          type: array
-          items:
-            type: string
-        setupAsPollByName:
-          description: if true, device will be added as poll by name
-          type: boolean
-    DeviceTemplatePassiveMonitor:
-      description: List of Passive Monitors to be used.
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Required: Display name of monitor'
-          type: string
-        actions:
-          description: Set of policies to be applied to monitor
-          type: array
-          items:
-            type: string
-        monitorId:
-          format: int32
-          description: Monitor Id, ignored on import
-          type: integer
-    DeviceGroupList:
-      description: A list of device group summary items
-      type: object
-      properties:
-        groups:
-          description: The set of device group summaries
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceGroupSummary'
-    PageResult_DeviceSummaryList:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_DeviceSummaryList'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          $ref: '#/components/schemas/DeviceSummaryList'
-          description: The data payload
-          readOnly: true
-    UpdateDeviceGroup:
-      description: Change group definition definitions
-      type: object
-      properties:
-        parentGroupId:
-          description: "Move group to another parent. Leave blank or not present if group is not moving. \nDynamic and layer 2 are allowed directly under a static group"
-          type: string
-        name:
-          description: Update to the device group name. Ignored if empty. Must be unique under parent group
-          type: string
-        description:
-          description: Update to the device group description. Can be empty. If null, description will not be updated
-          type: string
-        layer2Definition:
-          $ref: '#/components/schemas/Layer2GroupDefinition'
-          description: filter for layer2 device groups. Not updated if null. Replaces if definition is not null.
-        dynamicDefinition:
-          $ref: '#/components/schemas/DynamicGroupDefinition'
-          description: filter for dynamic device groups. Not update if null. Replace if definition is not null.
-    DeviceTemplateAttribute:
-      description: 'List of attributes to be added to the device
-
-        Attribute Names should be unique in the list.'
-      type: object
-      properties:
-        name:
-          description: 'Required: Name of attribute'
-          maxLength: 150
-          minLength: 0
-          type: string
-        value:
-          description: Defaults to empty. Value to be used for attribugte.
-          maxLength: 3000
-          minLength: 0
-          type: string
-    MonitorAssignmentStatus:
-      description: The current monitoring status of this monitor
-      type: object
-      properties:
-        state:
-          description: The internal state of the monitor
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        reason:
-          description: The reason a monitor is in the current state
-          type: string
-        lastChangeUtc:
-          format: date-time
-          description: The time when the status changed in Utc
-          type: string
-        monitorTypeId:
-          description: The monitor type id as it exists in the library
-          type: string
-        monitorTypeName:
-          description: The monitor type name as it exists in the library
-          type: string
-        comment:
-          description: 'Comment specified when the monitor was assigned to the device
-
-            Typically used for interface monitor assignment where comment is the interface description'
-          type: string
-        enabled:
-          description: Indicates whether the monitor is enabled
-          type: boolean
-        id:
-          type: string
-    DeviceTemplatePerformanceMonitor:
-      description: List of performance monitors.
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Required: Display name of monitor'
-          type: string
-        pollingInterval:
-          description: In minutes
-          type: string
-        protocol:
-          description: 'Alternate protocol to be used. Currently WMI is only supported.
-
-            Not all performance monitors support all protocols.'
-          type: string
-        monitorId:
-          format: int32
-          description: Monitor Id, ignored on import
-          type: integer
-    DeviceTemplateDependencyMonitor:
-      description: Set of dependency monitors to apply to the device.
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Required: Name of active monitor to be used when looking up name'
-          type: string
-        argument:
-          description: arguments used for interface active monitor matching
-          type: string
-        comment:
-          description: comment used for interface active monitor matching
-          type: string
-    DeviceGroupDetails:
-      description: Details about group membership, monitor state, type of group, etc.
+    DeviceGroupCreation:
+      description: Create a new device group definition
+      required:
+      - name
       type: object
       properties:
         groupType:
-          description: DeviceType of the device group entry
+          description: "Type of device group creation. \nAcceptable device group types are 'static', 'dynamic', 'layer2'\ndefault = 'static'"
           type: string
-        monitorState:
-          description: MonitorState of the device group entry
-          type: string
-        childrenCount:
-          format: int32
-          description: number of child groups
-          type: integer
-        deviceChildrenCount:
-          format: int32
-          description: Count of the number of devices directly under the device group entry
-          type: integer
-        deviceDescendantCount:
-          format: int32
-          description: Count of the number of devices in all recursive levels under the device group entry
-          type: integer
-    NamedResourceSuccessResult:
-      type: object
-      properties:
         name:
+          description: Name of new group element, cannot be empty and must be unique under parent
           type: string
         description:
+          description: Description of group element
           type: string
-        id:
-          type: string
-        success:
-          type: boolean
-    OverallStatusSummary:
-      description: The overall status summary for a given group
-      type: object
-      properties:
-        lastStateChangeUtc:
-          format: date-time
-          description: The last time a state change was recorded
-          type: string
-        totalDevices:
-          format: int32
-          description: The total number of devices
-          type: integer
-        stateSummaries:
-          description: The list of state summaries per state
-          type: array
-          items:
-            $ref: '#/components/schemas/StateSummary'
-        id:
-          type: string
-    StateSummary:
-      description: The statistics for devices in a given state
-      type: object
-      properties:
-        state:
-          description: The core state
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        deviceCount:
-          format: int32
-          description: The count for devices in this state
-          type: integer
-    DeviceAssignSubRoleOperation:
-      description: operation to assign, clear, delete subroles
-      type: object
-      properties:
-        operation:
-          description: Gets or sets the operation.
-          enum:
-          - clear
-          - add
-          - delete
-          - replace
-          type: string
-        subroles:
-          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
-          type: array
-          items:
-            type: string
-    PageResult_List_CredentialsByDevice:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_CredentialsByDevice'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialsByDevice'
-          readOnly: true
-    DeviceTemplateInterface:
-      description: List of interfaces for the device. Every device requires at least one valid device.
-      type: object
-      properties:
-        defaultInterface:
-          description: True if interface is default. Only one per device.
-          type: boolean
-        pollUsingNetworkName:
-          description: Poll Using Network Name
-          type: boolean
-        networkAddress:
-          description: 'Required: Network Address. Must be a valid ip address.'
-          maxLength: 100
-          minLength: 0
-          type: string
-        networkName:
-          description: 'Network Name. Name used when interface is set to poll by name.
-
-            Should be an ip address or a resolve name by server.'
-          maxLength: 256
-          minLength: 0
-          type: string
-        interfaceId:
-          format: int32
-          description: Network interface Id
-          type: integer
-    Layer2GroupDeviceFilter:
-      description: Basic Layer 2 device filter. Device must match at least one element of each filter that is not empty
-      type: object
-      properties:
-        initialFilter:
-          description: 'base set of devices, default=''all''
-
-
-            Include devices marked as:
-
-            * "any" -  any device
-
-            * "network-device" - a network device
-
-            * "snmp-device" - as snmp manageable
-
-            * "server" - as a servers
-
-            * "workstation" - as a workstations
-
-            * "virtual-server" - as a virtual server
-
-            * "virtual-machine" - as a virtual vm
-
-            * "wlc" - as a wireless lan controller
-
-            * "ap" - as an access point
-
-            * "ap-client" - as a wireless client
-
-            * "dhcp-server" - as a dhcp server
-
-            * "dns-server" - as a dns server'
-          type: string
-        ipAddresses:
-          description: "Optional list of ip address or subnets device can match. Must match at least one entry. Ignored if empty,\nExamples: \n192.168.0.0 (IP one per line)\n192.168.0.0-192.168.0.20 (IP Range)\n192.168.0.0/24 (IP Subnet)"
-          type: array
-          items:
-            type: string
-        names:
-          description: 'Optional Host/System/NetBIOS, case ignore compare, Ignored if list is empty.
-
-            Example: device.progress.com'
-          type: array
-          items:
-            type: string
-        vlans:
-          description: 'Optional VLAN Name or Index device must support. Case ingored match. Ignored if empty
-
-            Example:
-
-            DefaultVlan'
-          type: array
-          items:
-            type: string
-        roles:
-          description: 'Optional list of role names or ids to be match. Device must have one or more. Ignored if empty
-
-            Example:
-
-            Router'
-          type: array
-          items:
-            type: string
-    Layer2GroupDefinition:
-      description: Layer 2 Device Group filter definition
-      type: object
-      properties:
-        deviceFilter:
-          $ref: '#/components/schemas/Layer2GroupDeviceFilter'
-          description: Filter for determing the base set of devices
-        includeConnections:
-          description: Include devices that are connected to the base set of devices, if true use the ConnectedDeviceFilter. default=false
-          type: boolean
-        connectionFilter:
-          $ref: '#/components/schemas/Layer2GroupDeviceFilter'
-          description: Filter for connected devices
-    SuccessResult:
-      type: object
-      properties:
-        success:
-          type: boolean
+        layer2Definition:
+          $ref: '#/components/schemas/Layer2GroupDefinition'
+          description: 'filter if Group Type is of type: layer2'
+        dynamicDefinition:
+          $ref: '#/components/schemas/DynamicGroupDefinition'
+          description: 'filter if Group Type is of type: dynamic'
     DeviceGroupSummaryList:
       description: A list of device group summary items
       type: object
@@ -1832,215 +1310,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DeviceGroupSummary'
-    DeviceTemplateNCMTask:
-      description: NCM tasks being assigned to the device.
-      type: object
-      properties:
-        name:
-          description: Required. Name of task to be assigned. Oldest task with name and type will be used.
-          type: string
-    CredentialAssignment:
-      description: representation of a credential assignment
-      type: object
-      properties:
-        device:
-          $ref: '#/components/schemas/DeviceOverview'
-          description: Unique device ID
-    Result_NamedResourceSuccessResult:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/NamedResourceSuccessResult'
-          description: The data payload
-          readOnly: true
-    PagingInfo_DeviceGroupList:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PagingInfo_DeviceGroupSummaryList:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PageResult_DeviceGroupSummaryList:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_DeviceGroupSummaryList'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          $ref: '#/components/schemas/DeviceGroupSummaryList'
-          description: The data payload
-          readOnly: true
-    DeviceTemplateCredentials:
-      description: Credential information
-      type: object
-      properties:
-        credentialType:
-          description: 'Type of credential being requested. Empty value will only
-
-            match on name. Oldest credential with name will match.'
-          type: string
-        credential:
-          description: "Required: Credential Name, within credential type when \ntype is provided. If type is not provide, than oldest credential\nwith name will be used. Ignored if credential with name is not found."
-          type: string
-        credentialId:
-          format: int32
-          description: Credential Id
-          type: integer
-    DeviceTemplateReadResults:
-      description: Results returned when calling to read a device template
-      type: object
-      properties:
-        deviceCount:
-          format: int32
-          description: Number of devices used to generate this structure include devices with only errors.
-          type: integer
-        errors:
-          description: Set of errors encountered during the read request
-          type: array
-          items:
-            type: string
-        templates:
-          description: Set of templates matching filter criteria.
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceTemplate'
-    DeviceGroupSummary:
-      description: "The high level summary information describing a given \ndevice group. This is mostly intended for grids and quick\naccess to basic information about a device group."
-      type: object
-      properties:
-        parentGroupId:
-          description: Immediate parent group id. Empty if root group.d
-          type: string
-        details:
-          $ref: '#/components/schemas/DeviceGroupDetails'
-          description: Additional details filled out when detail view is selected
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    PageResult_DeviceGroupList:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_DeviceGroupList'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          $ref: '#/components/schemas/DeviceGroupList'
-          description: The data payload
-          readOnly: true
-    Result_DeviceGroupSummary:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeviceGroupSummary'
-          description: The data payload
-          readOnly: true
-    DynamicGroupDefinition:
-      description: additional details required as part of creating a dynamic group
-      type: object
-      properties:
-        filter:
-          description: a sql query that returns a set of unique device ids
-          type: string
-    DeviceTemplateActiveMonitor:
-      description: Active Monitor template
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Name of active monitor to be used when looking up name. If multiple monitors
-
-            are found, oldest monitor will be used.'
-          type: string
-        argument:
-          description: Argument value for device monitor.
-          maxLength: 150
-          minLength: 0
-          type: string
-        comment:
-          description: comments value for device monitor
-          maxLength: 150
-          minLength: 0
-          type: string
-        interface:
-          description: 'Address or hostName of interface to be used with this device monitor
-
-            Address will be check first.'
-          type: string
-        pollingInterval:
-          description: Polling interval in seconds for device monitor
-          type: string
-        isCritical:
-          description: boolean to indicate if device monitor should be added to end of critical list.
-          type: string
-        pollingOrder:
-          description: 'an integer value used to order the application of critical monitors, all critical monitors without this
-
-            set will be added after those with order set.'
-          type: string
-        monitorId:
-          format: int32
-          description: Monitor Id, ignored on import
-          type: integer
-    DeviceGroupDefinition:
-      description: Group definition
-      type: object
-      properties:
-        parentGroupId:
-          description: Immediate parent group id. Empty if root group.d
-          type: string
-        groupType:
-          description: "Type of device group creation. \nValues are 'static', 'dynamic', 'layer2'"
-          type: string
-        layer2Definition:
-          $ref: '#/components/schemas/Layer2GroupDefinition'
-          description: filter definiton for a layer 2 device group
-        dynamicDefinition:
-          $ref: '#/components/schemas/DynamicGroupDefinition'
-          description: filter definition for a dynamic device group
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
     DeviceTemplate:
       description: Template for creating a device
       type: object
@@ -2190,6 +1459,366 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DeviceTemplateReferenceName'
+    Result_NamedResourceSuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/NamedResourceSuccessResult'
+          description: The data payload
+          readOnly: true
+    DeviceTemplatePassiveMonitor:
+      description: List of Passive Monitors to be used.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        actions:
+          description: Set of policies to be applied to monitor
+          type: array
+          items:
+            type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    DeviceTemplateReferenceName:
+      description: Template for referenced names like groups or devices. Can include a group to better qualify the name.
+      type: object
+      properties:
+        parents:
+          description: 'List of parent nodes from "My Network" to the descendent container the name can
+
+            be found in.'
+          type: array
+          items:
+            type: string
+        name:
+          description: 'Required: Name of the object being referenced. If parents are no specified, than the
+
+            oldest object with that name will be used.'
+          type: string
+        id:
+          type: string
+    PagingInfo_List_CredentialsByDevice:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DynamicGroupDefinition:
+      description: additional details required as part of creating a dynamic group
+      type: object
+      properties:
+        filter:
+          description: a sql query that returns a set of unique device ids
+          type: string
+    CredentialPropertyBag:
+      description: 'List of properties to be added to the device
+
+        Property Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of property'
+          maxLength: 50
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for property.
+          type: string
+    DeviceTemplateDependencyMonitor:
+      description: Set of dependency monitors to apply to the device.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Name of active monitor to be used when looking up name'
+          type: string
+        argument:
+          description: arguments used for interface active monitor matching
+          type: string
+        comment:
+          description: comment used for interface active monitor matching
+          type: string
+    PageResult_DeviceGroupSummaryList:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_DeviceGroupSummaryList'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/DeviceGroupSummaryList'
+          description: The data payload
+          readOnly: true
+    DeviceTemplateDependency:
+      description: Dependency to be added to the device.
+      type: object
+      properties:
+        direction:
+          description: 'Required: Up or Down'
+          type: string
+        dependency:
+          $ref: '#/components/schemas/DeviceTemplateReferenceName'
+          description: 'Required: The dependent device'
+        matchAny:
+          description: 'Any Monitors must be down to trigger dependency, default: false'
+          type: boolean
+        matchAllActive:
+          description: 'All monitors must be down to trigger the dependency, default: false'
+          type: boolean
+        monitors:
+          description: Set of monitors to be applied. At least one monitor is required.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateDependencyMonitor'
+        deviceId:
+          format: int32
+          description: DeviceId the dependency points to
+          type: integer
+    PagingInfo_DeviceTemplateReadResults:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    Result_DeviceGroupSummary:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceGroupSummary'
+          description: The data payload
+          readOnly: true
+    StateSummary:
+      description: The statistics for devices in a given state
+      type: object
+      properties:
+        state:
+          description: The core state
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        deviceCount:
+          format: int32
+          description: The count for devices in this state
+          type: integer
+    DeviceGroupList:
+      description: A list of device group summary items
+      type: object
+      properties:
+        groups:
+          description: The set of device group summaries
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceGroupSummary'
+    DeviceTemplateReadResults:
+      description: Results returned when calling to read a device template
+      type: object
+      properties:
+        deviceCount:
+          format: int32
+          description: Number of devices used to generate this structure include devices with only errors.
+          type: integer
+        errors:
+          description: Set of errors encountered during the read request
+          type: array
+          items:
+            type: string
+        templates:
+          description: Set of templates matching filter criteria.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplate'
+    PageResult_DeviceSummaryList:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_DeviceSummaryList'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/DeviceSummaryList'
+          description: The data payload
+          readOnly: true
+    Layer2GroupDefinition:
+      description: Layer 2 Device Group filter definition
+      type: object
+      properties:
+        deviceFilter:
+          $ref: '#/components/schemas/Layer2GroupDeviceFilter'
+          description: Filter for determing the base set of devices
+        includeConnections:
+          description: Include devices that are connected to the base set of devices, if true use the ConnectedDeviceFilter. default=false
+          type: boolean
+        connectionFilter:
+          $ref: '#/components/schemas/Layer2GroupDeviceFilter'
+          description: Filter for connected devices
+    DeviceTemplatePerformanceMonitor:
+      description: List of performance monitors.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        pollingInterval:
+          description: In minutes
+          type: string
+        protocol:
+          description: 'Alternate protocol to be used. Currently WMI is only supported.
+
+            Not all performance monitors support all protocols.'
+          type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    PagingInfo_DeviceGroupList:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DeviceTemplateCustomLink:
+      description: List of custom links to be applied to the device.
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of the link'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Value for the link. Can be empty and can use Device % variables.
+          maxLength: 1024
+          minLength: 0
+          type: string
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+    DeviceTemplateApplicationProfile:
+      description: Set of application profiles to apply to the device.
+      type: object
+      properties:
+        upgradeGuid:
+          description: 'Upgrade guid associated with profile. Required if name is not provided.
+
+            Preferred when evaluating'
+          type: string
+        name:
+          description: Name of application profile, Name required if UpgradeGuid is not provided.
+          type: string
+        actionPolicy:
+          description: 'Name of action policy assigned to the device.
+
+            If empty, or not found, default=empty'
+          type: string
+    DeviceGroupSummary:
+      description: "The high level summary information describing a given \ndevice group. This is mostly intended for grids and quick\naccess to basic information about a device group."
+      type: object
+      properties:
+        parentGroupId:
+          description: Immediate parent group id. Empty if root group.d
+          type: string
+        details:
+          $ref: '#/components/schemas/DeviceGroupDetails'
+          description: Additional details filled out when detail view is selected
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    Result_OverallStatusSummary:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/OverallStatusSummary'
+          description: The data payload
+          readOnly: true
+    OverallStatusSummary:
+      description: The overall status summary for a given group
+      type: object
+      properties:
+        lastStateChangeUtc:
+          format: date-time
+          description: The last time a state change was recorded
+          type: string
+        totalDevices:
+          format: int32
+          description: The total number of devices
+          type: integer
+        stateSummaries:
+          description: The list of state summaries per state
+          type: array
+          items:
+            $ref: '#/components/schemas/StateSummary'
+        id:
+          type: string
+    DeviceSummaryList:
+      description: A list of device summary items
+      type: object
+      properties:
+        devices:
+          description: The set of device overviews
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceOverview'
     BulkNewDeviceOptions:
       description: bulk add of new devices
       required:
@@ -2245,52 +1874,236 @@ components:
         setupAsPollByName:
           description: if true, device will be added as poll by name
           type: boolean
-    DeviceGroupCreation:
-      description: Create a new device group definition
-      required:
-      - name
+    PagingInfo_DeviceSummaryList:
+      description: The paging information
       type: object
       properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    Result_DeviceGroupDefinition:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceGroupDefinition'
+          description: The data payload
+          readOnly: true
+    Layer2GroupDeviceFilter:
+      description: Basic Layer 2 device filter. Device must match at least one element of each filter that is not empty
+      type: object
+      properties:
+        initialFilter:
+          description: 'base set of devices, default=''all''
+
+
+            Include devices marked as:
+
+            * "any" -  any device
+
+            * "network-device" - a network device
+
+            * "snmp-device" - as snmp manageable
+
+            * "server" - as a servers
+
+            * "workstation" - as a workstations
+
+            * "virtual-server" - as a virtual server
+
+            * "virtual-machine" - as a virtual vm
+
+            * "wlc" - as a wireless lan controller
+
+            * "ap" - as an access point
+
+            * "ap-client" - as a wireless client
+
+            * "dhcp-server" - as a dhcp server
+
+            * "dns-server" - as a dns server'
+          type: string
+        ipAddresses:
+          description: "Optional list of ip address or subnets device can match. Must match at least one entry. Ignored if empty,\nExamples: \n192.168.0.0 (IP one per line)\n192.168.0.0-192.168.0.20 (IP Range)\n192.168.0.0/24 (IP Subnet)"
+          type: array
+          items:
+            type: string
+        names:
+          description: 'Optional Host/System/NetBIOS, case ignore compare, Ignored if list is empty.
+
+            Example: device.progress.com'
+          type: array
+          items:
+            type: string
+        vlans:
+          description: 'Optional VLAN Name or Index device must support. Case ingored match. Ignored if empty
+
+            Example:
+
+            DefaultVlan'
+          type: array
+          items:
+            type: string
+        roles:
+          description: 'Optional list of role names or ids to be match. Device must have one or more. Ignored if empty
+
+            Example:
+
+            Router'
+          type: array
+          items:
+            type: string
+    DeviceGroupDefinition:
+      description: Group definition
+      type: object
+      properties:
+        parentGroupId:
+          description: Immediate parent group id. Empty if root group.d
+          type: string
         groupType:
-          description: "Type of device group creation. \nAcceptable device group types are 'static', 'dynamic', 'layer2'\ndefault = 'static'"
-          type: string
-        name:
-          description: Name of new group element, cannot be empty and must be unique under parent
-          type: string
-        description:
-          description: Description of group element
+          description: "Type of device group creation. \nValues are 'static', 'dynamic', 'layer2'"
           type: string
         layer2Definition:
           $ref: '#/components/schemas/Layer2GroupDefinition'
-          description: 'filter if Group Type is of type: layer2'
+          description: filter definiton for a layer 2 device group
         dynamicDefinition:
           $ref: '#/components/schemas/DynamicGroupDefinition'
-          description: 'filter if Group Type is of type: dynamic'
-    DeviceTemplateDependency:
-      description: Dependency to be added to the device.
+          description: filter definition for a dynamic device group
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    UpdateDeviceGroup:
+      description: Change group definition definitions
       type: object
       properties:
-        direction:
-          description: 'Required: Up or Down'
+        parentGroupId:
+          description: "Move group to another parent. Leave blank or not present if group is not moving. \nDynamic and layer 2 are allowed directly under a static group"
           type: string
-        dependency:
-          $ref: '#/components/schemas/DeviceTemplateReferenceName'
-          description: 'Required: The dependent device'
-        matchAny:
-          description: 'Any Monitors must be down to trigger dependency, default: false'
+        name:
+          description: Update to the device group name. Ignored if empty. Must be unique under parent group
+          type: string
+        description:
+          description: Update to the device group description. Can be empty. If null, description will not be updated
+          type: string
+        layer2Definition:
+          $ref: '#/components/schemas/Layer2GroupDefinition'
+          description: filter for layer2 device groups. Not updated if null. Replaces if definition is not null.
+        dynamicDefinition:
+          $ref: '#/components/schemas/DynamicGroupDefinition'
+          description: filter for dynamic device groups. Not update if null. Replace if definition is not null.
+    DeviceTemplateInterface:
+      description: List of interfaces for the device. Every device requires at least one valid device.
+      type: object
+      properties:
+        defaultInterface:
+          description: True if interface is default. Only one per device.
           type: boolean
-        matchAllActive:
-          description: 'All monitors must be down to trigger the dependency, default: false'
+        pollUsingNetworkName:
+          description: Poll Using Network Name
           type: boolean
-        monitors:
-          description: Set of monitors to be applied. At least one monitor is required.
+        networkAddress:
+          description: 'Required: Network Address. Must be a valid ip address.'
+          maxLength: 100
+          minLength: 0
+          type: string
+        networkName:
+          description: 'Network Name. Name used when interface is set to poll by name.
+
+            Should be an ip address or a resolve name by server.'
+          maxLength: 256
+          minLength: 0
+          type: string
+        interfaceId:
+          format: int32
+          description: Network interface Id
+          type: integer
+    DeviceTemplateCredentials:
+      description: Credential information
+      type: object
+      properties:
+        credentialType:
+          description: 'Type of credential being requested. Empty value will only
+
+            match on name. Oldest credential with name will match.'
+          type: string
+        credential:
+          description: "Required: Credential Name, within credential type when \ntype is provided. If type is not provide, than oldest credential\nwith name will be used. Ignored if credential with name is not found."
+          type: string
+        credentialId:
+          format: int32
+          description: Credential Id
+          type: integer
+    DeviceOverview:
+      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
+      type: object
+      properties:
+        downActiveMonitors:
+          description: A collection of Down Active monitor status items
           type: array
           items:
-            $ref: '#/components/schemas/DeviceTemplateDependencyMonitor'
-        deviceId:
+            $ref: '#/components/schemas/MonitorAssignmentStatus'
+        totalActiveMonitors:
           format: int32
-          description: DeviceId the dependency points to
+          description: The total number of active monitors for this device
           type: integer
+        totalActiveMonitorsDown:
+          format: int32
+          description: The total number of active monitors that are down for this device
+          type: integer
+        notes:
+          description: The notes field for the device
+          type: string
+        hostName:
+          description: The hostname for the device
+          type: string
+        networkAddress:
+          description: The current network address of the device. Usually an IP address.
+          type: string
+        role:
+          description: The primary role of the device (e.g. router, switch, etc.).
+          type: string
+        brand:
+          description: The brand for the device (e.g. Cisco)
+          type: string
+        os:
+          description: The operating system for the device (e.g. windows, linux, etc)
+          type: string
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
     CountedSuccessResult:
       type: object
       properties:
@@ -2315,6 +2128,15 @@ components:
           type: boolean
         success:
           type: boolean
+    BulkDeviceBatch:
+      description: The set of devices to be operated on
+      type: object
+      properties:
+        devices:
+          description: The list of device ids to be operated on
+          type: array
+          items:
+            type: string
     CredentialsByDevice:
       description: Device credentials
       type: object
@@ -2327,106 +2149,270 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Credential'
-    CredentialPropertyBag:
-      description: 'List of properties to be added to the device
+    DeviceAssignSubRoleOperation:
+      description: operation to assign, clear, delete subroles
+      type: object
+      properties:
+        operation:
+          description: Gets or sets the operation.
+          enum:
+          - clear
+          - add
+          - delete
+          - replace
+          type: string
+        subroles:
+          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
+          type: array
+          items:
+            type: string
+    NamedResourceSuccessResult:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        success:
+          type: boolean
+    DeviceTemplateNCMTask:
+      description: NCM tasks being assigned to the device.
+      type: object
+      properties:
+        name:
+          description: Required. Name of task to be assigned. Oldest task with name and type will be used.
+          type: string
+    Credential:
+      description: Credential template structure
+      type: object
+      properties:
+        type:
+          description: Type of credential
+          type: string
+        propertyBags:
+          description: 'set of properties for this credential
 
-        Property Names should be unique in the list.'
+            available if credential view is set to details.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialPropertyBag'
+        assignments:
+          description: 'List of devices this credential is assigned to.
+
+            returned if includeAssignments is true.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialAssignment'
+        usedInFailover:
+          description: Set if includeAssignments is true;
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    CredentialAssignment:
+      description: representation of a credential assignment
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceOverview'
+          description: Unique device ID
+    DeviceGroupDetails:
+      description: Details about group membership, monitor state, type of group, etc.
+      type: object
+      properties:
+        groupType:
+          description: DeviceType of the device group entry
+          type: string
+        monitorState:
+          description: MonitorState of the device group entry
+          type: string
+        childrenCount:
+          format: int32
+          description: number of child groups
+          type: integer
+        deviceChildrenCount:
+          format: int32
+          description: Count of the number of devices directly under the device group entry
+          type: integer
+        deviceDescendantCount:
+          format: int32
+          description: Count of the number of devices in all recursive levels under the device group entry
+          type: integer
+    NewDeviceOptions:
+      description: Options for creating a new device
+      type: object
+      properties:
+        forceAdd:
+          description: 'Add device without scanning, default: false'
+          type: boolean
+        forceCreate:
+          description: "Used in conjunction with forceAdd option. \nIf forceAdd and forceCreate are true, a new device will be created even if new device will match another device\nDefault: false"
+          type: boolean
+        forceRole:
+          description: 'Devices will be added with explicit role assignment, default: empty'
+          type: string
+        preferSnmpSystemNameAsDisplayName:
+          description: 'Prefer Snmp System Names, default: false'
+          type: boolean
+        resolveDNSHostNames:
+          description: 'Use DNS to do reverse lookup of ip address to find host names, default: false'
+          type: boolean
+        snmpPortToUse:
+          format: int32
+          description: snmp port to use, 0 will use the default snmp port of 161
+          type: integer
+        expandVirtualEnvironment:
+          description: 'expand virtual environment hosts and guests, default: true'
+          type: boolean
+        expandWirelessEnvironment:
+          description: 'expand wireless environment, default: true'
+          type: boolean
+        includeWirelessClients:
+          description: 'include devices connected to wireless access points, default: true'
+          type: boolean
+        expandStorageEnvironment:
+          description: 'expand storage environment, default: true'
+          type: boolean
+        useAllCredentials:
+          description: 'Test all credentials in library until all credentials are filled in, default: true'
+          type: boolean
+        credentials:
+          description: 'credentials to test, tested in order provided, default: empty (no order)
+
+            if ''useAllCredentials'', non-listed credentials will be added after this list'
+          type: array
+          items:
+            type: string
+        setupAsPollByName:
+          description: if true, device will be added as poll by name
+          type: boolean
+    MonitorAssignmentStatus:
+      description: The current monitoring status of this monitor
+      type: object
+      properties:
+        state:
+          description: The internal state of the monitor
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        reason:
+          description: The reason a monitor is in the current state
+          type: string
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface monitor assignment where comment is the interface description'
+          type: string
+        enabled:
+          description: Indicates whether the monitor is enabled
+          type: boolean
+        id:
+          type: string
+    DeviceTemplateAttribute:
+      description: 'List of attributes to be added to the device
+
+        Attribute Names should be unique in the list.'
       type: object
       properties:
         name:
-          description: 'Required: Name of property'
-          maxLength: 50
-          minLength: 0
-          type: string
-        value:
-          description: Defaults to empty. Value to be used for property.
-          type: string
-    DeviceTemplateCustomLink:
-      description: List of custom links to be applied to the device.
-      type: object
-      properties:
-        name:
-          description: 'Required: Name of the link'
+          description: 'Required: Name of attribute'
           maxLength: 150
           minLength: 0
           type: string
         value:
-          description: Value for the link. Can be empty and can use Device % variables.
-          maxLength: 1024
+          description: Defaults to empty. Value to be used for attribugte.
+          maxLength: 3000
           minLength: 0
           type: string
-    PagingInfo_DeviceTemplateReadResults:
-      description: The paging information
+    DeviceTemplateActiveMonitor:
+      description: Active Monitor template
       type: object
       properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PagingInfo_DeviceSummaryList:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    DeviceSummaryList:
-      description: A list of device summary items
-      type: object
-      properties:
-        devices:
-          description: The set of device overviews
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceOverview'
-    DeviceTemplateApplicationProfile:
-      description: Set of application profiles to apply to the device.
-      type: object
-      properties:
-        upgradeGuid:
-          description: 'Upgrade guid associated with profile. Required if name is not provided.
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
 
-            Preferred when evaluating'
+            Non-empty Guid, Guid and name will be used to match.'
           type: string
         name:
-          description: Name of application profile, Name required if UpgradeGuid is not provided.
-          type: string
-        actionPolicy:
-          description: 'Name of action policy assigned to the device.
+          description: 'Name of active monitor to be used when looking up name. If multiple monitors
 
-            If empty, or not found, default=empty'
+            are found, oldest monitor will be used.'
           type: string
-    DeviceTemplateReferenceName:
-      description: Template for referenced names like groups or devices. Can include a group to better qualify the name.
+        argument:
+          description: Argument value for device monitor.
+          maxLength: 150
+          minLength: 0
+          type: string
+        comment:
+          description: comments value for device monitor
+          maxLength: 150
+          minLength: 0
+          type: string
+        interface:
+          description: 'Address or hostName of interface to be used with this device monitor
+
+            Address will be check first.'
+          type: string
+        pollingInterval:
+          description: Polling interval in seconds for device monitor
+          type: string
+        isCritical:
+          description: boolean to indicate if device monitor should be added to end of critical list.
+          type: string
+        pollingOrder:
+          description: 'an integer value used to order the application of critical monitors, all critical monitors without this
+
+            set will be added after those with order set.'
+          type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    PageResult_DeviceGroupList:
+      description: A result envelope that carries paged data
       type: object
       properties:
-        parents:
-          description: 'List of parent nodes from "My Network" to the descendent container the name can
-
-            be found in.'
+        paging:
+          $ref: '#/components/schemas/PagingInfo_DeviceGroupList'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/DeviceGroupList'
+          description: The data payload
+          readOnly: true
+    PageResult_List_CredentialsByDevice:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_CredentialsByDevice'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
           type: array
           items:
-            type: string
-        name:
-          description: 'Required: Name of the object being referenced. If parents are no specified, than the
-
-            oldest object with that name will be used.'
-          type: string
-        id:
-          type: string
+            $ref: '#/components/schemas/CredentialsByDevice'
+          readOnly: true
     PageResult_DeviceTemplateReadResults:
       description: A result envelope that carries paged data
       type: object
@@ -2439,6 +2425,20 @@ components:
           $ref: '#/components/schemas/DeviceTemplateReadResults'
           description: The data payload
           readOnly: true
+    PagingInfo_DeviceGroupSummaryList:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
   securitySchemes:
     oauth2:
       type: oauth2

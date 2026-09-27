@@ -266,52 +266,6 @@ paths:
       - Authorization: []
 components:
   schemas:
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    Certificate:
-      properties:
-        type:
-          type: string
-        subject:
-          type: string
-        cn:
-          type: string
-        issuer:
-          type: string
-        issuerCN:
-          type: string
-        thumbprint:
-          type: string
-        validAfter:
-          type: string
-        validUntil:
-          type: string
-        subjectAlternativeName:
-          type: string
-        principalName:
-          type: string
-        keyType:
-          type: string
-        keyBits:
-          type: integer
-          format: int32
-        fingerprints:
-          additionalProperties:
-            type: string
-          type: object
-      xml:
-        name: Certificate
-      type: object
     LogDetailsModel:
       description: Log Model that fully describes log entity
       properties:
@@ -426,55 +380,6 @@ components:
       xml:
         name: LogDetailsModel
       type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
-      type: object
-    PagedModelOfSimpleLogModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleLogModel'
-          readOnly: true
-          xml:
-            name: SimpleLogModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
     SimpleLogModel:
       description: Log Model that describes main log info
       properties:
@@ -561,6 +466,40 @@ components:
       xml:
         name: SimpleLogModel
       type: object
+    Certificate:
+      properties:
+        type:
+          type: string
+        subject:
+          type: string
+        cn:
+          type: string
+        issuer:
+          type: string
+        issuerCN:
+          type: string
+        thumbprint:
+          type: string
+        validAfter:
+          type: string
+        validUntil:
+          type: string
+        subjectAlternativeName:
+          type: string
+        principalName:
+          type: string
+        keyType:
+          type: string
+        keyBits:
+          type: integer
+          format: int32
+        fingerprints:
+          additionalProperties:
+            type: string
+          type: object
+      xml:
+        name: Certificate
+      type: object
     ErrorModel:
       description: Represents an error returned by API
       properties:
@@ -577,6 +516,67 @@ components:
           type: string
       xml:
         name: ErrorModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagedModelOfSimpleLogModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleLogModel'
+          readOnly: true
+          xml:
+            name: SimpleLogModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
       type: object
   securitySchemes:
     Authorization:

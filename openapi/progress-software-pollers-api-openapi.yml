@@ -151,7 +151,7 @@ paths:
       tags:
       - Pollers
       summary: Remove poller config
-      operationId: Pollers_UpdatePoller
+      operationId: deleteApiV1PollersByPollerId
       parameters:
       - name: pollerId
         in: path
@@ -178,6 +178,8 @@ paths:
                 $ref: '#/components/schemas/Result_SuccessResult'
       security:
       - oauth2: []
+      x-operation-id-source: normalized
+      x-operation-id-original: Pollers_UpdatePoller
   /api/v1/pollers/by-name/{name}:
     post:
       tags:
@@ -211,6 +213,57 @@ paths:
       - oauth2: []
 components:
   schemas:
+    Result_ApiPollerConfig:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ApiPollerConfig'
+          description: The data payload
+          readOnly: true
+    ListResult_ApiPollerConfigWithStatus:
+      description: A result envelope that carries list data
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiPollerConfigWithStatus'
+          readOnly: true
+    ApiPollerConfigCreate:
+      description: Poller Create DTO
+      type: object
+      properties:
+        name:
+          description: Display name and at the same time name of the remote poller used during registration
+          type: string
+        description:
+          description: Description
+          type: string
+        isEnabled:
+          description: Is poller enabled
+          type: boolean
+        useForLoadBalance:
+          description: Should this poller poll devices which has no specific association with any poller
+          type: boolean
+        assignedDeviceIds:
+          description: 'Devices associated with this poller
+
+            Those devices will be polled by this poller if it is available'
+          type: array
+          items:
+            format: int32
+            type: integer
+        assignedSubnets:
+          description: 'Subnets associated with this poller
+
+            Devices in those subnets will be polled by this poller if it is available'
+          type: array
+          items:
+            type: string
     ApiPollerConfig:
       description: Provides information about Poller configured in the system
       type: object
@@ -314,6 +367,11 @@ components:
           type: array
           items:
             type: string
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
     Result_SuccessResult:
       description: 'The standard result envelope for successful data. All results MUST
 
@@ -324,62 +382,6 @@ components:
           $ref: '#/components/schemas/SuccessResult'
           description: The data payload
           readOnly: true
-    ListResult_ApiPollerConfigWithStatus:
-      description: A result envelope that carries list data
-      type: object
-      properties:
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiPollerConfigWithStatus'
-          readOnly: true
-    Result_ApiPollerConfig:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ApiPollerConfig'
-          description: The data payload
-          readOnly: true
-    ApiPollerConfigCreate:
-      description: Poller Create DTO
-      type: object
-      properties:
-        name:
-          description: Display name and at the same time name of the remote poller used during registration
-          type: string
-        description:
-          description: Description
-          type: string
-        isEnabled:
-          description: Is poller enabled
-          type: boolean
-        useForLoadBalance:
-          description: Should this poller poll devices which has no specific association with any poller
-          type: boolean
-        assignedDeviceIds:
-          description: 'Devices associated with this poller
-
-            Those devices will be polled by this poller if it is available'
-          type: array
-          items:
-            format: int32
-            type: integer
-        assignedSubnets:
-          description: 'Subnets associated with this poller
-
-            Devices in those subnets will be polled by this poller if it is available'
-          type: array
-          items:
-            type: string
-    SuccessResult:
-      type: object
-      properties:
-        success:
-          type: boolean
   securitySchemes:
     oauth2:
       type: oauth2

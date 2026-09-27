@@ -646,6 +646,60 @@ paths:
       - Authorization: []
 components:
   schemas:
+    PagedModelOfSimplePackageModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimplePackageModel'
+          readOnly: true
+          xml:
+            name: SimplePackageModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PackageClassificationTypeModel:
+      properties:
+        orderIndex:
+          description: Gets or sets order of classification types
+          type: integer
+          format: int32
+        id:
+          description: Gets or sets id of classification type
+          type: integer
+          format: int32
+        value:
+          description: Gets or sets value of classification type
+          type: string
+      xml:
+        name: PackageClassificationTypeModel
+      type: object
     Recipient:
       properties:
         type:
@@ -672,106 +726,169 @@ components:
       xml:
         name: Recipient
       type: object
-    CreatePackageRequestModel:
+    SimplePackageClassificationTypeModel:
       properties:
-        attachments:
-          description: List of file IDs
-          items:
-            $ref: '#/components/schemas/FileIdModel'
-          xml:
-            name: FileIdModel
-            wrapped: true
-          type: array
-        body:
-          description: Note of the package
+        id:
+          description: Gets or sets id of classification type
+          type: integer
+          format: int32
+        value:
+          description: Gets or sets value of classification type
           type: string
-        deliveryReceipts:
-          description: Delivery receipts
+      xml:
+        name: SimplePackageClassificationTypeModel
+      type: object
+    PackagePatchModel:
+      description: Package Update parameters
+      properties:
+        recalled:
+          description: Set true to recall the package
           type: boolean
-        expirationHours:
-          description: Expiration hours
-          type: integer
-          format: int32
-        maxAttachDownloads:
-          description: Maximum downloads of attachments
-          type: integer
-          format: int32
-        noReply:
-          description: Used to prevent reply
+        isNew:
+          description: IsNew to set
+          type: boolean
+      xml:
+        name: PackagePatchModel
+      type: object
+    RecipientListItem:
+      description: 'Expansion of the {MOVEit.DMZ.Application.Contracts.Packages.Recipient.Recipient} class for use with detailed recipient lists,
+
+        such as for a view status list or send receipt.'
+      properties:
+        viewStatus:
+          description: View status for the recipient for a given package.
           type: string
           enum:
-          - AllowAll
-          - DenyReplyAll
-          - DenyAllReplies
-        recipients:
-          description: List of recipients
+          - None
+          - Some
+          - All
+        password:
+          description: Password of the recipient.
+          type: string
+        allowChildExpansion:
+          description: Whether child entries of the recipient should be shown.
+          type: boolean
+        children:
+          description: Child entries of the recipient.
           items:
-            $ref: '#/components/schemas/Recipient'
+            $ref: '#/components/schemas/RecipientListItem'
           xml:
-            name: Recipient
+            name: RecipientListItem
             wrapped: true
-          type: array
-        recipToList:
-          description: Recipients To list
-          items:
-            type: string
-          type: array
-        recipCCList:
-          description: Recipients CC list
-          items:
-            type: string
-          type: array
-        recipBCCList:
-          description: Recipients BCC list
-          items:
-            type: string
           type: array
         type:
-          description: Package type. Use Draft or template for saving package and General for sending package.
+          description: Recipient type
           type: string
           enum:
-          - General
-          - Draft
-          - Template
-        composerType:
-          description: Composer package type. Use Request for requesting files.
+          - User
+          - Group
+          - Unreg
+          - Unverified
+        role:
+          description: Recipient role
           type: string
           enum:
-          - General
-          - Request
-        subject:
-          description: Subject of package. Required
+          - To
+          - CC
+          - BCC
+        identifier:
+          description: Recipient identifier
           type: string
-        parentId:
-          description: Parent ID
+        name:
+          description: Recipient name (read only)
           type: string
-        isSecureBody:
-          description: Set true to secure package body
-          type: boolean
-        derivativeId:
-          description: Derivative ID. Use to delete draft
-          type: string
-        packageClassificationTypeId:
-          description: Package Classification Type ID
+      xml:
+        name: RecipientListItem
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
           type: integer
           format: int32
-        skipNotifyFromTransfer:
-          description: Send notification from Transfer (true if being sent from Outlook)
-          type: boolean
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
       xml:
-        name: CreatePackageRequestModel
+        name: PagingInfoModel
       type: object
-    SortFieldDto:
+    SimpleUserModel:
+      description: Simple user model for user lists.
       properties:
-        sortField:
+        id:
+          description: User ID.
           type: string
-        sortDirection:
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
           type: string
           enum:
-          - asc
-          - desc
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
       xml:
-        name: SortFieldDto
+        name: SimpleUserModel
+      type: object
+    CollectionModelOfRecipientListItem:
+      description: Represents a collection of resources
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/RecipientListItem'
+          readOnly: true
+          xml:
+            name: RecipientListItem
+            wrapped: true
+          type: array
+      xml:
+        name: CollectionModel`1
+      type: object
+    FileIdModel:
+      description: File id model.
+      properties:
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: FileIdModel
       type: object
     PackageDetailsModel:
       description: Represents a package and all available attributes
@@ -869,6 +986,265 @@ components:
           - All
       xml:
         name: PackageDetailsModel
+      type: object
+    InlineAttachment:
+      description: Data class defining an inline attachment used in a notification message.
+      properties:
+        filename:
+          description: Name of attachment file; this will also be the content ID value used to reference the attachment in the notification message body
+          type: string
+        base64Content:
+          description: Base64-encoded content of the attachment
+          type: string
+      xml:
+        name: InlineAttachment
+      type: object
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    PackageRequirementsModel:
+      properties:
+        allowSendPackages:
+          description: Whether the user is allowed to send packages at all.
+          type: boolean
+        allowAttachFiles:
+          description: Whether the user is allowed to attach files to packages.
+          type: boolean
+        defaultUserPackageExpirationHours:
+          description: 'Value in hours which users can set specific expirations on their packages.
+
+            -1 if not allowed.'
+          type: integer
+          format: int32
+        maxUserPackageExpirationHours:
+          description: 'Number of hours after packages expire and delete.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        defaultAttachmentDownloads:
+          description: 'Default download limit on user''s packages which users can modify.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        maxAttachmentDownloads:
+          description: 'Number that specifies a download limit of a file from any package.
+
+            -1 if not applied.'
+          type: integer
+          format: int32
+        maxFilesPerPackageLimit:
+          description: 'Number that specifies a maximum number of files per package.
+
+            -1 if the user is not authorized.'
+          type: integer
+          format: int32
+        defaultSecureNote:
+          description: Whether the Secure The Note setting is enabled by default.
+          type: boolean
+        allowChangeSecureNote:
+          description: Whether the user is allowed to change the Secure The Note setting value.
+          type: boolean
+        isClassificationFieldRequired:
+          description: Gets or sets is classification type required
+          type: boolean
+        classificationTypes:
+          description: Gets or sets classification types list
+          items:
+            $ref: '#/components/schemas/PackageClassificationTypeModel'
+          xml:
+            name: PackageClassificationTypeModel
+            wrapped: true
+          type: array
+      xml:
+        name: PackageRequirementsModel
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
+      properties:
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+    NotificationModel:
+      properties:
+        subject:
+          description: Notification subject
+          type: string
+        body:
+          description: Main notification body
+          type: string
+        isHtml:
+          description: Whether the main notification body is HTML-formatted
+          type: boolean
+        alternateBody:
+          description: Alternate text-formatted body if the main body is HTML-formatted
+          type: string
+        inlineAttachments:
+          description: Collection of inline attachments to include with notification
+          items:
+            $ref: '#/components/schemas/InlineAttachment'
+          xml:
+            name: InlineAttachment
+            wrapped: true
+          type: array
+      xml:
+        name: NotificationModel
+      type: object
+    CreatePackageRequestModel:
+      properties:
+        attachments:
+          description: List of file IDs
+          items:
+            $ref: '#/components/schemas/FileIdModel'
+          xml:
+            name: FileIdModel
+            wrapped: true
+          type: array
+        body:
+          description: Note of the package
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        maxAttachDownloads:
+          description: Maximum downloads of attachments
+          type: integer
+          format: int32
+        noReply:
+          description: Used to prevent reply
+          type: string
+          enum:
+          - AllowAll
+          - DenyReplyAll
+          - DenyAllReplies
+        recipients:
+          description: List of recipients
+          items:
+            $ref: '#/components/schemas/Recipient'
+          xml:
+            name: Recipient
+            wrapped: true
+          type: array
+        recipToList:
+          description: Recipients To list
+          items:
+            type: string
+          type: array
+        recipCCList:
+          description: Recipients CC list
+          items:
+            type: string
+          type: array
+        recipBCCList:
+          description: Recipients BCC list
+          items:
+            type: string
+          type: array
+        type:
+          description: Package type. Use Draft or template for saving package and General for sending package.
+          type: string
+          enum:
+          - General
+          - Draft
+          - Template
+        composerType:
+          description: Composer package type. Use Request for requesting files.
+          type: string
+          enum:
+          - General
+          - Request
+        subject:
+          description: Subject of package. Required
+          type: string
+        parentId:
+          description: Parent ID
+          type: string
+        isSecureBody:
+          description: Set true to secure package body
+          type: boolean
+        derivativeId:
+          description: Derivative ID. Use to delete draft
+          type: string
+        packageClassificationTypeId:
+          description: Package Classification Type ID
+          type: integer
+          format: int32
+        skipNotifyFromTransfer:
+          description: Send notification from Transfer (true if being sent from Outlook)
+          type: boolean
+      xml:
+        name: CreatePackageRequestModel
       type: object
     FileDetailsModel:
       description: Represents a file and all available attributes
@@ -981,297 +1357,6 @@ components:
       xml:
         name: FileDetailsModel
       type: object
-    RecipientListItem:
-      description: 'Expansion of the {MOVEit.DMZ.Application.Contracts.Packages.Recipient.Recipient} class for use with detailed recipient lists,
-
-        such as for a view status list or send receipt.'
-      properties:
-        viewStatus:
-          description: View status for the recipient for a given package.
-          type: string
-          enum:
-          - None
-          - Some
-          - All
-        password:
-          description: Password of the recipient.
-          type: string
-        allowChildExpansion:
-          description: Whether child entries of the recipient should be shown.
-          type: boolean
-        children:
-          description: Child entries of the recipient.
-          items:
-            $ref: '#/components/schemas/RecipientListItem'
-          xml:
-            name: RecipientListItem
-            wrapped: true
-          type: array
-        type:
-          description: Recipient type
-          type: string
-          enum:
-          - User
-          - Group
-          - Unreg
-          - Unverified
-        role:
-          description: Recipient role
-          type: string
-          enum:
-          - To
-          - CC
-          - BCC
-        identifier:
-          description: Recipient identifier
-          type: string
-        name:
-          description: Recipient name (read only)
-          type: string
-      xml:
-        name: RecipientListItem
-      type: object
-    SimpleUserModel:
-      description: Simple user model for user lists.
-      properties:
-        id:
-          description: User ID.
-          type: string
-        orgID:
-          description: ID of organization user is a member of.
-          type: integer
-          format: int32
-        username:
-          description: User login name.
-          type: string
-        fullName:
-          description: User full name.
-          type: string
-        permission:
-          description: User permission.
-          type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
-        email:
-          description: User email address.
-          type: string
-        status:
-          description: User security status.
-          type: string
-          enum:
-          - Active
-          - Suspended
-          - Template
-        lastLoginStamp:
-          description: Time of last user login. Null if user has not logged in yet.
-          type: string
-      xml:
-        name: SimpleUserModel
-      type: object
-    SimplePackageClassificationTypeModel:
-      properties:
-        id:
-          description: Gets or sets id of classification type
-          type: integer
-          format: int32
-        value:
-          description: Gets or sets value of classification type
-          type: string
-      xml:
-        name: SimplePackageClassificationTypeModel
-      type: object
-    PackagePatchModel:
-      description: Package Update parameters
-      properties:
-        recalled:
-          description: Set true to recall the package
-          type: boolean
-        isNew:
-          description: IsNew to set
-          type: boolean
-      xml:
-        name: PackagePatchModel
-      type: object
-    InlineAttachment:
-      description: Data class defining an inline attachment used in a notification message.
-      properties:
-        filename:
-          description: Name of attachment file; this will also be the content ID value used to reference the attachment in the notification message body
-          type: string
-        base64Content:
-          description: Base64-encoded content of the attachment
-          type: string
-      xml:
-        name: InlineAttachment
-      type: object
-    NotificationModel:
-      properties:
-        subject:
-          description: Notification subject
-          type: string
-        body:
-          description: Main notification body
-          type: string
-        isHtml:
-          description: Whether the main notification body is HTML-formatted
-          type: boolean
-        alternateBody:
-          description: Alternate text-formatted body if the main body is HTML-formatted
-          type: string
-        inlineAttachments:
-          description: Collection of inline attachments to include with notification
-          items:
-            $ref: '#/components/schemas/InlineAttachment'
-          xml:
-            name: InlineAttachment
-            wrapped: true
-          type: array
-      xml:
-        name: NotificationModel
-      type: object
-    UnprocessableEntityErrorModel:
-      description: Represents an error returned by API in case of HTTP 422 error
-      properties:
-        errors:
-          description: Detailed information about errors in provided parameters
-          items:
-            $ref: '#/components/schemas/FieldErrorModel'
-          readOnly: true
-          xml:
-            name: FieldErrorModel
-            wrapped: true
-          type: array
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: UnprocessableEntityErrorModel
-      type: object
-    PackageRequirementsModel:
-      properties:
-        allowSendPackages:
-          description: Whether the user is allowed to send packages at all.
-          type: boolean
-        allowAttachFiles:
-          description: Whether the user is allowed to attach files to packages.
-          type: boolean
-        defaultUserPackageExpirationHours:
-          description: 'Value in hours which users can set specific expirations on their packages.
-
-            -1 if not allowed.'
-          type: integer
-          format: int32
-        maxUserPackageExpirationHours:
-          description: 'Number of hours after packages expire and delete.
-
-            -1 if not applied.'
-          type: integer
-          format: int32
-        defaultAttachmentDownloads:
-          description: 'Default download limit on user''s packages which users can modify.
-
-            -1 if not applied.'
-          type: integer
-          format: int32
-        maxAttachmentDownloads:
-          description: 'Number that specifies a download limit of a file from any package.
-
-            -1 if not applied.'
-          type: integer
-          format: int32
-        maxFilesPerPackageLimit:
-          description: 'Number that specifies a maximum number of files per package.
-
-            -1 if the user is not authorized.'
-          type: integer
-          format: int32
-        defaultSecureNote:
-          description: Whether the Secure The Note setting is enabled by default.
-          type: boolean
-        allowChangeSecureNote:
-          description: Whether the user is allowed to change the Secure The Note setting value.
-          type: boolean
-        isClassificationFieldRequired:
-          description: Gets or sets is classification type required
-          type: boolean
-        classificationTypes:
-          description: Gets or sets classification types list
-          items:
-            $ref: '#/components/schemas/PackageClassificationTypeModel'
-          xml:
-            name: PackageClassificationTypeModel
-            wrapped: true
-          type: array
-      xml:
-        name: PackageRequirementsModel
-      type: object
-    CollectionModelOfRecipientListItem:
-      description: Represents a collection of resources
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/RecipientListItem'
-          readOnly: true
-          xml:
-            name: RecipientListItem
-            wrapped: true
-          type: array
-      xml:
-        name: CollectionModel`1
-      type: object
-    FieldErrorModel:
-      description: Describes error in particular parameter of the request
-      properties:
-        field:
-          description: Name of the field that's invalid
-          type: string
-        rejected:
-          description: Value of the field that's invalid
-          type: string
-        message:
-          description: Explanation of the error
-          type: string
-      xml:
-        name: FieldErrorModel
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
-      type: object
     ErrorModel:
       description: Represents an error returned by API
       properties:
@@ -1288,6 +1373,11 @@ components:
           type: string
       xml:
         name: ErrorModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
       type: object
     SimplePackageModel:
       description: Represents basic package data required for all scenarios
@@ -1357,96 +1447,6 @@ components:
           - All
       xml:
         name: SimplePackageModel
-      type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
-      type: object
-    SimpleFileResourceModel:
-      description: 'Container object used to provide information about a specific
-
-        file on a MOVEit Transfer server.'
-      properties:
-        folderID:
-          description: ID of the folder this file is currently in.
-          type: integer
-          format: int32
-        uploadUsername:
-          description: The username of the user account which uploaded this file.
-          type: string
-        path:
-          description: The full path of this file.
-          type: string
-        uploadStamp:
-          description: The date and time this file was uploaded.
-          type: string
-        isNew:
-          description: Indicating whether the file is considered new for the current user
-          type: boolean
-        name:
-          description: The name of this file.
-          type: string
-        size:
-          description: Size in bytes of this file.
-          type: integer
-          format: int64
-        id:
-          description: The unique ID of the file. Also known as the tracking number.
-          type: string
-      xml:
-        name: SimpleFileResourceModel
-      type: object
-    PackageClassificationTypeModel:
-      properties:
-        orderIndex:
-          description: Gets or sets order of classification types
-          type: integer
-          format: int32
-        id:
-          description: Gets or sets id of classification type
-          type: integer
-          format: int32
-        value:
-          description: Gets or sets value of classification type
-          type: string
-      xml:
-        name: PackageClassificationTypeModel
-      type: object
-    FileIdModel:
-      description: File id model.
-      properties:
-        id:
-          description: The unique ID of the file. Also known as the tracking number.
-          type: string
-      xml:
-        name: FileIdModel
-      type: object
-    PagedModelOfSimplePackageModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimplePackageModel'
-          readOnly: true
-          xml:
-            name: SimplePackageModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
       type: object
   securitySchemes:
     Authorization:

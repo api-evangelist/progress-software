@@ -2721,1256 +2721,6 @@ paths:
         required: true
 components:
   schemas:
-    AppliedDuration:
-      description: 'duration to be applied, default=24 hours.
-
-        both start and end times must be provided.'
-      type: object
-      properties:
-        startTime:
-          $ref: '#/components/schemas/TimeOfDay'
-          description: Start time of the scheduled task
-        endTime:
-          $ref: '#/components/schemas/TimeOfDay'
-          description: end time of day
-    TemplateMap:
-      description: provides a mapping from a template id to the resulting generated id.
-      type: object
-      properties:
-        templateId:
-          description: Caller provided template Id
-          type: string
-        resultId:
-          description: Id generated when template was applied.
-          type: string
-    Result_NetworkInterface:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/NetworkInterface'
-          description: The data payload
-          readOnly: true
-    MonitorAssignmentUpdate:
-      description: update an active monitor assignment
-      type: object
-      properties:
-        id:
-          description: The id of the resource
-          type: string
-        enabled:
-          description: Mark monitor as enabled
-          type: boolean
-        active:
-          $ref: '#/components/schemas/ActiveMonitorItems'
-          description: Active monitor configuration choices
-        passive:
-          $ref: '#/components/schemas/PassiveMonitorItems'
-          description: passive monitor configuration choices
-        performance:
-          $ref: '#/components/schemas/PerformanceMonitorItems'
-          description: performance monitor configuration choices
-    DevicePollingConfigUpdateBatch:
-      description: Update general polling information in a batch
-      type: object
-      properties:
-        devices:
-          type: array
-          items:
-            type: string
-        pollingIntervalSeconds:
-          format: int32
-          description: 'The device-level default for how often active
-
-            monitors are polled.'
-          type: integer
-    PagingInfo_List_AssignedMonitor:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PageResult_List_DeviceGroupSummary:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_DeviceGroupSummary'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceGroupSummary'
-          readOnly: true
-    BulkDeviceAttributeBatch:
-      description: The set of devices attributes to be operated on
-      type: object
-      properties:
-        deleteAllAttributes:
-          description: 'remove all attributes from device
-
-            Optional. This will be applied first.'
-          type: boolean
-        attributesToDelete:
-          description: 'The list of attribute ids to remove from device. Attribute Id not found on device will be skipped.
-
-            Optional. This will be applied second.'
-          type: array
-          items:
-            type: string
-        attributeNamesToDelete:
-          description: 'The list of attribute names to remove from device. case insensitive
-
-            Optional. This list will be applied thrid'
-          type: array
-          items:
-            type: string
-        attributeNameContainsToDelete:
-          description: 'If attribute names contains one of these values. Case insensitive.
-
-            Optional. This list will be applied third'
-          type: array
-          items:
-            type: string
-        attributeValueContainsToDelete:
-          description: 'If attribute value contains one of these values. Case insensitive.
-
-            Optional. This list will be applied thrid'
-          type: array
-          items:
-            type: string
-        attributeToModify:
-          description: 'The list of device attributes to modify
-
-            Optional. This list will be applied fourth'
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceAttributeModifier'
-        attributesToAdd:
-          description: 'The list of device attributes add to device
-
-            Optional. This list will be applied last'
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceAttributeNameValue'
-    DeviceAttributeNameValue:
-      description: The devices attributes for add operations
-      type: object
-      properties:
-        name:
-          description: Name of attribute
-          type: string
-        value:
-          description: value of attribute
-          type: string
-    MaintenanceConfigBasic:
-      description: The maintenance mode configuration for a device
-      type: object
-      properties:
-        enabled:
-          description: Indicates the device is currently in manual maintenance
-          type: boolean
-        endUtc:
-          format: date-time
-          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
-          type: string
-        reason:
-          description: Indicates the Reason for the Maintenance (Max 250 Characters)
-          maxLength: 250
-          minLength: 0
-          type: string
-    DaysOfTheWeek:
-      description: 'Day of the week,
-
-        Set each day of the week the event should happen on to true.
-
-        To be valid, at least one day of the week must be set to true.'
-      type: object
-      properties:
-        sunday:
-          description: Sunday
-          type: boolean
-        monday:
-          description: Monday
-          type: boolean
-        tuesday:
-          description: Tuesday
-          type: boolean
-        wednesday:
-          description: Wednesday
-          type: boolean
-        thursday:
-          description: Thursday
-          type: boolean
-        friday:
-          description: Friday
-          type: boolean
-        saturday:
-          description: Saturday
-          type: boolean
-    Result_AssignedMonitor:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/AssignedMonitor'
-          description: The data payload
-          readOnly: true
-    DeviceGroupDetails:
-      description: Details about group membership, monitor state, type of group, etc.
-      type: object
-      properties:
-        groupType:
-          description: DeviceType of the device group entry
-          type: string
-        monitorState:
-          description: MonitorState of the device group entry
-          type: string
-        childrenCount:
-          format: int32
-          description: number of child groups
-          type: integer
-        deviceChildrenCount:
-          format: int32
-          description: Count of the number of devices directly under the device group entry
-          type: integer
-        deviceDescendantCount:
-          format: int32
-          description: Count of the number of devices in all recursive levels under the device group entry
-          type: integer
-    BulkDeviceOpsBatch:
-      description: The set of devices to be deleted and associated parameters
-      type: object
-      properties:
-        operation:
-          description: 'remove associated discovered resources
-
-            default/false, remove device only
-
-            true: request the removal of all associated discovered devices'
-          enum:
-          - delete
-          type: string
-        devices:
-          description: The list of device ids to be operated on
-          type: array
-          items:
-            type: string
-    SuccessResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-    DeviceAttributeModifier:
-      description: Attribute modify operation for a device
-      type: object
-      properties:
-        attributeId:
-          description: unique identifier for this attribute value combo
-          type: string
-        name:
-          description: Name of attribute
-          type: string
-        value:
-          description: value of attribute
-          type: string
-    Result_NamedResourceSuccessResult:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/NamedResourceSuccessResult'
-          description: The data payload
-          readOnly: true
-    Result_ApplyTemplateResults:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ApplyTemplateResults'
-          description: The data payload
-          readOnly: true
-    DeviceTemplateReadResults:
-      description: Results returned when calling to read a device template
-      type: object
-      properties:
-        deviceCount:
-          format: int32
-          description: Number of devices used to generate this structure include devices with only errors.
-          type: integer
-        errors:
-          description: Set of errors encountered during the read request
-          type: array
-          items:
-            type: string
-        templates:
-          description: Set of templates matching filter criteria.
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceTemplate'
-    NamedResource2:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    Result_DeviceAttribute:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeviceAttribute'
-          description: The data payload
-          readOnly: true
-    Result_List_Credential:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/Credential'
-          readOnly: true
-    DeviceTemplateReferenceName:
-      description: Template for referenced names like groups or devices. Can include a group to better qualify the name.
-      type: object
-      properties:
-        parents:
-          description: 'List of parent nodes from "My Network" to the descendent container the name can
-
-            be found in.'
-          type: array
-          items:
-            type: string
-        name:
-          description: 'Required: Name of the object being referenced. If parents are no specified, than the
-
-            oldest object with that name will be used.'
-          type: string
-        id:
-          type: string
-    MonthlySchedule:
-      description: "Recur monthly\n            \nThe event can be schedule on a particular day of the month and repeated every x months.\n            \nShortest schedule is every month\nLongest schedule is once every 12 months or once a year.\n            \nIf the day of the month the event is to be fired on does not have 29, 30 or 31 days,\nthen the event is fired on the last day of the month.\n            \nday:\n    first can be used to indicated the 1st day of the month,\n    last can be used to indicated the last day of the month."
-      type: object
-      properties:
-        repeat:
-          format: int32
-          description: 'Recurring interval, number of months
-
-            ie, recur every (1,2...) months'
-          type: integer
-        day:
-          description: 'day of the month to fire the event.
-
-            1-31 will happen on the explicit day
-
-            "first" will be first day of the month
-
-            "last" will be last day of the month'
-          type: string
-    DeviceOverview:
-      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
-      type: object
-      properties:
-        downActiveMonitors:
-          description: A collection of Down Active monitor status items
-          type: array
-          items:
-            $ref: '#/components/schemas/MonitorAssignmentStatus'
-        totalActiveMonitors:
-          format: int32
-          description: The total number of active monitors for this device
-          type: integer
-        totalActiveMonitorsDown:
-          format: int32
-          description: The total number of active monitors that are down for this device
-          type: integer
-        notes:
-          description: The notes field for the device
-          type: string
-        hostName:
-          description: The hostname for the device
-          type: string
-        networkAddress:
-          description: The current network address of the device. Usually an IP address.
-          type: string
-        role:
-          description: The primary role of the device (e.g. router, switch, etc.).
-          type: string
-        brand:
-          description: The brand for the device (e.g. Cisco)
-          type: string
-        os:
-          description: The operating system for the device (e.g. windows, linux, etc)
-          type: string
-        bestState:
-          description: The best state of the device, like Up
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        worstState:
-          description: The worst state of the device, like Down
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    BulkDeviceBatch:
-      description: The set of devices to be operated on
-      type: object
-      properties:
-        devices:
-          description: The list of device ids to be operated on
-          type: array
-          items:
-            type: string
-    Result_DeviceOverview:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeviceOverview'
-          description: The data payload
-          readOnly: true
-    PageResult_List_NetworkInterface:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_NetworkInterface'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/NetworkInterface'
-          readOnly: true
-    NetworkInterfaceUpdateWithId:
-      description: Update a network interface's data
-      type: object
-      properties:
-        interfaceId:
-          description: configured interface identifier, this field is required to use this structure.
-          type: string
-        hostName:
-          description: Ip or Host/Dns name for network interface, if empty, no change
-          type: string
-        address:
-          description: ip for network interface, if empty, no change
-          type: string
-        defaultInterface:
-          description: set this interface as default. If empty or false, no change
-          type: boolean
-        pollUsingName:
-          description: When using this interface to poll, use hostname instead of address. if not set, no change
-          type: boolean
-    NamedResourceSuccessResult:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-        success:
-          type: boolean
-    PagingInfo_List_NetworkInterface:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    DeviceAssignSubRoleOperation:
-      description: operation to assign, clear, delete subroles
-      type: object
-      properties:
-        operation:
-          description: Gets or sets the operation.
-          enum:
-          - clear
-          - add
-          - delete
-          - replace
-          type: string
-        subroles:
-          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
-          type: array
-          items:
-            type: string
-    MonitorAssignmentBasic:
-      description: Add or update an active monitor assignment
-      type: object
-      properties:
-        enabled:
-          description: Mark monitor as enabled
-          type: boolean
-        active:
-          $ref: '#/components/schemas/ActiveMonitorItems'
-          description: Active monitor configuration choices
-        passive:
-          $ref: '#/components/schemas/PassiveMonitorItems'
-          description: passive monitor configuration choices
-        performance:
-          $ref: '#/components/schemas/PerformanceMonitorItems'
-          description: performance monitor configuration choices
-    YearlySchedule:
-      description: "recur once a year\n            \nrepeat event once a year on a particular day.\nif the month does not support the day, the event will happen last day of the month.\nthis allows for schedules like 29 Feb for leap years.\n            \nshortest schedule once a year\nlongest schedule once a year"
-      type: object
-      properties:
-        day:
-          description: 'day of the month to fire the event.
-
-            1-31 will happen on the explicit day
-
-            "first" will be first day of the month
-
-            "last" will be last day of the month'
-          type: string
-        month:
-          description: Month of the year
-          enum:
-          - january
-          - february
-          - march
-          - april
-          - may
-          - june
-          - july
-          - august
-          - september
-          - october
-          - november
-          - december
-          type: string
-    Result_CountedSuccessResult:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CountedSuccessResult'
-          description: The data payload
-          readOnly: true
-    DeviceTemplateInterface:
-      description: List of interfaces for the device. Every device requires at least one valid device.
-      type: object
-      properties:
-        defaultInterface:
-          description: True if interface is default. Only one per device.
-          type: boolean
-        pollUsingNetworkName:
-          description: Poll Using Network Name
-          type: boolean
-        networkAddress:
-          description: 'Required: Network Address. Must be a valid ip address.'
-          maxLength: 100
-          minLength: 0
-          type: string
-        networkName:
-          description: 'Network Name. Name used when interface is set to poll by name.
-
-            Should be an ip address or a resolve name by server.'
-          maxLength: 256
-          minLength: 0
-          type: string
-        interfaceId:
-          format: int32
-          description: Network interface Id
-          type: integer
-    PagingInfo_List_DeviceAttribute:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    MaintenanceSchedule:
-      description: The maintenance mode schedule for a device
-      type: object
-      properties:
-        schedules:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScheduleAndDuration'
-    DeviceTemplateNCMTask:
-      description: NCM tasks being assigned to the device.
-      type: object
-      properties:
-        name:
-          description: Required. Name of task to be assigned. Oldest task with name and type will be used.
-          type: string
-    YearlyAdvanceSchedule:
-      description: "recur once a year advance\n            \nschedule event for once a year, for the n occurence of a day in a particular month.\n            \nshortest schedule, once a year\nlongest schedule, once a year\n            \nThe day of the month chosen is the x occurence of that day in that month.\nFor example, 3rd Monday, 2nd Tuesday, etc."
-      type: object
-      properties:
-        week:
-          description: recur week of a month
-          enum:
-          - first
-          - second
-          - third
-          - fourth
-          - last
-          type: string
-        dayOfWeek:
-          description: Day of the week
-          enum:
-          - sunday
-          - monday
-          - tuesday
-          - wednesday
-          - thursday
-          - friday
-          - saturday
-          type: string
-        month:
-          description: Month of the year
-          enum:
-          - january
-          - february
-          - march
-          - april
-          - may
-          - june
-          - july
-          - august
-          - september
-          - october
-          - november
-          - december
-          type: string
-    ApplyTemplateResults:
-      description: Results of an apply operations
-      type: object
-      properties:
-        idMap:
-          description: returns a list of template Id to device identifier that where created.
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateMap'
-        errors:
-          description: return a list of template to errors/warnings produced by each template
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateErrorMap'
-        update:
-          $ref: '#/components/schemas/TemplateUpdate'
-          description: return information about the update request that may be requested
-        operations:
-          format: int32
-          description: when possible, number of operations will be returned
-          type: integer
-        successful:
-          format: int32
-          description: when possible, number of successful operations will be returned
-          type: integer
-    CredentialAssignment:
-      description: representation of a credential assignment
-      type: object
-      properties:
-        device:
-          $ref: '#/components/schemas/DeviceOverview'
-          description: Unique device ID
-    MonitorTypeAssignmentQuery:
-      description: 'Set of information used to query for monitors matching a particular type
-
-        At minimum, one of the three values must be filled in to be valid'
-      type: object
-      properties:
-        type:
-          description: Monitor type to query
-          enum:
-          - all
-          - active
-          - performance
-          - passive
-          type: string
-        search:
-          description: search criteria to test name, description, classid, argument, comment
-          type: string
-        typeId:
-          format: int32
-          description: id of monitor type to query
-          type: integer
-    TemplateUpdate:
-      description: Request an update of the devices created while applying  template.
-      type: object
-      properties:
-        success:
-          description: Update request was successfully made
-          type: boolean
-        id:
-          description: Update returned by refresh/rescan request
-          type: string
-        name:
-          description: Device scan name returned by update request
-          type: string
-        description:
-          description: Device scan description returned by update request
-          type: string
-    NetworkInterface:
-      description: Network interface associated with a device
-      type: object
-      properties:
-        interfaceId:
-          description: unique identifier for this network interface
-          type: string
-        hostName:
-          description: 'Ip or Host/Dns name for network interface, required
-
-            Must be a valid ip, host name or dns name.'
-          type: string
-        address:
-          description: 'ip for network interface, required
-
-            Must be a valid ip address'
-          type: string
-        defaultInterface:
-          description: 'this network interface is the default interface for the device, default: false'
-          type: boolean
-        pollUsingName:
-          description: 'when using this interface to poll, use hostname field instead of address. default: false'
-          type: boolean
-    MaintenanceConfigManual:
-      description: The maintenance mode configuration for a device
-      type: object
-      properties:
-        userId:
-          description: user that placed device into maintenance mode
-          type: string
-        user:
-          description: user name that placed device into maintenance mode
-          type: string
-        enabled:
-          description: Indicates the device is currently in manual maintenance
-          type: boolean
-        endUtc:
-          format: date-time
-          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
-          type: string
-        reason:
-          description: Indicates the Reason for the Maintenance (Max 250 Characters)
-          maxLength: 250
-          minLength: 0
-          type: string
-    PerformanceMonitorItems:
-      description: Additional information for assigning active monitors
-      type: object
-      properties:
-        pollingIntervalMinutes:
-          format: int32
-          description: Gets or sets the polling interval for the monitor
-          type: integer
-    BulkNetworkInterfaceBatch:
-      description: "The set of network interface operated to apply. Operations are done in group in order specified. \nSame rules for duplicates and default network interface apply at the end of each operation.\n         Simply not duplicate ip addresse\n         A device must have one and only one default network interface at the end of each operation\n         The network interface currently marked as default cannot be deleted\n         To change the default network interface, another network interface must be specified"
-      type: object
-      properties:
-        deleteAllInterfaces:
-          description: "remove all network interfaces expect default interface from device\nThis device's default network interface cannot be remomved. \nOptional. This is applied first. Default: false"
-          type: boolean
-        interfacesToDelete:
-          description: "The list of network interface ids to remove from device. Network Interface Id not found on device will be skipped. \nThis device's default network interface cannot be remomved. \nOptional. This will be applied second."
-          type: array
-          items:
-            type: string
-        addressOrHostNameToDelete:
-          description: "The list of strings to do partial matches on address or host name and remove from device.\nThis device's default network interface will not be removed. \nOptional. This list will be applied third\nNote:"
-          type: array
-          items:
-            type: string
-        interfaceToModify:
-          description: 'The list of network interfaces to modify. These will be applied in order. Same rules as single update is applied to each operation.
-
-            Optional. This list will be applied fourth'
-          type: array
-          items:
-            $ref: '#/components/schemas/NetworkInterfaceUpdateWithId'
-        interfacesToAdd:
-          description: 'The list of network interfaces being added to the device. These will be applied in order. Same rules as single add is applied for each operation.
-
-            Optional. This list will be applied last'
-          type: array
-          items:
-            $ref: '#/components/schemas/NetworkInterfaceData'
-    SimpleAssignMonitor:
-      description: Assign a monitor to a given device
-      type: object
-      properties:
-        type:
-          description: Type of monitor (active, performance, passive)
-          enum:
-          - active
-          - performance
-          - passive
-          type: string
-        monitorTypeId:
-          description: The monitor type id as it exists in the library
-          type: string
-        monitorTypeClassId:
-          description: The monitor type class id
-          type: string
-        monitorTypeName:
-          description: The monitor type name as it exists in the library
-          type: string
-        enabled:
-          description: Monitors assignment is enabled if true
-          type: boolean
-        isGlobal:
-          description: Monitor Assignment is from the global monitor library if true.
-          type: boolean
-        active:
-          $ref: '#/components/schemas/ActiveMonitorItems'
-          description: Setup active monitor assignment overrides
-        performance:
-          $ref: '#/components/schemas/PerformanceMonitorItems'
-          description: Setup performance monitor assignment overrides
-        passive:
-          $ref: '#/components/schemas/PassiveMonitorItems'
-          description: Setup passive monitor assignment overrides
-    DeviceRefreshOptions:
-      description: 'Options for requesting refresh configuration information from the phyiscal device
-
-        All options false is equivalent to ''Refresh Device Details''. Chosing an option is equalivant to doing a ''Rescan Device'' give UI seperation of operation'
-      type: object
-      properties:
-        updateNamesForTableActiveMonitor:
-          description: 'Update the comments for matching table active monitors based on physical device settings.
-
-            This includes interface and SNMP table active monitors
-
-            Default: false'
-          type: boolean
-        updateEnableSettingsForTableActiveMonitor:
-          description: 'Enable or disable matching table active monitors based on physical device interface settings.
-
-            This includes interface and SNMP table active monitors
-
-            Default: false'
-          type: boolean
-        addUseInRescanActiveMonitor:
-          description: 'test and apply passing active monitors mark for ''use in rescon'' to device. Default: false'
-          type: boolean
-        includeAssignedRoles:
-          description: 'include current role, subrole, brand and OS as matching. Collect data for all matching roles and apply to device. Default: false'
-          type: boolean
-        resetOptions:
-          description: "list of reset options to be applied. Case-insenstive\nwhen empty reset will not be preformed on the device.\n\nReplace data currently known with only data received in this scan\n\n\tDefault Options:\n\t*\tinventory - replace inventory information gathered about device\n\t*\tresources - replace resource information from api provider like AWS, Azure, Meraki\n\t*\tmac - drop MAC address information stored in inventory, attributes and associated tables\n\t*\tinterfaces - drop Network Interface information exception default Network Interface\n\t*\troles - replace primary role\n\t*\tos - replace OS role\n\t*\tbrand - replace Brand Information\n\t*\tsnmp - replace system oid in device properties, attributes and inventory\n\t*\tdisplayName - replace display name with current determined name\n\t*\tattributes - remove role-base attributes from device and add attributes based on new set of roles\n\t*   notes - remove device notes and replace with new role note\n\t\n\tAdditional Options:\n\t*   default - include default options\n\t*\tmonitors - remove all monitors on the device and reset monitor (Note: this will lose monitor history)\n\t*\tprimaryIp - change the default Network Interface with interface determined by scan\n\t*\thistory - remove device refresh history\n\t*\tcredentials - replace credentials with those validated in the scan\n\t*   allAttributes - remove all attributes from device and add attributes based on new set of roles"
-          type: array
-          items:
-            type: string
-        dropDataOlderThanHours:
-          format: int32
-          description: 'remove stale inventory data collected prior to x hours ago, less than 0 ignored, 0 will use system default hours, Defaut: -1'
-          type: integer
-    AssignedMonitor:
-      description: Class MonitorDto.
-      type: object
-      properties:
-        id:
-          description: assignment id
-          type: string
-        description:
-          description: Monitor library description for the monitor
-          type: string
-        status:
-          description: status of assigned monitor
-          type: string
-        type:
-          description: Type of monitor (active, performance, passive)
-          enum:
-          - active
-          - performance
-          - passive
-          type: string
-        monitorTypeId:
-          description: The monitor type id as it exists in the library
-          type: string
-        monitorTypeClassId:
-          description: The monitor type class id
-          type: string
-        monitorTypeName:
-          description: The monitor type name as it exists in the library
-          type: string
-        enabled:
-          description: Monitors assignment is enabled if true
-          type: boolean
-        isGlobal:
-          description: Monitor Assignment is from the global monitor library if true.
-          type: boolean
-        active:
-          $ref: '#/components/schemas/ActiveMonitorItems'
-          description: Setup active monitor assignment overrides
-        performance:
-          $ref: '#/components/schemas/PerformanceMonitorItems'
-          description: Setup performance monitor assignment overrides
-        passive:
-          $ref: '#/components/schemas/PassiveMonitorItems'
-          description: Setup passive monitor assignment overrides
-    MaintenanceConfigManualBatch:
-      description: The maintenance mode configuration for a list of devices
-      type: object
-      properties:
-        devices:
-          type: array
-          items:
-            type: string
-        enabled:
-          description: Indicates the device is currently in manual maintenance
-          type: boolean
-        endUtc:
-          format: date-time
-          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
-          type: string
-        reason:
-          description: Indicates the Reason for the Maintenance (Max 250 Characters)
-          maxLength: 250
-          minLength: 0
-          type: string
-    DeviceTemplateDependencyMonitor:
-      description: Set of dependency monitors to apply to the device.
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Required: Name of active monitor to be used when looking up name'
-          type: string
-        argument:
-          description: arguments used for interface active monitor matching
-          type: string
-        comment:
-          description: comment used for interface active monitor matching
-          type: string
-    ScheduleAndDuration:
-      description: 'Add a duration to a schedule that also can be expired. This is used for maintenance mode along with
-
-        other schedules in the system.  Duration is setup by default as 24 hours and should not exceed 24 hours.'
-      type: object
-      properties:
-        duration:
-          $ref: '#/components/schemas/AppliedDuration'
-          description: Duration to be applied
-        effectiveStartDate:
-          $ref: '#/components/schemas/Date'
-          description: Date at which this schedule should be activated
-        effectiveExpirationDate:
-          $ref: '#/components/schemas/Date'
-          description: Date at which this schedule should be de-activated
-        daily:
-          $ref: '#/components/schemas/DailySchedule'
-          description: recur on a daily schedule
-        weekly:
-          $ref: '#/components/schemas/WeeklySchedule'
-          description: recur on a weekly schedule
-        monthly:
-          $ref: '#/components/schemas/MonthlySchedule'
-          description: recur on a monthly schedule
-        monthlyAdvance:
-          $ref: '#/components/schemas/MonthlyAdvanceSchedule'
-          description: recur on a advance monthly schedule
-        yearly:
-          $ref: '#/components/schemas/YearlySchedule'
-          description: recur on a yearly schedule
-        yearlyAdvance:
-          $ref: '#/components/schemas/YearlyAdvanceSchedule'
-          description: recur on a advance yearly schedule
-    DailySchedule:
-      description: "daily schedule\n            \nAllow an event to be schedule every x days.\nShortest time allowed is 1 day\nLongest time allowed is 366 day or 1 leap year."
-      type: object
-      properties:
-        repeat:
-          format: int32
-          description: 'Recurring interval for timed intervals
-
-            ie, recur every (1,2...) days'
-          type: integer
-    Credential:
-      description: Credential template structure
-      type: object
-      properties:
-        type:
-          description: Type of credential
-          type: string
-        propertyBags:
-          description: 'set of properties for this credential
-
-            available if credential view is set to details.'
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialPropertyBag'
-        assignments:
-          description: 'List of devices this credential is assigned to.
-
-            returned if includeAssignments is true.'
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialAssignment'
-        usedInFailover:
-          description: Set if includeAssignments is true;
-          type: boolean
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    Result_DeviceStatus:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeviceStatus'
-          description: The data payload
-          readOnly: true
-    DeviceTemplatePassiveMonitor:
-      description: List of Passive Monitors to be used.
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Required: Display name of monitor'
-          type: string
-        actions:
-          description: Set of policies to be applied to monitor
-          type: array
-          items:
-            type: string
-        monitorId:
-          format: int32
-          description: Monitor Id, ignored on import
-          type: integer
-    DeviceTemplatePerformanceMonitor:
-      description: List of performance monitors.
-      type: object
-      properties:
-        classId:
-          description: 'Further qualify monitor name. Empty Guid will match only by name
-
-            Non-empty Guid, Guid and name will be used to match.'
-          type: string
-        name:
-          description: 'Required: Display name of monitor'
-          type: string
-        pollingInterval:
-          description: In minutes
-          type: string
-        protocol:
-          description: 'Alternate protocol to be used. Currently WMI is only supported.
-
-            Not all performance monitors support all protocols.'
-          type: string
-        monitorId:
-          format: int32
-          description: Monitor Id, ignored on import
-          type: integer
-    DeviceAttribute:
-      description: Attribute associated with the device
-      type: object
-      properties:
-        attributeId:
-          description: unique identifier for this attribute value combo
-          type: string
-        name:
-          description: Name of attribute
-          type: string
-        value:
-          description: value of attribute
-          type: string
-        discovered:
-          description: 'value set based on scan/refresh/rescan results
-
-            value is considered custom if ''value'' and ''discovered'' do not match
-
-            value will be empty if attribute has not matching discovered values'
-          type: string
-        id:
-          type: string
-    Date:
-      description: structure for generic date
-      type: object
-      properties:
-        day:
-          format: int32
-          description: day of the month, 1 to 31
-          type: integer
-        month:
-          description: Month of the year
-          enum:
-          - january
-          - february
-          - march
-          - april
-          - may
-          - june
-          - july
-          - august
-          - september
-          - october
-          - november
-          - december
-          type: string
-        year:
-          format: int32
-          description: year, valid values 1901 to 9999
-          type: integer
-    BulkAssignDeviceRoleWithName:
-      description: Bulk operation brand assignment information
-      type: object
-      properties:
-        devices:
-          description: List of device identifiers to be updated
-          type: array
-          items:
-            type: string
-        name:
-          description: Name or identifier of role to be assigned
-          type: string
-    Result_SuccessResult:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/SuccessResult'
-          description: The data payload
-          readOnly: true
-    DeviceTemplateCredentials:
-      description: Credential information
-      type: object
-      properties:
-        credentialType:
-          description: 'Type of credential being requested. Empty value will only
-
-            match on name. Oldest credential with name will match.'
-          type: string
-        credential:
-          description: "Required: Credential Name, within credential type when \ntype is provided. If type is not provide, than oldest credential\nwith name will be used. Ignored if credential with name is not found."
-          type: string
-        credentialId:
-          format: int32
-          description: Credential Id
-          type: integer
-    DeviceRoleAssignment:
-      description: Role history structure
-      type: object
-      properties:
-        kind:
-          description: The kind of the role.
-          enum:
-          - all
-          - role
-          - brandModel
-          - os
-          - subRole
-          - monitor
-          - template
-          - interfaceFilter
-          - deviceFilter
-          - monitorCriteria
-          type: string
-        isNetworkDevice:
-          description: Marks the role as a network device role
-          type: boolean
-        addedByUser:
-          description: Signifies whether the user added the role.
-          type: boolean
-        lastSeenUtc:
-          format: date-time
-          description: The Last time the role was seen on the device.
-          type: string
-        alternateName:
-          description: Alternate name for the role. This name should be used if non-empty or null
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    NetworkInterfaceUpdate:
-      description: Update a network interface's data
-      type: object
-      properties:
-        hostName:
-          description: Ip or Host/Dns name for network interface, if empty, no change
-          type: string
-        address:
-          description: ip for network interface, if empty, no change
-          type: string
-        defaultInterface:
-          description: set this interface as default. If empty or false, no change
-          type: boolean
-        pollUsingName:
-          description: When using this interface to poll, use hostname instead of address. if not set, no change
-          type: boolean
     BulkDeviceRefresh:
       description: provide a set of devices for refresh/rescan to be preformed
       type: object
@@ -4009,28 +2759,244 @@ components:
           format: int32
           description: 'remove stale inventory data collected prior to x hours ago, less than 0 ignored, 0 will use system default hours, Defaut: -1'
           type: integer
-    BulkDeviceAssignSubRole:
-      description: Assign sub roles to a set of devices
+    Result_NetworkInterface:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
       type: object
       properties:
-        devices:
-          description: list of devices to operate on
-          type: array
-          items:
-            type: string
-        operation:
-          description: Gets or sets the operation.
-          enum:
-          - clear
-          - add
-          - delete
-          - replace
+        data:
+          $ref: '#/components/schemas/NetworkInterface'
+          description: The data payload
+          readOnly: true
+    MaintenanceConfigBasic:
+      description: The maintenance mode configuration for a device
+      type: object
+      properties:
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        endUtc:
+          format: date-time
+          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
           type: string
-        subroles:
-          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
+        reason:
+          description: Indicates the Reason for the Maintenance (Max 250 Characters)
+          maxLength: 250
+          minLength: 0
+          type: string
+    DeviceTemplateDependencyMonitor:
+      description: Set of dependency monitors to apply to the device.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Name of active monitor to be used when looking up name'
+          type: string
+        argument:
+          description: arguments used for interface active monitor matching
+          type: string
+        comment:
+          description: comment used for interface active monitor matching
+          type: string
+    NetworkInterface:
+      description: Network interface associated with a device
+      type: object
+      properties:
+        interfaceId:
+          description: unique identifier for this network interface
+          type: string
+        hostName:
+          description: 'Ip or Host/Dns name for network interface, required
+
+            Must be a valid ip, host name or dns name.'
+          type: string
+        address:
+          description: 'ip for network interface, required
+
+            Must be a valid ip address'
+          type: string
+        defaultInterface:
+          description: 'this network interface is the default interface for the device, default: false'
+          type: boolean
+        pollUsingName:
+          description: 'when using this interface to poll, use hostname field instead of address. default: false'
+          type: boolean
+    Result_CountedSuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CountedSuccessResult'
+          description: The data payload
+          readOnly: true
+    Result_ApplyTemplateResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ApplyTemplateResults'
+          description: The data payload
+          readOnly: true
+    TimeOfDay:
+      description: Time of the day
+      type: object
+      properties:
+        hour:
+          format: int32
+          description: 0 to 23, hours of the day
+          type: integer
+        minute:
+          format: int32
+          description: minute, 0 to 59
+          type: integer
+    TemplateUpdate:
+      description: Request an update of the devices created while applying  template.
+      type: object
+      properties:
+        success:
+          description: Update request was successfully made
+          type: boolean
+        id:
+          description: Update returned by refresh/rescan request
+          type: string
+        name:
+          description: Device scan name returned by update request
+          type: string
+        description:
+          description: Device scan description returned by update request
+          type: string
+    NetworkInterfaceUpdateWithId:
+      description: Update a network interface's data
+      type: object
+      properties:
+        interfaceId:
+          description: configured interface identifier, this field is required to use this structure.
+          type: string
+        hostName:
+          description: Ip or Host/Dns name for network interface, if empty, no change
+          type: string
+        address:
+          description: ip for network interface, if empty, no change
+          type: string
+        defaultInterface:
+          description: set this interface as default. If empty or false, no change
+          type: boolean
+        pollUsingName:
+          description: When using this interface to poll, use hostname instead of address. if not set, no change
+          type: boolean
+    DailySchedule:
+      description: "daily schedule\n            \nAllow an event to be schedule every x days.\nShortest time allowed is 1 day\nLongest time allowed is 366 day or 1 leap year."
+      type: object
+      properties:
+        repeat:
+          format: int32
+          description: 'Recurring interval for timed intervals
+
+            ie, recur every (1,2...) days'
+          type: integer
+    PerformanceMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        pollingIntervalMinutes:
+          format: int32
+          description: Gets or sets the polling interval for the monitor
+          type: integer
+    NamedResourceSuccessResult:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        success:
+          type: boolean
+    DeviceTemplateNCMTask:
+      description: NCM tasks being assigned to the device.
+      type: object
+      properties:
+        name:
+          description: Required. Name of task to be assigned. Oldest task with name and type will be used.
+          type: string
+    PagingInfo_List_NetworkInterface:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    Result_DeviceOverview:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceOverview'
+          description: The data payload
+          readOnly: true
+    BulkDeviceOpsBatch:
+      description: The set of devices to be deleted and associated parameters
+      type: object
+      properties:
+        operation:
+          description: 'remove associated discovered resources
+
+            default/false, remove device only
+
+            true: request the removal of all associated discovered devices'
+          enum:
+          - delete
+          type: string
+        devices:
+          description: The list of device ids to be operated on
           type: array
           items:
             type: string
+    PageResult_List_DeviceAttribute:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DeviceAttribute'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttribute'
+          readOnly: true
+    Result_List_DeviceRoleAssignment:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceRoleAssignment'
+          readOnly: true
     PassiveMonitorItems:
       description: Additional information for assigning active monitors
       type: object
@@ -4189,31 +3155,58 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DeviceTemplateReferenceName'
-    DeviceTemplateDependency:
-      description: Dependency to be added to the device.
+    DeviceTemplatePassiveMonitor:
+      description: List of Passive Monitors to be used.
       type: object
       properties:
-        direction:
-          description: 'Required: Up or Down'
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
           type: string
-        dependency:
-          $ref: '#/components/schemas/DeviceTemplateReferenceName'
-          description: 'Required: The dependent device'
-        matchAny:
-          description: 'Any Monitors must be down to trigger dependency, default: false'
-          type: boolean
-        matchAllActive:
-          description: 'All monitors must be down to trigger the dependency, default: false'
-          type: boolean
-        monitors:
-          description: Set of monitors to be applied. At least one monitor is required.
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        actions:
+          description: Set of policies to be applied to monitor
           type: array
           items:
-            $ref: '#/components/schemas/DeviceTemplateDependencyMonitor'
-        deviceId:
+            type: string
+        monitorId:
           format: int32
-          description: DeviceId the dependency points to
+          description: Monitor Id, ignored on import
           type: integer
+    DeviceTemplateReferenceName:
+      description: Template for referenced names like groups or devices. Can include a group to better qualify the name.
+      type: object
+      properties:
+        parents:
+          description: 'List of parent nodes from "My Network" to the descendent container the name can
+
+            be found in.'
+          type: array
+          items:
+            type: string
+        name:
+          description: 'Required: Name of the object being referenced. If parents are no specified, than the
+
+            oldest object with that name will be used.'
+          type: string
+        id:
+          type: string
+    DeviceAttributeModifier:
+      description: Attribute modify operation for a device
+      type: object
+      properties:
+        attributeId:
+          description: unique identifier for this attribute value combo
+          type: string
+        name:
+          description: Name of attribute
+          type: string
+        value:
+          description: value of attribute
+          type: string
     MaintenanceScheduleBatch:
       description: The maintenance mode configuration for a list of devices
       type: object
@@ -4226,140 +3219,173 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScheduleAndDuration'
-    TimeOfDay:
-      description: Time of the day
+    DeviceAttribute:
+      description: Attribute associated with the device
       type: object
       properties:
-        hour:
-          format: int32
-          description: 0 to 23, hours of the day
-          type: integer
-        minute:
-          format: int32
-          description: minute, 0 to 59
-          type: integer
-    DeviceTemplateCustomLink:
-      description: List of custom links to be applied to the device.
-      type: object
-      properties:
+        attributeId:
+          description: unique identifier for this attribute value combo
+          type: string
         name:
-          description: 'Required: Name of the link'
-          maxLength: 150
-          minLength: 0
+          description: Name of attribute
           type: string
         value:
-          description: Value for the link. Can be empty and can use Device % variables.
-          maxLength: 1024
-          minLength: 0
+          description: value of attribute
           type: string
-    NetworkInterfaceData:
-      description: Configured network interface data
+        discovered:
+          description: 'value set based on scan/refresh/rescan results
+
+            value is considered custom if ''value'' and ''discovered'' do not match
+
+            value will be empty if attribute has not matching discovered values'
+          type: string
+        id:
+          type: string
+    Date:
+      description: structure for generic date
       type: object
       properties:
-        hostName:
-          description: 'Ip or Host/Dns name for network interface, required
-
-            Must be a valid ip, host name or dns name.'
-          type: string
-        address:
-          description: 'ip for network interface, required
-
-            Must be a valid ip address'
-          type: string
-        defaultInterface:
-          description: 'this network interface is the default interface for the device, default: false'
-          type: boolean
-        pollUsingName:
-          description: 'when using this interface to poll, use hostname field instead of address. default: false'
-          type: boolean
-    DeviceTemplateBatch:
-      description: Provide a set of device templates to be applied
-      type: object
-      properties:
-        options:
-          description: Set of options for applying the template
-          type: array
-          items:
-            type: string
-        templates:
-          description: 'Set of templates to be applied. All templates will attempt to create a new device.
-
-            No attempt will be made to match a device'
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceTemplate'
-    DevicePollingConfigUpdate:
-      description: Update general polling values
-      type: object
-      properties:
-        pollingIntervalSeconds:
+        day:
           format: int32
-          description: 'The device-level default for how often active
-
-            monitors are polled.'
+          description: day of the month, 1 to 31
           type: integer
-    PageResult_List_DeviceAttribute:
-      description: A result envelope that carries paged data
+        month:
+          description: Month of the year
+          enum:
+          - january
+          - february
+          - march
+          - april
+          - may
+          - june
+          - july
+          - august
+          - september
+          - october
+          - november
+          - december
+          type: string
+        year:
+          format: int32
+          description: year, valid values 1901 to 9999
+          type: integer
+    DeviceStatus:
+      description: The current monitoring status for a device
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_DeviceAttribute'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceAttribute'
-          readOnly: true
-    ActiveMonitorItems:
-      description: Additional information for assigning active monitors
-      type: object
-      properties:
-        comment:
-          description: 'Comment specified when the monitor was assigned to the device
-
-            Typically used for interface active monitor assignment where comment is the interface description'
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
           type: string
-        argument:
-          description: Gets or sets the argument.
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
           type: string
-        interfaceId:
-          description: Gets or sets the network interface id
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
           type: string
-        pollingIntervalSeconds:
-          format: int32
-          description: 'Gets or sets the polling interval for the monitor
-
-            Valid values are between 10 and 86400 seconds inclusive'
-          type: integer
-        criticalOrder:
-          format: int32
-          description: Gets or sets the critical order for the active monitor
-          type: integer
-        actionPolicyId:
-          description: Gets or sets the action policy id
-          type: string
-        actionPolicyName:
-          description: Gets or sets the action policy Name
-          type: string
-    Result_DevicePollingConfig:
+    Result_DeviceTemplateReadResults:
       description: 'The standard result envelope for successful data. All results MUST
 
         extend this type eventually.'
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/DevicePollingConfig'
+          $ref: '#/components/schemas/DeviceTemplateReadResults'
           description: The data payload
           readOnly: true
-    DeviceProperties:
+    DeviceTemplatePerformanceMonitor:
+      description: List of performance monitors.
+      type: object
+      properties:
+        classId:
+          description: 'Further qualify monitor name. Empty Guid will match only by name
+
+            Non-empty Guid, Guid and name will be used to match.'
+          type: string
+        name:
+          description: 'Required: Display name of monitor'
+          type: string
+        pollingInterval:
+          description: In minutes
+          type: string
+        protocol:
+          description: 'Alternate protocol to be used. Currently WMI is only supported.
+
+            Not all performance monitors support all protocols.'
+          type: string
+        monitorId:
+          format: int32
+          description: Monitor Id, ignored on import
+          type: integer
+    DeviceTemplateApplicationProfile:
+      description: Set of application profiles to apply to the device.
+      type: object
+      properties:
+        upgradeGuid:
+          description: 'Upgrade guid associated with profile. Required if name is not provided.
+
+            Preferred when evaluating'
+          type: string
+        name:
+          description: Name of application profile, Name required if UpgradeGuid is not provided.
+          type: string
+        actionPolicy:
+          description: 'Name of action policy assigned to the device.
+
+            If empty, or not found, default=empty'
+          type: string
+    DeviceGroupSummary:
+      description: "The high level summary information describing a given \ndevice group. This is mostly intended for grids and quick\naccess to basic information about a device group."
+      type: object
+      properties:
+        parentGroupId:
+          description: Immediate parent group id. Empty if root group.d
+          type: string
+        details:
+          $ref: '#/components/schemas/DeviceGroupDetails'
+          description: Additional details filled out when detail view is selected
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    MaintenanceConfigManualBatch:
+      description: The maintenance mode configuration for a list of devices
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            type: string
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        endUtc:
+          format: date-time
+          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
+          type: string
+        reason:
+          description: Indicates the Reason for the Maintenance (Max 250 Characters)
+          maxLength: 250
+          minLength: 0
+          type: string
+    DevicePropertiesWithName:
       description: General device properties
       type: object
       properties:
-        id:
-          description: The id of the resource
-          type: string
         displayName:
           description: Get or set displayName of the device
           type: string
@@ -4381,22 +3407,207 @@ components:
         actionPolicy:
           $ref: '#/components/schemas/NamedResource2'
           description: Get or set the action policy for the device
-    DeviceTemplateAttribute:
-      description: 'List of attributes to be added to the device
+    MonitorAssignmentBasic:
+      description: Add or update an active monitor assignment
+      type: object
+      properties:
+        enabled:
+          description: Mark monitor as enabled
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Active monitor configuration choices
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: passive monitor configuration choices
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: performance monitor configuration choices
+    DeviceTemplateInterface:
+      description: List of interfaces for the device. Every device requires at least one valid device.
+      type: object
+      properties:
+        defaultInterface:
+          description: True if interface is default. Only one per device.
+          type: boolean
+        pollUsingNetworkName:
+          description: Poll Using Network Name
+          type: boolean
+        networkAddress:
+          description: 'Required: Network Address. Must be a valid ip address.'
+          maxLength: 100
+          minLength: 0
+          type: string
+        networkName:
+          description: 'Network Name. Name used when interface is set to poll by name.
 
-        Attribute Names should be unique in the list.'
+            Should be an ip address or a resolve name by server.'
+          maxLength: 256
+          minLength: 0
+          type: string
+        interfaceId:
+          format: int32
+          description: Network interface Id
+          type: integer
+    DeviceTemplateCredentials:
+      description: Credential information
+      type: object
+      properties:
+        credentialType:
+          description: 'Type of credential being requested. Empty value will only
+
+            match on name. Oldest credential with name will match.'
+          type: string
+        credential:
+          description: "Required: Credential Name, within credential type when \ntype is provided. If type is not provide, than oldest credential\nwith name will be used. Ignored if credential with name is not found."
+          type: string
+        credentialId:
+          format: int32
+          description: Credential Id
+          type: integer
+    CountedSuccessResult:
+      type: object
+      properties:
+        successfulOperations:
+          format: int32
+          type: integer
+        resourcesNotAllowed:
+          type: array
+          items:
+            type: string
+        resourcesWithErros:
+          type: array
+          items:
+            type: string
+        errors:
+          type: array
+          items:
+            type: string
+        limitReached:
+          type: boolean
+        maximumReached:
+          type: boolean
+        success:
+          type: boolean
+    Result_DevicePollingConfig:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DevicePollingConfig'
+          description: The data payload
+          readOnly: true
+    MaintenanceConfigManual:
+      description: The maintenance mode configuration for a device
+      type: object
+      properties:
+        userId:
+          description: user that placed device into maintenance mode
+          type: string
+        user:
+          description: user name that placed device into maintenance mode
+          type: string
+        enabled:
+          description: Indicates the device is currently in manual maintenance
+          type: boolean
+        endUtc:
+          format: date-time
+          description: "Indicates the end date for when the device will no longer \nbe in manual maintenance"
+          type: string
+        reason:
+          description: Indicates the Reason for the Maintenance (Max 250 Characters)
+          maxLength: 250
+          minLength: 0
+          type: string
+    DeviceAssignSubRoleOperation:
+      description: operation to assign, clear, delete subroles
+      type: object
+      properties:
+        operation:
+          description: Gets or sets the operation.
+          enum:
+          - clear
+          - add
+          - delete
+          - replace
+          type: string
+        subroles:
+          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
+          type: array
+          items:
+            type: string
+    PageResult_List_NetworkInterface:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_NetworkInterface'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterface'
+          readOnly: true
+    DeviceAttributeNameValue:
+      description: The devices attributes for add operations
       type: object
       properties:
         name:
-          description: 'Required: Name of attribute'
-          maxLength: 150
-          minLength: 0
+          description: Name of attribute
           type: string
         value:
-          description: Defaults to empty. Value to be used for attribugte.
-          maxLength: 3000
-          minLength: 0
+          description: value of attribute
           type: string
+    Credential:
+      description: Credential template structure
+      type: object
+      properties:
+        type:
+          description: Type of credential
+          type: string
+        propertyBags:
+          description: 'set of properties for this credential
+
+            available if credential view is set to details.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialPropertyBag'
+        assignments:
+          description: 'List of devices this credential is assigned to.
+
+            returned if includeAssignments is true.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialAssignment'
+        usedInFailover:
+          description: Set if includeAssignments is true;
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    NetworkInterfaceUpdate:
+      description: Update a network interface's data
+      type: object
+      properties:
+        hostName:
+          description: Ip or Host/Dns name for network interface, if empty, no change
+          type: string
+        address:
+          description: ip for network interface, if empty, no change
+          type: string
+        defaultInterface:
+          description: set this interface as default. If empty or false, no change
+          type: boolean
+        pollUsingName:
+          description: When using this interface to poll, use hostname instead of address. if not set, no change
+          type: boolean
     MonitorAssignmentStatus:
       description: The current monitoring status of this monitor
       type: object
@@ -4433,60 +3644,137 @@ components:
           type: boolean
         id:
           type: string
-    TemplateErrorMap:
-      description: A set of errors per template
+    ApplyTemplateResults:
+      description: Results of an apply operations
       type: object
       properties:
-        templateId:
-          description: Template identifier error was created for.
+        idMap:
+          description: returns a list of template Id to device identifier that where created.
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateMap'
+        errors:
+          description: return a list of template to errors/warnings produced by each template
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateErrorMap'
+        update:
+          $ref: '#/components/schemas/TemplateUpdate'
+          description: return information about the update request that may be requested
+        operations:
+          format: int32
+          description: when possible, number of operations will be returned
+          type: integer
+        successful:
+          format: int32
+          description: when possible, number of successful operations will be returned
+          type: integer
+    AssignedMonitor:
+      description: Class MonitorDto.
+      type: object
+      properties:
+        id:
+          description: assignment id
           type: string
-        messages:
-          description: Errors found with template
+        description:
+          description: Monitor library description for the monitor
+          type: string
+        status:
+          description: status of assigned monitor
+          type: string
+        type:
+          description: Type of monitor (active, performance, passive)
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeClassId:
+          description: The monitor type class id
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        enabled:
+          description: Monitors assignment is enabled if true
+          type: boolean
+        isGlobal:
+          description: Monitor Assignment is from the global monitor library if true.
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Setup active monitor assignment overrides
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: Setup performance monitor assignment overrides
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: Setup passive monitor assignment overrides
+    PagingInfo_List_DeviceAttribute:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DevicePollingConfigUpdate:
+      description: Update general polling values
+      type: object
+      properties:
+        pollingIntervalSeconds:
+          format: int32
+          description: 'The device-level default for how often active
+
+            monitors are polled.'
+          type: integer
+    CredentialPropertyBag:
+      description: 'List of properties to be added to the device
+
+        Property Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of property'
+          maxLength: 50
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for property.
+          type: string
+    BulkDeviceGroupAssignmentBatch:
+      description: The set of device group assignments to be operated on
+      type: object
+      properties:
+        groupsToDelete:
+          description: "The list of group ids to remove from device. \nOnly static device groups can be deleted.\nGroup Ids device is not a member of will be skipped.\nDeletes are processed before adds.\nAt the end of operations, the device must belong to one or more static groups"
           type: array
           items:
             type: string
-    ActionItem:
-      description: Action to be taken
-      type: object
-      properties:
-        actionTypeId:
-          description: Get action type id
-          type: string
-        actionTypeName:
-          description: Name of action type
-          type: string
-        actionTypeClassId:
-          description: Class of action type
-          type: string
-    DevicePropertiesBatch:
-      description: Update properties on multiple devices. Do not allow display names to be updated
-      type: object
-      properties:
-        devices:
-          description: The list of device ids to be operated on
+        groupsToAdd:
+          description: 'The list of group ids to be added to the device.
+
+            Only static device group assignments can be added
+
+            Group Ids device are already a member of, will be skipped.
+
+            Deletes are processed before adds.
+
+            At the end of operations, the device must belong to one or more static groups'
           type: array
           items:
             type: string
-        isWireless:
-          description: Gets or sets a value indicating whether this instance is wireless.
-          type: boolean
-        collectWireless:
-          description: Gets or sets a value indicating whether this instance would collect wireless information.
-          type: boolean
-        keepDetailsCurrent:
-          description: Gets or sets a value indicating whether [keep details current].
-          type: boolean
-        note:
-          description: Gets or sets the note.
-          type: string
-        snmpOid:
-          description: Gets or sets the SNMP oid.
-          type: string
-        actionPolicy:
-          $ref: '#/components/schemas/NamedResource2'
-          description: Get or set the action policy for the device
-    MonthlyAdvanceSchedule:
-      description: "Recur monthly advance\n            \nThe event can be schedule x occurence a day (Monday...Sunday) of the month and repeated every n months.\n            \nShortest schedule is every month\nLongest schedule is once every 12 months or once a year.\n            \nThe day of the month chosen is the x occurence of that day in the month.\nFor example, 3rd Monday, 2nd Tuesday, etc."
+    MonthlySchedule:
+      description: "Recur monthly\n            \nThe event can be schedule on a particular day of the month and repeated every x months.\n            \nShortest schedule is every month\nLongest schedule is once every 12 months or once a year.\n            \nIf the day of the month the event is to be fired on does not have 29, 30 or 31 days,\nthen the event is fired on the last day of the month.\n            \nday:\n    first can be used to indicated the 1st day of the month,\n    last can be used to indicated the last day of the month."
       type: object
       properties:
         repeat:
@@ -4495,40 +3783,36 @@ components:
 
             ie, recur every (1,2...) months'
           type: integer
-        occurence:
-          description: recur week of a month
-          enum:
-          - first
-          - second
-          - third
-          - fourth
-          - last
+        day:
+          description: 'day of the month to fire the event.
+
+            1-31 will happen on the explicit day
+
+            "first" will be first day of the month
+
+            "last" will be last day of the month'
           type: string
-        dayOfWeek:
-          description: Day of the week
-          enum:
-          - sunday
-          - monday
-          - tuesday
-          - wednesday
-          - thursday
-          - friday
-          - saturday
-          type: string
-    PageResult_List_AssignedMonitor:
-      description: A result envelope that carries paged data
+    MonitorTypeAssignmentQuery:
+      description: 'Set of information used to query for monitors matching a particular type
+
+        At minimum, one of the three values must be filled in to be valid'
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_AssignedMonitor'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/AssignedMonitor'
-          readOnly: true
+        type:
+          description: Monitor type to query
+          enum:
+          - all
+          - active
+          - performance
+          - passive
+          type: string
+        search:
+          description: search criteria to test name, description, classid, argument, comment
+          type: string
+        typeId:
+          format: int32
+          description: id of monitor type to query
+          type: integer
     MonitorAssignmentBatch:
       description: Batch operation against monitor assignments on a device
       type: object
@@ -4553,33 +3837,82 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MonitorAssignmentUpdate'
-    Result_DeviceProperties:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
+    DeviceRoleAssignment:
+      description: Role history structure
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/DeviceProperties'
-          description: The data payload
-          readOnly: true
-    DeviceGroupSummary:
-      description: "The high level summary information describing a given \ndevice group. This is mostly intended for grids and quick\naccess to basic information about a device group."
-      type: object
-      properties:
-        parentGroupId:
-          description: Immediate parent group id. Empty if root group.d
+        kind:
+          description: The kind of the role.
+          enum:
+          - all
+          - role
+          - brandModel
+          - os
+          - subRole
+          - monitor
+          - template
+          - interfaceFilter
+          - deviceFilter
+          - monitorCriteria
           type: string
-        details:
-          $ref: '#/components/schemas/DeviceGroupDetails'
-          description: Additional details filled out when detail view is selected
+        isNetworkDevice:
+          description: Marks the role as a network device role
+          type: boolean
+        addedByUser:
+          description: Signifies whether the user added the role.
+          type: boolean
+        lastSeenUtc:
+          format: date-time
+          description: The Last time the role was seen on the device.
+          type: string
+        alternateName:
+          description: Alternate name for the role. This name should be used if non-empty or null
+          type: string
         name:
           type: string
         description:
           type: string
         id:
           type: string
-    PagingInfo_List_DeviceGroupSummary:
+    DeviceTemplateCustomLink:
+      description: List of custom links to be applied to the device.
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of the link'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Value for the link. Can be empty and can use Device % variables.
+          maxLength: 1024
+          minLength: 0
+          type: string
+    AppliedDuration:
+      description: 'duration to be applied, default=24 hours.
+
+        both start and end times must be provided.'
+      type: object
+      properties:
+        startTime:
+          $ref: '#/components/schemas/TimeOfDay'
+          description: Start time of the scheduled task
+        endTime:
+          $ref: '#/components/schemas/TimeOfDay'
+          description: end time of day
+    TemplateErrorMap:
+      description: A set of errors per template
+      type: object
+      properties:
+        templateId:
+          description: Template identifier error was created for.
+          type: string
+        messages:
+          description: Errors found with template
+          type: array
+          items:
+            type: string
+    PagingInfo_List_AssignedMonitor:
       description: The paging information
       type: object
       properties:
@@ -4593,18 +3926,281 @@ components:
           format: int32
           description: The number of items in the page being returned
           type: integer
-    Result_List_DeviceRoleAssignment:
+    ScheduleAndDuration:
+      description: 'Add a duration to a schedule that also can be expired. This is used for maintenance mode along with
+
+        other schedules in the system.  Duration is setup by default as 24 hours and should not exceed 24 hours.'
+      type: object
+      properties:
+        duration:
+          $ref: '#/components/schemas/AppliedDuration'
+          description: Duration to be applied
+        effectiveStartDate:
+          $ref: '#/components/schemas/Date'
+          description: Date at which this schedule should be activated
+        effectiveExpirationDate:
+          $ref: '#/components/schemas/Date'
+          description: Date at which this schedule should be de-activated
+        daily:
+          $ref: '#/components/schemas/DailySchedule'
+          description: recur on a daily schedule
+        weekly:
+          $ref: '#/components/schemas/WeeklySchedule'
+          description: recur on a weekly schedule
+        monthly:
+          $ref: '#/components/schemas/MonthlySchedule'
+          description: recur on a monthly schedule
+        monthlyAdvance:
+          $ref: '#/components/schemas/MonthlyAdvanceSchedule'
+          description: recur on a advance monthly schedule
+        yearly:
+          $ref: '#/components/schemas/YearlySchedule'
+          description: recur on a yearly schedule
+        yearlyAdvance:
+          $ref: '#/components/schemas/YearlyAdvanceSchedule'
+          description: recur on a advance yearly schedule
+    YearlyAdvanceSchedule:
+      description: "recur once a year advance\n            \nschedule event for once a year, for the n occurence of a day in a particular month.\n            \nshortest schedule, once a year\nlongest schedule, once a year\n            \nThe day of the month chosen is the x occurence of that day in that month.\nFor example, 3rd Monday, 2nd Tuesday, etc."
+      type: object
+      properties:
+        week:
+          description: recur week of a month
+          enum:
+          - first
+          - second
+          - third
+          - fourth
+          - last
+          type: string
+        dayOfWeek:
+          description: Day of the week
+          enum:
+          - sunday
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          type: string
+        month:
+          description: Month of the year
+          enum:
+          - january
+          - february
+          - march
+          - april
+          - may
+          - june
+          - july
+          - august
+          - september
+          - october
+          - november
+          - december
+          type: string
+    NamedResource2:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    Result_DeviceAttribute:
       description: 'The standard result envelope for successful data. All results MUST
 
         extend this type eventually.'
       type: object
       properties:
         data:
+          $ref: '#/components/schemas/DeviceAttribute'
           description: The data payload
+          readOnly: true
+    DeviceOverview:
+      description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
+      type: object
+      properties:
+        downActiveMonitors:
+          description: A collection of Down Active monitor status items
           type: array
           items:
-            $ref: '#/components/schemas/DeviceRoleAssignment'
+            $ref: '#/components/schemas/MonitorAssignmentStatus'
+        totalActiveMonitors:
+          format: int32
+          description: The total number of active monitors for this device
+          type: integer
+        totalActiveMonitorsDown:
+          format: int32
+          description: The total number of active monitors that are down for this device
+          type: integer
+        notes:
+          description: The notes field for the device
+          type: string
+        hostName:
+          description: The hostname for the device
+          type: string
+        networkAddress:
+          description: The current network address of the device. Usually an IP address.
+          type: string
+        role:
+          description: The primary role of the device (e.g. router, switch, etc.).
+          type: string
+        brand:
+          description: The brand for the device (e.g. Cisco)
+          type: string
+        os:
+          description: The operating system for the device (e.g. windows, linux, etc)
+          type: string
+        bestState:
+          description: The best state of the device, like Up
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        worstState:
+          description: The worst state of the device, like Down
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    BulkDeviceAttributeBatch:
+      description: The set of devices attributes to be operated on
+      type: object
+      properties:
+        deleteAllAttributes:
+          description: 'remove all attributes from device
+
+            Optional. This will be applied first.'
+          type: boolean
+        attributesToDelete:
+          description: 'The list of attribute ids to remove from device. Attribute Id not found on device will be skipped.
+
+            Optional. This will be applied second.'
+          type: array
+          items:
+            type: string
+        attributeNamesToDelete:
+          description: 'The list of attribute names to remove from device. case insensitive
+
+            Optional. This list will be applied thrid'
+          type: array
+          items:
+            type: string
+        attributeNameContainsToDelete:
+          description: 'If attribute names contains one of these values. Case insensitive.
+
+            Optional. This list will be applied third'
+          type: array
+          items:
+            type: string
+        attributeValueContainsToDelete:
+          description: 'If attribute value contains one of these values. Case insensitive.
+
+            Optional. This list will be applied thrid'
+          type: array
+          items:
+            type: string
+        attributeToModify:
+          description: 'The list of device attributes to modify
+
+            Optional. This list will be applied fourth'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttributeModifier'
+        attributesToAdd:
+          description: 'The list of device attributes add to device
+
+            Optional. This list will be applied last'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceAttributeNameValue'
+    Result_SuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SuccessResult'
+          description: The data payload
           readOnly: true
+    DevicePollingConfig:
+      description: "The basic configuration for a device. This includes \nthe first class settings such as polling interval,\npoll-by-host setting, and a few others. It is intended\nfor quick access and configuration of basic settings."
+      type: object
+      properties:
+        pollingIntervalSeconds:
+          format: int32
+          description: 'The device-level default for how often active
+
+            monitors are polled.'
+          type: integer
+        pollByHostName:
+          description: "Indicates monitors should use the host name to \nresolve the target ip address when polling."
+          type: boolean
+        maintenance:
+          $ref: '#/components/schemas/MaintenanceConfig'
+          description: maintenance mode configuration
+    MonitorAssignmentUpdate:
+      description: update an active monitor assignment
+      type: object
+      properties:
+        id:
+          description: The id of the resource
+          type: string
+        enabled:
+          description: Mark monitor as enabled
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Active monitor configuration choices
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: passive monitor configuration choices
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: performance monitor configuration choices
+    BulkAssignDeviceRoleWithName:
+      description: Bulk operation brand assignment information
+      type: object
+      properties:
+        devices:
+          description: List of device identifiers to be updated
+          type: array
+          items:
+            type: string
+        name:
+          description: Name or identifier of role to be assigned
+          type: string
+    DeviceTemplateAttribute:
+      description: 'List of attributes to be added to the device
+
+        Attribute Names should be unique in the list.'
+      type: object
+      properties:
+        name:
+          description: 'Required: Name of attribute'
+          maxLength: 150
+          minLength: 0
+          type: string
+        value:
+          description: Defaults to empty. Value to be used for attribugte.
+          maxLength: 3000
+          minLength: 0
+          type: string
     DeviceTemplateActiveMonitor:
       description: Active Monitor template
       type: object
@@ -4649,55 +4245,492 @@ components:
           format: int32
           description: Monitor Id, ignored on import
           type: integer
-    DevicePollingConfig:
-      description: "The basic configuration for a device. This includes \nthe first class settings such as polling interval,\npoll-by-host setting, and a few others. It is intended\nfor quick access and configuration of basic settings."
-      type: object
-      properties:
-        pollingIntervalSeconds:
-          format: int32
-          description: 'The device-level default for how often active
-
-            monitors are polled.'
-          type: integer
-        pollByHostName:
-          description: "Indicates monitors should use the host name to \nresolve the target ip address when polling."
-          type: boolean
-        maintenance:
-          $ref: '#/components/schemas/MaintenanceConfig'
-          description: maintenance mode configuration
-    Result_DeviceTemplateReadResults:
+    Result_List_Credential:
       description: 'The standard result envelope for successful data. All results MUST
 
         extend this type eventually.'
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/DeviceTemplateReadResults'
           description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/Credential'
           readOnly: true
-    CountedSuccessResult:
+    DeviceTemplateBatch:
+      description: Provide a set of device templates to be applied
       type: object
       properties:
-        successfulOperations:
+        options:
+          description: Set of options for applying the template
+          type: array
+          items:
+            type: string
+        templates:
+          description: 'Set of templates to be applied. All templates will attempt to create a new device.
+
+            No attempt will be made to match a device'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplate'
+    DeviceRefreshOptions:
+      description: 'Options for requesting refresh configuration information from the phyiscal device
+
+        All options false is equivalent to ''Refresh Device Details''. Chosing an option is equalivant to doing a ''Rescan Device'' give UI seperation of operation'
+      type: object
+      properties:
+        updateNamesForTableActiveMonitor:
+          description: 'Update the comments for matching table active monitors based on physical device settings.
+
+            This includes interface and SNMP table active monitors
+
+            Default: false'
+          type: boolean
+        updateEnableSettingsForTableActiveMonitor:
+          description: 'Enable or disable matching table active monitors based on physical device interface settings.
+
+            This includes interface and SNMP table active monitors
+
+            Default: false'
+          type: boolean
+        addUseInRescanActiveMonitor:
+          description: 'test and apply passing active monitors mark for ''use in rescon'' to device. Default: false'
+          type: boolean
+        includeAssignedRoles:
+          description: 'include current role, subrole, brand and OS as matching. Collect data for all matching roles and apply to device. Default: false'
+          type: boolean
+        resetOptions:
+          description: "list of reset options to be applied. Case-insenstive\nwhen empty reset will not be preformed on the device.\n\nReplace data currently known with only data received in this scan\n\n\tDefault Options:\n\t*\tinventory - replace inventory information gathered about device\n\t*\tresources - replace resource information from api provider like AWS, Azure, Meraki\n\t*\tmac - drop MAC address information stored in inventory, attributes and associated tables\n\t*\tinterfaces - drop Network Interface information exception default Network Interface\n\t*\troles - replace primary role\n\t*\tos - replace OS role\n\t*\tbrand - replace Brand Information\n\t*\tsnmp - replace system oid in device properties, attributes and inventory\n\t*\tdisplayName - replace display name with current determined name\n\t*\tattributes - remove role-base attributes from device and add attributes based on new set of roles\n\t*   notes - remove device notes and replace with new role note\n\t\n\tAdditional Options:\n\t*   default - include default options\n\t*\tmonitors - remove all monitors on the device and reset monitor (Note: this will lose monitor history)\n\t*\tprimaryIp - change the default Network Interface with interface determined by scan\n\t*\thistory - remove device refresh history\n\t*\tcredentials - replace credentials with those validated in the scan\n\t*   allAttributes - remove all attributes from device and add attributes based on new set of roles"
+          type: array
+          items:
+            type: string
+        dropDataOlderThanHours:
           format: int32
+          description: 'remove stale inventory data collected prior to x hours ago, less than 0 ignored, 0 will use system default hours, Defaut: -1'
           type: integer
-        resourcesNotAllowed:
+    MonthlyAdvanceSchedule:
+      description: "Recur monthly advance\n            \nThe event can be schedule x occurence a day (Monday...Sunday) of the month and repeated every n months.\n            \nShortest schedule is every month\nLongest schedule is once every 12 months or once a year.\n            \nThe day of the month chosen is the x occurence of that day in the month.\nFor example, 3rd Monday, 2nd Tuesday, etc."
+      type: object
+      properties:
+        repeat:
+          format: int32
+          description: 'Recurring interval, number of months
+
+            ie, recur every (1,2...) months'
+          type: integer
+        occurence:
+          description: recur week of a month
+          enum:
+          - first
+          - second
+          - third
+          - fourth
+          - last
+          type: string
+        dayOfWeek:
+          description: Day of the week
+          enum:
+          - sunday
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          type: string
+    Result_DeviceStatus:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceStatus'
+          description: The data payload
+          readOnly: true
+    MaintenanceSchedule:
+      description: The maintenance mode schedule for a device
+      type: object
+      properties:
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleAndDuration'
+    YearlySchedule:
+      description: "recur once a year\n            \nrepeat event once a year on a particular day.\nif the month does not support the day, the event will happen last day of the month.\nthis allows for schedules like 29 Feb for leap years.\n            \nshortest schedule once a year\nlongest schedule once a year"
+      type: object
+      properties:
+        day:
+          description: 'day of the month to fire the event.
+
+            1-31 will happen on the explicit day
+
+            "first" will be first day of the month
+
+            "last" will be last day of the month'
+          type: string
+        month:
+          description: Month of the year
+          enum:
+          - january
+          - february
+          - march
+          - april
+          - may
+          - june
+          - july
+          - august
+          - september
+          - october
+          - november
+          - december
+          type: string
+    Result_NamedResourceSuccessResult:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/NamedResourceSuccessResult'
+          description: The data payload
+          readOnly: true
+    ActionItem:
+      description: Action to be taken
+      type: object
+      properties:
+        actionTypeId:
+          description: Get action type id
+          type: string
+        actionTypeName:
+          description: Name of action type
+          type: string
+        actionTypeClassId:
+          description: Class of action type
+          type: string
+    DevicePollingConfigUpdateBatch:
+      description: Update general polling information in a batch
+      type: object
+      properties:
+        devices:
           type: array
           items:
             type: string
-        resourcesWithErros:
+        pollingIntervalSeconds:
+          format: int32
+          description: 'The device-level default for how often active
+
+            monitors are polled.'
+          type: integer
+    ActiveMonitorItems:
+      description: Additional information for assigning active monitors
+      type: object
+      properties:
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface active monitor assignment where comment is the interface description'
+          type: string
+        argument:
+          description: Gets or sets the argument.
+          type: string
+        interfaceId:
+          description: Gets or sets the network interface id
+          type: string
+        pollingIntervalSeconds:
+          format: int32
+          description: 'Gets or sets the polling interval for the monitor
+
+            Valid values are between 10 and 86400 seconds inclusive'
+          type: integer
+        criticalOrder:
+          format: int32
+          description: Gets or sets the critical order for the active monitor
+          type: integer
+        actionPolicyId:
+          description: Gets or sets the action policy id
+          type: string
+        actionPolicyName:
+          description: Gets or sets the action policy Name
+          type: string
+    DeviceTemplateDependency:
+      description: Dependency to be added to the device.
+      type: object
+      properties:
+        direction:
+          description: 'Required: Up or Down'
+          type: string
+        dependency:
+          $ref: '#/components/schemas/DeviceTemplateReferenceName'
+          description: 'Required: The dependent device'
+        matchAny:
+          description: 'Any Monitors must be down to trigger dependency, default: false'
+          type: boolean
+        matchAllActive:
+          description: 'All monitors must be down to trigger the dependency, default: false'
+          type: boolean
+        monitors:
+          description: Set of monitors to be applied. At least one monitor is required.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplateDependencyMonitor'
+        deviceId:
+          format: int32
+          description: DeviceId the dependency points to
+          type: integer
+    BulkNetworkInterfaceBatch:
+      description: "The set of network interface operated to apply. Operations are done in group in order specified. \nSame rules for duplicates and default network interface apply at the end of each operation.\n         Simply not duplicate ip addresse\n         A device must have one and only one default network interface at the end of each operation\n         The network interface currently marked as default cannot be deleted\n         To change the default network interface, another network interface must be specified"
+      type: object
+      properties:
+        deleteAllInterfaces:
+          description: "remove all network interfaces expect default interface from device\nThis device's default network interface cannot be remomved. \nOptional. This is applied first. Default: false"
+          type: boolean
+        interfacesToDelete:
+          description: "The list of network interface ids to remove from device. Network Interface Id not found on device will be skipped. \nThis device's default network interface cannot be remomved. \nOptional. This will be applied second."
           type: array
           items:
             type: string
+        addressOrHostNameToDelete:
+          description: "The list of strings to do partial matches on address or host name and remove from device.\nThis device's default network interface will not be removed. \nOptional. This list will be applied third\nNote:"
+          type: array
+          items:
+            type: string
+        interfaceToModify:
+          description: 'The list of network interfaces to modify. These will be applied in order. Same rules as single update is applied to each operation.
+
+            Optional. This list will be applied fourth'
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterfaceUpdateWithId'
+        interfacesToAdd:
+          description: 'The list of network interfaces being added to the device. These will be applied in order. Same rules as single add is applied for each operation.
+
+            Optional. This list will be applied last'
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInterfaceData'
+    Result_AssignedMonitor:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignedMonitor'
+          description: The data payload
+          readOnly: true
+    PageResult_List_DeviceGroupSummary:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DeviceGroupSummary'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceGroupSummary'
+          readOnly: true
+    DeviceTemplateReadResults:
+      description: Results returned when calling to read a device template
+      type: object
+      properties:
+        deviceCount:
+          format: int32
+          description: Number of devices used to generate this structure include devices with only errors.
+          type: integer
         errors:
+          description: Set of errors encountered during the read request
           type: array
           items:
             type: string
-        limitReached:
+        templates:
+          description: Set of templates matching filter criteria.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTemplate'
+    PagingInfo_List_DeviceGroupSummary:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DevicePropertiesBatch:
+      description: Update properties on multiple devices. Do not allow display names to be updated
+      type: object
+      properties:
+        devices:
+          description: The list of device ids to be operated on
+          type: array
+          items:
+            type: string
+        isWireless:
+          description: Gets or sets a value indicating whether this instance is wireless.
           type: boolean
-        maximumReached:
+        collectWireless:
+          description: Gets or sets a value indicating whether this instance would collect wireless information.
           type: boolean
+        keepDetailsCurrent:
+          description: Gets or sets a value indicating whether [keep details current].
+          type: boolean
+        note:
+          description: Gets or sets the note.
+          type: string
+        snmpOid:
+          description: Gets or sets the SNMP oid.
+          type: string
+        actionPolicy:
+          $ref: '#/components/schemas/NamedResource2'
+          description: Get or set the action policy for the device
+    SuccessResult:
+      type: object
+      properties:
         success:
+          type: boolean
+    SimpleAssignMonitor:
+      description: Assign a monitor to a given device
+      type: object
+      properties:
+        type:
+          description: Type of monitor (active, performance, passive)
+          enum:
+          - active
+          - performance
+          - passive
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeClassId:
+          description: The monitor type class id
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        enabled:
+          description: Monitors assignment is enabled if true
+          type: boolean
+        isGlobal:
+          description: Monitor Assignment is from the global monitor library if true.
+          type: boolean
+        active:
+          $ref: '#/components/schemas/ActiveMonitorItems'
+          description: Setup active monitor assignment overrides
+        performance:
+          $ref: '#/components/schemas/PerformanceMonitorItems'
+          description: Setup performance monitor assignment overrides
+        passive:
+          $ref: '#/components/schemas/PassiveMonitorItems'
+          description: Setup passive monitor assignment overrides
+    Result_DeviceProperties:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeviceProperties'
+          description: The data payload
+          readOnly: true
+    BulkDeviceBatch:
+      description: The set of devices to be operated on
+      type: object
+      properties:
+        devices:
+          description: The list of device ids to be operated on
+          type: array
+          items:
+            type: string
+    BulkDeviceAssignSubRole:
+      description: Assign sub roles to a set of devices
+      type: object
+      properties:
+        devices:
+          description: list of devices to operate on
+          type: array
+          items:
+            type: string
+        operation:
+          description: Gets or sets the operation.
+          enum:
+          - clear
+          - add
+          - delete
+          - replace
+          type: string
+        subroles:
+          description: Subrole names or ids to add or delete, ignored if operation is 'clear'
+          type: array
+          items:
+            type: string
+    TemplateMap:
+      description: provides a mapping from a template id to the resulting generated id.
+      type: object
+      properties:
+        templateId:
+          description: Caller provided template Id
+          type: string
+        resultId:
+          description: Id generated when template was applied.
+          type: string
+    CredentialAssignment:
+      description: representation of a credential assignment
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceOverview'
+          description: Unique device ID
+    DeviceGroupDetails:
+      description: Details about group membership, monitor state, type of group, etc.
+      type: object
+      properties:
+        groupType:
+          description: DeviceType of the device group entry
+          type: string
+        monitorState:
+          description: MonitorState of the device group entry
+          type: string
+        childrenCount:
+          format: int32
+          description: number of child groups
+          type: integer
+        deviceChildrenCount:
+          format: int32
+          description: Count of the number of devices directly under the device group entry
+          type: integer
+        deviceDescendantCount:
+          format: int32
+          description: Count of the number of devices in all recursive levels under the device group entry
+          type: integer
+    NetworkInterfaceData:
+      description: Configured network interface data
+      type: object
+      properties:
+        hostName:
+          description: 'Ip or Host/Dns name for network interface, required
+
+            Must be a valid ip, host name or dns name.'
+          type: string
+        address:
+          description: 'ip for network interface, required
+
+            Must be a valid ip address'
+          type: string
+        defaultInterface:
+          description: 'this network interface is the default interface for the device, default: false'
+          type: boolean
+        pollUsingName:
+          description: 'when using this interface to poll, use hostname field instead of address. default: false'
           type: boolean
     WeeklySchedule:
       description: "recur weekly\n            \nWeekly schedule contains the number of weeks between events\nand the days of the event week the event will happen\nThe shortest time is every week, every day\nThe longest time between events is once every 52 weeks (a year) on a single day of the week"
@@ -4716,72 +4749,13 @@ components:
             if an entry is true, the scheduled event is fired on
 
             the selected day of the week'
-    CredentialPropertyBag:
-      description: 'List of properties to be added to the device
-
-        Property Names should be unique in the list.'
-      type: object
-      properties:
-        name:
-          description: 'Required: Name of property'
-          maxLength: 50
-          minLength: 0
-          type: string
-        value:
-          description: Defaults to empty. Value to be used for property.
-          type: string
-    DeviceStatus:
-      description: The current monitoring status for a device
-      type: object
-      properties:
-        bestState:
-          description: The best state of the device, like Up
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        worstState:
-          description: The worst state of the device, like Down
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        lastChangeUtc:
-          format: date-time
-          description: The time when the status changed in Utc
-          type: string
-    BulkDeviceGroupAssignmentBatch:
-      description: The set of device group assignments to be operated on
-      type: object
-      properties:
-        groupsToDelete:
-          description: "The list of group ids to remove from device. \nOnly static device groups can be deleted.\nGroup Ids device is not a member of will be skipped.\nDeletes are processed before adds.\nAt the end of operations, the device must belong to one or more static groups"
-          type: array
-          items:
-            type: string
-        groupsToAdd:
-          description: 'The list of group ids to be added to the device.
-
-            Only static device group assignments can be added
-
-            Group Ids device are already a member of, will be skipped.
-
-            Deletes are processed before adds.
-
-            At the end of operations, the device must belong to one or more static groups'
-          type: array
-          items:
-            type: string
-    DevicePropertiesWithName:
+    DeviceProperties:
       description: General device properties
       type: object
       properties:
+        id:
+          description: The id of the resource
+          type: string
         displayName:
           description: Get or set displayName of the device
           type: string
@@ -4803,6 +4777,35 @@ components:
         actionPolicy:
           $ref: '#/components/schemas/NamedResource2'
           description: Get or set the action policy for the device
+    DaysOfTheWeek:
+      description: 'Day of the week,
+
+        Set each day of the week the event should happen on to true.
+
+        To be valid, at least one day of the week must be set to true.'
+      type: object
+      properties:
+        sunday:
+          description: Sunday
+          type: boolean
+        monday:
+          description: Monday
+          type: boolean
+        tuesday:
+          description: Tuesday
+          type: boolean
+        wednesday:
+          description: Wednesday
+          type: boolean
+        thursday:
+          description: Thursday
+          type: boolean
+        friday:
+          description: Friday
+          type: boolean
+        saturday:
+          description: Saturday
+          type: boolean
     MaintenanceConfig:
       description: The maintenance mode configuration for a device
       type: object
@@ -4817,23 +4820,20 @@ components:
         manual:
           $ref: '#/components/schemas/MaintenanceConfigManual'
           description: Manual maintenance mode configuration
-    DeviceTemplateApplicationProfile:
-      description: Set of application profiles to apply to the device.
+    PageResult_List_AssignedMonitor:
+      description: A result envelope that carries paged data
       type: object
       properties:
-        upgradeGuid:
-          description: 'Upgrade guid associated with profile. Required if name is not provided.
-
-            Preferred when evaluating'
-          type: string
-        name:
-          description: Name of application profile, Name required if UpgradeGuid is not provided.
-          type: string
-        actionPolicy:
-          description: 'Name of action policy assigned to the device.
-
-            If empty, or not found, default=empty'
-          type: string
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_AssignedMonitor'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/AssignedMonitor'
+          readOnly: true
   securitySchemes:
     oauth2:
       type: oauth2

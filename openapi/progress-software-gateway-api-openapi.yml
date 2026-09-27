@@ -63,13 +63,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    chef.automate.api.Health:
-      description: "The automate-gateway service health is constructed with:\n* Status:\n           => ok:             Everything is alright\n           => initialization: The service is in its initialization process\n           => warning:        Something might be wrong?\n           => critical:       Something is wrong!\n\n@afiune: Here we can add more health information to the response"
-      type: object
-      title: Health message
-      properties:
-        status:
-          type: string
     chef.automate.api.Version:
       description: 'The service version constructed with:
 
@@ -91,6 +84,21 @@ components:
           type: string
         version:
           type: string
+    chef.automate.api.Health:
+      description: "The automate-gateway service health is constructed with:\n* Status:\n           => ok:             Everything is alright\n           => initialization: The service is in its initialization process\n           => warning:        Something might be wrong?\n           => critical:       Something is wrong!\n\n@afiune: Here we can add more health information to the response"
+      type: object
+      title: Health message
+      properties:
+        status:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -105,14 +113,6 @@ components:
           type: string
         message:
           type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

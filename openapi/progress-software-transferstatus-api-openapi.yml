@@ -277,17 +277,50 @@ components:
       xml:
         name: TransferStatusModel
       type: object
-    SortFieldDto:
+    TransferStatusPagedModel:
       properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
+        statusDistribution:
+          $ref: '#/components/schemas/TransferStatusDistribution'
+          description: Status distribution
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/TransferStatusModel'
+          readOnly: true
+          xml:
+            name: TransferStatusModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
       xml:
-        name: SortFieldDto
+        name: TransferStatusPagedModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -338,50 +371,17 @@ components:
       xml:
         name: TransferStatusDistribution
       type: object
-    TransferStatusPagedModel:
+    SortFieldDto:
       properties:
-        statusDistribution:
-          $ref: '#/components/schemas/TransferStatusDistribution'
-          description: Status distribution
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/TransferStatusModel'
-          readOnly: true
-          xml:
-            name: TransferStatusModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: TransferStatusPagedModel
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
+        sortField:
           type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
+        sortDirection:
           type: string
+          enum:
+          - asc
+          - desc
       xml:
-        name: ErrorModel
+        name: SortFieldDto
       type: object
   securitySchemes:
     Authorization:

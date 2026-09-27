@@ -54,6 +54,20 @@ paths:
         required: true
 components:
   schemas:
+    LogsSettingsUpdateRequest:
+      properties:
+        logRetention:
+          description: 'Logs are retained ONLINE for a fixed number of days. After this period passes, logs are collected and saved as XML documents in the LOGS folder.
+
+            NOTE: This value must be greater than or equal to the current Delete User After Expiration value.'
+          type: integer
+          format: int32
+        archiveLogs:
+          description: Archive old log entries to /Archive/Logs before deleting.
+          type: boolean
+      xml:
+        name: LogsSettingsUpdateRequest
+      type: object
     LogsSettingsModel:
       description: Represents audit logs settings.
       properties:
@@ -68,20 +82,6 @@ components:
           type: boolean
       xml:
         name: LogsSettingsModel
-      type: object
-    LogsSettingsUpdateRequest:
-      properties:
-        logRetention:
-          description: 'Logs are retained ONLINE for a fixed number of days. After this period passes, logs are collected and saved as XML documents in the LOGS folder.
-
-            NOTE: This value must be greater than or equal to the current Delete User After Expiration value.'
-          type: integer
-          format: int32
-        archiveLogs:
-          description: Archive old log entries to /Archive/Logs before deleting.
-          type: boolean
-      xml:
-        name: LogsSettingsUpdateRequest
       type: object
   securitySchemes:
     Authorization:

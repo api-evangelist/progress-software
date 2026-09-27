@@ -323,41 +323,31 @@ paths:
       - Authorization: []
 components:
   schemas:
-    GroupAddMemberRequest:
+    PagedModelOfGroupModel:
+      description: Represents paged response object with proper navigations
       properties:
-        id:
-          description: Group ID
-          type: string
-        userIds:
-          description: List of user ids
+        items:
+          description: Items on the given page
           items:
-            type: string
+            $ref: '#/components/schemas/GroupModel'
+          readOnly: true
+          xml:
+            name: GroupModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
           type: array
       xml:
-        name: GroupAddMemberRequest
-      type: object
-    BaseGroupModel:
-      properties:
-        name:
-          description: Name of the group.
-          type: string
-        description:
-          description: Additional information, related to the group.
-          type: string
-      xml:
-        name: BaseGroupModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
+        name: PagedModel`1
       type: object
     GroupModel:
       description: Represents group's requested information.
@@ -378,6 +368,23 @@ components:
           type: string
       xml:
         name: GroupModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
       type: object
     PagedModelOfSimpleUserModel:
       description: Represents paged response object with proper navigations
@@ -428,32 +435,6 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    PagedModelOfGroupModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/GroupModel'
-          readOnly: true
-          xml:
-            name: GroupModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
     SimpleUserModel:
       description: Simple user model for user lists.
       properties:
@@ -497,22 +478,41 @@ components:
       xml:
         name: SimpleUserModel
       type: object
-    ErrorModel:
-      description: Represents an error returned by API
+    GroupAddMemberRequest:
       properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
+        id:
+          description: Group ID
           type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
+        userIds:
+          description: List of user ids
+          items:
+            type: string
+          type: array
+      xml:
+        name: GroupAddMemberRequest
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    BaseGroupModel:
+      properties:
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
           type: string
       xml:
-        name: ErrorModel
+        name: BaseGroupModel
       type: object
   securitySchemes:
     Authorization:

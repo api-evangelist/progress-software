@@ -65,6 +65,14 @@ components:
           type: boolean
         telemetry_url:
           type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -79,14 +87,6 @@ components:
           type: string
         message:
           type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

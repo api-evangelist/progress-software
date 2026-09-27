@@ -494,6 +494,46 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
+    chef.automate.api.applications.ServicesDistinctValuesRes:
+      description: Response message for GetServicesDistinctValues.
+      type: object
+      properties:
+        values:
+          description: List of distinct values fitting query_fragment and filters.
+          type: array
+          items:
+            type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.applications.ServiceGroups:
+      description: List of service groups.
+      type: object
+      properties:
+        service_groups:
+          description: List of service groups.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.ServiceGroup'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.applications.ServiceGroup:
       description: 'A service group message is the representation of an individual service group that
 
@@ -538,36 +578,6 @@ components:
         status:
           description: Intentionally blank.
           $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
-    chef.automate.api.applications.HealthCheckResult:
-      type: object
-      title: 'HealthCheckResult aggregates the stdout output, stderr output and process
-
-        exit status of a habitat health check'
-      properties:
-        exit_status:
-          type: integer
-          format: int32
-        stderr:
-          type: string
-        stdout:
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.applications.ServiceGroups:
-      description: List of service groups.
-      type: object
-      properties:
-        service_groups:
-          description: List of service groups.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.applications.ServiceGroup'
     chef.automate.api.applications.ServicesRes:
       description: Response message for GetServices.
       type: object
@@ -577,88 +587,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/chef.automate.api.applications.Service'
-    chef.automate.api.applications.DisconnectedServicesReq:
-      description: Request message for GetDisconnectedServices.
-      type: object
-      properties:
-        threshold_seconds:
-          description: Threshold for marking services disconnected in seconds.
-          type: integer
-          format: int32
-    chef.automate.api.applications.ServicesDistinctValuesRes:
-      description: Response message for GetServicesDistinctValues.
-      type: object
-      properties:
-        values:
-          description: List of distinct values fitting query_fragment and filters.
-          type: array
-          items:
-            type: string
-    chef.automate.api.applications.ServicesStatsRes:
-      description: Response message for ServicesStats.
-      type: object
-      properties:
-        total_deployments:
-          description: Total number of deployments reporting to Chef Automate.
-          type: integer
-          format: int32
-        total_service_groups:
-          description: Total number of service groups reporting to Chef Automate.
-          type: integer
-          format: int32
-        total_services:
-          description: Total number of services reporting to Chef Automate, counts both connected and disconnected services.
-          type: integer
-          format: int32
-        total_supervisors:
-          description: Total number of supervisors reporting to Chef Automate.
-          type: integer
-          format: int32
-    chef.automate.api.applications.HealthCounts:
-      description: Combined count values from the health status and disconnected status reports.
-      type: object
-      properties:
-        critical:
-          type: integer
-          format: int32
-        disconnected:
-          type: integer
-          format: int32
-        ok:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int32
-        unknown:
-          type: integer
-          format: int32
-        warning:
-          type: integer
-          format: int32
-    chef.automate.api.applications.ServicesBySGRes:
-      description: Response message for GetServicesBySG.
-      type: object
-      properties:
-        group:
-          description: Service group name.
-          type: string
-        services:
-          description: List of services.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.applications.Service'
-        services_health_counts:
-          description: Intentionally blank.
-          $ref: '#/components/schemas/chef.automate.api.applications.HealthCounts'
-    chef.automate.api.applications.DeleteServicesByIDReq:
-      type: object
-      properties:
-        ids:
-          description: List of the database IDs of the services to be deleted.
-          type: array
-          items:
-            type: string
     chef.automate.api.applications.Service:
       type: object
       properties:
@@ -722,6 +650,28 @@ components:
         update_strategy:
           description: Update strategy that the service employs.
           type: string
+    chef.automate.api.applications.HealthCounts:
+      description: Combined count values from the health status and disconnected status reports.
+      type: object
+      properties:
+        critical:
+          type: integer
+          format: int32
+        disconnected:
+          type: integer
+          format: int32
+        ok:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+        warning:
+          type: integer
+          format: int32
     chef.automate.api.applications.HealthStatus:
       description: 'The HealthStatus enumerable matches the Chef Habitat implementation for health-check status:
 
@@ -746,19 +696,69 @@ components:
       - CRITICAL
       - UNKNOWN
       - NONE
-    grpc.gateway.runtime.Error:
+    chef.automate.api.applications.ServicesStatsRes:
+      description: Response message for ServicesStats.
       type: object
       properties:
-        code:
+        total_deployments:
+          description: Total number of deployments reporting to Chef Automate.
           type: integer
           format: int32
-        details:
+        total_service_groups:
+          description: Total number of service groups reporting to Chef Automate.
+          type: integer
+          format: int32
+        total_services:
+          description: Total number of services reporting to Chef Automate, counts both connected and disconnected services.
+          type: integer
+          format: int32
+        total_supervisors:
+          description: Total number of supervisors reporting to Chef Automate.
+          type: integer
+          format: int32
+    chef.automate.api.applications.DeleteServicesByIDReq:
+      type: object
+      properties:
+        ids:
+          description: List of the database IDs of the services to be deleted.
           type: array
           items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
+            type: string
+    chef.automate.api.applications.ServicesBySGRes:
+      description: Response message for GetServicesBySG.
+      type: object
+      properties:
+        group:
+          description: Service group name.
           type: string
-        message:
+        services:
+          description: List of services.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.Service'
+        services_health_counts:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthCounts'
+    chef.automate.api.applications.DisconnectedServicesReq:
+      description: Request message for GetDisconnectedServices.
+      type: object
+      properties:
+        threshold_seconds:
+          description: Threshold for marking services disconnected in seconds.
+          type: integer
+          format: int32
+    chef.automate.api.applications.HealthCheckResult:
+      type: object
+      title: 'HealthCheckResult aggregates the stdout output, stderr output and process
+
+        exit status of a habitat health check'
+      properties:
+        exit_status:
+          type: integer
+          format: int32
+        stderr:
+          type: string
+        stdout:
           type: string
   securitySchemes:
     APIToken:

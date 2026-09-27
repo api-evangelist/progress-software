@@ -337,6 +337,32 @@ paths:
         required: true
 components:
   schemas:
+    OrgUiConfigurationModel:
+      description: Represents user interface configuration
+      properties:
+        showFileAndFolder:
+          description: Show file and folder options
+          type: boolean
+        showAdHocPackage:
+          description: Show ad hoc package options
+          type: boolean
+        showSecureFolderSharing:
+          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
+          type: boolean
+      xml:
+        name: OrgUiConfigurationModel
+      type: object
+    OrgAdminPasswordResetSettingsModel:
+      description: Represents administrator password reset settings for an organization.
+      properties:
+        enableAdminPasswordReset:
+          description: 'Enable/disable administrators to reset their own password.
+
+            Default is false.'
+          type: boolean
+      xml:
+        name: OrgAdminPasswordResetSettingsModel
+      type: object
     OrgPackageAccessUpdateModel:
       description: Represents administrator package access settings update model for an organization.
       properties:
@@ -368,37 +394,7 @@ components:
       xml:
         name: OrgPackageAccessUpdateModel
       type: object
-    PagedModelOfSimpleOrgModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleOrgModel'
-          readOnly: true
-          xml:
-            name: SimpleOrgModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    OrgAddModel:
-      description: Represents data required for create organization scenario
-      required:
-      - name
-      - passPhrase
+    OrgPatchModel:
       properties:
         name:
           description: Organization name.
@@ -406,43 +402,14 @@ components:
         shortName:
           description: Organization short name.
           type: string
-        passPhrase:
-          description: Organization pass phrase.
+        baseUrl:
+          description: Organization base URL.
           type: string
-        techName:
-          description: Organization tech contact name.
-          type: string
-        techPhone:
-          description: Organization tech phone.
-          type: string
-        techEmail:
-          description: Organization tech email.
+        notes:
+          description: Organization notes.
           type: string
       xml:
-        name: OrgAddModel
-      type: object
-    SimpleOrgModel:
-      properties:
-        id:
-          description: Organization Id
-          type: string
-        name:
-          description: Organization name
-          type: string
-        usersCount:
-          description: Number of users in organization
-          type: integer
-          format: int32
-        foldersCount:
-          description: Number of users in organization
-          type: integer
-          format: int32
-        filesCount:
-          description: Number of users in organization
-          type: integer
-          format: int32
-      xml:
-        name: SimpleOrgModel
+        name: OrgPatchModel
       type: object
     OrgMaxUserCountsModel:
       description: Represents maximum user counts for an organization.
@@ -480,86 +447,51 @@ components:
       xml:
         name: OrgMaxUserCountsModel
       type: object
-    SortFieldDto:
+    PagingInfoModel:
+      description: Information about paging for collection response
       properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
       xml:
-        name: SortFieldDto
+        name: PagingInfoModel
       type: object
-    OrgPatchModel:
+    SimpleOrgModel:
       properties:
+        id:
+          description: Organization Id
+          type: string
         name:
-          description: Organization name.
+          description: Organization name
           type: string
-        shortName:
-          description: Organization short name.
-          type: string
-        baseUrl:
-          description: Organization base URL.
-          type: string
-        notes:
-          description: Organization notes.
-          type: string
+        usersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        foldersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        filesCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
       xml:
-        name: OrgPatchModel
-      type: object
-    OrgPackageAccessModel:
-      description: Represents administrator package access settings for an organization.
-      properties:
-        showAdHocTransferEntriesInLog:
-          description: 'This setting, when enabled, allows audit log entries related to Ad Hoc Transfer to be shown in the main Logs page.
-
-            This allows administrators to see all Ad Hoc Transfer related log entries in an organization.
-
-            Default is false.'
-          type: boolean
-        adminPackageAccess:
-          description: 'This setting, when enabled, allows administrators to view the mailboxes and packages for users under their control, and download any attachments associated with those packages.
-
-            In addition, this setting allows administrators to enable shared mailboxes for users.
-
-            Viewing a package or downloading an attachment will be audit logged and visible to the user, though no viewing or download limits will be affected.
-
-            Default is None.'
-          type: string
-          enum:
-          - None
-          - AdminOnly
-          - AdminAndGroupAdmin
-      xml:
-        name: OrgPackageAccessModel
-      type: object
-    OrgAdminPasswordResetSettingsModel:
-      description: Represents administrator password reset settings for an organization.
-      properties:
-        enableAdminPasswordReset:
-          description: 'Enable/disable administrators to reset their own password.
-
-            Default is false.'
-          type: boolean
-      xml:
-        name: OrgAdminPasswordResetSettingsModel
-      type: object
-    OrgUiConfigurationModel:
-      description: Represents user interface configuration
-      properties:
-        showFileAndFolder:
-          description: Show file and folder options
-          type: boolean
-        showAdHocPackage:
-          description: Show ad hoc package options
-          type: boolean
-        showSecureFolderSharing:
-          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
-          type: boolean
-      xml:
-        name: OrgUiConfigurationModel
+        name: SimpleOrgModel
       type: object
     OrgDetailedModel:
       description: Detailed information about organization
@@ -643,28 +575,96 @@ components:
       xml:
         name: OrgDetailedModel
       type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
+    OrgAddModel:
+      description: Represents data required for create organization scenario
+      required:
+      - name
+      - passPhrase
       properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
+        name:
+          description: Organization name.
+          type: string
+        shortName:
+          description: Organization short name.
+          type: string
+        passPhrase:
+          description: Organization pass phrase.
+          type: string
+        techName:
+          description: Organization tech contact name.
+          type: string
+        techPhone:
+          description: Organization tech phone.
+          type: string
+        techEmail:
+          description: Organization tech email.
+          type: string
       xml:
-        name: PagingInfoModel
+        name: OrgAddModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagedModelOfSimpleOrgModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleOrgModel'
+          readOnly: true
+          xml:
+            name: SimpleOrgModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    OrgPackageAccessModel:
+      description: Represents administrator package access settings for an organization.
+      properties:
+        showAdHocTransferEntriesInLog:
+          description: 'This setting, when enabled, allows audit log entries related to Ad Hoc Transfer to be shown in the main Logs page.
+
+            This allows administrators to see all Ad Hoc Transfer related log entries in an organization.
+
+            Default is false.'
+          type: boolean
+        adminPackageAccess:
+          description: 'This setting, when enabled, allows administrators to view the mailboxes and packages for users under their control, and download any attachments associated with those packages.
+
+            In addition, this setting allows administrators to enable shared mailboxes for users.
+
+            Viewing a package or downloading an attachment will be audit logged and visible to the user, though no viewing or download limits will be affected.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - AdminOnly
+          - AdminAndGroupAdmin
+      xml:
+        name: OrgPackageAccessModel
       type: object
   securitySchemes:
     Authorization:

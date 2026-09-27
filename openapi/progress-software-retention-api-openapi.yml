@@ -295,6 +295,89 @@ paths:
         required: true
 components:
   schemas:
+    chef.automate.api.applications.PeriodicJobInfo:
+      description: 'PeriodicJobInfo gives information about the last and next scheduled
+
+        executions of a periodic job.'
+      type: object
+      properties:
+        last_elapsed:
+          type: string
+        last_ended_at:
+          type: string
+          format: date-time
+        last_enqueued_at:
+          type: string
+          format: date-time
+        last_started_at:
+          type: string
+          format: date-time
+        next_due_at:
+          type: string
+          format: date-time
+    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
+      type: object
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq:
+      type: object
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
+      type: object
+    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
+      type: object
+    chef.automate.api.applications.PeriodicJobConfig:
+      description: Periodic job configuration.
+      type: object
+      properties:
+        job_info:
+          $ref: '#/components/schemas/chef.automate.api.applications.PeriodicJobInfo'
+        recurrence:
+          description: 'A recurrence rule that determines how often, at what interval, and when to
+
+            initially start a scheduled job.
+
+
+            If the field is omitted from the request or is set to an emtpy string, no
+
+            change will be made to the current value. Otherwise, the value should match
+
+            the  [recurrence rule format defined in section 4.3.10 of RFC 2445](https://www.ietf.org/rfc/rfc2445.txt).
+
+
+            It is not recommended to change this value from the default setting of a
+
+            60 second interval. This configuration option is provided only for
+
+            consistency with other data lifecyle APIs.'
+          type: string
+        running:
+          description: Enable/disable the job. `false` is disabled, `true` is enabled.
+          type: boolean
+        threshold:
+          description: 'The `threshold` setting used by periodic jobs for evaluating services.
+
+            Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
+          type: string
     chef.automate.api.applications.PeriodicMandatoryJobConfig:
       description: 'Configuration for a periodic job. Initially Jobs using this message type
 
@@ -341,92 +424,9 @@ components:
 
             Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
           type: string
-    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
-      type: object
-    chef.automate.api.applications.RunDisconnectedServicesJobReq:
-      type: object
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse:
       type: object
-    chef.automate.api.applications.PeriodicJobInfo:
-      description: 'PeriodicJobInfo gives information about the last and next scheduled
-
-        executions of a periodic job.'
-      type: object
-      properties:
-        last_elapsed:
-          type: string
-        last_ended_at:
-          type: string
-          format: date-time
-        last_enqueued_at:
-          type: string
-          format: date-time
-        last_started_at:
-          type: string
-          format: date-time
-        next_due_at:
-          type: string
-          format: date-time
-    chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq:
-      type: object
-    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
-      type: object
-    chef.automate.api.applications.PeriodicJobConfig:
-      description: Periodic job configuration.
-      type: object
-      properties:
-        job_info:
-          $ref: '#/components/schemas/chef.automate.api.applications.PeriodicJobInfo'
-        recurrence:
-          description: 'A recurrence rule that determines how often, at what interval, and when to
-
-            initially start a scheduled job.
-
-
-            If the field is omitted from the request or is set to an emtpy string, no
-
-            change will be made to the current value. Otherwise, the value should match
-
-            the  [recurrence rule format defined in section 4.3.10 of RFC 2445](https://www.ietf.org/rfc/rfc2445.txt).
-
-
-            It is not recommended to change this value from the default setting of a
-
-            60 second interval. This configuration option is provided only for
-
-            consistency with other data lifecyle APIs.'
-          type: string
-        running:
-          description: Enable/disable the job. `false` is disabled, `true` is enabled.
-          type: boolean
-        threshold:
-          description: 'The `threshold` setting used by periodic jobs for evaluating services.
-
-            Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
-          type: string
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
+    chef.automate.api.applications.RunDisconnectedServicesJobReq:
       type: object
   securitySchemes:
     APIToken:

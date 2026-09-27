@@ -164,50 +164,17 @@ paths:
         required: true
 components:
   schemas:
-    chef.automate.api.compliance.reporting.v1.AssetListResponse:
+    chef.automate.api.compliance.reporting.v1.ListFilter:
       type: object
       properties:
-        assets:
+        type:
+          description: The field to filter on.
+          type: string
+        values:
+          description: Filters applied to the list.
           type: array
-          title: Assets list as per the filters applied
           items:
-            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Assets'
-    chef.automate.api.compliance.reporting.v1.AssetSummary:
-      type: object
-      properties:
-        collected:
-          title: Accessing the collected from Collected Message
-          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Collected'
-        total_assets:
-          type: integer
-          format: int32
-          title: Total number of total assets
-        uncollected:
-          title: Total number of not collected assests
-          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Uncollected'
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.compliance.reporting.v1.Assets:
-      type: object
-      properties:
-        first_run:
-          type: string
-          title: First Run details of asset
-        last_run:
-          type: string
-          title: Last run details of asset
-        node_uuid:
-          type: string
-          title: Node UUid for the asset
-        status:
-          type: string
-          title: Status of the last run of the asset
+            type: string
     chef.automate.api.compliance.reporting.v1.ComplianceConfigResponse:
       type: object
       title: ComplianceConfigResponse to get the policy name and no of days
@@ -219,58 +186,6 @@ components:
           type: integer
           format: int32
           title: No of days to get for config
-    chef.automate.api.compliance.reporting.v1.Uncollected:
-      type: object
-      properties:
-        unreachable:
-          type: integer
-          format: int32
-          title: Total count of unreachable assets
-        unreported:
-          type: integer
-          format: int32
-          title: Total count of unreported assets
-    chef.automate.api.compliance.reporting.v1.Collected:
-      type: object
-      properties:
-        failed:
-          type: integer
-          format: int32
-          title: Total collected and failed in the assets
-        passed:
-          type: integer
-          format: int32
-          title: Total collected and passsed in the assets
-        skipped:
-          type: integer
-          format: int32
-          title: Total collected and skipped in the assets
-        waived:
-          type: integer
-          format: int32
-          title: Total collected and waived in the assets
-    chef.automate.api.compliance.reporting.v1.ComplianceConfigRequest:
-      type: object
-      title: ComplianceConfigRequest to update no of days in the config
-      properties:
-        value:
-          type: integer
-          format: int32
-          title: No of days for the config
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
     chef.automate.api.compliance.reporting.v1.AssetListRequest:
       type: object
       properties:
@@ -293,6 +208,39 @@ components:
         sort:
           type: string
           title: Sort required from the which field
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.compliance.reporting.v1.Uncollected:
+      type: object
+      properties:
+        unreachable:
+          type: integer
+          format: int32
+          title: Total count of unreachable assets
+        unreported:
+          type: integer
+          format: int32
+          title: Total count of unreported assets
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.compliance.reporting.v1.ListFilters:
       type: object
       properties:
@@ -300,17 +248,69 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.ListFilter'
-    chef.automate.api.compliance.reporting.v1.ListFilter:
+    chef.automate.api.compliance.reporting.v1.Assets:
       type: object
       properties:
-        type:
-          description: The field to filter on.
+        first_run:
           type: string
-        values:
-          description: Filters applied to the list.
+          title: First Run details of asset
+        last_run:
+          type: string
+          title: Last run details of asset
+        node_uuid:
+          type: string
+          title: Node UUid for the asset
+        status:
+          type: string
+          title: Status of the last run of the asset
+    chef.automate.api.compliance.reporting.v1.ComplianceConfigRequest:
+      type: object
+      title: ComplianceConfigRequest to update no of days in the config
+      properties:
+        value:
+          type: integer
+          format: int32
+          title: No of days for the config
+    chef.automate.api.compliance.reporting.v1.AssetListResponse:
+      type: object
+      properties:
+        assets:
           type: array
+          title: Assets list as per the filters applied
           items:
-            type: string
+            $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Assets'
+    chef.automate.api.compliance.reporting.v1.Collected:
+      type: object
+      properties:
+        failed:
+          type: integer
+          format: int32
+          title: Total collected and failed in the assets
+        passed:
+          type: integer
+          format: int32
+          title: Total collected and passsed in the assets
+        skipped:
+          type: integer
+          format: int32
+          title: Total collected and skipped in the assets
+        waived:
+          type: integer
+          format: int32
+          title: Total collected and waived in the assets
+    chef.automate.api.compliance.reporting.v1.AssetSummary:
+      type: object
+      properties:
+        collected:
+          title: Accessing the collected from Collected Message
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Collected'
+        total_assets:
+          type: integer
+          format: int32
+          title: Total number of total assets
+        uncollected:
+          title: Total number of not collected assests
+          $ref: '#/components/schemas/chef.automate.api.compliance.reporting.v1.Uncollected'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

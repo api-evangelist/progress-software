@@ -327,86 +327,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.user_settings.UserSettingValue:
-      type: object
-      properties:
-        default_value:
-          description: Default value for this setting.
-          type: string
-        enabled:
-          type: boolean
-          title: Enabled
-        valid_values:
-          description: Valid values for this setting.
-          type: array
-          items:
-            type: string
-        value:
-          description: Value for this setting.
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.user_settings.AuditLogsRequestStatusResponse:
-      type: object
-      title: AuditLogsRequestStatusResponse is the response containing the status of an audit log request
-      properties:
-        download_url:
-          type: string
-          title: Download URL for the log file - only present when status is "completed"
-        error:
-          type: string
-          title: 'Error code - only present when status indicates an error
-
-            Possible values: "audit_disabled", "not_found", "no_requested_logs"'
-        file_size:
-          type: string
-          title: Human-readable file size (e.g., "15.2 MB") - only present when status is "completed"
-        message:
-          type: string
-          title: Human-readable message describing the status or error
-        request_id:
-          type: string
-          title: UUID of the audit log request
-        status:
-          type: string
-          title: 'Status of the request: "processing", "completed", "error", "not_found"'
-    chef.automate.api.user_settings.PutUserSettingsRequest:
-      type: object
-      properties:
-        settings:
-          description: The user settings to persist.
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/chef.automate.api.user_settings.UserSettingValue'
-        user:
-          description: ID of the user. Cannot be changed. Used to sign in.
-          $ref: '#/components/schemas/chef.automate.api.user_settings.User'
-    chef.automate.api.user_settings.User:
-      type: object
-      properties:
-        connector:
-          type: string
-        name:
-          type: string
-    chef.automate.api.user_settings.SelfAuditResponse:
-      type: object
-      title: SelfAuditResponse is the response after initiating async audit log generation
-      properties:
-        message:
-          type: string
-          title: Human-readable message about the request
-        request_id:
-          type: string
-          title: Unique identifier for the audit log request
-        status:
-          type: string
-          title: Current status of the request (e.g., "processing")
     chef.automate.api.user_settings.PutUserSettingsResponse:
       type: object
       properties:
@@ -435,6 +355,86 @@ components:
           type: string
         message:
           type: string
+    chef.automate.api.user_settings.AuditLogsRequestStatusResponse:
+      type: object
+      title: AuditLogsRequestStatusResponse is the response containing the status of an audit log request
+      properties:
+        download_url:
+          type: string
+          title: Download URL for the log file - only present when status is "completed"
+        error:
+          type: string
+          title: 'Error code - only present when status indicates an error
+
+            Possible values: "audit_disabled", "not_found", "no_requested_logs"'
+        file_size:
+          type: string
+          title: Human-readable file size (e.g., "15.2 MB") - only present when status is "completed"
+        message:
+          type: string
+          title: Human-readable message describing the status or error
+        request_id:
+          type: string
+          title: UUID of the audit log request
+        status:
+          type: string
+          title: 'Status of the request: "processing", "completed", "error", "not_found"'
+    chef.automate.api.user_settings.SelfAuditResponse:
+      type: object
+      title: SelfAuditResponse is the response after initiating async audit log generation
+      properties:
+        message:
+          type: string
+          title: Human-readable message about the request
+        request_id:
+          type: string
+          title: Unique identifier for the audit log request
+        status:
+          type: string
+          title: Current status of the request (e.g., "processing")
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.user_settings.User:
+      type: object
+      properties:
+        connector:
+          type: string
+        name:
+          type: string
+    chef.automate.api.user_settings.UserSettingValue:
+      type: object
+      properties:
+        default_value:
+          description: Default value for this setting.
+          type: string
+        enabled:
+          type: boolean
+          title: Enabled
+        valid_values:
+          description: Valid values for this setting.
+          type: array
+          items:
+            type: string
+        value:
+          description: Value for this setting.
+          type: string
+    chef.automate.api.user_settings.PutUserSettingsRequest:
+      type: object
+      properties:
+        settings:
+          description: The user settings to persist.
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/chef.automate.api.user_settings.UserSettingValue'
+        user:
+          description: ID of the user. Cannot be changed. Used to sign in.
+          $ref: '#/components/schemas/chef.automate.api.user_settings.User'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

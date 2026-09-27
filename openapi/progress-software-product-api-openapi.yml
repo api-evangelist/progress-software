@@ -143,16 +143,15 @@ paths:
       - oauth2: []
 components:
   schemas:
-    Result_String:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
+    NameValuePairResults:
+      description: Results from a name value pair list
       type: object
       properties:
-        data:
-          description: The data payload
-          type: string
-          readOnly: true
+        values:
+          description: Set of name value pairs
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
     NameValuePair:
       description: NameValuePair
       type: object
@@ -173,15 +172,16 @@ components:
           $ref: '#/components/schemas/NameValuePairResults'
           description: The data payload
           readOnly: true
-    NameValuePairResults:
-      description: Results from a name value pair list
+    Result_String:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
       type: object
       properties:
-        values:
-          description: Set of name value pairs
-          type: array
-          items:
-            $ref: '#/components/schemas/NameValuePair'
+        data:
+          description: The data payload
+          type: string
+          readOnly: true
   securitySchemes:
     oauth2:
       type: oauth2

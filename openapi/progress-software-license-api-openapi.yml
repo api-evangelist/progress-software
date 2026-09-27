@@ -102,30 +102,6 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
-    chef.automate.api.license.ApplyLicenseResp:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.license.RequestLicenseReq:
-      type: object
-      properties:
-        email:
-          type: string
-        first_name:
-          type: string
-        gdpr_agree:
-          type: boolean
-        last_name:
-          type: string
     chef.automate.api.license.GetStatusResp:
       type: object
       properties:
@@ -142,20 +118,6 @@ components:
           type: string
         licensed_period:
           $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp.DateRange'
-    chef.automate.api.license.GetStatusResp.DateRange:
-      type: object
-      properties:
-        end:
-          type: string
-          format: date-time
-        start:
-          type: string
-          format: date-time
-    chef.automate.api.license.ApplyLicenseReq:
-      type: object
-      properties:
-        license:
-          type: string
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -170,6 +132,44 @@ components:
           type: string
         message:
           type: string
+    chef.automate.api.license.ApplyLicenseReq:
+      type: object
+      properties:
+        license:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.license.GetStatusResp.DateRange:
+      type: object
+      properties:
+        end:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+    chef.automate.api.license.RequestLicenseReq:
+      type: object
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        gdpr_agree:
+          type: boolean
+        last_name:
+          type: string
+    chef.automate.api.license.ApplyLicenseResp:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.
