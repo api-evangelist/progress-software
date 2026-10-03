@@ -52,13 +52,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.report_manager.ListDownloadReportRequestsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.report_manager.DownloadRequestResponse'
     google.protobuf.Any:
       type: object
       properties:
@@ -67,20 +60,6 @@ components:
         value:
           type: string
           format: byte
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
     chef.automate.api.report_manager.DownloadRequestResponse:
       type: object
       properties:
@@ -103,6 +82,27 @@ components:
           type: string
         status:
           type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.report_manager.ListDownloadReportRequestsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.report_manager.DownloadRequestResponse'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

@@ -1107,6 +1107,22 @@ paths:
     - url: https://127.0.0.1
 components:
   schemas:
+    chef.automate.api.iam.v2.DeleteUserResp:
+      type: object
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
     chef.automate.api.iam.v2.ListUsersResp:
       type: object
       properties:
@@ -1114,6 +1130,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.CreateUserResp:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
     chef.automate.api.iam.v2.UpdateUserReq:
       type: object
       required:
@@ -1131,67 +1152,6 @@ components:
       example:
         name: New Name
         password: aSafePassword
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.iam.v2.DeleteUserResp:
-      type: object
-    chef.automate.api.iam.v2.CreateUserReq:
-      type: object
-      required:
-      - id
-      - name
-      - password
-      properties:
-        id:
-          description: Unique ID. Cannot be changed. Used to sign in.
-          type: string
-        name:
-          description: Display name for local user.
-          type: string
-        password:
-          description: Password for user. Used to sign in.
-          type: string
-      example:
-        id: username001rulez
-        name: Display Name
-        password: aSafePassword
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.User:
-      type: object
-      properties:
-        id:
-          description: Unique ID. Cannot be changed. Used to log in.
-          type: string
-        membership_id:
-          description: Unique ID used to add local users to local teams. Cannot be changed.
-          type: string
-        name:
-          description: Display name for local user.
-          type: string
-    chef.automate.api.iam.v2.UpdateSelfResp:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
     chef.automate.api.iam.v2.UpdateSelfReq:
       type: object
       required:
@@ -1217,79 +1177,61 @@ components:
         name: My New Name
         password: aNewSafePassword
         previous_password: aPreviousSafePassword
-    chef.automate.api.iam.v2.GetUserResp:
+    chef.automate.api.iam.v2.User:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+        id:
+          description: Unique ID. Cannot be changed. Used to log in.
+          type: string
+        membership_id:
+          description: Unique ID used to add local users to local teams. Cannot be changed.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
     chef.automate.api.iam.v2.UpdateUserResp:
       type: object
       properties:
         user:
           $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
-    chef.automate.api.iam.v2.CreateUserResp:
+    chef.automate.api.iam.v2.UpdateSelfResp:
       type: object
       properties:
         user:
           $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
-    AddUserModel:
+    google.protobuf.Any:
+      type: object
       properties:
-        sourceUserId:
-          description: Source user ID to clone from.
+        type_url:
           type: string
-        fullName:
-          description: User full name.
+        value:
           type: string
-        username:
-          description: User login name.
+          format: byte
+    chef.automate.api.iam.v2.GetUserResp:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
+    chef.automate.api.iam.v2.CreateUserReq:
+      type: object
+      required:
+      - id
+      - name
+      - password
+      properties:
+        id:
+          description: Unique ID. Cannot be changed. Used to sign in.
+          type: string
+        name:
+          description: Display name for local user.
           type: string
         password:
-          description: User password.
+          description: Password for user. Used to sign in.
           type: string
-        email:
-          description: User email address.
-          type: string
-        permission:
-          description: User permission.
-          type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
-        forceChangePassword:
-          description: If set to true, user must change his password on his next login.
-          type: boolean
-        orgID:
-          description: 'ID of organization new user has to be member of.
-
-            Will be used only when client user is SysAdmin.
-
-            Otherwise it will be ignored and current user organization ID will be used.'
-          type: integer
-          format: int32
-        notes:
-          description: User description.
-          type: string
-        homeFolderPath:
-          description: 'Path of user home folder to create.
-
-            If empty no home folder will be created.'
-          type: string
-        homeFolderInUseOption:
-          description: 'Describes a behavior when
-
-            specified home folder is already in use'
-          type: string
-          enum:
-          - AllowIfExists
-          - DenyIfExists
-      xml:
-        name: AddUserModel
-      type: object
+      example:
+        id: username001rulez
+        name: Display Name
+        password: aSafePassword
     ErrorModel:
       description: Represents an error returned by API
       properties:
@@ -1307,48 +1249,17 @@ components:
       xml:
         name: ErrorModel
       type: object
-    PagedModelOfSimpleUserModel:
-      description: Represents paged response object with proper navigations
+    SortFieldDto:
       properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleUserModel'
-          readOnly: true
-          xml:
-            name: SimpleUserModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    RegisterExternalTokenRequest:
-      description: Request to register an external token with the current user account.
-      properties:
-        check:
-          description: When true, check if token will be accepted, but do not register it
-          type: boolean
-        type:
-          description: Type of token
+        sortField:
+          type: string
+        sortDirection:
           type: string
           enum:
-          - MicrosoftOutlook
-        token:
-          description: Token content
-          type: string
+          - asc
+          - desc
       xml:
-        name: RegisterExternalTokenRequest
+        name: SortFieldDto
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -1372,165 +1283,6 @@ components:
           format: int32
       xml:
         name: PagingInfoModel
-      type: object
-    PagedModelOfUserExternalTokenModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/UserExternalTokenModel'
-          readOnly: true
-          xml:
-            name: UserExternalTokenModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    PagedModelOfUserGroupModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/UserGroupModel'
-          readOnly: true
-          xml:
-            name: UserGroupModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
-      type: object
-    UserGroupModel:
-      description: Represents a group that a specific user is a member of, including the relationship that user has with the group.
-      properties:
-        relationship:
-          description: User Group relationship
-          type: string
-          enum:
-          - Member
-          - GroupAdmin
-        name:
-          description: Name of the group.
-          type: string
-        description:
-          description: Additional information, related to the group.
-          type: string
-      xml:
-        name: UserGroupModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    SimpleUserModel:
-      description: Simple user model for user lists.
-      properties:
-        id:
-          description: User ID.
-          type: string
-        orgID:
-          description: ID of organization user is a member of.
-          type: integer
-          format: int32
-        username:
-          description: User login name.
-          type: string
-        fullName:
-          description: User full name.
-          type: string
-        permission:
-          description: User permission.
-          type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
-        email:
-          description: User email address.
-          type: string
-        status:
-          description: User security status.
-          type: string
-          enum:
-          - Active
-          - Suspended
-          - Template
-        lastLoginStamp:
-          description: Time of last user login. Null if user has not logged in yet.
-          type: string
-      xml:
-        name: SimpleUserModel
-      type: object
-    UserExternalTokenModel:
-      properties:
-        id:
-          description: ID of the token in the database.
-          type: string
-        tokenID:
-          description: ID of the external token.
-          type: string
-        instID:
-          description: ID of the organization this external token exists in.
-          type: integer
-          format: int32
-        displayName:
-          description: "Display Name of the external token. \nDefaults to user's email address."
-          type: string
-        registeredAt:
-          description: Time of token registration.
-          type: string
-        lastUsed:
-          description: Time of last token use.
-          type: string
-        tokenType:
-          description: External Token Type.
-          type: string
-          enum:
-          - MicrosoftOutlook
-      xml:
-        name: UserExternalTokenModel
       type: object
     UserDetailsModel:
       description: Detailed user model.
@@ -1634,6 +1386,52 @@ components:
       xml:
         name: UserDetailsModel
       type: object
+    UserExternalTokenModel:
+      properties:
+        id:
+          description: ID of the token in the database.
+          type: string
+        tokenID:
+          description: ID of the external token.
+          type: string
+        instID:
+          description: ID of the organization this external token exists in.
+          type: integer
+          format: int32
+        displayName:
+          description: "Display Name of the external token. \nDefaults to user's email address."
+          type: string
+        registeredAt:
+          description: Time of token registration.
+          type: string
+        lastUsed:
+          description: Time of last token use.
+          type: string
+        tokenType:
+          description: External Token Type.
+          type: string
+          enum:
+          - MicrosoftOutlook
+      xml:
+        name: UserExternalTokenModel
+      type: object
+    RegisterExternalTokenRequest:
+      description: Request to register an external token with the current user account.
+      properties:
+        check:
+          description: When true, check if token will be accepted, but do not register it
+          type: boolean
+        type:
+          description: Type of token
+          type: string
+          enum:
+          - MicrosoftOutlook
+        token:
+          description: Token content
+          type: string
+      xml:
+        name: RegisterExternalTokenRequest
+      type: object
     DisplaySettingsModel:
       description: Information about configured display setting
       properties:
@@ -1652,19 +1450,149 @@ components:
       xml:
         name: DisplaySettingsModel
       type: object
-    CurrentUserDeleteExternalTokenByTokenRequest:
-      description: Request to delete an external token using the encoded token string.
+    UserGroupModel:
+      description: Represents a group that a specific user is a member of, including the relationship that user has with the group.
       properties:
-        type:
-          description: Type of token
+        relationship:
+          description: User Group relationship
           type: string
           enum:
-          - MicrosoftOutlook
-        token:
-          description: Token content
+          - Member
+          - GroupAdmin
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
           type: string
       xml:
-        name: CurrentUserDeleteExternalTokenByTokenRequest
+        name: UserGroupModel
+      type: object
+    SimpleUserModel:
+      description: Simple user model for user lists.
+      properties:
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: SimpleUserModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    PagedModelOfUserExternalTokenModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/UserExternalTokenModel'
+          readOnly: true
+          xml:
+            name: UserExternalTokenModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    PagedModelOfSimpleUserModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleUserModel'
+          readOnly: true
+          xml:
+            name: SimpleUserModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    PagedModelOfUserGroupModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/UserGroupModel'
+          readOnly: true
+          xml:
+            name: UserGroupModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
       type: object
     UserPatchModel:
       description: Contains the user properties that should change
@@ -1748,6 +1676,78 @@ components:
           type: string
       xml:
         name: UserPatchModel
+      type: object
+    AddUserModel:
+      properties:
+        sourceUserId:
+          description: Source user ID to clone from.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        username:
+          description: User login name.
+          type: string
+        password:
+          description: User password.
+          type: string
+        email:
+          description: User email address.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        forceChangePassword:
+          description: If set to true, user must change his password on his next login.
+          type: boolean
+        orgID:
+          description: 'ID of organization new user has to be member of.
+
+            Will be used only when client user is SysAdmin.
+
+            Otherwise it will be ignored and current user organization ID will be used.'
+          type: integer
+          format: int32
+        notes:
+          description: User description.
+          type: string
+        homeFolderPath:
+          description: 'Path of user home folder to create.
+
+            If empty no home folder will be created.'
+          type: string
+        homeFolderInUseOption:
+          description: 'Describes a behavior when
+
+            specified home folder is already in use'
+          type: string
+          enum:
+          - AllowIfExists
+          - DenyIfExists
+      xml:
+        name: AddUserModel
+      type: object
+    CurrentUserDeleteExternalTokenByTokenRequest:
+      description: Request to delete an external token using the encoded token string.
+      properties:
+        type:
+          description: Type of token
+          type: string
+          enum:
+          - MicrosoftOutlook
+        token:
+          description: Token content
+          type: string
+      xml:
+        name: CurrentUserDeleteExternalTokenByTokenRequest
       type: object
   securitySchemes:
     APIToken:

@@ -337,32 +337,6 @@ paths:
         required: true
 components:
   schemas:
-    OrgUiConfigurationModel:
-      description: Represents user interface configuration
-      properties:
-        showFileAndFolder:
-          description: Show file and folder options
-          type: boolean
-        showAdHocPackage:
-          description: Show ad hoc package options
-          type: boolean
-        showSecureFolderSharing:
-          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
-          type: boolean
-      xml:
-        name: OrgUiConfigurationModel
-      type: object
-    OrgAdminPasswordResetSettingsModel:
-      description: Represents administrator password reset settings for an organization.
-      properties:
-        enableAdminPasswordReset:
-          description: 'Enable/disable administrators to reset their own password.
-
-            Default is false.'
-          type: boolean
-      xml:
-        name: OrgAdminPasswordResetSettingsModel
-      type: object
     OrgPackageAccessUpdateModel:
       description: Represents administrator package access settings update model for an organization.
       properties:
@@ -394,22 +368,17 @@ components:
       xml:
         name: OrgPackageAccessUpdateModel
       type: object
-    OrgPatchModel:
+    SortFieldDto:
       properties:
-        name:
-          description: Organization name.
+        sortField:
           type: string
-        shortName:
-          description: Organization short name.
+        sortDirection:
           type: string
-        baseUrl:
-          description: Organization base URL.
-          type: string
-        notes:
-          description: Organization notes.
-          type: string
+          enum:
+          - asc
+          - desc
       xml:
-        name: OrgPatchModel
+        name: SortFieldDto
       type: object
     OrgMaxUserCountsModel:
       description: Represents maximum user counts for an organization.
@@ -470,6 +439,47 @@ components:
       xml:
         name: PagingInfoModel
       type: object
+    PagedModelOfSimpleOrgModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleOrgModel'
+          readOnly: true
+          xml:
+            name: SimpleOrgModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    OrgUiConfigurationModel:
+      description: Represents user interface configuration
+      properties:
+        showFileAndFolder:
+          description: Show file and folder options
+          type: boolean
+        showAdHocPackage:
+          description: Show ad hoc package options
+          type: boolean
+        showSecureFolderSharing:
+          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
+          type: boolean
+      xml:
+        name: OrgUiConfigurationModel
+      type: object
     SimpleOrgModel:
       properties:
         id:
@@ -492,6 +502,50 @@ components:
           format: int32
       xml:
         name: SimpleOrgModel
+      type: object
+    OrgPatchModel:
+      properties:
+        name:
+          description: Organization name.
+          type: string
+        shortName:
+          description: Organization short name.
+          type: string
+        baseUrl:
+          description: Organization base URL.
+          type: string
+        notes:
+          description: Organization notes.
+          type: string
+      xml:
+        name: OrgPatchModel
+      type: object
+    OrgAddModel:
+      description: Represents data required for create organization scenario
+      required:
+      - name
+      - passPhrase
+      properties:
+        name:
+          description: Organization name.
+          type: string
+        shortName:
+          description: Organization short name.
+          type: string
+        passPhrase:
+          description: Organization pass phrase.
+          type: string
+        techName:
+          description: Organization tech contact name.
+          type: string
+        techPhone:
+          description: Organization tech phone.
+          type: string
+        techEmail:
+          description: Organization tech email.
+          type: string
+      xml:
+        name: OrgAddModel
       type: object
     OrgDetailedModel:
       description: Detailed information about organization
@@ -575,71 +629,6 @@ components:
       xml:
         name: OrgDetailedModel
       type: object
-    OrgAddModel:
-      description: Represents data required for create organization scenario
-      required:
-      - name
-      - passPhrase
-      properties:
-        name:
-          description: Organization name.
-          type: string
-        shortName:
-          description: Organization short name.
-          type: string
-        passPhrase:
-          description: Organization pass phrase.
-          type: string
-        techName:
-          description: Organization tech contact name.
-          type: string
-        techPhone:
-          description: Organization tech phone.
-          type: string
-        techEmail:
-          description: Organization tech email.
-          type: string
-      xml:
-        name: OrgAddModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    PagedModelOfSimpleOrgModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleOrgModel'
-          readOnly: true
-          xml:
-            name: SimpleOrgModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
     OrgPackageAccessModel:
       description: Represents administrator package access settings for an organization.
       properties:
@@ -665,6 +654,17 @@ components:
           - AdminAndGroupAdmin
       xml:
         name: OrgPackageAccessModel
+      type: object
+    OrgAdminPasswordResetSettingsModel:
+      description: Represents administrator password reset settings for an organization.
+      properties:
+        enableAdminPasswordReset:
+          description: 'Enable/disable administrators to reset their own password.
+
+            Default is false.'
+          type: boolean
+      xml:
+        name: OrgAdminPasswordResetSettingsModel
       type: object
   securitySchemes:
     Authorization:

@@ -659,459 +659,6 @@ paths:
       - Authorization: []
 components:
   schemas:
-    IFolderPermission:
-      description: Represents folder permission object
-      properties:
-        canListSubfolders:
-          description: User can list the subfolders of a folder.
-          readOnly: true
-          type: boolean
-        canAddSubfolders:
-          description: User can add subfolders to the folder.
-          readOnly: true
-          type: boolean
-        canChangeSettings:
-          description: User can change the settings of the folder.
-          readOnly: true
-          type: boolean
-        canDelete:
-          description: User can delete the folder.
-          readOnly: true
-          type: boolean
-        canListFiles:
-          description: User can list the files in the folder.
-          readOnly: true
-          type: boolean
-        canReadFiles:
-          description: User can download the files in the folder.
-          readOnly: true
-          type: boolean
-        canWriteFiles:
-          description: User can upload files to the folder.
-          readOnly: true
-          type: boolean
-        canDeleteFiles:
-          description: User can delete files in the folder.
-          readOnly: true
-          type: boolean
-        canShare:
-          description: User can share files in the folder
-          readOnly: true
-          type: boolean
-      xml:
-        name: IFolderPermission
-      type: object
-    FileDetailsModel:
-      description: Represents a file and all available attributes
-      properties:
-        orgID:
-          description: ID of the organization this file exists in.
-          type: string
-        originalFileType:
-          description: Describes what type of file this file was originally.
-          type: string
-          enum:
-          - Any
-          - Text
-          - HTML
-          - CSV
-          - XML
-          - WebPost
-          - AuditLog
-          - Message
-          - MessageArchive
-          - MessageDraft
-          - MessageTemplate
-          - Upload31
-          - Upload32
-        currentFileType:
-          description: Describes what type of file this file is currently.
-          type: string
-          enum:
-          - Any
-          - Text
-          - HTML
-          - CSV
-          - XML
-          - WebPost
-          - AuditLog
-          - Message
-          - MessageArchive
-          - MessageDraft
-          - MessageTemplate
-          - Upload31
-          - Upload32
-        uploadComment:
-          description: Any optional comments uploaded with this file.
-          type: string
-        uploadIP:
-          description: The IP Address, if any, from which this file was uploaded.
-          type: string
-        uploadAgentBrand:
-          description: Brand of the agent used to upload this file.
-          type: string
-        uploadAgentVersion:
-          description: Version of the agent used to upload this file.
-          type: string
-        uploadIntegrity:
-          description: 1 if file was uploaded with integrity checking, 0 if file was not.
-          type: integer
-          format: int32
-        dlpChecked:
-          description: If true, the file was determined to not have a DLP violation; otherwise, the file was either not checked, or does contain a violation.
-          type: boolean
-        dlpMetaData:
-          description: If 1, the file’s metadata contains DLP violations, and should not be displayed. Otherwise, if 0, there are no DLP violations in the file metadata.
-          type: integer
-          format: int32
-        dlpViolation:
-          description: File DLP violation info
-          type: string
-        dlpBlocked:
-          description: When true, the file contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
-          type: boolean
-        uploadUserFullName:
-          description: The real name of the user account which uploaded this file.
-          type: string
-        downloadCount:
-          description: Number of times this file has been downloaded.
-          type: integer
-          format: int32
-        originalFilename:
-          description: The original name of this file.
-          type: string
-        hash:
-          description: SHA-1 hash of the file
-          type: string
-        folderID:
-          description: ID of the folder this file is currently in.
-          type: integer
-          format: int32
-        uploadUsername:
-          description: The username of the user account which uploaded this file.
-          type: string
-        path:
-          description: The full path of this file.
-          type: string
-        uploadStamp:
-          description: The date and time this file was uploaded.
-          type: string
-        isNew:
-          description: Indicating whether the file is considered new for the current user
-          type: boolean
-        name:
-          description: The name of this file.
-          type: string
-        size:
-          description: Size in bytes of this file.
-          type: integer
-          format: int64
-        id:
-          description: The unique ID of the file. Also known as the tracking number.
-          type: string
-      xml:
-        name: FileDetailsModel
-      type: object
-    UnprocessableEntityErrorModel:
-      description: Represents an error returned by API in case of HTTP 422 error
-      properties:
-        errors:
-          description: Detailed information about errors in provided parameters
-          items:
-            $ref: '#/components/schemas/FieldErrorModel'
-          readOnly: true
-          xml:
-            name: FieldErrorModel
-            wrapped: true
-          type: array
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: UnprocessableEntityErrorModel
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
-    SimpleFolderModel:
-      description: Represents basic folder data required for all scenarios
-      properties:
-        id:
-          description: The unique ID of this folder.
-          type: integer
-          format: int32
-        parentId:
-          description: The ID of this folder's parent folder or "0" if it does not have a parent folder.
-          type: integer
-          format: int32
-        name:
-          description: The (short) name of this folder.
-          type: string
-        lastContentChangeTime:
-          description: Last time the folder content changed
-          type: string
-        folderType:
-          description: Indicates what kind of folder this is.
-          type: string
-          enum:
-          - Virtual
-          - Normal
-          - Archive
-          - Webpost
-          - GlobalMessaging
-          - Mailbox
-          - Root
-          - RootArchives
-          - RootWebposts
-        path:
-          description: The (long) name of this folder.
-          type: string
-        isShared:
-          description: Indicates whether this folder is shared with someone
-          type: boolean
-        permission:
-          $ref: '#/components/schemas/IFolderPermission'
-          description: A MOVEit Permission describing the currently authorized user's permissions on this folder.
-        subfolderCount:
-          description: Number of subfolders in this folder
-          type: integer
-          format: int32
-        totalFileCount:
-          description: Number of files in this folder
-          type: integer
-          format: int32
-        sharedWithUsersCount:
-          description: Number of users this folder is shared with
-          type: integer
-          format: int32
-        sharedWithGroupsCount:
-          description: Number of groups this folder is shared with
-          type: integer
-          format: int32
-      xml:
-        name: SimpleFolderModel
-      type: object
-    FolderContentItemModel:
-      description: Represents information about items stored in folder.
-      properties:
-        id:
-          description: ID of the item.
-          type: integer
-          format: int32
-        parentId:
-          description: The ID of the parent folder.
-          type: integer
-          format: int32
-        type:
-          description: Content Type.
-          type: string
-          enum:
-          - Folder
-          - File
-        name:
-          description: The name of this item.
-          type: string
-        lastUpdateTime:
-          description: Last time this item changed
-          type: string
-        path:
-          description: Path to this item.
-          type: string
-        size:
-          description: Size of this item in bytes.
-          type: integer
-          format: int64
-        folderType:
-          description: Indicates what kind of folder this is.
-          type: string
-          enum:
-          - Virtual
-          - Normal
-          - Archive
-          - Webpost
-          - GlobalMessaging
-          - Mailbox
-          - Root
-          - RootArchives
-          - RootWebposts
-        isShared:
-          description: Indicates whether folder has been shared with someone.
-          type: boolean
-      xml:
-        name: FolderContentItemModel
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
-      type: object
-    PagedModelOfSimpleFolderModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleFolderModel'
-          readOnly: true
-          xml:
-            name: SimpleFolderModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    ResumableFileUploadModel:
-      description: Represents resumable file upload information after initial request
-      properties:
-        fileId:
-          type: string
-        bytes:
-          type: integer
-          format: int64
-        maxChunkSize:
-          type: integer
-          format: int64
-      xml:
-        name: ResumableFileUploadModel
-      type: object
-    PagedModelOfSimpleFileResourceModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleFileResourceModel'
-          readOnly: true
-          xml:
-            name: SimpleFileResourceModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    AddFolderModel:
-      properties:
-        name:
-          description: Folder name
-          type: string
-        inheritPermissions:
-          description: Indicates how parent folder permissions should be inherited
-          type: string
-          enum:
-          - None
-          - CopyOnly
-          - Always
-      xml:
-        name: AddFolderModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    SimpleFileResourceModel:
-      description: 'Container object used to provide information about a specific
-
-        file on a MOVEit Transfer server.'
-      properties:
-        folderID:
-          description: ID of the folder this file is currently in.
-          type: integer
-          format: int32
-        uploadUsername:
-          description: The username of the user account which uploaded this file.
-          type: string
-        path:
-          description: The full path of this file.
-          type: string
-        uploadStamp:
-          description: The date and time this file was uploaded.
-          type: string
-        isNew:
-          description: Indicating whether the file is considered new for the current user
-          type: boolean
-        name:
-          description: The name of this file.
-          type: string
-        size:
-          description: Size in bytes of this file.
-          type: integer
-          format: int64
-        id:
-          description: The unique ID of the file. Also known as the tracking number.
-          type: string
-      xml:
-        name: SimpleFileResourceModel
-      type: object
     FolderDetailsModel:
       description: Represents a folder and all available attributes
       properties:
@@ -1287,6 +834,301 @@ components:
       xml:
         name: FolderDetailsModel
       type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    PagedModelOfSimpleFolderModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleFolderModel'
+          readOnly: true
+          xml:
+            name: SimpleFolderModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    FileDetailsModel:
+      description: Represents a file and all available attributes
+      properties:
+        orgID:
+          description: ID of the organization this file exists in.
+          type: string
+        originalFileType:
+          description: Describes what type of file this file was originally.
+          type: string
+          enum:
+          - Any
+          - Text
+          - HTML
+          - CSV
+          - XML
+          - WebPost
+          - AuditLog
+          - Message
+          - MessageArchive
+          - MessageDraft
+          - MessageTemplate
+          - Upload31
+          - Upload32
+        currentFileType:
+          description: Describes what type of file this file is currently.
+          type: string
+          enum:
+          - Any
+          - Text
+          - HTML
+          - CSV
+          - XML
+          - WebPost
+          - AuditLog
+          - Message
+          - MessageArchive
+          - MessageDraft
+          - MessageTemplate
+          - Upload31
+          - Upload32
+        uploadComment:
+          description: Any optional comments uploaded with this file.
+          type: string
+        uploadIP:
+          description: The IP Address, if any, from which this file was uploaded.
+          type: string
+        uploadAgentBrand:
+          description: Brand of the agent used to upload this file.
+          type: string
+        uploadAgentVersion:
+          description: Version of the agent used to upload this file.
+          type: string
+        uploadIntegrity:
+          description: 1 if file was uploaded with integrity checking, 0 if file was not.
+          type: integer
+          format: int32
+        dlpChecked:
+          description: If true, the file was determined to not have a DLP violation; otherwise, the file was either not checked, or does contain a violation.
+          type: boolean
+        dlpMetaData:
+          description: If 1, the file’s metadata contains DLP violations, and should not be displayed. Otherwise, if 0, there are no DLP violations in the file metadata.
+          type: integer
+          format: int32
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the file contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        uploadUserFullName:
+          description: The real name of the user account which uploaded this file.
+          type: string
+        downloadCount:
+          description: Number of times this file has been downloaded.
+          type: integer
+          format: int32
+        originalFilename:
+          description: The original name of this file.
+          type: string
+        hash:
+          description: SHA-1 hash of the file
+          type: string
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: FileDetailsModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    SimpleFolderModel:
+      description: Represents basic folder data required for all scenarios
+      properties:
+        id:
+          description: The unique ID of this folder.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of this folder's parent folder or "0" if it does not have a parent folder.
+          type: integer
+          format: int32
+        name:
+          description: The (short) name of this folder.
+          type: string
+        lastContentChangeTime:
+          description: Last time the folder content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this folder.
+          type: string
+        isShared:
+          description: Indicates whether this folder is shared with someone
+          type: boolean
+        permission:
+          $ref: '#/components/schemas/IFolderPermission'
+          description: A MOVEit Permission describing the currently authorized user's permissions on this folder.
+        subfolderCount:
+          description: Number of subfolders in this folder
+          type: integer
+          format: int32
+        totalFileCount:
+          description: Number of files in this folder
+          type: integer
+          format: int32
+        sharedWithUsersCount:
+          description: Number of users this folder is shared with
+          type: integer
+          format: int32
+        sharedWithGroupsCount:
+          description: Number of groups this folder is shared with
+          type: integer
+          format: int32
+      xml:
+        name: SimpleFolderModel
+      type: object
+    ResumableFileUploadModel:
+      description: Represents resumable file upload information after initial request
+      properties:
+        fileId:
+          type: string
+        bytes:
+          type: integer
+          format: int64
+        maxChunkSize:
+          type: integer
+          format: int64
+      xml:
+        name: ResumableFileUploadModel
+      type: object
     PagedModelOfFolderContentItemModel:
       description: Represents paged response object with proper navigations
       properties:
@@ -1312,6 +1154,164 @@ components:
           type: array
       xml:
         name: PagedModel`1
+      type: object
+    FolderContentItemModel:
+      description: Represents information about items stored in folder.
+      properties:
+        id:
+          description: ID of the item.
+          type: integer
+          format: int32
+        parentId:
+          description: The ID of the parent folder.
+          type: integer
+          format: int32
+        type:
+          description: Content Type.
+          type: string
+          enum:
+          - Folder
+          - File
+        name:
+          description: The name of this item.
+          type: string
+        lastUpdateTime:
+          description: Last time this item changed
+          type: string
+        path:
+          description: Path to this item.
+          type: string
+        size:
+          description: Size of this item in bytes.
+          type: integer
+          format: int64
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        isShared:
+          description: Indicates whether folder has been shared with someone.
+          type: boolean
+      xml:
+        name: FolderContentItemModel
+      type: object
+    PagedModelOfSimpleFileResourceModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleFileResourceModel'
+          readOnly: true
+          xml:
+            name: SimpleFileResourceModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    AddFolderModel:
+      properties:
+        name:
+          description: Folder name
+          type: string
+        inheritPermissions:
+          description: Indicates how parent folder permissions should be inherited
+          type: string
+          enum:
+          - None
+          - CopyOnly
+          - Always
+      xml:
+        name: AddFolderModel
+      type: object
+    IFolderPermission:
+      description: Represents folder permission object
+      properties:
+        canListSubfolders:
+          description: User can list the subfolders of a folder.
+          readOnly: true
+          type: boolean
+        canAddSubfolders:
+          description: User can add subfolders to the folder.
+          readOnly: true
+          type: boolean
+        canChangeSettings:
+          description: User can change the settings of the folder.
+          readOnly: true
+          type: boolean
+        canDelete:
+          description: User can delete the folder.
+          readOnly: true
+          type: boolean
+        canListFiles:
+          description: User can list the files in the folder.
+          readOnly: true
+          type: boolean
+        canReadFiles:
+          description: User can download the files in the folder.
+          readOnly: true
+          type: boolean
+        canWriteFiles:
+          description: User can upload files to the folder.
+          readOnly: true
+          type: boolean
+        canDeleteFiles:
+          description: User can delete files in the folder.
+          readOnly: true
+          type: boolean
+        canShare:
+          description: User can share files in the folder
+          readOnly: true
+          type: boolean
+      xml:
+        name: IFolderPermission
       type: object
     FieldErrorModel:
       description: Describes error in particular parameter of the request

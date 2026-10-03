@@ -173,33 +173,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    chef.automate.api.ingest.response.ProcessNodeDeleteResponse:
-      type: object
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.common.version.VersionInfo:
-      type: object
-      properties:
-        built:
-          type: string
-        name:
-          type: string
-        sha:
-          type: string
-        version:
-          type: string
     chef.automate.api.ingest.request.Resource:
       type: object
       properties:
@@ -233,7 +206,11 @@ components:
           type: string
         type:
           type: string
-    chef.automate.api.ingest.response.ProcessMultipleNodeDeleteResponse:
+    chef.automate.api.ingest.response.ProcessChefActionResponse:
+      type: object
+    chef.automate.api.ingest.response.ProcessLivenessResponse:
+      type: object
+    chef.automate.api.ingest.response.ProcessNodeDeleteResponse:
       type: object
     chef.automate.api.ingest.request.RunList:
       type: object
@@ -250,91 +227,20 @@ components:
           type: string
         version:
           type: string
-    chef.automate.api.ingest.request.ExpandedRunList:
+    grpc.gateway.runtime.Error:
       type: object
       properties:
-        id:
-          type: string
-        run_list:
+        code:
+          type: integer
+          format: int32
+        details:
           type: array
           items:
-            $ref: '#/components/schemas/chef.automate.api.ingest.request.RunList'
-    chef.automate.api.ingest.request.Liveness:
-      type: object
-      properties:
-        chef_server_fqdn:
-          type: string
-        entity_uuid:
-          type: string
-        event_type:
-          type: string
-        message_version:
-          type: string
-        node_name:
-          type: string
-        organization_name:
-          type: string
-        source:
-          type: string
-    chef.automate.api.ingest.request.Deprecation:
-      type: object
-      properties:
-        location:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
           type: string
         message:
           type: string
-        url:
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.ingest.request.MultipleNodeDeleteRequest:
-      type: object
-      properties:
-        node_ids:
-          type: array
-          items:
-            type: string
-    chef.automate.api.ingest.request.Error:
-      type: object
-      properties:
-        backtrace:
-          type: array
-          items:
-            type: string
-        class:
-          type: string
-        description:
-          $ref: '#/components/schemas/chef.automate.api.ingest.request.Description'
-        message:
-          type: string
-    chef.automate.api.ingest.response.ProcessChefRunResponse:
-      type: object
-    chef.automate.api.ingest.request.Delete:
-      type: object
-      properties:
-        id:
-          type: string
-          title: ID of the action message itself
-        node_id:
-          type: string
-        node_name:
-          type: string
-        organization_name:
-          type: string
-        remote_hostname:
-          type: string
-        service_hostname:
-          type: string
-    chef.automate.api.ingest.response.ProcessLivenessResponse:
-      type: object
-    chef.automate.api.ingest.response.ProcessChefActionResponse:
-      type: object
     chef.automate.api.ingest.request.Action:
       type: object
       properties:
@@ -393,6 +299,14 @@ components:
           type: string
         user_agent:
           type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.ingest.request.Run:
       type: object
       properties:
@@ -469,6 +383,70 @@ components:
         updated_resource_count:
           type: integer
           format: int32
+    chef.automate.api.ingest.request.Deprecation:
+      type: object
+      properties:
+        location:
+          type: string
+        message:
+          type: string
+        url:
+          type: string
+    chef.automate.api.ingest.request.Liveness:
+      type: object
+      properties:
+        chef_server_fqdn:
+          type: string
+        entity_uuid:
+          type: string
+        event_type:
+          type: string
+        message_version:
+          type: string
+        node_name:
+          type: string
+        organization_name:
+          type: string
+        source:
+          type: string
+    chef.automate.api.ingest.request.Delete:
+      type: object
+      properties:
+        id:
+          type: string
+          title: ID of the action message itself
+        node_id:
+          type: string
+        node_name:
+          type: string
+        organization_name:
+          type: string
+        remote_hostname:
+          type: string
+        service_hostname:
+          type: string
+    chef.automate.api.ingest.request.MultipleNodeDeleteRequest:
+      type: object
+      properties:
+        node_ids:
+          type: array
+          items:
+            type: string
+    chef.automate.api.ingest.response.ProcessMultipleNodeDeleteResponse:
+      type: object
+    chef.automate.api.ingest.request.Error:
+      type: object
+      properties:
+        backtrace:
+          type: array
+          items:
+            type: string
+        class:
+          type: string
+        description:
+          $ref: '#/components/schemas/chef.automate.api.ingest.request.Description'
+        message:
+          type: string
     chef.automate.api.ingest.request.Description:
       type: object
       properties:
@@ -477,6 +455,28 @@ components:
           items:
             type: object
         title:
+          type: string
+    chef.automate.api.ingest.request.ExpandedRunList:
+      type: object
+      properties:
+        id:
+          type: string
+        run_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.ingest.request.RunList'
+    chef.automate.api.ingest.response.ProcessChefRunResponse:
+      type: object
+    chef.automate.api.common.version.VersionInfo:
+      type: object
+      properties:
+        built:
+          type: string
+        name:
+          type: string
+        sha:
+          type: string
+        version:
           type: string
   securitySchemes:
     APIToken:

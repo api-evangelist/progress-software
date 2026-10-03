@@ -327,34 +327,22 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
+    chef.automate.api.user_settings.PutUserSettingsRequest:
+      type: object
+      properties:
+        settings:
+          description: The user settings to persist.
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/chef.automate.api.user_settings.UserSettingValue'
+        user:
+          description: ID of the user. Cannot be changed. Used to sign in.
+          $ref: '#/components/schemas/chef.automate.api.user_settings.User'
     chef.automate.api.user_settings.PutUserSettingsResponse:
       type: object
       properties:
         user:
           $ref: '#/components/schemas/chef.automate.api.user_settings.User'
-    chef.automate.api.user_settings.GetUserSettingsResponse:
-      type: object
-      properties:
-        settings:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/chef.automate.api.user_settings.UserSettingValue'
-        user:
-          $ref: '#/components/schemas/chef.automate.api.user_settings.User'
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
     chef.automate.api.user_settings.AuditLogsRequestStatusResponse:
       type: object
       title: AuditLogsRequestStatusResponse is the response containing the status of an audit log request
@@ -379,6 +367,20 @@ components:
         status:
           type: string
           title: 'Status of the request: "processing", "completed", "error", "not_found"'
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
     chef.automate.api.user_settings.SelfAuditResponse:
       type: object
       title: SelfAuditResponse is the response after initiating async audit log generation
@@ -392,14 +394,6 @@ components:
         status:
           type: string
           title: Current status of the request (e.g., "processing")
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.user_settings.User:
       type: object
       properties:
@@ -424,16 +418,22 @@ components:
         value:
           description: Value for this setting.
           type: string
-    chef.automate.api.user_settings.PutUserSettingsRequest:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.user_settings.GetUserSettingsResponse:
       type: object
       properties:
         settings:
-          description: The user settings to persist.
           type: object
           additionalProperties:
             $ref: '#/components/schemas/chef.automate.api.user_settings.UserSettingValue'
         user:
-          description: ID of the user. Cannot be changed. Used to sign in.
           $ref: '#/components/schemas/chef.automate.api.user_settings.User'
   securitySchemes:
     APIToken:

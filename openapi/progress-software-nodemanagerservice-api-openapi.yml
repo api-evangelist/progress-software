@@ -457,6 +457,13 @@ paths:
         required: true
 components:
   schemas:
+    chef.automate.api.nodes.manager.v1.Query.OrderType:
+      description: Sort the results in ascending or descending order.
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
     chef.automate.api.common.query.Filter:
       type: object
       properties:
@@ -496,72 +503,6 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.nodes.manager.v1.CredentialsByTags:
-      type: object
-      required:
-      - tag_key
-      - tag_value
-      - credential_ids
-      properties:
-        credential_ids:
-          description: List of credential ids to associate with the key/value pair.
-          type: array
-          items:
-            type: string
-        tag_key:
-          description: Tag key to match on.
-          type: string
-        tag_value:
-          description: Tag value to match on.
-          type: string
-    chef.automate.api.nodes.manager.v1.Id:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          description: UUID for the node manager.
-          type: string
-      example:
-        uuid: cd3ad3d9-2776-4ef1-a904-4c229d1642ee
-    chef.automate.api.common.query.Kv:
-      type: object
-      properties:
-        key:
-          description: Tag key.
-          type: string
-        value:
-          description: Tag value.
-          type: string
-    chef.automate.api.nodes.manager.v1.NodeManagers:
-      type: object
-      properties:
-        managers:
-          description: List of nodemanagers.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManager'
-        total:
-          description: Total count of nodemanagers.
-          type: integer
-          format: int32
-      example:
-        total: '1'
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.nodes.manager.v1.Query.OrderType:
-      description: Sort the results in ascending or descending order.
-      type: string
-      default: ASC
-      enum:
-      - ASC
-      - DESC
     chef.automate.api.nodes.manager.v1.Query:
       type: object
       required:
@@ -597,28 +538,25 @@ components:
           values:
           - aws-ec2
         sort: date_added
-    chef.automate.api.nodes.manager.v1.ConnectResponse:
-      type: object
-    chef.automate.api.nodes.manager.v1.Ids:
+    chef.automate.api.common.query.Kv:
       type: object
       properties:
-        ids:
-          description: List of node manager UUIDs.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Id'
-    chef.automate.api.nodes.manager.v1.Nodes:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
+    chef.automate.api.nodes.manager.v1.Id:
       type: object
+      required:
+      - id
       properties:
-        nodes:
-          description: List of node names matching the request.
-          type: array
-          items:
-            type: string
-        total:
-          description: Total count of node names matching the request.
-          type: integer
-          format: int32
+        id:
+          description: UUID for the node manager.
+          type: string
+      example:
+        uuid: cd3ad3d9-2776-4ef1-a904-4c229d1642ee
     chef.automate.api.nodes.manager.v1.NodeManager:
       type: object
       required:
@@ -695,6 +633,66 @@ components:
           type: array
           items:
             type: string
+    chef.automate.api.nodes.manager.v1.CredentialsByTags:
+      type: object
+      required:
+      - tag_key
+      - tag_value
+      - credential_ids
+      properties:
+        credential_ids:
+          description: List of credential ids to associate with the key/value pair.
+          type: array
+          items:
+            type: string
+        tag_key:
+          description: Tag key to match on.
+          type: string
+        tag_value:
+          description: Tag value to match on.
+          type: string
+    chef.automate.api.nodes.manager.v1.Ids:
+      type: object
+      properties:
+        ids:
+          description: List of node manager UUIDs.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Id'
+    chef.automate.api.nodes.manager.v1.NodeManagers:
+      type: object
+      properties:
+        managers:
+          description: List of nodemanagers.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.NodeManager'
+        total:
+          description: Total count of nodemanagers.
+          type: integer
+          format: int32
+      example:
+        total: '1'
+    chef.automate.api.nodes.manager.v1.Nodes:
+      type: object
+      properties:
+        nodes:
+          description: List of node names matching the request.
+          type: array
+          items:
+            type: string
+        total:
+          description: Total count of node names matching the request.
+          type: integer
+          format: int32
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.nodes.manager.v1.FieldQuery:
       type: object
       required:
@@ -709,6 +707,8 @@ components:
         query:
           description: Query details (filters) to be applied to the results.
           $ref: '#/components/schemas/chef.automate.api.nodes.manager.v1.Query'
+    chef.automate.api.nodes.manager.v1.ConnectResponse:
+      type: object
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

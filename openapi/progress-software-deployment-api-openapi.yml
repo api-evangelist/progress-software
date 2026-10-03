@@ -63,15 +63,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    chef.automate.api.deployment.Version:
-      description: 'The manifest version constructed with:
-
-        * build_timestamp'
-      type: object
-      title: Version message
-      properties:
-        build_timestamp:
-          type: string
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -86,14 +77,15 @@ components:
           type: string
         message:
           type: string
-    google.protobuf.Any:
+    chef.automate.api.deployment.Version:
+      description: 'The manifest version constructed with:
+
+        * build_timestamp'
       type: object
+      title: Version message
       properties:
-        type_url:
+        build_timestamp:
           type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.deployment.ServiceVersion:
       type: object
       properties:
@@ -112,6 +104,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/chef.automate.api.deployment.ServiceVersion'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

@@ -212,18 +212,20 @@ paths:
       - oauth2: []
 components:
   schemas:
-    PageResult_ScanDeviceSummaryList:
-      description: A result envelope that carries paged data
+    PagingInfo_ScanDeviceSummaryList:
+      description: The paging information
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_ScanDeviceSummaryList'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          $ref: '#/components/schemas/ScanDeviceSummaryList'
-          description: The data payload
-          readOnly: true
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
     PagingInfo_List_ActiveScan:
       description: The paging information
       type: object
@@ -238,57 +240,6 @@ components:
           format: int32
           description: The number of items in the page being returned
           type: integer
-    ScanDeviceSummaryList:
-      description: A list of device summary items
-      type: object
-      properties:
-        devices:
-          description: The set of device summaries
-          type: array
-          items:
-            $ref: '#/components/schemas/DeviceOverview'
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-    MonitorAssignmentStatus:
-      description: The current monitoring status of this monitor
-      type: object
-      properties:
-        state:
-          description: The internal state of the monitor
-          enum:
-          - Unknown
-          - Up
-          - Down
-          - Maintenance
-          - Any
-          type: string
-        reason:
-          description: The reason a monitor is in the current state
-          type: string
-        lastChangeUtc:
-          format: date-time
-          description: The time when the status changed in Utc
-          type: string
-        monitorTypeId:
-          description: The monitor type id as it exists in the library
-          type: string
-        monitorTypeName:
-          description: The monitor type name as it exists in the library
-          type: string
-        comment:
-          description: 'Comment specified when the monitor was assigned to the device
-
-            Typically used for interface monitor assignment where comment is the interface description'
-          type: string
-        enabled:
-          description: Indicates whether the monitor is enabled
-          type: boolean
-        id:
-          type: string
     DeviceOverview:
       description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
       type: object
@@ -348,6 +299,42 @@ components:
           type: string
         id:
           type: string
+    MonitorAssignmentStatus:
+      description: The current monitoring status of this monitor
+      type: object
+      properties:
+        state:
+          description: The internal state of the monitor
+          enum:
+          - Unknown
+          - Up
+          - Down
+          - Maintenance
+          - Any
+          type: string
+        reason:
+          description: The reason a monitor is in the current state
+          type: string
+        lastChangeUtc:
+          format: date-time
+          description: The time when the status changed in Utc
+          type: string
+        monitorTypeId:
+          description: The monitor type id as it exists in the library
+          type: string
+        monitorTypeName:
+          description: The monitor type name as it exists in the library
+          type: string
+        comment:
+          description: 'Comment specified when the monitor was assigned to the device
+
+            Typically used for interface monitor assignment where comment is the interface description'
+          type: string
+        enabled:
+          description: Indicates whether the monitor is enabled
+          type: boolean
+        id:
+          type: string
     PageResult_List_ActiveScan:
       description: A result envelope that carries paged data
       type: object
@@ -367,6 +354,21 @@ components:
       properties:
         success:
           type: boolean
+    ScanDeviceSummaryList:
+      description: A list of device summary items
+      type: object
+      properties:
+        devices:
+          description: The set of device summaries
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceOverview'
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
     Result_ActiveScan:
       description: 'The standard result envelope for successful data. All results MUST
 
@@ -377,20 +379,18 @@ components:
           $ref: '#/components/schemas/ActiveScan'
           description: The data payload
           readOnly: true
-    PagingInfo_ScanDeviceSummaryList:
-      description: The paging information
+    PageResult_ScanDeviceSummaryList:
+      description: A result envelope that carries paged data
       type: object
       properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
+        paging:
+          $ref: '#/components/schemas/PagingInfo_ScanDeviceSummaryList'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          $ref: '#/components/schemas/ScanDeviceSummaryList'
+          description: The data payload
+          readOnly: true
     ActiveScan:
       description: Class DiscoveryActiveScanDto.
       type: object

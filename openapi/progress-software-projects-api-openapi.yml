@@ -222,11 +222,30 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.iam.v2.DeleteProjectResp:
+    chef.automate.api.iam.v2.CreateProjectResp:
       type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Project'
       example:
         id: custom-project
         name: My Custom Project
+    chef.automate.api.iam.v2.GetProjectResp:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Project'
+      example:
+        id: custom-project
+        name: My Custom Project
+    chef.automate.api.iam.v2.ProjectRulesStatus:
+      type: string
+      default: PROJECT_RULES_STATUS_UNSET
+      enum:
+      - PROJECT_RULES_STATUS_UNSET
+      - RULES_APPLIED
+      - EDITS_PENDING
+      - NO_RULES
     chef.automate.api.iam.v2.UpdateProjectReq:
       type: object
       required:
@@ -241,27 +260,6 @@ components:
           type: string
       example:
         name: My Custom Project
-    chef.automate.api.iam.v2.Project:
-      type: object
-      properties:
-        id:
-          description: Unique ID. Cannot be changed.
-          type: string
-        name:
-          description: Name for the project.
-          type: string
-        status:
-          description: The current status of the rules for this project.
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.ProjectRulesStatus'
-        type:
-          description: Whether this policy is user created (`CUSTOM`) or chef managed (`CHEF_MANAGED`).
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
-    chef.automate.api.iam.v2.Type:
-      type: string
-      default: CHEF_MANAGED
-      enum:
-      - CHEF_MANAGED
-      - CUSTOM
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -276,11 +274,8 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.iam.v2.GetProjectResp:
+    chef.automate.api.iam.v2.DeleteProjectResp:
       type: object
-      properties:
-        project:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Project'
       example:
         id: custom-project
         name: My Custom Project
@@ -303,38 +298,6 @@ components:
         id: custom-project
         name: My Custom Project
         skip_policies: true
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.CreateProjectResp:
-      type: object
-      properties:
-        project:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Project'
-      example:
-        id: custom-project
-        name: My Custom Project
-    chef.automate.api.iam.v2.ProjectRulesStatus:
-      type: string
-      default: PROJECT_RULES_STATUS_UNSET
-      enum:
-      - PROJECT_RULES_STATUS_UNSET
-      - RULES_APPLIED
-      - EDITS_PENDING
-      - NO_RULES
-    chef.automate.api.iam.v2.UpdateProjectResp:
-      type: object
-      properties:
-        project:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Project'
-      example:
-        id: custom-project
-        name: My Custom Project
     chef.automate.api.iam.v2.ListProjectsResp:
       type: object
       properties:
@@ -348,6 +311,43 @@ components:
           name: My Custom Project
         - id: custom-project-2
           name: My Custom Project 2
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.UpdateProjectResp:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Project'
+      example:
+        id: custom-project
+        name: My Custom Project
+    chef.automate.api.iam.v2.Type:
+      type: string
+      default: CHEF_MANAGED
+      enum:
+      - CHEF_MANAGED
+      - CUSTOM
+    chef.automate.api.iam.v2.Project:
+      type: object
+      properties:
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the project.
+          type: string
+        status:
+          description: The current status of the rules for this project.
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.ProjectRulesStatus'
+        type:
+          description: Whether this policy is user created (`CUSTOM`) or chef managed (`CHEF_MANAGED`).
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

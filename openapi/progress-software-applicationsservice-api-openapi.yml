@@ -83,14 +83,6 @@ components:
           type: string
         message:
           type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.applications.UpdateTelemetryReportedResponse:
       type: object
     chef.automate.api.applications.GetServicesUsageCountResponse:
@@ -111,6 +103,14 @@ components:
         last_telemetry_reported_at:
           type: string
           title: last application service telemetry reported date
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

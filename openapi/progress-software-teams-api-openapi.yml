@@ -370,40 +370,24 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.iam.v2.Team:
+    chef.automate.api.iam.v2.GetTeamsForMemberResp:
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
-        projects:
+        teams:
           type: array
           items:
-            type: string
-    chef.automate.api.iam.v2.RemoveTeamMembersResp:
-      type: object
-      properties:
-        membership_ids:
-          type: array
-          items:
-            type: string
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
       example:
-        membership_ids:
-        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
-        - 353a62d4-85fa-4423-b12a-f6608a562ae9
-    chef.automate.api.iam.v2.DeleteTeamResp:
-      type: object
-      properties:
-        team:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
-      example:
-        team:
-          id: test-id
+        teams:
+        - id: test-1
           name: My Test Team
           projects:
           - project1
           - project2
+        - id: test-2
+          name: My Test Team 2
+          projects:
+          - project1
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -418,7 +402,70 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.iam.v2.GetTeamsForMemberResp:
+    chef.automate.api.iam.v2.RemoveTeamMembersResp:
+      type: object
+      properties:
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.AddTeamMembersReq:
+      type: object
+      required:
+      - id
+      - membership_ids
+      properties:
+        id:
+          type: string
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        id: admins
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.GetTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.DeleteTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.GetTeamMembershipResp:
+      type: object
+      properties:
+        membership_ids:
+          type: array
+          items:
+            type: string
+      example:
+        membership_ids:
+        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
+        - 353a62d4-85fa-4423-b12a-f6608a562ae9
+    chef.automate.api.iam.v2.ListTeamsResp:
       type: object
       properties:
         teams:
@@ -456,7 +503,7 @@ components:
         projects:
         - project1
         - project2
-    chef.automate.api.iam.v2.GetTeamMembershipResp:
+    chef.automate.api.iam.v2.AddTeamMembersResp:
       type: object
       properties:
         membership_ids:
@@ -467,32 +514,6 @@ components:
         membership_ids:
         - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
         - 353a62d4-85fa-4423-b12a-f6608a562ae9
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.ListTeamsResp:
-      type: object
-      properties:
-        teams:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
-      example:
-        teams:
-        - id: test-1
-          name: My Test Team
-          projects:
-          - project1
-          - project2
-        - id: test-2
-          name: My Test Team 2
-          projects:
-          - project1
     chef.automate.api.iam.v2.UpdateTeamReq:
       type: object
       required:
@@ -513,6 +534,38 @@ components:
         projects:
         - project1
         - project2
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.CreateTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
+    chef.automate.api.iam.v2.UpdateTeamResp:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
+      example:
+        team:
+          id: test-id
+          name: My Test Team
+          projects:
+          - project1
+          - project2
     chef.automate.api.iam.v2.RemoveTeamMembersReq:
       type: object
       required:
@@ -530,70 +583,17 @@ components:
         membership_ids:
         - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
         - 353a62d4-85fa-4423-b12a-f6608a562ae9
-    chef.automate.api.iam.v2.GetTeamResp:
+    chef.automate.api.iam.v2.Team:
       type: object
-      properties:
-        team:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
-      example:
-        team:
-          id: test-id
-          name: My Test Team
-          projects:
-          - project1
-          - project2
-    chef.automate.api.iam.v2.AddTeamMembersResp:
-      type: object
-      properties:
-        membership_ids:
-          type: array
-          items:
-            type: string
-      example:
-        membership_ids:
-        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
-        - 353a62d4-85fa-4423-b12a-f6608a562ae9
-    chef.automate.api.iam.v2.CreateTeamResp:
-      type: object
-      properties:
-        team:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
-      example:
-        team:
-          id: test-id
-          name: My Test Team
-          projects:
-          - project1
-          - project2
-    chef.automate.api.iam.v2.AddTeamMembersReq:
-      type: object
-      required:
-      - id
-      - membership_ids
       properties:
         id:
           type: string
-        membership_ids:
+        name:
+          type: string
+        projects:
           type: array
           items:
             type: string
-      example:
-        id: admins
-        membership_ids:
-        - 527ed96f-2ecb-4f8f-abd7-0bf6511459ac
-        - 353a62d4-85fa-4423-b12a-f6608a562ae9
-    chef.automate.api.iam.v2.UpdateTeamResp:
-      type: object
-      properties:
-        team:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Team'
-      example:
-        team:
-          id: test-id
-          name: My Test Team
-          projects:
-          - project1
-          - project2
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

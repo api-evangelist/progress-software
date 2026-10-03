@@ -596,6 +596,158 @@ paths:
         required: true
 components:
   schemas:
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    PagedModelOfSimpleExpirationPolicyModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleExpirationPolicyModel'
+          readOnly: true
+          xml:
+            name: SimpleExpirationPolicyModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    PasswordPermissionsModel:
+      description: Represents password permissions settings.
+      properties:
+        passwordChangeEmailNotificationType:
+          description: 'Email notification type while Admins and GroupAdmins creating or editing users.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - SendPasswordByEmail
+          - SendResetLinkByEmail
+        allowToChangeOwnPassword:
+          description: 'Allow end users to change their own passwords after signing on(e.g., from "My Account").
+
+            Default is false.'
+          type: boolean
+        allowPasswordChangeRequests:
+          description: 'Allow end users to reset their own passwords without signing on (Email "Reset Password" links to users who request them from the signon page).
+
+            Default is false.'
+          type: boolean
+        isRecaptchaRequired:
+          description: 'Require users to respond to reCAPTCHA when resetting their password without signing on.
+
+            To enable this option reCAPTCHA should be configured.
+
+            Default is false.'
+          type: boolean
+        isSecurityQuestionsRequired:
+          description: 'Require users to answer security questions when resetting their password without signing on.
+
+            NOTE: Users will be required to select and answer security questions at next sign-on.
+
+            Default is false.'
+          type: boolean
+        passwordEmailLinkMaxAge:
+          description: Email links used in "Set Password" and "Reset Password" processes will expire after X minutes.
+          type: integer
+          format: int32
+      xml:
+        name: PasswordPermissionsModel
+      type: object
+    PagedModelOfWhitelistedIPDto:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/WhitelistedIPDto'
+          readOnly: true
+          xml:
+            name: WhitelistedIPDto
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    RemoteAccessRuleAddModel:
+      description: Represents data required for create remote access default rule
+      required:
+      - host
+      - permitType
+      properties:
+        rule:
+          description: Rule type (Allow/Deny).
+          type: string
+          enum:
+          - Deny
+          - Allow
+        host:
+          description: Hostname/IP.
+          type: string
+        permitType:
+          description: Permit type.
+          type: string
+          enum:
+          - Admin
+          - EndUser
+        priority:
+          description: Rule priority level.
+          type: string
+          enum:
+          - Highest
+          - Middle
+          - Lowest
+        comment:
+          description: Rule comment.
+          type: string
+      xml:
+        name: RemoteAccessRuleAddModel
+      type: object
     SimplePasswordAgingPolicyModel:
       description: Represents simple password aging policy required for all scenarios
       properties:
@@ -608,6 +760,45 @@ components:
           type: string
       xml:
         name: SimplePasswordAgingPolicyModel
+      type: object
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
+      properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: UnprocessableEntityErrorModel
+      type: object
+    SimpleExpirationPolicyModel:
+      description: Represents simple user auth expiration policy required for all scenarios
+      properties:
+        id:
+          description: Expiration policy id
+          type: integer
+          format: int32
+        name:
+          description: Expiration policy name
+          type: string
+      xml:
+        name: SimpleExpirationPolicyModel
       type: object
     ExpirationPolicyModel:
       description: Represents user auth expiration policy required for all scenarios
@@ -654,240 +845,6 @@ components:
       xml:
         name: ExpirationPolicyModel
       type: object
-    UserClassExpirationPolicyModel:
-      description: Represents account user auth expiration policy required for all scenarios
-      properties:
-        adminExpirationPolicyId:
-          description: Admin expiration policy id.
-          type: integer
-          format: int32
-        fileAdminExpirationPolicyId:
-          description: File admin expiration policy id.
-          type: integer
-          format: int32
-        userExpirationPolicyId:
-          description: End user expiration policy id.
-          type: integer
-          format: int32
-        tempUserExpirationPolicyId:
-          description: Temporary user expiration policy id.
-          type: integer
-          format: int32
-        auditUserExpirationPolicyId:
-          description: Audit user expiration policy id.
-          type: integer
-          format: int32
-      xml:
-        name: UserClassExpirationPolicyModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    ExpirationPolicyAddModel:
-      description: Represents data required for create user auth expiration policy
-      properties:
-        name:
-          description: Expiration policy name
-          type: string
-        description:
-          description: Expiration policy description. Default is empty string.
-          type: string
-        expireDate:
-          description: Expire after date
-          type: string
-        creationExpireTime:
-          description: Expire X day(s) after creation. Default is -1.
-          type: integer
-          format: int32
-        activityExpireTime:
-          description: Expire X day(s) after last activity. Default is -1.
-          type: integer
-          format: int32
-        expireAfterActivityIncludesPkgs:
-          description: Receiving packages counts as "activity". Default is false
-          type: boolean
-        signonExpireNumber:
-          description: Expire after (x) successful signon(s). Default is -1.
-          type: integer
-          format: int32
-        expireWarnTime:
-          description: Warn (x) day(s) before expiration. Default is -1.
-          type: integer
-          format: int32
-        expirationNotice:
-          description: Notify user when their account expires (Default is false)
-          type: boolean
-      xml:
-        name: ExpirationPolicyAddModel
-      type: object
-    PagedModelOfWhitelistedIPDto:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/WhitelistedIPDto'
-          readOnly: true
-          xml:
-            name: WhitelistedIPDto
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    UserClassPasswordAgingPolicyModel:
-      description: Represents account user password aging policy required for all scenarios
-      properties:
-        adminPasswordAgingPolicyId:
-          description: Admin password aging policy id.
-          type: integer
-          format: int32
-        fileAdminPasswordAgingPolicyId:
-          description: File admin password aging policy id.
-          type: integer
-          format: int32
-        userPasswordAgingPolicyId:
-          description: End user password aging policy id.
-          type: integer
-          format: int32
-        tempUserPasswordAgingPolicyId:
-          description: Temporary user password aging policy id.
-          type: integer
-          format: int32
-      xml:
-        name: UserClassPasswordAgingPolicyModel
-      type: object
-    WhitelistedIPDto:
-      properties:
-        id:
-          description: Rule Id.
-          type: integer
-          format: int32
-        ipAddress:
-          description: Whitelisted IP Address or IP Address Range.
-          type: string
-        comment:
-          description: Comment.
-          type: string
-      xml:
-        name: WhitelistedIPDto
-      type: object
-    PagedModelOfSimplePasswordAgingPolicyModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimplePasswordAgingPolicyModel'
-          readOnly: true
-          xml:
-            name: SimplePasswordAgingPolicyModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
-      type: object
-    SimpleExpirationPolicyModel:
-      description: Represents simple user auth expiration policy required for all scenarios
-      properties:
-        id:
-          description: Expiration policy id
-          type: integer
-          format: int32
-        name:
-          description: Expiration policy name
-          type: string
-      xml:
-        name: SimpleExpirationPolicyModel
-      type: object
-    RemoteAccessRuleAddModel:
-      description: Represents data required for create remote access default rule
-      required:
-      - host
-      - permitType
-      properties:
-        rule:
-          description: Rule type (Allow/Deny).
-          type: string
-          enum:
-          - Deny
-          - Allow
-        host:
-          description: Hostname/IP.
-          type: string
-        permitType:
-          description: Permit type.
-          type: string
-          enum:
-          - Admin
-          - EndUser
-        priority:
-          description: Rule priority level.
-          type: string
-          enum:
-          - Highest
-          - Middle
-          - Lowest
-        comment:
-          description: Rule comment.
-          type: string
-      xml:
-        name: RemoteAccessRuleAddModel
-      type: object
     PasswordPermissionsUpdateRequest:
       properties:
         passwordChangeEmailNotificationType:
@@ -930,6 +887,69 @@ components:
       xml:
         name: PasswordPermissionsUpdateRequest
       type: object
+    UserClassExpirationPolicyModel:
+      description: Represents account user auth expiration policy required for all scenarios
+      properties:
+        adminExpirationPolicyId:
+          description: Admin expiration policy id.
+          type: integer
+          format: int32
+        fileAdminExpirationPolicyId:
+          description: File admin expiration policy id.
+          type: integer
+          format: int32
+        userExpirationPolicyId:
+          description: End user expiration policy id.
+          type: integer
+          format: int32
+        tempUserExpirationPolicyId:
+          description: Temporary user expiration policy id.
+          type: integer
+          format: int32
+        auditUserExpirationPolicyId:
+          description: Audit user expiration policy id.
+          type: integer
+          format: int32
+      xml:
+        name: UserClassExpirationPolicyModel
+      type: object
+    ExpirationPolicyAddModel:
+      description: Represents data required for create user auth expiration policy
+      properties:
+        name:
+          description: Expiration policy name
+          type: string
+        description:
+          description: Expiration policy description. Default is empty string.
+          type: string
+        expireDate:
+          description: Expire after date
+          type: string
+        creationExpireTime:
+          description: Expire X day(s) after creation. Default is -1.
+          type: integer
+          format: int32
+        activityExpireTime:
+          description: Expire X day(s) after last activity. Default is -1.
+          type: integer
+          format: int32
+        expireAfterActivityIncludesPkgs:
+          description: Receiving packages counts as "activity". Default is false
+          type: boolean
+        signonExpireNumber:
+          description: Expire after (x) successful signon(s). Default is -1.
+          type: integer
+          format: int32
+        expireWarnTime:
+          description: Warn (x) day(s) before expiration. Default is -1.
+          type: integer
+          format: int32
+        expirationNotice:
+          description: Notify user when their account expires (Default is false)
+          type: boolean
+      xml:
+        name: ExpirationPolicyAddModel
+      type: object
     PasswordAgingPolicyAddModel:
       description: Represents data required for create password aging policy
       properties:
@@ -956,76 +976,58 @@ components:
       xml:
         name: PasswordAgingPolicyAddModel
       type: object
-    PasswordAgingPolicyModel:
-      description: Represents password aging policy required for all scenarios
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
       properties:
-        description:
-          description: Password aging policy description.
+        field:
+          description: Name of the field that's invalid
           type: string
-        passwordAgeTime:
-          description: Password expires every (x) days.
-          type: integer
-          format: int32
-        passwordAgeWarn:
-          description: Indicate days remaining at sign on and using email beginning (x) day(s) in advance.
-          type: integer
-          format: int32
-        passwordAgeGrace:
-          description: 'Enable a grace period (x) day(s) after password expires.
-
-            After the grace period the user account will be suspended and an administrator must reactivate it.'
-          type: integer
-          format: int32
-        numUsing:
-          description: Number of password aging policy using.
-          type: integer
-          format: int32
-        id:
-          description: Password aging policy id.
-          type: integer
-          format: int32
-        name:
-          description: Password aging policy name.
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
           type: string
       xml:
-        name: PasswordAgingPolicyModel
+        name: FieldErrorModel
       type: object
-    UnprocessableEntityErrorModel:
-      description: Represents an error returned by API in case of HTTP 422 error
+    SortFieldDto:
       properties:
-        errors:
-          description: Detailed information about errors in provided parameters
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagedModelOfSimplePasswordAgingPolicyModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
           items:
-            $ref: '#/components/schemas/FieldErrorModel'
+            $ref: '#/components/schemas/SimplePasswordAgingPolicyModel'
           readOnly: true
           xml:
-            name: FieldErrorModel
+            name: SimplePasswordAgingPolicyModel
             wrapped: true
           type: array
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
       xml:
-        name: UnprocessableEntityErrorModel
-      type: object
-    IPWhitelistRequestModel:
-      properties:
-        ipAddress:
-          description: Whitelisted IP Address or IP Address Range.
-          type: string
-        comment:
-          description: Comment.
-          type: string
-      xml:
-        name: IPWhitelistRequestModel
+        name: PagedModel`1
       type: object
     UserClassExpirationPolicyPatchModel:
       description: Represents data required for update account user auth expiration policy
@@ -1049,6 +1051,17 @@ components:
           type: boolean
       xml:
         name: UserClassExpirationPolicyPatchModel
+      type: object
+    IPWhitelistRequestModel:
+      properties:
+        ipAddress:
+          description: Whitelisted IP Address or IP Address Range.
+          type: string
+        comment:
+          description: Comment.
+          type: string
+      xml:
+        name: IPWhitelistRequestModel
       type: object
     RemoteAccessRuleModel:
       description: Represents remote access rule data required for all scenarios
@@ -1086,20 +1099,35 @@ components:
       xml:
         name: RemoteAccessRuleModel
       type: object
-    FieldErrorModel:
-      description: Describes error in particular parameter of the request
+    WhitelistedIPDto:
       properties:
-        field:
-          description: Name of the field that's invalid
+        id:
+          description: Rule Id.
+          type: integer
+          format: int32
+        ipAddress:
+          description: Whitelisted IP Address or IP Address Range.
           type: string
-        rejected:
-          description: Value of the field that's invalid
-          type: string
-        message:
-          description: Explanation of the error
+        comment:
+          description: Comment.
           type: string
       xml:
-        name: FieldErrorModel
+        name: WhitelistedIPDto
+      type: object
+    IPWhitelistResponseModel:
+      properties:
+        id:
+          description: Rule Id.
+          type: integer
+          format: int32
+        ipAddress:
+          description: Whitelisted IP Address or IP Address Range.
+          type: string
+        comment:
+          description: Comment.
+          type: string
+      xml:
+        name: IPWhitelistResponseModel
       type: object
     ErrorModel:
       description: Represents an error returned by API
@@ -1117,6 +1145,45 @@ components:
           type: string
       xml:
         name: ErrorModel
+      type: object
+    PasswordAgingPolicyModel:
+      description: Represents password aging policy required for all scenarios
+      properties:
+        description:
+          description: Password aging policy description.
+          type: string
+        passwordAgeTime:
+          description: Password expires every (x) days.
+          type: integer
+          format: int32
+        passwordAgeWarn:
+          description: Indicate days remaining at sign on and using email beginning (x) day(s) in advance.
+          type: integer
+          format: int32
+        passwordAgeGrace:
+          description: 'Enable a grace period (x) day(s) after password expires.
+
+            After the grace period the user account will be suspended and an administrator must reactivate it.'
+          type: integer
+          format: int32
+        numUsing:
+          description: Number of password aging policy using.
+          type: integer
+          format: int32
+        id:
+          description: Password aging policy id.
+          type: integer
+          format: int32
+        name:
+          description: Password aging policy name.
+          type: string
+      xml:
+        name: PasswordAgingPolicyModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
       type: object
     UserClassPasswordAgingPolicyPatchModel:
       description: Represents data required for update account user password aging policy
@@ -1141,94 +1208,27 @@ components:
       xml:
         name: UserClassPasswordAgingPolicyPatchModel
       type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
-      type: object
-    PagedModelOfSimpleExpirationPolicyModel:
-      description: Represents paged response object with proper navigations
+    UserClassPasswordAgingPolicyModel:
+      description: Represents account user password aging policy required for all scenarios
       properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleExpirationPolicyModel'
-          readOnly: true
-          xml:
-            name: SimpleExpirationPolicyModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    IPWhitelistResponseModel:
-      properties:
-        id:
-          description: Rule Id.
+        adminPasswordAgingPolicyId:
+          description: Admin password aging policy id.
           type: integer
           format: int32
-        ipAddress:
-          description: Whitelisted IP Address or IP Address Range.
-          type: string
-        comment:
-          description: Comment.
-          type: string
-      xml:
-        name: IPWhitelistResponseModel
-      type: object
-    PasswordPermissionsModel:
-      description: Represents password permissions settings.
-      properties:
-        passwordChangeEmailNotificationType:
-          description: 'Email notification type while Admins and GroupAdmins creating or editing users.
-
-            Default is None.'
-          type: string
-          enum:
-          - None
-          - SendPasswordByEmail
-          - SendResetLinkByEmail
-        allowToChangeOwnPassword:
-          description: 'Allow end users to change their own passwords after signing on(e.g., from "My Account").
-
-            Default is false.'
-          type: boolean
-        allowPasswordChangeRequests:
-          description: 'Allow end users to reset their own passwords without signing on (Email "Reset Password" links to users who request them from the signon page).
-
-            Default is false.'
-          type: boolean
-        isRecaptchaRequired:
-          description: 'Require users to respond to reCAPTCHA when resetting their password without signing on.
-
-            To enable this option reCAPTCHA should be configured.
-
-            Default is false.'
-          type: boolean
-        isSecurityQuestionsRequired:
-          description: 'Require users to answer security questions when resetting their password without signing on.
-
-            NOTE: Users will be required to select and answer security questions at next sign-on.
-
-            Default is false.'
-          type: boolean
-        passwordEmailLinkMaxAge:
-          description: Email links used in "Set Password" and "Reset Password" processes will expire after X minutes.
+        fileAdminPasswordAgingPolicyId:
+          description: File admin password aging policy id.
+          type: integer
+          format: int32
+        userPasswordAgingPolicyId:
+          description: End user password aging policy id.
+          type: integer
+          format: int32
+        tempUserPasswordAgingPolicyId:
+          description: Temporary user password aging policy id.
           type: integer
           format: int32
       xml:
-        name: PasswordPermissionsModel
+        name: UserClassPasswordAgingPolicyModel
       type: object
   securitySchemes:
     Authorization:

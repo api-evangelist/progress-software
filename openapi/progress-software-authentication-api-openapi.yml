@@ -333,14 +333,22 @@ paths:
               - mfa_access_token
 components:
   schemas:
-    SendOtpResponseModel:
-      description: Response for send one-time password operation
+    ErrorModel:
+      description: Represents an error returned by API
       properties:
-        user:
-          $ref: '#/components/schemas/SendOtpUserModel'
-          description: User to whom the email was sent.
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
       xml:
-        name: SendOtpResponseModel
+        name: ErrorModel
       type: object
     TokenAcquiredModel:
       description: Represents successful token request response
@@ -367,124 +375,28 @@ components:
       xml:
         name: TokenAcquiredModel
       type: object
-    MfaSupportedMethodsHeaderDto:
+    PublicIdPInformationModel:
       properties:
-        is_mfa_authenticator_enabled:
-          type: boolean
-        is_mfa_email_enabled:
-          type: boolean
+        name:
+          description: Name of the identity provider.
+          type: string
+        link:
+          description: Direct link to the identity provider.
+          type: string
       xml:
-        name: MfaSupportedMethodsHeaderDto
+        name: PublicIdPInformationModel
       type: object
-    ActAsAdminDto:
+    SortFieldDto:
       properties:
-        orgId:
-          type: integer
-          format: int32
-        permission:
+        sortField:
+          type: string
+        sortDirection:
           type: string
           enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
+          - asc
+          - desc
       xml:
-        name: ActAsAdminDto
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
-    RevokeTokenResponse:
-      description: Response for Revoke token operation
-      properties:
-        message:
-          description: Message
-          type: string
-      xml:
-        name: RevokeTokenResponse
-      type: object
-    PagedModelOfPublicIdPInformationModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/PublicIdPInformationModel'
-          readOnly: true
-          xml:
-            name: PublicIdPInformationModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    RequestTokenSecurityNoticeAcceptanceRequiredError:
-      description: Authentication error object resulting from a security notice acceptance being required.
-      properties:
-        mfa_access_token:
-          description: MFA access token
-          type: string
-        user:
-          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
-          description: Information about the user signing on.
-        error:
-          readOnly: true
-          type: string
-          default: accept_security_notice_required
-        error_code:
-          readOnly: true
-          type: integer
-          format: int32
-          default: 3985
-        error_description:
-          description: Error details
-          type: string
-      xml:
-        name: RequestTokenSecurityNoticeAcceptanceRequiredError
-      type: object
-    RequestTokenError:
-      description: Authentication failed error
-      properties:
-        error:
-          description: Error title
-          type: string
-        error_code:
-          description: Error code
-          type: integer
-          format: int32
-        error_description:
-          description: Error details
-          type: string
-      xml:
-        name: RequestTokenError
+        name: SortFieldDto
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -509,29 +421,13 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    RequestTokenMfaError:
-      description: Authentication failed error
+    SignonUserInfoHeaderDto:
       properties:
-        mfa_access_token:
-          description: MFA access token
-          type: string
-        mfa_supported_methods:
-          $ref: '#/components/schemas/MfaSupportedMethodsHeaderDto'
-          description: MFA supported types
-        error:
-          readOnly: true
-          type: string
-          default: mfa_required
-        error_code:
-          readOnly: true
+        org_id:
           type: integer
           format: int32
-          default: 2028
-        error_description:
-          description: Error details
-          type: string
       xml:
-        name: RequestTokenMfaError
+        name: SignonUserInfoHeaderDto
       type: object
     PasswordRequirementsHeaderDto:
       description: Object containing password requirements
@@ -563,26 +459,48 @@ components:
       xml:
         name: PasswordRequirementsHeaderDto
       type: object
-    OrgRequest:
+    RevokeTokenResponse:
+      description: Response for Revoke token operation
       properties:
-        orgId:
-          description: The Id of the target Org for this request
+        message:
+          description: Message
+          type: string
+      xml:
+        name: RevokeTokenResponse
+      type: object
+    RequestTokenError:
+      description: Authentication failed error
+      properties:
+        error:
+          description: Error title
+          type: string
+        error_code:
+          description: Error code
           type: integer
           format: int32
-      xml:
-        name: OrgRequest
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
+        error_description:
+          description: Error details
           type: string
-        sortDirection:
+      xml:
+        name: RequestTokenError
+      type: object
+    ActAsAdminDto:
+      properties:
+        orgId:
+          type: integer
+          format: int32
+        permission:
           type: string
           enum:
-          - asc
-          - desc
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
       xml:
-        name: SortFieldDto
+        name: ActAsAdminDto
       type: object
     RequestTokenPasswordChangeRequiredError:
       description: Authentication error object resulting from a password change being required.
@@ -611,17 +529,6 @@ components:
       xml:
         name: RequestTokenPasswordChangeRequiredError
       type: object
-    PublicIdPInformationModel:
-      properties:
-        name:
-          description: Name of the identity provider.
-          type: string
-        link:
-          description: Direct link to the identity provider.
-          type: string
-      xml:
-        name: PublicIdPInformationModel
-      type: object
     SendOtpUserModel:
       description: User model to whom the email was sent
       properties:
@@ -631,13 +538,106 @@ components:
       xml:
         name: SendOtpUserModel
       type: object
-    SignonUserInfoHeaderDto:
+    OrgRequest:
       properties:
-        org_id:
+        orgId:
+          description: The Id of the target Org for this request
           type: integer
           format: int32
       xml:
-        name: SignonUserInfoHeaderDto
+        name: OrgRequest
+      type: object
+    PagedModelOfPublicIdPInformationModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/PublicIdPInformationModel'
+          readOnly: true
+          xml:
+            name: PublicIdPInformationModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    SendOtpResponseModel:
+      description: Response for send one-time password operation
+      properties:
+        user:
+          $ref: '#/components/schemas/SendOtpUserModel'
+          description: User to whom the email was sent.
+      xml:
+        name: SendOtpResponseModel
+      type: object
+    RequestTokenMfaError:
+      description: Authentication failed error
+      properties:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        mfa_supported_methods:
+          $ref: '#/components/schemas/MfaSupportedMethodsHeaderDto'
+          description: MFA supported types
+        error:
+          readOnly: true
+          type: string
+          default: mfa_required
+        error_code:
+          readOnly: true
+          type: integer
+          format: int32
+          default: 2028
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenMfaError
+      type: object
+    MfaSupportedMethodsHeaderDto:
+      properties:
+        is_mfa_authenticator_enabled:
+          type: boolean
+        is_mfa_email_enabled:
+          type: boolean
+      xml:
+        name: MfaSupportedMethodsHeaderDto
+      type: object
+    RequestTokenSecurityNoticeAcceptanceRequiredError:
+      description: Authentication error object resulting from a security notice acceptance being required.
+      properties:
+        mfa_access_token:
+          description: MFA access token
+          type: string
+        user:
+          $ref: '#/components/schemas/SignonUserInfoHeaderDto'
+          description: Information about the user signing on.
+        error:
+          readOnly: true
+          type: string
+          default: accept_security_notice_required
+        error_code:
+          readOnly: true
+          type: integer
+          format: int32
+          default: 3985
+        error_description:
+          description: Error details
+          type: string
+      xml:
+        name: RequestTokenSecurityNoticeAcceptanceRequiredError
       type: object
   securitySchemes:
     Authorization:

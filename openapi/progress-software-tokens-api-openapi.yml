@@ -227,18 +227,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.iam.v2.CreateTokenResp:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
-      example:
-        active: true
-        id: token-1
-        name: token 1
-        projects:
-        - east-region
-        - west-region
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -253,6 +241,18 @@ components:
           type: string
         message:
           type: string
+    chef.automate.api.iam.v2.GetTokenResp:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
     chef.automate.api.iam.v2.CreateTokenReq:
       type: object
       required:
@@ -285,6 +285,28 @@ components:
         projects:
         - east-region
         - west-region
+    chef.automate.api.iam.v2.CreateTokenResp:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
+    chef.automate.api.iam.v2.DeleteTokenResp:
+      type: object
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.iam.v2.UpdateTokenReq:
       type: object
       required:
@@ -312,47 +334,6 @@ components:
         projects:
         - east-region
         - south-region
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.ListTokensResp:
-      type: object
-      properties:
-        tokens:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
-      example:
-        tokens:
-        - active: true
-          id: token-1
-          name: token 1
-          projects:
-          - east-region
-          - west-region
-        - active: false
-          id: token-2
-          name: token 2
-          projects:
-          - north-region
-          - south-region
-    chef.automate.api.iam.v2.UpdateTokenResp:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
-      example:
-        active: true
-        id: token-1
-        name: token 1
-        projects:
-        - east-region
-        - west-region
     chef.automate.api.iam.v2.Token:
       type: object
       properties:
@@ -381,9 +362,28 @@ components:
         value:
           description: Unique, optionally user-specified value.
           type: string
-    chef.automate.api.iam.v2.DeleteTokenResp:
+    chef.automate.api.iam.v2.ListTokensResp:
       type: object
-    chef.automate.api.iam.v2.GetTokenResp:
+      properties:
+        tokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        tokens:
+        - active: true
+          id: token-1
+          name: token 1
+          projects:
+          - east-region
+          - west-region
+        - active: false
+          id: token-2
+          name: token 2
+          projects:
+          - north-region
+          - south-region
+    chef.automate.api.iam.v2.UpdateTokenResp:
       type: object
       properties:
         token:

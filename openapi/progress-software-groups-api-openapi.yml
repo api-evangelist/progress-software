@@ -323,52 +323,6 @@ paths:
       - Authorization: []
 components:
   schemas:
-    PagedModelOfGroupModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/GroupModel'
-          readOnly: true
-          xml:
-            name: GroupModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    GroupModel:
-      description: Represents group's requested information.
-      properties:
-        id:
-          description: Unique ID for this group.
-          type: integer
-          format: int32
-        membersCount:
-          description: Amount of users, who are members of this particular group.
-          type: integer
-          format: int32
-        name:
-          description: Name of the group.
-          type: string
-        description:
-          description: Additional information, related to the group.
-          type: string
-      xml:
-        name: GroupModel
-      type: object
     ErrorModel:
       description: Represents an error returned by API
       properties:
@@ -386,31 +340,17 @@ components:
       xml:
         name: ErrorModel
       type: object
-    PagedModelOfSimpleUserModel:
-      description: Represents paged response object with proper navigations
+    SortFieldDto:
       properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleUserModel'
-          readOnly: true
-          xml:
-            name: SimpleUserModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
       xml:
-        name: PagedModel`1
+        name: SortFieldDto
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -491,17 +431,57 @@ components:
       xml:
         name: GroupAddMemberRequest
       type: object
-    SortFieldDto:
+    PagedModelOfSimpleUserModel:
+      description: Represents paged response object with proper navigations
       properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleUserModel'
+          readOnly: true
+          xml:
+            name: SimpleUserModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
       xml:
-        name: SortFieldDto
+        name: PagedModel`1
+      type: object
+    PagedModelOfGroupModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/GroupModel'
+          readOnly: true
+          xml:
+            name: GroupModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
       type: object
     BaseGroupModel:
       properties:
@@ -513,6 +493,26 @@ components:
           type: string
       xml:
         name: BaseGroupModel
+      type: object
+    GroupModel:
+      description: Represents group's requested information.
+      properties:
+        id:
+          description: Unique ID for this group.
+          type: integer
+          format: int32
+        membersCount:
+          description: Amount of users, who are members of this particular group.
+          type: integer
+          format: int32
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
+          type: string
+      xml:
+        name: GroupModel
       type: object
   securitySchemes:
     Authorization:

@@ -218,56 +218,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.iam.v2.Type:
-      type: string
-      default: CHEF_MANAGED
-      enum:
-      - CHEF_MANAGED
-      - CUSTOM
-    chef.automate.api.iam.v2.GetRoleResp:
-      type: object
-      properties:
-        role:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
-      example:
-        actions:
-        - secrets:*
-        - iam:projects:list
-        id: custom-role
-        name: My Custom Secret Manager Role
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.CreateRoleResp:
-      type: object
-      properties:
-        role:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
-      example:
-        actions:
-        - secrets:*
-        - iam:projects:list
-        id: custom-role
-        name: My Custom Secret Manager Role
     chef.automate.api.iam.v2.ListRolesResp:
       type: object
       properties:
@@ -316,28 +266,20 @@ components:
         - iam:projects:list
         id: custom-role
         name: My Custom Secret Manager Role
-    chef.automate.api.iam.v2.Role:
+    grpc.gateway.runtime.Error:
       type: object
       properties:
-        actions:
-          description: List of actions this role scopes to. Will contain one or more.
+        code:
+          type: integer
+          format: int32
+        details:
           type: array
           items:
-            type: string
-        id:
-          description: Unique ID. Cannot be changed.
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
           type: string
-        name:
-          description: Name for the role.
+        message:
           type: string
-        projects:
-          description: List of projects this role belongs to. May be empty.
-          type: array
-          items:
-            type: string
-        type:
-          description: Whether this policy is user created (`CUSTOM`) or chef managed (`CHEF_MANAGED`).
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
     chef.automate.api.iam.v2.DeleteRoleResp:
       type: object
       example:
@@ -374,6 +316,28 @@ components:
         - secrets:*
         - iam:projects:list
         name: My Updated Custom Secret Manager Role
+    chef.automate.api.iam.v2.GetRoleResp:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
+    chef.automate.api.iam.v2.CreateRoleResp:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Role'
+      example:
+        actions:
+        - secrets:*
+        - iam:projects:list
+        id: custom-role
+        name: My Custom Secret Manager Role
     chef.automate.api.iam.v2.UpdateRoleResp:
       type: object
       properties:
@@ -385,6 +349,42 @@ components:
         - iam:projects:list
         id: custom-role
         name: My Custom Secret Manager Role
+    chef.automate.api.iam.v2.Role:
+      type: object
+      properties:
+        actions:
+          description: List of actions this role scopes to. Will contain one or more.
+          type: array
+          items:
+            type: string
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the role.
+          type: string
+        projects:
+          description: List of projects this role belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        type:
+          description: Whether this policy is user created (`CUSTOM`) or chef managed (`CHEF_MANAGED`).
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.Type:
+      type: string
+      default: CHEF_MANAGED
+      enum:
+      - CHEF_MANAGED
+      - CUSTOM
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

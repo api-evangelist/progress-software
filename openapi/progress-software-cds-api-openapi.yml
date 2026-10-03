@@ -153,11 +153,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.cds.response.ContentEnabled:
-      type: object
-      properties:
-        is_content_enabled:
-          type: boolean
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -172,16 +167,6 @@ components:
           type: string
         message:
           type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.cds.response.InstallContentItem:
-      type: object
     chef.automate.api.cds.response.ContentItems:
       type: object
       properties:
@@ -189,6 +174,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/chef.automate.api.cds.response.ContentItem'
+    chef.automate.api.cds.request.InstallContentItem:
+      type: object
+      properties:
+        id:
+          type: string
+        request_user:
+          type: string
     chef.automate.api.cds.response.ContentItem:
       type: object
       properties:
@@ -210,6 +202,11 @@ components:
           type: string
         version:
           type: string
+    chef.automate.api.cds.response.ContentEnabled:
+      type: object
+      properties:
+        is_content_enabled:
+          type: boolean
     chef.automate.api.cds.request.Credentials:
       type: object
       properties:
@@ -219,13 +216,16 @@ components:
           type: string
         tenant_specific_url:
           type: string
-    chef.automate.api.cds.request.InstallContentItem:
+    chef.automate.api.cds.response.InstallContentItem:
+      type: object
+    google.protobuf.Any:
       type: object
       properties:
-        id:
+        type_url:
           type: string
-        request_user:
+        value:
           type: string
+          format: byte
     chef.automate.api.cds.response.Credentials:
       type: object
   securitySchemes:

@@ -237,6 +237,94 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    chef.automate.api.datafeed.SecretId:
+      type: object
+      properties:
+        id:
+          type: string
+    chef.automate.api.datafeed.TestDestinationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+    chef.automate.api.datafeed.ListDestinationResponse:
+      type: object
+      properties:
+        destinations:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.datafeed.GetDestinationResponse'
+    chef.automate.api.datafeed.GetDestinationResponse:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+          format: int64
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
+          type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.common.query.Kv:
+      type: object
+      properties:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
+    chef.automate.api.datafeed.ListDestinationRequest:
+      type: object
+    chef.automate.api.datafeed.AWS:
+      type: object
+      properties:
+        access_key:
+          type: string
+        bucket:
+          type: string
+        region:
+          type: string
+        secret_access_key:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.datafeed.Header:
+      type: object
+      properties:
+        value:
+          type: string
     chef.automate.api.datafeed.AddDestinationRequest:
       type: object
       properties:
@@ -259,35 +347,33 @@ components:
           type: string
         url:
           type: string
-    chef.automate.api.datafeed.AWS:
-      type: object
-      properties:
-        access_key:
-          type: string
-        bucket:
-          type: string
-        region:
-          type: string
-        secret_access_key:
-          type: string
-    chef.automate.api.datafeed.ListDestinationResponse:
-      type: object
-      properties:
-        destinations:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.datafeed.GetDestinationResponse'
-    chef.automate.api.datafeed.Header:
-      type: object
-      properties:
-        value:
-          type: string
     chef.automate.api.datafeed.UsernamePassword:
       type: object
       properties:
         password:
           type: string
         username:
+          type: string
+    chef.automate.api.datafeed.UpdateDestinationRequest:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        id:
+          type: string
+        integration_types:
+          type: string
+        meta_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
+        name:
+          type: string
+        secret:
+          type: string
+        services:
+          type: string
+        url:
           type: string
     chef.automate.api.datafeed.SecretIdWithExtraPrams:
       type: object
@@ -304,45 +390,7 @@ components:
             $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
         services:
           type: string
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.datafeed.URLValidationRequest:
-      type: object
-      properties:
-        aws:
-          $ref: '#/components/schemas/chef.automate.api.datafeed.AWS'
-        header:
-          $ref: '#/components/schemas/chef.automate.api.datafeed.Header'
-        secret_id:
-          $ref: '#/components/schemas/chef.automate.api.datafeed.SecretId'
-        secret_id_with_addon:
-          $ref: '#/components/schemas/chef.automate.api.datafeed.SecretIdWithExtraPrams'
-        url:
-          type: string
-        username_password:
-          $ref: '#/components/schemas/chef.automate.api.datafeed.UsernamePassword'
-    chef.automate.api.common.query.Kv:
-      type: object
-      properties:
-        key:
-          description: Tag key.
-          type: string
-        value:
-          description: Tag value.
-          type: string
-    chef.automate.api.datafeed.AddDestinationResponse:
+    chef.automate.api.datafeed.DeleteDestinationResponse:
       type: object
       properties:
         enable:
@@ -364,17 +412,14 @@ components:
           type: string
         url:
           type: string
-    chef.automate.api.datafeed.TestDestinationResponse:
+    chef.automate.api.datafeed.UpdateDestinationEnableRequest:
       type: object
       properties:
-        success:
+        enable:
           type: boolean
-    chef.automate.api.datafeed.SecretId:
-      type: object
-      properties:
         id:
           type: string
-    chef.automate.api.datafeed.UpdateDestinationResponse:
+    chef.automate.api.datafeed.AddDestinationResponse:
       type: object
       properties:
         enable:
@@ -417,9 +462,22 @@ components:
           format: int64
         updated_nodes_only:
           type: boolean
-    chef.automate.api.datafeed.ListDestinationRequest:
+    chef.automate.api.datafeed.URLValidationRequest:
       type: object
-    chef.automate.api.datafeed.GetDestinationResponse:
+      properties:
+        aws:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.AWS'
+        header:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.Header'
+        secret_id:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.SecretId'
+        secret_id_with_addon:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.SecretIdWithExtraPrams'
+        url:
+          type: string
+        username_password:
+          $ref: '#/components/schemas/chef.automate.api.datafeed.UsernamePassword'
+    chef.automate.api.datafeed.UpdateDestinationResponse:
       type: object
       properties:
         enable:
@@ -440,64 +498,6 @@ components:
         services:
           type: string
         url:
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.datafeed.UpdateDestinationRequest:
-      type: object
-      properties:
-        enable:
-          type: boolean
-        id:
-          type: string
-        integration_types:
-          type: string
-        meta_data:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
-        name:
-          type: string
-        secret:
-          type: string
-        services:
-          type: string
-        url:
-          type: string
-    chef.automate.api.datafeed.DeleteDestinationResponse:
-      type: object
-      properties:
-        enable:
-          type: boolean
-        id:
-          type: string
-          format: int64
-        integration_types:
-          type: string
-        meta_data:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.common.query.Kv'
-        name:
-          type: string
-        secret:
-          type: string
-        services:
-          type: string
-        url:
-          type: string
-    chef.automate.api.datafeed.UpdateDestinationEnableRequest:
-      type: object
-      properties:
-        enable:
-          type: boolean
-        id:
           type: string
   securitySchemes:
     APIToken:

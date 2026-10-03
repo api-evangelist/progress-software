@@ -847,6 +847,125 @@ paths:
       - Authorization: []
 components:
   schemas:
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    FileCopyMoveModel:
+      properties:
+        destinationFolderId:
+          type: string
+      xml:
+        name: FileCopyMoveModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    PagedModelOfFileIsNewForUserModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/FileIsNewForUserModel'
+          readOnly: true
+          xml:
+            name: FileIsNewForUserModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
     FileDetailsModel:
       description: Represents a file and all available attributes
       properties:
@@ -958,6 +1077,18 @@ components:
       xml:
         name: FileDetailsModel
       type: object
+    FilePatchModel:
+      description: File Update parameters
+      properties:
+        name:
+          description: New file name to set
+          type: string
+        isNew:
+          description: IsNew to set
+          type: boolean
+      xml:
+        name: FilePatchModel
+      type: object
     FileSetIsNewForUserModel:
       properties:
         userId:
@@ -965,89 +1096,6 @@ components:
           type: string
       xml:
         name: FileSetIsNewForUserModel
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
-    FileIsNewForUserModel:
-      properties:
-        user:
-          $ref: '#/components/schemas/SimpleUserModel'
-        isNew:
-          type: boolean
-      xml:
-        name: FileIsNewForUserModel
-      type: object
-    SimpleFileResourceModel:
-      description: 'Container object used to provide information about a specific
-
-        file on a MOVEit Transfer server.'
-      properties:
-        folderID:
-          description: ID of the folder this file is currently in.
-          type: integer
-          format: int32
-        uploadUsername:
-          description: The username of the user account which uploaded this file.
-          type: string
-        path:
-          description: The full path of this file.
-          type: string
-        uploadStamp:
-          description: The date and time this file was uploaded.
-          type: string
-        isNew:
-          description: Indicating whether the file is considered new for the current user
-          type: boolean
-        name:
-          description: The name of this file.
-          type: string
-        size:
-          description: Size in bytes of this file.
-          type: integer
-          format: int64
-        id:
-          description: The unique ID of the file. Also known as the tracking number.
-          type: string
-      xml:
-        name: SimpleFileResourceModel
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
       type: object
     SimpleUserModel:
       description: Simple user model for user lists.
@@ -1092,67 +1140,10 @@ components:
       xml:
         name: SimpleUserModel
       type: object
-    FilePatchModel:
-      description: File Update parameters
-      properties:
-        name:
-          description: New file name to set
-          type: string
-        isNew:
-          description: IsNew to set
-          type: boolean
-      xml:
-        name: FilePatchModel
-      type: object
-    FileCopyMoveModel:
-      properties:
-        destinationFolderId:
-          type: string
-      xml:
-        name: FileCopyMoveModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
     Void:
       properties: {}
       xml:
         name: Void
-      type: object
-    PagedModelOfFileIsNewForUserModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/FileIsNewForUserModel'
-          readOnly: true
-          xml:
-            name: FileIsNewForUserModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
       type: object
     SimpleFileResourcePagedModel:
       properties:
@@ -1180,6 +1171,15 @@ components:
           type: array
       xml:
         name: SimpleFileResourcePagedModel
+      type: object
+    FileIsNewForUserModel:
+      properties:
+        user:
+          $ref: '#/components/schemas/SimpleUserModel'
+        isNew:
+          type: boolean
+      xml:
+        name: FileIsNewForUserModel
       type: object
   securitySchemes:
     Authorization:

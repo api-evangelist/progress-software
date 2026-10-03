@@ -227,6 +227,87 @@ paths:
               - file
 components:
   schemas:
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    SimpleReportModel:
+      description: Simple report model.
+      properties:
+        id:
+          description: Report Id.
+          type: integer
+          format: int32
+        title:
+          description: Report name.
+          type: string
+        category:
+          description: Report category.
+          type: string
+          enum:
+          - FileTransfer
+          - AdHocTransfer
+          - Storage
+          - UserMaintenance
+          - UserStatus
+          - Security
+          - Performance
+          - ContentScanning
+          - System
+          - Custom
+          - Default
+          - Unknown
+      xml:
+        name: SimpleReportModel
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
     UnprocessableEntityErrorModel:
       description: Represents an error returned by API in case of HTTP 422 error
       properties:
@@ -252,46 +333,6 @@ components:
           type: string
       xml:
         name: UnprocessableEntityErrorModel
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
       type: object
     PagedModelOfSimpleReportModel:
       description: Represents paged response object with proper navigations
@@ -557,47 +598,6 @@ components:
           - Unknown
       xml:
         name: ReportDetailedModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    SimpleReportModel:
-      description: Simple report model.
-      properties:
-        id:
-          description: Report Id.
-          type: integer
-          format: int32
-        title:
-          description: Report name.
-          type: string
-        category:
-          description: Report category.
-          type: string
-          enum:
-          - FileTransfer
-          - AdHocTransfer
-          - Storage
-          - UserMaintenance
-          - UserStatus
-          - Security
-          - Performance
-          - ContentScanning
-          - System
-          - Custom
-          - Default
-          - Unknown
-      xml:
-        name: SimpleReportModel
       type: object
     FieldErrorModel:
       description: Describes error in particular parameter of the request

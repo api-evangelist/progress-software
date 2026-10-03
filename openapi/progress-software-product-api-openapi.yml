@@ -152,26 +152,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NameValuePair'
-    NameValuePair:
-      description: NameValuePair
-      type: object
-      properties:
-        name:
-          description: Name
-          type: string
-        value:
-          description: Value
-          type: string
-    Result_NameValuePairResults:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/NameValuePairResults'
-          description: The data payload
-          readOnly: true
     Result_String:
       description: 'The standard result envelope for successful data. All results MUST
 
@@ -182,6 +162,26 @@ components:
           description: The data payload
           type: string
           readOnly: true
+    Result_NameValuePairResults:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/NameValuePairResults'
+          description: The data payload
+          readOnly: true
+    NameValuePair:
+      description: NameValuePair
+      type: object
+      properties:
+        name:
+          description: Name
+          type: string
+        value:
+          description: Value
+          type: string
   securitySchemes:
     oauth2:
       type: oauth2
