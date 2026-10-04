@@ -295,25 +295,35 @@ paths:
         required: true
 components:
   schemas:
-    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
-      type: object
-    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
-      type: object
-    grpc.gateway.runtime.Error:
+    google.protobuf.Any:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
+        type_url:
           type: string
-        message:
+        value:
           type: string
-    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
+          format: byte
+    chef.automate.api.applications.PeriodicJobInfo:
+      description: 'PeriodicJobInfo gives information about the last and next scheduled
+
+        executions of a periodic job.'
+      type: object
+      properties:
+        last_elapsed:
+          type: string
+        last_ended_at:
+          type: string
+          format: date-time
+        last_enqueued_at:
+          type: string
+          format: date-time
+        last_started_at:
+          type: string
+          format: date-time
+        next_due_at:
+          type: string
+          format: date-time
+    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
       type: object
     chef.automate.api.applications.PeriodicJobConfig:
       description: Periodic job configuration.
@@ -348,37 +358,13 @@ components:
 
             Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
           type: string
-    chef.automate.api.applications.PeriodicJobInfo:
-      description: 'PeriodicJobInfo gives information about the last and next scheduled
-
-        executions of a periodic job.'
+    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
       type: object
-      properties:
-        last_elapsed:
-          type: string
-        last_ended_at:
-          type: string
-          format: date-time
-        last_enqueued_at:
-          type: string
-          format: date-time
-        last_started_at:
-          type: string
-          format: date-time
-        next_due_at:
-          type: string
-          format: date-time
-    chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse:
-      type: object
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq:
+      type: object
+    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
+      type: object
+    chef.automate.api.applications.RunDisconnectedServicesJobReq:
       type: object
     chef.automate.api.applications.PeriodicMandatoryJobConfig:
       description: 'Configuration for a periodic job. Initially Jobs using this message type
@@ -426,7 +412,21 @@ components:
 
             Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
           type: string
-    chef.automate.api.applications.RunDisconnectedServicesJobReq:
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse:
       type: object
   securitySchemes:
     APIToken:

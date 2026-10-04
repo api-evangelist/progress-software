@@ -69,6 +69,27 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.applications.UpdateTelemetryReportedResponse:
+      type: object
+    chef.automate.api.applications.GetServicesUsageCountResponse:
+      type: object
+      properties:
+        days_since_last_post:
+          type: string
+          format: int64
+          title: number of days since telematics was last posted
+        total_services:
+          type: string
+          format: int64
+          title: unique services count in a duration
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -83,19 +104,6 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.applications.UpdateTelemetryReportedResponse:
-      type: object
-    chef.automate.api.applications.GetServicesUsageCountResponse:
-      type: object
-      properties:
-        days_since_last_post:
-          type: string
-          format: int64
-          title: number of days since telematics was last posted
-        total_services:
-          type: string
-          format: int64
-          title: unique services count in a duration
     chef.automate.api.applications.UpdateTelemetryReportedRequest:
       type: object
       title: Telemetry
@@ -103,14 +111,6 @@ components:
         last_telemetry_reported_at:
           type: string
           title: last application service telemetry reported date
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

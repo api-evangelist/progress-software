@@ -323,113 +323,16 @@ paths:
       - Authorization: []
 components:
   schemas:
-    ErrorModel:
-      description: Represents an error returned by API
+    BaseGroupModel:
       properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
+        name:
+          description: Name of the group.
           type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
+        description:
+          description: Additional information, related to the group.
           type: string
       xml:
-        name: ErrorModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
-      type: object
-    SimpleUserModel:
-      description: Simple user model for user lists.
-      properties:
-        id:
-          description: User ID.
-          type: string
-        orgID:
-          description: ID of organization user is a member of.
-          type: integer
-          format: int32
-        username:
-          description: User login name.
-          type: string
-        fullName:
-          description: User full name.
-          type: string
-        permission:
-          description: User permission.
-          type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
-        email:
-          description: User email address.
-          type: string
-        status:
-          description: User security status.
-          type: string
-          enum:
-          - Active
-          - Suspended
-          - Template
-        lastLoginStamp:
-          description: Time of last user login. Null if user has not logged in yet.
-          type: string
-      xml:
-        name: SimpleUserModel
-      type: object
-    GroupAddMemberRequest:
-      properties:
-        id:
-          description: Group ID
-          type: string
-        userIds:
-          description: List of user ids
-          items:
-            type: string
-          type: array
-      xml:
-        name: GroupAddMemberRequest
+        name: BaseGroupModel
       type: object
     PagedModelOfSimpleUserModel:
       description: Represents paged response object with proper navigations
@@ -483,16 +386,100 @@ components:
       xml:
         name: PagedModel`1
       type: object
-    BaseGroupModel:
+    SimpleUserModel:
+      description: Simple user model for user lists.
       properties:
-        name:
-          description: Name of the group.
+        id:
+          description: User ID.
           type: string
-        description:
-          description: Additional information, related to the group.
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
           type: string
       xml:
-        name: BaseGroupModel
+        name: SimpleUserModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
       type: object
     GroupModel:
       description: Represents group's requested information.
@@ -513,6 +500,19 @@ components:
           type: string
       xml:
         name: GroupModel
+      type: object
+    GroupAddMemberRequest:
+      properties:
+        id:
+          description: Group ID
+          type: string
+        userIds:
+          description: List of user ids
+          items:
+            type: string
+          type: array
+      xml:
+        name: GroupAddMemberRequest
       type: object
   securitySchemes:
     Authorization:

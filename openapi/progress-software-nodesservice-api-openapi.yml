@@ -478,144 +478,6 @@ paths:
         required: true
 components:
   schemas:
-    chef.automate.api.common.query.Filter:
-      type: object
-      properties:
-        exclude:
-          description: "Include matches for this filter.(boolean)\n`true` (default) *includes* all nodes that match this filter. \n`false` *excludes* all nodes that match this filter."
-          type: boolean
-        key:
-          description: Field to filter on.
-          type: string
-        values:
-          description: Field values to filter on.
-          type: array
-          items:
-            type: string
-    chef.automate.api.nodes.v1.Nodes:
-      type: object
-      properties:
-        nodes:
-          description: List of nodes.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.nodes.v1.Node'
-        total:
-          description: Total number of nodes in the system.
-          type: integer
-          format: int32
-        total_reachable:
-          description: Total number of reachable nodes in the system.
-          type: integer
-          format: int32
-        total_unknown:
-          description: Total number of unknown nodes in the system.
-          type: integer
-          format: int32
-        total_unreachable:
-          description: Total number of unreachable nodes in the system.
-          type: integer
-          format: int32
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.nodes.v1.Id:
-      type: object
-      properties:
-        id:
-          type: string
-          title: Unique node ID (UUID)
-    chef.automate.api.common.query.Kv:
-      type: object
-      properties:
-        key:
-          description: Tag key.
-          type: string
-        value:
-          description: Tag value.
-          type: string
-    chef.automate.api.nodes.v1.Query:
-      type: object
-      properties:
-        filters:
-          description: Use filters to limit the set of nodes to delete.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.common.query.Filter'
-        order:
-          $ref: '#/components/schemas/chef.automate.api.nodes.v1.Query.OrderType'
-        page:
-          description: Starting page for the results.
-          type: integer
-          format: int32
-        per_page:
-          description: The number of results on each page.
-          type: integer
-          format: int32
-        sort:
-          description: Sort the results on a specific field.
-          type: string
-    chef.automate.api.nodes.v1.Query.OrderType:
-      description: Return the results in ascending or descending order.
-      type: string
-      default: ASC
-      enum:
-      - ASC
-      - DESC
-    chef.automate.api.nodes.v1.Ids:
-      type: object
-      properties:
-        ids:
-          description: List of node UUIDs.
-          type: array
-          items:
-            type: string
-    chef.automate.api.nodes.v1.LastContactData:
-      description: Most recent node data from the latest Chef Infra run and InSpec scan.
-      type: object
-      properties:
-        end_time:
-          description: Last node report endtime.
-          type: string
-          format: date-time
-        id:
-          description: Chef Infra run report ID or InSpec scan report ID.
-          type: string
-        penultimate_status:
-          description: Next-to-last node status report.
-          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData.Status'
-        status:
-          description: Last node report status.
-          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData.Status'
-    chef.automate.api.nodes.v1.RerunResponse:
-      type: object
-    chef.automate.api.nodes.v1.BulkDeleteResponse:
-      type: object
-      properties:
-        names:
-          description: List of deleted nodes, by name.
-          type: array
-          items:
-            type: string
-    chef.automate.api.nodes.v1.LastContactData.Status:
-      type: string
-      default: UNKNOWN
-      enum:
-      - UNKNOWN
-      - PASSED
-      - FAILED
-      - SKIPPED
     google.protobuf.Any:
       type: object
       properties:
@@ -662,33 +524,6 @@ components:
           type: string
         user:
           description: Username from the credential ID for this node.
-          type: string
-    chef.automate.api.nodes.v1.ResultsRow:
-      description: Summary of the last Chef InSpec scan job run on the node.
-      type: object
-      properties:
-        end_time:
-          description: End time on the report.
-          type: string
-          format: date-time
-        job_id:
-          description: Unique ID of the scan job that generated the report.
-          type: string
-        node_id:
-          description: Unique node ID.
-          type: string
-        report_id:
-          description: Unique ID of the report generated by the InSpec scan.
-          type: string
-        result:
-          description: Error message returned after several failed attempts to contact a node.
-          type: string
-        start_time:
-          description: Start time on the report.
-          type: string
-          format: date-time
-        status:
-          description: Status of the report (failed, success, skipped).
           type: string
     chef.automate.api.nodes.v1.Node:
       description: Node information.
@@ -752,6 +587,171 @@ components:
         target_config:
           description: Node configuration for ssh or winrm.
           $ref: '#/components/schemas/chef.automate.api.nodes.v1.TargetConfig'
+    chef.automate.api.nodes.v1.LastContactData:
+      description: Most recent node data from the latest Chef Infra run and InSpec scan.
+      type: object
+      properties:
+        end_time:
+          description: Last node report endtime.
+          type: string
+          format: date-time
+        id:
+          description: Chef Infra run report ID or InSpec scan report ID.
+          type: string
+        penultimate_status:
+          description: Next-to-last node status report.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData.Status'
+        status:
+          description: Last node report status.
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.LastContactData.Status'
+    chef.automate.api.nodes.v1.LastContactData.Status:
+      type: string
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - PASSED
+      - FAILED
+      - SKIPPED
+    chef.automate.api.common.query.Filter:
+      type: object
+      properties:
+        exclude:
+          description: "Include matches for this filter.(boolean)\n`true` (default) *includes* all nodes that match this filter. \n`false` *excludes* all nodes that match this filter."
+          type: boolean
+        key:
+          description: Field to filter on.
+          type: string
+        values:
+          description: Field values to filter on.
+          type: array
+          items:
+            type: string
+    chef.automate.api.nodes.v1.RerunResponse:
+      type: object
+    chef.automate.api.nodes.v1.BulkDeleteResponse:
+      type: object
+      properties:
+        names:
+          description: List of deleted nodes, by name.
+          type: array
+          items:
+            type: string
+    chef.automate.api.nodes.v1.ResultsRow:
+      description: Summary of the last Chef InSpec scan job run on the node.
+      type: object
+      properties:
+        end_time:
+          description: End time on the report.
+          type: string
+          format: date-time
+        job_id:
+          description: Unique ID of the scan job that generated the report.
+          type: string
+        node_id:
+          description: Unique node ID.
+          type: string
+        report_id:
+          description: Unique ID of the report generated by the InSpec scan.
+          type: string
+        result:
+          description: Error message returned after several failed attempts to contact a node.
+          type: string
+        start_time:
+          description: Start time on the report.
+          type: string
+          format: date-time
+        status:
+          description: Status of the report (failed, success, skipped).
+          type: string
+    chef.automate.api.nodes.v1.Query.OrderType:
+      description: Return the results in ascending or descending order.
+      type: string
+      default: ASC
+      enum:
+      - ASC
+      - DESC
+    chef.automate.api.nodes.v1.Query:
+      type: object
+      properties:
+        filters:
+          description: Use filters to limit the set of nodes to delete.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.common.query.Filter'
+        order:
+          $ref: '#/components/schemas/chef.automate.api.nodes.v1.Query.OrderType'
+        page:
+          description: Starting page for the results.
+          type: integer
+          format: int32
+        per_page:
+          description: The number of results on each page.
+          type: integer
+          format: int32
+        sort:
+          description: Sort the results on a specific field.
+          type: string
+    chef.automate.api.nodes.v1.Ids:
+      type: object
+      properties:
+        ids:
+          description: List of node UUIDs.
+          type: array
+          items:
+            type: string
+    chef.automate.api.nodes.v1.Nodes:
+      type: object
+      properties:
+        nodes:
+          description: List of nodes.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.nodes.v1.Node'
+        total:
+          description: Total number of nodes in the system.
+          type: integer
+          format: int32
+        total_reachable:
+          description: Total number of reachable nodes in the system.
+          type: integer
+          format: int32
+        total_unknown:
+          description: Total number of unknown nodes in the system.
+          type: integer
+          format: int32
+        total_unreachable:
+          description: Total number of unreachable nodes in the system.
+          type: integer
+          format: int32
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.nodes.v1.Id:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Unique node ID (UUID)
+    chef.automate.api.common.query.Kv:
+      type: object
+      properties:
+        key:
+          description: Tag key.
+          type: string
+        value:
+          description: Tag value.
+          type: string
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

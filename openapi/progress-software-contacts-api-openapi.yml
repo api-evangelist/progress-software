@@ -299,100 +299,6 @@ paths:
         required: true
 components:
   schemas:
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
-    ContactModel:
-      description: Represents basic contact data required for all scenarios
-      properties:
-        name:
-          description: Contact name.
-          type: string
-        email:
-          description: Contact email address.
-          type: string
-        identifier:
-          description: Contact ID.
-          type: string
-        type:
-          description: Contact type (user, group, unreg).
-          type: string
-          enum:
-          - User
-          - Group
-          - Unreg
-          - Unverified
-      xml:
-        name: ContactModel
-      type: object
-    PagingInfoModel:
-      description: Information about paging for collection response
-      properties:
-        page:
-          description: Current page in collection
-          type: integer
-          format: int32
-        perPage:
-          description: Items per page
-          type: integer
-          format: int32
-        totalItems:
-          description: Total items in collection
-          type: integer
-          format: int64
-        totalPages:
-          description: Total number of pages in collection
-          readOnly: true
-          type: integer
-          format: int32
-      xml:
-        name: PagingInfoModel
-      type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
-      type: object
-    ContactAddModel:
-      description: Represents contact data required for create contact scenario
-      required:
-      - email
-      properties:
-        name:
-          description: Contact name.
-          type: string
-        email:
-          description: Contact email address.
-          type: string
-      xml:
-        name: ContactAddModel
-      type: object
     UnprocessableEntityErrorModel:
       description: Represents an error returned by API in case of HTTP 422 error
       properties:
@@ -419,7 +325,10 @@ components:
       xml:
         name: UnprocessableEntityErrorModel
       type: object
-    ContactUpdateModel:
+    ContactAddModel:
+      description: Represents contact data required for create contact scenario
+      required:
+      - email
       properties:
         name:
           description: Contact name.
@@ -428,7 +337,7 @@ components:
           description: Contact email address.
           type: string
       xml:
-        name: ContactUpdateModel
+        name: ContactAddModel
       type: object
     PagedModelOfContactModel:
       description: Represents paged response object with proper navigations
@@ -456,6 +365,75 @@ components:
       xml:
         name: PagedModel`1
       type: object
+    ContactModel:
+      description: Represents basic contact data required for all scenarios
+      properties:
+        name:
+          description: Contact name.
+          type: string
+        email:
+          description: Contact email address.
+          type: string
+        identifier:
+          description: Contact ID.
+          type: string
+        type:
+          description: Contact type (user, group, unreg).
+          type: string
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+      xml:
+        name: ContactModel
+      type: object
+    ContactUpdateModel:
+      properties:
+        name:
+          description: Contact name.
+          type: string
+        email:
+          description: Contact email address.
+          type: string
+      xml:
+        name: ContactUpdateModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    PagingInfoModel:
+      description: Information about paging for collection response
+      properties:
+        page:
+          description: Current page in collection
+          type: integer
+          format: int32
+        perPage:
+          description: Items per page
+          type: integer
+          format: int32
+        totalItems:
+          description: Total items in collection
+          type: integer
+          format: int64
+        totalPages:
+          description: Total number of pages in collection
+          readOnly: true
+          type: integer
+          format: int32
+      xml:
+        name: PagingInfoModel
+      type: object
     FieldErrorModel:
       description: Describes error in particular parameter of the request
       properties:
@@ -470,6 +448,28 @@ components:
           type: string
       xml:
         name: FieldErrorModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
       type: object
   securitySchemes:
     Authorization:

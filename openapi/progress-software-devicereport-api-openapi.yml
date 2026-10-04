@@ -2388,28 +2388,206 @@ components:
           type: string
         id:
           type: string
-    PingResponseTimeSeriesItem:
-      description: This class contain values of interface traffic indicators
+    PageResult_List_PingAvailability:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_PingAvailability'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/PingAvailability'
+          readOnly: true
+    PageResult_List_MemoryUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_MemoryUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryUtilization'
+          readOnly: true
+    PingAvailabilitySeriesItem:
+      description: Class PingAvailabilityData.
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Displays the last time polled.
+          type: string
+        percentAvailable:
+          format: double
+          description: Gets or sets the percent available.
+          type: number
+        percentPacketLoss:
+          format: double
+          description: Gets or sets the percent packet loss.
+          type: number
+    PagingInfo_List_StateChangeTimeline:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_List_PingResponseTime:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_CpuUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_CpuUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/CpuUtilization'
+          readOnly: true
+    PagingInfo_List_DiskUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_DiskUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_DiskUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskUtilization'
+          readOnly: true
+    ErrorsDiscardsSeriesItem:
+      description: This class contain values of interface discards/error series item
       type: object
       properties:
         pollTimeUtc:
           format: date-time
           description: Poll time
           type: string
-        avgMilliSec:
+        rxAvg:
           format: double
-          description: The average ping response time (in milliseconds) for the device across all sample data for this time period.
+          description: The average number of interface discard packets received  per minute.
           type: number
-        minMilliSec:
+        rxMin:
           format: double
-          description: The min ping response time (in milliseconds) for the device across all sample data for this time period.
+          description: The min number of interface discard packets received  per minute.
           type: number
-        maxMilliSec:
+        rxMax:
           format: double
-          description: The max ping response time (in milliseconds) for the device across all sample data for this time period.
+          description: The max number of interface discard packets received  per minute.
           type: number
-    DiskUtilizationSeriesItem:
-      description: Contains series item data for "Disk Utilization" report
+        txAvg:
+          format: double
+          description: The average number of interface discard packets transmitted per minute.
+          type: number
+        txMin:
+          format: double
+          description: The min number of interface discard packets transmitted per minute.
+          type: number
+        txMax:
+          format: double
+          description: The max number of interface discard packets transmitted per minute.
+          type: number
+    SeriesItem:
+      description: Contains series item data for "Interface Utilization" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        rxPercentAvg:
+          format: double
+          description: The average receive utilization
+          type: number
+        rxPercentMin:
+          format: double
+          description: The minimum receive utilization
+          type: number
+        rxPercentMax:
+          format: double
+          description: The maximum receive utilization
+          type: number
+        txPercentAvg:
+          format: double
+          description: The average transmit utilization
+          type: number
+        txPercentMin:
+          format: double
+          description: The minimum transmit utilization
+          type: number
+        txPercentMax:
+          format: double
+          description: The maximum transmit utilization
+          type: number
+    DiskFreeSpaceSeriesItem:
+      description: Contains series item data for "Disk Free Space" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgFree:
+          format: double
+          description: Disk free space
+          type: number
+        minFree:
+          format: double
+          description: Min value of disk free space (decimal number)
+          type: number
+        maxFree:
+          format: double
+          description: Max value of disk free space (decimal number)
+          type: number
+    MemorySeriesItem:
+      description: This class contains values of memory utilization series item
       type: object
       properties:
         pollTimeUtc:
@@ -2418,16 +2596,282 @@ components:
           type: string
         avgPercent:
           format: double
-          description: Average value of disk utilization (decimal number)
+          description: Average percentage of memory used.
           type: number
         minPercent:
           format: double
-          description: Min value of disk utilization (decimal number)
+          description: Min percentage of memory used.
           type: number
         maxPercent:
           format: double
-          description: Max value of disk utilization (decimal number)
+          description: Max percentage of memory used.
           type: number
+    PagingInfo_List_InterfaceUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_List_PingAvailability:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    MemoryUtilization:
+      description: This class implements a data-transfer object for the report "Memory utilization"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        memory:
+          description: Memory name
+          type: string
+        memoryId:
+          description: Memory identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        size:
+          format: double
+          description: Total memory size.
+          type: number
+        minUsed:
+          format: double
+          description: Minimum value of used memory size
+          type: number
+        maxUsed:
+          format: double
+          description: Maximum value of used memory size
+          type: number
+        avgUsed:
+          format: double
+          description: Average value of used memory size
+          type: number
+        minPercent:
+          format: double
+          description: Minimum value of memory utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Maximum value of memory utilization (decimal number)
+          type: number
+        avgPercent:
+          format: double
+          description: Average value of memory utilization (decimal number)
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/MemorySeriesItem'
+        id:
+          type: string
+    CpuUtilization:
+      description: This class implements a data-transfer object for the report "Cpu Utilization Report"
+      type: object
+      properties:
+        deviceName:
+          description: Device name
+          type: string
+        cpu:
+          description: Cpu description
+          type: string
+        cpuId:
+          description: Cpu identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        minPercent:
+          format: double
+          description: Minimum value of Cpu utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Maximum value of Cpu utilization (decimal number)
+          type: number
+        avgPercent:
+          format: double
+          description: Average value of Cpu utilization (decimal number)
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/CpuSeriesItem'
+        id:
+          type: string
+    PagingInfo_List_MemoryUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DiskFreeSpace:
+      description: This class implements a data-transfer object for a line in "Disk Free Space" report
+      type: object
+      properties:
+        minFree:
+          format: double
+          description: Min Free Disk size
+          type: number
+        maxFree:
+          format: double
+          description: Max Free Disk size
+          type: number
+        avgFree:
+          format: double
+          description: Avg Free disk size
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskFreeSpaceSeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        disk:
+          description: Disk description
+          type: string
+        diskId:
+          description: Disk identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        size:
+          format: double
+          description: Total disk size
+          type: number
+        id:
+          type: string
+    InterfaceTraffic:
+      description: This class implements a data-transfer object for the report "Interface Traffic"
+      type: object
+      properties:
+        rxSpeedMin:
+          format: double
+          description: The minimum k/bps received
+          type: number
+        rxSpeedMax:
+          format: double
+          description: The maximum k/bps received
+          type: number
+        txSpeedMin:
+          format: double
+          description: The minimum k/bps transmitted
+          type: number
+        txSpeedMax:
+          format: double
+          description: The maximum k/bps transmitted
+          type: number
+        rxPercentAvg:
+          format: double
+          description: The average receive utilization
+          type: number
+        txPercentAvg:
+          format: double
+          description: The average transmit utilization
+          type: number
+        series:
+          description: Individual poll results
+          type: array
+          items:
+            $ref: '#/components/schemas/TrafficSeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        interfaceId:
+          description: Interface identifier
+          type: string
+        interfaceName:
+          description: Interface description
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        ifSpeed:
+          format: int64
+          description: The maximum available interface speed (b/bps)
+          type: integer
+        ifRxSpeed:
+          format: int64
+          description: The maximum available receive interface speed (b/bps)
+          type: integer
+        ifTxSpeed:
+          format: int64
+          description: The maximum available transmit interface speed (b/bps)
+          type: integer
+        totalTraffic:
+          format: double
+          description: The total number of octets processed
+          type: number
+        rxSpeedAvg:
+          format: float
+          description: The average b/bps received
+          type: number
+        rxOctetsTotal:
+          format: double
+          description: The total bytes received
+          type: number
+        txSpeedAvg:
+          format: float
+          description: The average b/bps transmitted
+          type: number
+        txOctetsTotal:
+          format: double
+          description: The total bytes transmitted
+          type: number
+        id:
+          type: string
     InterfaceErrorsDiscards:
       description: This class implements a data-transfer object for the reports "Interface Discards" and  "Interface Errors"
       type: object
@@ -2494,22 +2938,8 @@ components:
             $ref: '#/components/schemas/ErrorsDiscardsSeriesItem'
         id:
           type: string
-    PageResult_List_PingResponseTime:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_PingResponseTime'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/PingResponseTime'
-          readOnly: true
-    MemorySeriesItem:
-      description: This class contains values of memory utilization series item
+    CpuSeriesItem:
+      description: Contains series item data for "Cpu Utilization" report
       type: object
       properties:
         pollTimeUtc:
@@ -2518,16 +2948,104 @@ components:
           type: string
         avgPercent:
           format: double
-          description: Average percentage of memory used.
-          type: number
-        minPercent:
-          format: double
-          description: Min percentage of memory used.
+          description: Cpu utilization
           type: number
         maxPercent:
           format: double
-          description: Max percentage of memory used.
+          description: Max percent of cpu
           type: number
+        minPercent:
+          format: double
+          description: Min percent of cpu
+          type: number
+    DiskUtilization:
+      description: This class implements a data-transfer object for the report "Disk Utilization Report"
+      type: object
+      properties:
+        minUsed:
+          format: double
+          description: Minimum value of used disk size
+          type: number
+        maxUsed:
+          format: double
+          description: Maximum value of used disk size
+          type: number
+        avgUsed:
+          format: double
+          description: Average value of used disk size
+          type: number
+        avgFree:
+          format: double
+          description: Free disk size
+          type: number
+        minPercent:
+          format: double
+          description: Minimum value of disk utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Maximum value of disk utilization (decimal number)
+          type: number
+        avgPercent:
+          format: double
+          description: Average value of disk utilization (decimal number)
+          type: number
+        series:
+          description: Series of polling data
+          type: array
+          items:
+            $ref: '#/components/schemas/DiskUtilizationSeriesItem'
+        deviceName:
+          description: Device name
+          type: string
+        disk:
+          description: Disk description
+          type: string
+        diskId:
+          description: Disk identifier
+          type: string
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        timeFromLastPollSeconds:
+          format: int32
+          description: Number of seconds from last poll time
+          type: integer
+        size:
+          format: double
+          description: Total disk size
+          type: number
+        id:
+          type: string
+    PagingInfo_List_CpuUtilization:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PageResult_List_InterfaceTraffic:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_InterfaceTraffic'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/InterfaceTraffic'
+          readOnly: true
     InterfaceUtilization:
       description: This class implements a data-transfer object for the report "Interface Utilization"
       type: object
@@ -2632,516 +3150,6 @@ components:
           type: number
         id:
           type: string
-    PageResult_List_StateChangeTimeline:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_StateChangeTimeline'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/StateChangeTimeline'
-          readOnly: true
-    PagingInfo_List_InterfaceUtilization:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PagingInfo_List_DiskFreeSpace:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    DiskFreeSpaceSeriesItem:
-      description: Contains series item data for "Disk Free Space" report
-      type: object
-      properties:
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        avgFree:
-          format: double
-          description: Disk free space
-          type: number
-        minFree:
-          format: double
-          description: Min value of disk free space (decimal number)
-          type: number
-        maxFree:
-          format: double
-          description: Max value of disk free space (decimal number)
-          type: number
-    PagingInfo_List_InterfaceErrorsDiscards:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PagingInfo_List_PingResponseTime:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PagingInfo_List_InterfaceTraffic:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    InterfaceTraffic:
-      description: This class implements a data-transfer object for the report "Interface Traffic"
-      type: object
-      properties:
-        rxSpeedMin:
-          format: double
-          description: The minimum k/bps received
-          type: number
-        rxSpeedMax:
-          format: double
-          description: The maximum k/bps received
-          type: number
-        txSpeedMin:
-          format: double
-          description: The minimum k/bps transmitted
-          type: number
-        txSpeedMax:
-          format: double
-          description: The maximum k/bps transmitted
-          type: number
-        rxPercentAvg:
-          format: double
-          description: The average receive utilization
-          type: number
-        txPercentAvg:
-          format: double
-          description: The average transmit utilization
-          type: number
-        series:
-          description: Individual poll results
-          type: array
-          items:
-            $ref: '#/components/schemas/TrafficSeriesItem'
-        deviceName:
-          description: Device name
-          type: string
-        interfaceId:
-          description: Interface identifier
-          type: string
-        interfaceName:
-          description: Interface description
-          type: string
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        timeFromLastPollSeconds:
-          format: int32
-          description: Number of seconds from last poll time
-          type: integer
-        ifSpeed:
-          format: int64
-          description: The maximum available interface speed (b/bps)
-          type: integer
-        ifRxSpeed:
-          format: int64
-          description: The maximum available receive interface speed (b/bps)
-          type: integer
-        ifTxSpeed:
-          format: int64
-          description: The maximum available transmit interface speed (b/bps)
-          type: integer
-        totalTraffic:
-          format: double
-          description: The total number of octets processed
-          type: number
-        rxSpeedAvg:
-          format: float
-          description: The average b/bps received
-          type: number
-        rxOctetsTotal:
-          format: double
-          description: The total bytes received
-          type: number
-        txSpeedAvg:
-          format: float
-          description: The average b/bps transmitted
-          type: number
-        txOctetsTotal:
-          format: double
-          description: The total bytes transmitted
-          type: number
-        id:
-          type: string
-    PageResult_List_MemoryUtilization:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_MemoryUtilization'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/MemoryUtilization'
-          readOnly: true
-    PagingInfo_List_StateChangeTimeline:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PageResult_List_CpuUtilization:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_CpuUtilization'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/CpuUtilization'
-          readOnly: true
-    SeriesItem:
-      description: Contains series item data for "Interface Utilization" report
-      type: object
-      properties:
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        rxPercentAvg:
-          format: double
-          description: The average receive utilization
-          type: number
-        rxPercentMin:
-          format: double
-          description: The minimum receive utilization
-          type: number
-        rxPercentMax:
-          format: double
-          description: The maximum receive utilization
-          type: number
-        txPercentAvg:
-          format: double
-          description: The average transmit utilization
-          type: number
-        txPercentMin:
-          format: double
-          description: The minimum transmit utilization
-          type: number
-        txPercentMax:
-          format: double
-          description: The maximum transmit utilization
-          type: number
-    DiskUtilization:
-      description: This class implements a data-transfer object for the report "Disk Utilization Report"
-      type: object
-      properties:
-        minUsed:
-          format: double
-          description: Minimum value of used disk size
-          type: number
-        maxUsed:
-          format: double
-          description: Maximum value of used disk size
-          type: number
-        avgUsed:
-          format: double
-          description: Average value of used disk size
-          type: number
-        avgFree:
-          format: double
-          description: Free disk size
-          type: number
-        minPercent:
-          format: double
-          description: Minimum value of disk utilization (decimal number)
-          type: number
-        maxPercent:
-          format: double
-          description: Maximum value of disk utilization (decimal number)
-          type: number
-        avgPercent:
-          format: double
-          description: Average value of disk utilization (decimal number)
-          type: number
-        series:
-          description: Series of polling data
-          type: array
-          items:
-            $ref: '#/components/schemas/DiskUtilizationSeriesItem'
-        deviceName:
-          description: Device name
-          type: string
-        disk:
-          description: Disk description
-          type: string
-        diskId:
-          description: Disk identifier
-          type: string
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        timeFromLastPollSeconds:
-          format: int32
-          description: Number of seconds from last poll time
-          type: integer
-        size:
-          format: double
-          description: Total disk size
-          type: number
-        id:
-          type: string
-    PagingInfo_List_CpuUtilization:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    DiskFreeSpace:
-      description: This class implements a data-transfer object for a line in "Disk Free Space" report
-      type: object
-      properties:
-        minFree:
-          format: double
-          description: Min Free Disk size
-          type: number
-        maxFree:
-          format: double
-          description: Max Free Disk size
-          type: number
-        avgFree:
-          format: double
-          description: Avg Free disk size
-          type: number
-        series:
-          description: Series of polling data
-          type: array
-          items:
-            $ref: '#/components/schemas/DiskFreeSpaceSeriesItem'
-        deviceName:
-          description: Device name
-          type: string
-        disk:
-          description: Disk description
-          type: string
-        diskId:
-          description: Disk identifier
-          type: string
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        timeFromLastPollSeconds:
-          format: int32
-          description: Number of seconds from last poll time
-          type: integer
-        size:
-          format: double
-          description: Total disk size
-          type: number
-        id:
-          type: string
-    PageResult_List_InterfaceUtilization:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_InterfaceUtilization'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/InterfaceUtilization'
-          readOnly: true
-    PagingInfo_List_MemoryUtilization:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PageResult_List_InterfaceErrorsDiscards:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_InterfaceErrorsDiscards'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/InterfaceErrorsDiscards'
-          readOnly: true
-    CpuSeriesItem:
-      description: Contains series item data for "Cpu Utilization" report
-      type: object
-      properties:
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        avgPercent:
-          format: double
-          description: Cpu utilization
-          type: number
-        maxPercent:
-          format: double
-          description: Max percent of cpu
-          type: number
-        minPercent:
-          format: double
-          description: Min percent of cpu
-          type: number
-    PagingInfo_List_PingAvailability:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    PageResult_List_DiskFreeSpace:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_DiskFreeSpace'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/DiskFreeSpace'
-          readOnly: true
-    CpuUtilization:
-      description: This class implements a data-transfer object for the report "Cpu Utilization Report"
-      type: object
-      properties:
-        deviceName:
-          description: Device name
-          type: string
-        cpu:
-          description: Cpu description
-          type: string
-        cpuId:
-          description: Cpu identifier
-          type: string
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        timeFromLastPollSeconds:
-          format: int32
-          description: Number of seconds from last poll time
-          type: integer
-        minPercent:
-          format: double
-          description: Minimum value of Cpu utilization (decimal number)
-          type: number
-        maxPercent:
-          format: double
-          description: Maximum value of Cpu utilization (decimal number)
-          type: number
-        avgPercent:
-          format: double
-          description: Average value of Cpu utilization (decimal number)
-          type: number
-        series:
-          description: Series of polling data
-          type: array
-          items:
-            $ref: '#/components/schemas/CpuSeriesItem'
-        id:
-          type: string
     TrafficSeriesItem:
       description: Contains series item data for "Interface Traffic" report
       type: object
@@ -3174,124 +3182,68 @@ components:
           format: double
           description: The max k/bps transmitted
           type: number
-    MemoryUtilization:
-      description: This class implements a data-transfer object for the report "Memory utilization"
+    PageResult_List_InterfaceErrorsDiscards:
+      description: A result envelope that carries paged data
       type: object
       properties:
-        deviceName:
-          description: Device name
-          type: string
-        memory:
-          description: Memory name
-          type: string
-        memoryId:
-          description: Memory identifier
-          type: string
-        pollTimeUtc:
-          format: date-time
-          description: Poll time
-          type: string
-        timeFromLastPollSeconds:
-          format: int32
-          description: Number of seconds from last poll time
-          type: integer
-        size:
-          format: double
-          description: Total memory size.
-          type: number
-        minUsed:
-          format: double
-          description: Minimum value of used memory size
-          type: number
-        maxUsed:
-          format: double
-          description: Maximum value of used memory size
-          type: number
-        avgUsed:
-          format: double
-          description: Average value of used memory size
-          type: number
-        minPercent:
-          format: double
-          description: Minimum value of memory utilization (decimal number)
-          type: number
-        maxPercent:
-          format: double
-          description: Maximum value of memory utilization (decimal number)
-          type: number
-        avgPercent:
-          format: double
-          description: Average value of memory utilization (decimal number)
-          type: number
-        series:
-          description: Series of polling data
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_InterfaceErrorsDiscards'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
           type: array
           items:
-            $ref: '#/components/schemas/MemorySeriesItem'
-        id:
-          type: string
-    PingAvailabilitySeriesItem:
-      description: Class PingAvailabilityData.
-      type: object
-      properties:
-        pollTimeUtc:
-          format: date-time
-          description: Displays the last time polled.
-          type: string
-        percentAvailable:
-          format: double
-          description: Gets or sets the percent available.
-          type: number
-        percentPacketLoss:
-          format: double
-          description: Gets or sets the percent packet loss.
-          type: number
-    PagingInfo_List_DiskUtilization:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
-    ErrorsDiscardsSeriesItem:
-      description: This class contain values of interface discards/error series item
+            $ref: '#/components/schemas/InterfaceErrorsDiscards'
+          readOnly: true
+    PingResponseTimeSeriesItem:
+      description: This class contain values of interface traffic indicators
       type: object
       properties:
         pollTimeUtc:
           format: date-time
           description: Poll time
           type: string
-        rxAvg:
+        avgMilliSec:
           format: double
-          description: The average number of interface discard packets received  per minute.
+          description: The average ping response time (in milliseconds) for the device across all sample data for this time period.
           type: number
-        rxMin:
+        minMilliSec:
           format: double
-          description: The min number of interface discard packets received  per minute.
+          description: The min ping response time (in milliseconds) for the device across all sample data for this time period.
           type: number
-        rxMax:
+        maxMilliSec:
           format: double
-          description: The max number of interface discard packets received  per minute.
+          description: The max ping response time (in milliseconds) for the device across all sample data for this time period.
           type: number
-        txAvg:
-          format: double
-          description: The average number of interface discard packets transmitted per minute.
-          type: number
-        txMin:
-          format: double
-          description: The min number of interface discard packets transmitted per minute.
-          type: number
-        txMax:
-          format: double
-          description: The max number of interface discard packets transmitted per minute.
-          type: number
+    PageResult_List_PingResponseTime:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_PingResponseTime'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/PingResponseTime'
+          readOnly: true
+    PageResult_List_StateChangeTimeline:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_StateChangeTimeline'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/StateChangeTimeline'
+          readOnly: true
     PingAvailability:
       description: This class implements a data-transfer object for the report "Ping Availability"
       type: object
@@ -3344,6 +3296,54 @@ components:
             $ref: '#/components/schemas/PingAvailabilitySeriesItem'
         id:
           type: string
+    PagingInfo_List_DiskFreeSpace:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    DiskUtilizationSeriesItem:
+      description: Contains series item data for "Disk Utilization" report
+      type: object
+      properties:
+        pollTimeUtc:
+          format: date-time
+          description: Poll time
+          type: string
+        avgPercent:
+          format: double
+          description: Average value of disk utilization (decimal number)
+          type: number
+        minPercent:
+          format: double
+          description: Min value of disk utilization (decimal number)
+          type: number
+        maxPercent:
+          format: double
+          description: Max value of disk utilization (decimal number)
+          type: number
+    PageResult_List_InterfaceUtilization:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_InterfaceUtilization'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/InterfaceUtilization'
+          readOnly: true
     PingResponseTime:
       description: This class implements a data-transfer object for the report "Ping Response Time"
       type: object
@@ -3384,48 +3384,48 @@ components:
             $ref: '#/components/schemas/PingResponseTimeSeriesItem'
         id:
           type: string
-    PageResult_List_DiskUtilization:
+    PageResult_List_DiskFreeSpace:
       description: A result envelope that carries paged data
       type: object
       properties:
         paging:
-          $ref: '#/components/schemas/PagingInfo_List_DiskUtilization'
+          $ref: '#/components/schemas/PagingInfo_List_DiskFreeSpace'
           description: The paging section of the envelope
           readOnly: true
         data:
           description: The data payload
           type: array
           items:
-            $ref: '#/components/schemas/DiskUtilization'
+            $ref: '#/components/schemas/DiskFreeSpace'
           readOnly: true
-    PageResult_List_InterfaceTraffic:
-      description: A result envelope that carries paged data
+    PagingInfo_List_InterfaceErrorsDiscards:
+      description: The paging information
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_InterfaceTraffic'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/InterfaceTraffic'
-          readOnly: true
-    PageResult_List_PingAvailability:
-      description: A result envelope that carries paged data
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    PagingInfo_List_InterfaceTraffic:
+      description: The paging information
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_List_PingAvailability'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/PingAvailability'
-          readOnly: true
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
   securitySchemes:
     oauth2:
       type: oauth2

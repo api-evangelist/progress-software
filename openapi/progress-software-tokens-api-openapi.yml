@@ -227,57 +227,19 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    grpc.gateway.runtime.Error:
+    google.protobuf.Any:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
+        type_url:
           type: string
-        message:
+        value:
           type: string
-    chef.automate.api.iam.v2.GetTokenResp:
+          format: byte
+    chef.automate.api.iam.v2.UpdateTokenResp:
       type: object
       properties:
         token:
           $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
-      example:
-        active: true
-        id: token-1
-        name: token 1
-        projects:
-        - east-region
-        - west-region
-    chef.automate.api.iam.v2.CreateTokenReq:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        active:
-          description: 'Active state. Defaults to true.
-
-            If set to false, token will not be authenticated or authorized.'
-          type: boolean
-        id:
-          description: Unique ID. Cannot be changed.
-          type: string
-        name:
-          description: Name for the token.
-          type: string
-        projects:
-          description: List of projects this token belongs to.
-          type: array
-          items:
-            type: string
-        value:
-          description: Unique value for the token; if omitted the system will generate this.
-          type: string
       example:
         active: true
         id: token-1
@@ -297,16 +259,18 @@ components:
         projects:
         - east-region
         - west-region
-    chef.automate.api.iam.v2.DeleteTokenResp:
-      type: object
-    google.protobuf.Any:
+    chef.automate.api.iam.v2.GetTokenResp:
       type: object
       properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
+        token:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        active: true
+        id: token-1
+        name: token 1
+        projects:
+        - east-region
+        - west-region
     chef.automate.api.iam.v2.UpdateTokenReq:
       type: object
       required:
@@ -334,6 +298,43 @@ components:
         projects:
         - east-region
         - south-region
+    chef.automate.api.iam.v2.DeleteTokenResp:
+      type: object
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.iam.v2.ListTokensResp:
+      type: object
+      properties:
+        tokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+      example:
+        tokens:
+        - active: true
+          id: token-1
+          name: token 1
+          projects:
+          - east-region
+          - west-region
+        - active: false
+          id: token-2
+          name: token 2
+          projects:
+          - north-region
+          - south-region
     chef.automate.api.iam.v2.Token:
       type: object
       properties:
@@ -362,32 +363,31 @@ components:
         value:
           description: Unique, optionally user-specified value.
           type: string
-    chef.automate.api.iam.v2.ListTokensResp:
+    chef.automate.api.iam.v2.CreateTokenReq:
       type: object
+      required:
+      - id
+      - name
       properties:
-        tokens:
+        active:
+          description: 'Active state. Defaults to true.
+
+            If set to false, token will not be authenticated or authorized.'
+          type: boolean
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        name:
+          description: Name for the token.
+          type: string
+        projects:
+          description: List of projects this token belongs to.
           type: array
           items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
-      example:
-        tokens:
-        - active: true
-          id: token-1
-          name: token 1
-          projects:
-          - east-region
-          - west-region
-        - active: false
-          id: token-2
-          name: token 2
-          projects:
-          - north-region
-          - south-region
-    chef.automate.api.iam.v2.UpdateTokenResp:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Token'
+            type: string
+        value:
+          description: Unique value for the token; if omitted the system will generate this.
+          type: string
       example:
         active: true
         id: token-1

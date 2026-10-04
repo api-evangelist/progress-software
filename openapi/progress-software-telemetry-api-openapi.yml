@@ -43,28 +43,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    chef.automate.api.telemetry.TelemetryResponse:
-      type: object
-      properties:
-        customer_id:
-          type: string
-        customer_name:
-          type: string
-        deployment_id:
-          type: string
-        deployment_type:
-          type: string
-        license_id:
-          type: string
-        license_type:
-          type: string
-        max_nodes:
-          type: string
-          format: int64
-        telemetry_enabled:
-          type: boolean
-        telemetry_url:
-          type: string
     google.protobuf.Any:
       type: object
       properties:
@@ -86,6 +64,28 @@ components:
         error:
           type: string
         message:
+          type: string
+    chef.automate.api.telemetry.TelemetryResponse:
+      type: object
+      properties:
+        customer_id:
+          type: string
+        customer_name:
+          type: string
+        deployment_id:
+          type: string
+        deployment_type:
+          type: string
+        license_id:
+          type: string
+        license_type:
+          type: string
+        max_nodes:
+          type: string
+          format: int64
+        telemetry_enabled:
+          type: boolean
+        telemetry_url:
           type: string
   securitySchemes:
     APIToken:

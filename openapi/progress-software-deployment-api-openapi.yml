@@ -63,6 +63,41 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.deployment.Version:
+      description: 'The manifest version constructed with:
+
+        * build_timestamp'
+      type: object
+      title: Version message
+      properties:
+        build_timestamp:
+          type: string
+    chef.automate.api.deployment.ServiceVersionsResponse:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.deployment.ServiceVersion'
+    chef.automate.api.deployment.ServiceVersion:
+      type: object
+      properties:
+        name:
+          type: string
+        origin:
+          type: string
+        release:
+          type: string
+        version:
+          type: string
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -77,41 +112,6 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.deployment.Version:
-      description: 'The manifest version constructed with:
-
-        * build_timestamp'
-      type: object
-      title: Version message
-      properties:
-        build_timestamp:
-          type: string
-    chef.automate.api.deployment.ServiceVersion:
-      type: object
-      properties:
-        name:
-          type: string
-        origin:
-          type: string
-        release:
-          type: string
-        version:
-          type: string
-    chef.automate.api.deployment.ServiceVersionsResponse:
-      type: object
-      properties:
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.deployment.ServiceVersion'
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

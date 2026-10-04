@@ -390,108 +390,22 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.iam.v2.ListRulesForProjectResp:
+    chef.automate.api.iam.v2.Condition:
       type: object
       properties:
-        rules:
+        attribute:
+          description: Represents a property of an ingested resource. Depends on the rule type.
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.ConditionAttribute'
+        operator:
+          description: 'Whether the attribute matches a single value (`EQUALS`) or
+
+            matches at least one of a set of values (`MEMBER_OF`).'
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.ConditionOperator'
+        values:
+          description: The value(s) of the attribute that an ingested resource must match.
           type: array
           items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Rule'
-        status:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.ProjectRulesStatus'
-      example:
-        rules:
-        - conditions:
-          - attribute: CHEF_SERVER
-            operator: EQUALS
-            values:
-            - example.co
-          id: example-rule
-          name: My Applied Rule
-          project-id: example-project
-          status: APPLIED
-          type: NODE
-        - conditions:
-          - attribute: CHEF_ORGANIZATION
-            operator: MEMBER_OF
-            values:
-            - east
-            - west
-          id: example-rule-2
-          name: My 2nd Example Rule
-          project-id: example-project
-          status: APPLIED
-          type: EVENT
-        status: APPLIED
-    chef.automate.api.iam.v2.CreateRuleResp:
-      type: object
-      properties:
-        rule:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Rule'
-      example:
-        conditions:
-        - attribute: CHEF_SERVER
-          operator: MEMBER_OF
-          values:
-          - example.co
-          - example.io
-        id: example-rule
-        name: My Example Rule
-        project-id: example-project
-        status: STAGED
-        type: NODE
-    chef.automate.api.iam.v2.ConditionOperator:
-      type: string
-      default: CONDITION_OPERATOR_UNSET
-      enum:
-      - CONDITION_OPERATOR_UNSET
-      - MEMBER_OF
-      - EQUALS
-    chef.automate.api.iam.v2.UpdateRuleResp:
-      type: object
-      properties:
-        rule:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Rule'
-      example:
-        conditions:
-        - attribute: CHEF_SERVER
-          operator: EQUALS
-          values:
-          - example.co
-        id: example-rule
-        name: My Updated Rule
-        project-id: example-project
-        status: STAGED
-        type: NODE
-    chef.automate.api.iam.v2.RuleType:
-      type: string
-      default: RULE_TYPE_UNSET
-      enum:
-      - RULE_TYPE_UNSET
-      - NODE
-      - EVENT
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
+            type: string
     chef.automate.api.iam.v2.ApplyRulesStartResp:
       type: object
     chef.automate.api.iam.v2.UpdateRuleReq:
@@ -534,36 +448,14 @@ components:
         name: My Updated Rule
         project-id: example-project
         type: NODE
-    chef.automate.api.iam.v2.ApplyRulesStatusResp:
-      type: object
-      properties:
-        cancelled:
-          description: Whether or not the project update was canceled.
-          type: boolean
-        estimated_time_complete:
-          description: Estimated time when the project update will complete.
-          type: string
-          format: date-time
-        failed:
-          description: Whether or not the project update has failed.
-          type: boolean
-        failure_message:
-          description: The error message from the failure.
-          type: string
-        percentage_complete:
-          description: The percentage complete in decimal format from 0 to 1.
-          type: number
-          format: float
-        state:
-          description: 'One of two states: `not_running` and `running`.'
-          type: string
-      example:
-        cancelled: false
-        estimated_time_complete: '2020-03-20T19:24:55Z'
-        failed: false
-        failure_message: ''
-        percentage_complete: 0.5
-        state: running
+    chef.automate.api.iam.v2.ProjectRulesStatus:
+      type: string
+      default: PROJECT_RULES_STATUS_UNSET
+      enum:
+      - PROJECT_RULES_STATUS_UNSET
+      - RULES_APPLIED
+      - EDITS_PENDING
+      - NO_RULES
     chef.automate.api.iam.v2.ConditionAttribute:
       type: string
       default: CONDITION_ATTRIBUTE_UNSET
@@ -576,39 +468,6 @@ components:
       - CHEF_TAG
       - CHEF_POLICY_GROUP
       - CHEF_POLICY_NAME
-    chef.automate.api.iam.v2.ApplyRulesCancelResp:
-      type: object
-    chef.automate.api.iam.v2.RuleStatus:
-      type: string
-      default: RULE_STATUS_UNSET
-      enum:
-      - RULE_STATUS_UNSET
-      - STAGED
-      - APPLIED
-    chef.automate.api.iam.v2.Condition:
-      type: object
-      properties:
-        attribute:
-          description: Represents a property of an ingested resource. Depends on the rule type.
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.ConditionAttribute'
-        operator:
-          description: 'Whether the attribute matches a single value (`EQUALS`) or
-
-            matches at least one of a set of values (`MEMBER_OF`).'
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.ConditionOperator'
-        values:
-          description: The value(s) of the attribute that an ingested resource must match.
-          type: array
-          items:
-            type: string
-    chef.automate.api.iam.v2.ProjectRulesStatus:
-      type: string
-      default: PROJECT_RULES_STATUS_UNSET
-      enum:
-      - PROJECT_RULES_STATUS_UNSET
-      - RULES_APPLIED
-      - EDITS_PENDING
-      - NO_RULES
     chef.automate.api.iam.v2.CreateRuleReq:
       type: object
       required:
@@ -650,6 +509,25 @@ components:
         type: NODE
     chef.automate.api.iam.v2.DeleteRuleResp:
       type: object
+    chef.automate.api.iam.v2.CreateRuleResp:
+      type: object
+      properties:
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Rule'
+      example:
+        conditions:
+        - attribute: CHEF_SERVER
+          operator: MEMBER_OF
+          values:
+          - example.co
+          - example.io
+        id: example-rule
+        name: My Example Rule
+        project-id: example-project
+        status: STAGED
+        type: NODE
+    chef.automate.api.iam.v2.ApplyRulesCancelResp:
+      type: object
     chef.automate.api.iam.v2.Rule:
       type: object
       properties:
@@ -677,6 +555,39 @@ components:
 
             Cannot be changed.'
           $ref: '#/components/schemas/chef.automate.api.iam.v2.RuleType'
+    chef.automate.api.iam.v2.ListRulesForProjectResp:
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Rule'
+        status:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.ProjectRulesStatus'
+      example:
+        rules:
+        - conditions:
+          - attribute: CHEF_SERVER
+            operator: EQUALS
+            values:
+            - example.co
+          id: example-rule
+          name: My Applied Rule
+          project-id: example-project
+          status: APPLIED
+          type: NODE
+        - conditions:
+          - attribute: CHEF_ORGANIZATION
+            operator: MEMBER_OF
+            values:
+            - east
+            - west
+          id: example-rule-2
+          name: My 2nd Example Rule
+          project-id: example-project
+          status: APPLIED
+          type: EVENT
+        status: APPLIED
     chef.automate.api.iam.v2.GetRuleResp:
       type: object
       properties:
@@ -693,6 +604,95 @@ components:
         project-id: example-project
         status: APPLIED
         type: NODE
+    chef.automate.api.iam.v2.RuleType:
+      type: string
+      default: RULE_TYPE_UNSET
+      enum:
+      - RULE_TYPE_UNSET
+      - NODE
+      - EVENT
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.UpdateRuleResp:
+      type: object
+      properties:
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Rule'
+      example:
+        conditions:
+        - attribute: CHEF_SERVER
+          operator: EQUALS
+          values:
+          - example.co
+        id: example-rule
+        name: My Updated Rule
+        project-id: example-project
+        status: STAGED
+        type: NODE
+    chef.automate.api.iam.v2.ConditionOperator:
+      type: string
+      default: CONDITION_OPERATOR_UNSET
+      enum:
+      - CONDITION_OPERATOR_UNSET
+      - MEMBER_OF
+      - EQUALS
+    chef.automate.api.iam.v2.RuleStatus:
+      type: string
+      default: RULE_STATUS_UNSET
+      enum:
+      - RULE_STATUS_UNSET
+      - STAGED
+      - APPLIED
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.iam.v2.ApplyRulesStatusResp:
+      type: object
+      properties:
+        cancelled:
+          description: Whether or not the project update was canceled.
+          type: boolean
+        estimated_time_complete:
+          description: Estimated time when the project update will complete.
+          type: string
+          format: date-time
+        failed:
+          description: Whether or not the project update has failed.
+          type: boolean
+        failure_message:
+          description: The error message from the failure.
+          type: string
+        percentage_complete:
+          description: The percentage complete in decimal format from 0 to 1.
+          type: number
+          format: float
+        state:
+          description: 'One of two states: `not_running` and `running`.'
+          type: string
+      example:
+        cancelled: false
+        estimated_time_complete: '2020-03-20T19:24:55Z'
+        failed: false
+        failure_message: ''
+        percentage_complete: 0.5
+        state: running
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

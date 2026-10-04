@@ -42,11 +42,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.legacy.StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
     google.protobuf.Any:
       type: object
       properties:
@@ -68,6 +63,11 @@ components:
         error:
           type: string
         message:
+          type: string
+    chef.automate.api.legacy.StatusResponse:
+      type: object
+      properties:
+        status:
           type: string
   securitySchemes:
     APIToken:

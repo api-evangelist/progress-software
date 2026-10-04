@@ -302,6 +302,14 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.event_feed.response.EventString:
       type: object
       properties:
@@ -311,59 +319,20 @@ components:
             $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCollection'
         event_action:
           type: string
-    chef.automate.api.event_feed.response.GetEventFeedResponse:
+    chef.automate.api.event_feed.response.GetEventStringBucketsResponse:
       type: object
       properties:
-        events:
-          description: List of events.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.Event'
-        total_events:
-          description: Total count of events.
+        end:
           type: string
-          format: int64
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
+        hours_between:
           type: integer
           format: int32
-        details:
+        start:
+          type: string
+        strings:
           type: array
           items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.event_feed.response.GetEventTaskCountsResponse:
-      type: object
-      properties:
-        counts:
-          description: Total count of events per type.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
-        total:
-          description: Total count of events.
-          type: string
-          format: int64
-    chef.automate.api.event_feed.response.EventCollection:
-      type: object
-      properties:
-        events_count:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventString'
     chef.automate.api.event_feed.response.Event:
       type: object
       properties:
@@ -414,30 +383,30 @@ components:
         task:
           description: Type of event task (create, update, delete).
           type: string
-    chef.automate.api.event_feed.response.EventCount:
+    chef.automate.api.event_feed.response.GetEventTaskCountsResponse:
       type: object
       properties:
-        count:
-          description: Count of events.
-          type: string
-          format: int64
-        name:
-          description: Event name.
-          type: string
-    chef.automate.api.event_feed.response.GetEventStringBucketsResponse:
-      type: object
-      properties:
-        end:
-          type: string
-        hours_between:
-          type: integer
-          format: int32
-        start:
-          type: string
-        strings:
+        counts:
+          description: Total count of events per type.
           type: array
           items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventString'
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
+        total:
+          description: Total count of events.
+          type: string
+          format: int64
+    chef.automate.api.event_feed.response.GetEventFeedResponse:
+      type: object
+      properties:
+        events:
+          description: List of events.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.Event'
+        total_events:
+          description: Total count of events.
+          type: string
+          format: int64
     chef.automate.api.event_feed.response.GetEventTypeCountsResponse:
       type: object
       properties:
@@ -450,6 +419,37 @@ components:
           description: Total count of events.
           type: string
           format: int64
+    chef.automate.api.event_feed.response.EventCount:
+      type: object
+      properties:
+        count:
+          description: Count of events.
+          type: string
+          format: int64
+        name:
+          description: Event name.
+          type: string
+    chef.automate.api.event_feed.response.EventCollection:
+      type: object
+      properties:
+        events_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

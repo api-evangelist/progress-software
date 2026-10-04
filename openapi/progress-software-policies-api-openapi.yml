@@ -464,364 +464,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.iam.v2.ReplacePolicyMembersResp:
-      type: object
-      properties:
-        members:
-          description: Resulting list of policy members.
-          type: array
-          items:
-            type: string
-      example:
-        members:
-        - team:local:viewers
-        - user:local:test
-    chef.automate.api.iam.v2.CreatePolicyReq:
-      description: Does not contain type as the enduser can only create 'custom' policies.
-      type: object
-      required:
-      - id
-      - name
-      - statements
-      properties:
-        id:
-          description: Unique ID. Cannot be changed.
-          type: string
-        members:
-          description: Members affected by this policy.
-          type: array
-          items:
-            type: string
-        name:
-          description: Name for the policy.
-          type: string
-        projects:
-          description: List of projects this policy belongs to.
-          type: array
-          items:
-            type: string
-        statements:
-          description: Statements for the policy.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Statement'
-      example:
-        id: custom-viewer-policy
-        members:
-        - team:ldap:*
-        name: My Viewer Policy
-        projects: []
-        statements:
-        - effect: ALLOW
-          projects:
-          - project1
-          - project2
-          role: viewer
-        - effect: ALLOW
-          projects:
-          - acceptanceProject
-          role: qa
-    chef.automate.api.iam.v2.ListPoliciesResp:
-      type: object
-      properties:
-        policies:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
-      example:
-        policies:
-        - id: custom-viewer-policy-1
-          members:
-          - team:ldap:*
-          name: My Viewer Policy 1
-          projects: []
-          statements:
-          - effect: ALLOW
-            projects:
-            - project1
-            - project2
-            role: viewer
-          - effect: ALLOW
-            projects:
-            - acceptanceProject
-            role: qa
-        - id: custom-policy-2
-          members:
-          - team:local:test
-          name: My Custom Policy 2
-          projects: []
-          statements:
-          - effect: ALLOW
-            projects:
-            - project1
-            role: auditor
-    chef.automate.api.iam.v2.Version.VersionNumber:
-      type: string
-      default: V0
-      enum:
-      - V0
-      - V1
-      - V2
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.iam.v2.Policy:
-      type: object
-      properties:
-        id:
-          description: Unique ID. Cannot be changed.
-          type: string
-        members:
-          description: Members affected by this policy. May be empty.
-          type: array
-          items:
-            type: string
-        name:
-          description: Name for the policy.
-          type: string
-        projects:
-          description: List of projects this policy belongs to. May be empty.
-          type: array
-          items:
-            type: string
-        statements:
-          description: Statements for the policy. Will contain one or more.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.Statement'
-        type:
-          description: This doc-comment is ignored for an enum.
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
-    chef.automate.api.iam.v2.Statement.Effect:
-      type: string
-      default: ALLOW
-      enum:
-      - ALLOW
-      - DENY
-    chef.automate.api.iam.v2.GetPolicyResp:
-      type: object
-      properties:
-        policy:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
-      example:
-        id: custom-viewer-policy
-        members:
-        - team:ldap:*
-        name: My Viewer Policy
-        projects: []
-        statements:
-        - effect: ALLOW
-          projects:
-          - project1
-          - project2
-          role: viewer
-        - effect: ALLOW
-          projects:
-          - acceptanceProject
-          role: qa
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.ListPolicyMembersResp:
-      type: object
-      properties:
-        members:
-          description: List of policy members.
-          type: array
-          items:
-            type: string
-      example:
-        members:
-        - team:local:viewers
-        - user:local:test
-    chef.automate.api.iam.v2.ReplacePolicyMembersReq:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          description: ID of the policy.
-          type: string
-        members:
-          description: List of members that replaces previous policy member list.
-          type: array
-          items:
-            type: string
-      example:
-        members:
-        - team:local:viewers
-        - user:local:test
-    chef.automate.api.iam.v2.RemovePolicyMembersResp:
-      type: object
-      properties:
-        members:
-          description: Resulting list of policy members.
-          type: array
-          items:
-            type: string
-      example:
-        members:
-        - user:local:test
-    chef.automate.api.iam.v2.AddPolicyMembersReq:
-      type: object
-      required:
-      - id
-      - members
-      properties:
-        id:
-          description: ID of the policy.
-          type: string
-        members:
-          description: List of members to add to the policy.
-          type: array
-          items:
-            type: string
-      example:
-        members:
-        - team:local:viewers
-        - user:local:test
-    chef.automate.api.iam.v2.Version:
-      type: object
-      title: the only values that may be returned by GetPolicyVersion
-      properties:
-        major:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Version.VersionNumber'
-        minor:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Version.VersionNumber'
-    chef.automate.api.iam.v2.CreatePolicyResp:
-      type: object
-      properties:
-        policy:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
-      example:
-        id: custom-viewer-policy
-        members:
-        - team:ldap:*
-        name: My Viewer Policy
-        projects: []
-        statements:
-        - effect: ALLOW
-          projects:
-          - project1
-          - project2
-          role: viewer
-        - effect: ALLOW
-          projects:
-          - acceptanceProject
-          role: qa
-    chef.automate.api.iam.v2.RemovePolicyMembersReq:
-      type: object
-      required:
-      - id
-      - members
-      properties:
-        id:
-          description: ID of the policy.
-          type: string
-        members:
-          description: List of members to remove from the policy.
-          type: array
-          items:
-            type: string
-      example:
-        members:
-        - user:local:test
-    chef.automate.api.iam.v2.Type:
-      type: string
-      default: CHEF_MANAGED
-      enum:
-      - CHEF_MANAGED
-      - CUSTOM
-    chef.automate.api.iam.v2.GetPolicyVersionResp:
-      type: object
-      properties:
-        version:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Version'
-      example:
-        version:
-          major: V2
-          minor: V1
-    chef.automate.api.iam.v2.DeletePolicyResp:
-      type: object
-      example:
-        id: custom-viewer-policy
-        members:
-        - team:ldap:*
-        name: My Viewer Policy
-        projects: []
-        statements:
-        - effect: ALLOW
-          projects:
-          - project1
-          - project2
-          role: viewer
-        - effect: ALLOW
-          projects:
-          - acceptanceProject
-          role: qa
-    chef.automate.api.iam.v2.Statement:
-      type: object
-      properties:
-        actions:
-          description: 'Actions defined inline. May be empty.
-
-            Best practices recommend that you use custom roles rather than inline actions where practical.'
-          type: array
-          items:
-            type: string
-        effect:
-          description: This doc-comment is ignored for an enum.
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Statement.Effect'
-        projects:
-          description: The project list defines the set of resources that the statement is scoped to. May be empty.
-          type: array
-          items:
-            type: string
-        resources:
-          description: 'DEPRECATED: Resources defined inline. Use projects instead.'
-          type: array
-          items:
-            type: string
-        role:
-          description: The role defines a set of actions that the statement is scoped to.
-          type: string
-    chef.automate.api.iam.v2.UpdatePolicyResp:
-      type: object
-      properties:
-        policy:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
-      example:
-        members:
-        - user:ldap:newuser
-        - team:ldap:newteam
-        name: My Updated Viewer Policy
-        projects: []
-        statements:
-        - effect: ALLOW
-          projects:
-          - project1
-          - project2
-          role: viewer
-        - effect: ALLOW
-          projects:
-          - acceptanceProject
-          role: qa
     chef.automate.api.iam.v2.UpdatePolicyReq:
       description: Does not contain type as the enduser can only create 'custom' policies.
       type: object
@@ -867,10 +509,368 @@ components:
           projects:
           - acceptanceProject
           role: qa
+    chef.automate.api.iam.v2.UpdatePolicyResp:
+      type: object
+      properties:
+        policy:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
+      example:
+        members:
+        - user:ldap:newuser
+        - team:ldap:newteam
+        name: My Updated Viewer Policy
+        projects: []
+        statements:
+        - effect: ALLOW
+          projects:
+          - project1
+          - project2
+          role: viewer
+        - effect: ALLOW
+          projects:
+          - acceptanceProject
+          role: qa
+    chef.automate.api.iam.v2.RemovePolicyMembersResp:
+      type: object
+      properties:
+        members:
+          description: Resulting list of policy members.
+          type: array
+          items:
+            type: string
+      example:
+        members:
+        - user:local:test
+    chef.automate.api.iam.v2.AddPolicyMembersReq:
+      type: object
+      required:
+      - id
+      - members
+      properties:
+        id:
+          description: ID of the policy.
+          type: string
+        members:
+          description: List of members to add to the policy.
+          type: array
+          items:
+            type: string
+      example:
+        members:
+        - team:local:viewers
+        - user:local:test
+    chef.automate.api.iam.v2.Type:
+      type: string
+      default: CHEF_MANAGED
+      enum:
+      - CHEF_MANAGED
+      - CUSTOM
+    chef.automate.api.iam.v2.GetPolicyResp:
+      type: object
+      properties:
+        policy:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
+      example:
+        id: custom-viewer-policy
+        members:
+        - team:ldap:*
+        name: My Viewer Policy
+        projects: []
+        statements:
+        - effect: ALLOW
+          projects:
+          - project1
+          - project2
+          role: viewer
+        - effect: ALLOW
+          projects:
+          - acceptanceProject
+          role: qa
+    chef.automate.api.iam.v2.DeletePolicyResp:
+      type: object
+      example:
+        id: custom-viewer-policy
+        members:
+        - team:ldap:*
+        name: My Viewer Policy
+        projects: []
+        statements:
+        - effect: ALLOW
+          projects:
+          - project1
+          - project2
+          role: viewer
+        - effect: ALLOW
+          projects:
+          - acceptanceProject
+          role: qa
+    chef.automate.api.iam.v2.Policy:
+      type: object
+      properties:
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        members:
+          description: Members affected by this policy. May be empty.
+          type: array
+          items:
+            type: string
+        name:
+          description: Name for the policy.
+          type: string
+        projects:
+          description: List of projects this policy belongs to. May be empty.
+          type: array
+          items:
+            type: string
+        statements:
+          description: Statements for the policy. Will contain one or more.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Statement'
+        type:
+          description: This doc-comment is ignored for an enum.
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Type'
+    chef.automate.api.iam.v2.GetPolicyVersionResp:
+      type: object
+      properties:
+        version:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Version'
+      example:
+        version:
+          major: V2
+          minor: V1
+    chef.automate.api.iam.v2.RemovePolicyMembersReq:
+      type: object
+      required:
+      - id
+      - members
+      properties:
+        id:
+          description: ID of the policy.
+          type: string
+        members:
+          description: List of members to remove from the policy.
+          type: array
+          items:
+            type: string
+      example:
+        members:
+        - user:local:test
+    chef.automate.api.iam.v2.CreatePolicyResp:
+      type: object
+      properties:
+        policy:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
+      example:
+        id: custom-viewer-policy
+        members:
+        - team:ldap:*
+        name: My Viewer Policy
+        projects: []
+        statements:
+        - effect: ALLOW
+          projects:
+          - project1
+          - project2
+          role: viewer
+        - effect: ALLOW
+          projects:
+          - acceptanceProject
+          role: qa
+    chef.automate.api.iam.v2.Statement.Effect:
+      type: string
+      default: ALLOW
+      enum:
+      - ALLOW
+      - DENY
+    chef.automate.api.iam.v2.Statement:
+      type: object
+      properties:
+        actions:
+          description: 'Actions defined inline. May be empty.
+
+            Best practices recommend that you use custom roles rather than inline actions where practical.'
+          type: array
+          items:
+            type: string
+        effect:
+          description: This doc-comment is ignored for an enum.
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Statement.Effect'
+        projects:
+          description: The project list defines the set of resources that the statement is scoped to. May be empty.
+          type: array
+          items:
+            type: string
+        resources:
+          description: 'DEPRECATED: Resources defined inline. Use projects instead.'
+          type: array
+          items:
+            type: string
+        role:
+          description: The role defines a set of actions that the statement is scoped to.
+          type: string
+    chef.automate.api.iam.v2.CreatePolicyReq:
+      description: Does not contain type as the enduser can only create 'custom' policies.
+      type: object
+      required:
+      - id
+      - name
+      - statements
+      properties:
+        id:
+          description: Unique ID. Cannot be changed.
+          type: string
+        members:
+          description: Members affected by this policy.
+          type: array
+          items:
+            type: string
+        name:
+          description: Name for the policy.
+          type: string
+        projects:
+          description: List of projects this policy belongs to.
+          type: array
+          items:
+            type: string
+        statements:
+          description: Statements for the policy.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Statement'
+      example:
+        id: custom-viewer-policy
+        members:
+        - team:ldap:*
+        name: My Viewer Policy
+        projects: []
+        statements:
+        - effect: ALLOW
+          projects:
+          - project1
+          - project2
+          role: viewer
+        - effect: ALLOW
+          projects:
+          - acceptanceProject
+          role: qa
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.ReplacePolicyMembersReq:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          description: ID of the policy.
+          type: string
+        members:
+          description: List of members that replaces previous policy member list.
+          type: array
+          items:
+            type: string
+      example:
+        members:
+        - team:local:viewers
+        - user:local:test
+    chef.automate.api.iam.v2.ListPolicyMembersResp:
+      type: object
+      properties:
+        members:
+          description: List of policy members.
+          type: array
+          items:
+            type: string
+      example:
+        members:
+        - team:local:viewers
+        - user:local:test
     chef.automate.api.iam.v2.AddPolicyMembersResp:
       type: object
       properties:
         members:
+          type: array
+          items:
+            type: string
+      example:
+        members:
+        - team:local:viewers
+        - user:local:test
+    chef.automate.api.iam.v2.Version:
+      type: object
+      title: the only values that may be returned by GetPolicyVersion
+      properties:
+        major:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Version.VersionNumber'
+        minor:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.Version.VersionNumber'
+    chef.automate.api.iam.v2.ListPoliciesResp:
+      type: object
+      properties:
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.Policy'
+      example:
+        policies:
+        - id: custom-viewer-policy-1
+          members:
+          - team:ldap:*
+          name: My Viewer Policy 1
+          projects: []
+          statements:
+          - effect: ALLOW
+            projects:
+            - project1
+            - project2
+            role: viewer
+          - effect: ALLOW
+            projects:
+            - acceptanceProject
+            role: qa
+        - id: custom-policy-2
+          members:
+          - team:local:test
+          name: My Custom Policy 2
+          projects: []
+          statements:
+          - effect: ALLOW
+            projects:
+            - project1
+            role: auditor
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.iam.v2.Version.VersionNumber:
+      type: string
+      default: V0
+      enum:
+      - V0
+      - V1
+      - V2
+    chef.automate.api.iam.v2.ReplacePolicyMembersResp:
+      type: object
+      properties:
+        members:
+          description: Resulting list of policy members.
           type: array
           items:
             type: string

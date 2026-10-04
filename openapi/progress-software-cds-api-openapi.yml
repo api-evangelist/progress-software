@@ -153,33 +153,29 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    grpc.gateway.runtime.Error:
+    google.protobuf.Any:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
+        type_url:
           type: string
-        message:
+        value:
           type: string
-    chef.automate.api.cds.response.ContentItems:
+          format: byte
+    chef.automate.api.cds.response.Credentials:
+      type: object
+    chef.automate.api.cds.response.ContentEnabled:
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.cds.response.ContentItem'
-    chef.automate.api.cds.request.InstallContentItem:
+        is_content_enabled:
+          type: boolean
+    chef.automate.api.cds.request.Credentials:
       type: object
       properties:
-        id:
+        client_id:
           type: string
-        request_user:
+        client_secret:
+          type: string
+        tenant_specific_url:
           type: string
     chef.automate.api.cds.response.ContentItem:
       type: object
@@ -202,32 +198,36 @@ components:
           type: string
         version:
           type: string
-    chef.automate.api.cds.response.ContentEnabled:
+    chef.automate.api.cds.request.InstallContentItem:
       type: object
       properties:
-        is_content_enabled:
-          type: boolean
-    chef.automate.api.cds.request.Credentials:
+        id:
+          type: string
+        request_user:
+          type: string
+    chef.automate.api.cds.response.ContentItems:
       type: object
       properties:
-        client_id:
-          type: string
-        client_secret:
-          type: string
-        tenant_specific_url:
-          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.cds.response.ContentItem'
     chef.automate.api.cds.response.InstallContentItem:
       type: object
-    google.protobuf.Any:
+    grpc.gateway.runtime.Error:
       type: object
       properties:
-        type_url:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
           type: string
-        value:
+        message:
           type: string
-          format: byte
-    chef.automate.api.cds.response.Credentials:
-      type: object
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

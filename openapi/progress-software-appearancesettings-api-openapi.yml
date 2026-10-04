@@ -106,23 +106,6 @@ paths:
                   description: When set to 1, resets the header background logo to an empty image
 components:
   schemas:
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
     UnprocessableEntityErrorModel:
       description: Represents an error returned by API in case of HTTP 422 error
       properties:
@@ -148,6 +131,23 @@ components:
           type: string
       xml:
         name: UnprocessableEntityErrorModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
       type: object
     LogosModel:
       properties:

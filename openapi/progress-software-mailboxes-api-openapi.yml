@@ -537,22 +537,158 @@ paths:
       - Authorization: []
 components:
   schemas:
-    ErrorModel:
-      description: Represents an error returned by API
+    PackageMovePatchModel:
+      description: Package Update parameters
       properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
+        packageId:
+          description: New package mailbox to set
           type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
+        mailboxId:
+          description: Source Mailbox Id
           type: string
       xml:
-        name: ErrorModel
+        name: PackageMovePatchModel
+      type: object
+    SimplePackageClassificationTypeModel:
+      properties:
+        id:
+          description: Gets or sets id of classification type
+          type: integer
+          format: int32
+        value:
+          description: Gets or sets value of classification type
+          type: string
+      xml:
+        name: SimplePackageClassificationTypeModel
+      type: object
+    Recipient:
+      properties:
+        type:
+          description: Recipient type
+          type: string
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+        role:
+          description: Recipient role
+          type: string
+          enum:
+          - To
+          - CC
+          - BCC
+        identifier:
+          description: Recipient identifier
+          type: string
+        name:
+          description: Recipient name (read only)
+          type: string
+      xml:
+        name: Recipient
+      type: object
+    SimpleFileResourceModel:
+      description: 'Container object used to provide information about a specific
+
+        file on a MOVEit Transfer server.'
+      properties:
+        folderID:
+          description: ID of the folder this file is currently in.
+          type: integer
+          format: int32
+        uploadUsername:
+          description: The username of the user account which uploaded this file.
+          type: string
+        path:
+          description: The full path of this file.
+          type: string
+        uploadStamp:
+          description: The date and time this file was uploaded.
+          type: string
+        isNew:
+          description: Indicating whether the file is considered new for the current user
+          type: boolean
+        name:
+          description: The name of this file.
+          type: string
+        size:
+          description: Size in bytes of this file.
+          type: integer
+          format: int64
+        id:
+          description: The unique ID of the file. Also known as the tracking number.
+          type: string
+      xml:
+        name: SimpleFileResourceModel
+      type: object
+    SimplePackageModel:
+      description: Represents basic package data required for all scenarios
+      properties:
+        toRecipients:
+          description: List of To recipients
+          items:
+            type: string
+          type: array
+        id:
+          description: Package id. The value is null for action operations
+          type: integer
+          format: int32
+        orgId:
+          description: Organization id
+          type: integer
+          format: int32
+        mailboxId:
+          description: Mailbox id
+          type: string
+        sendStamp:
+          description: Mailbox time stamp
+          type: string
+        parentId:
+          description: Parent id
+          type: string
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        recalled:
+          description: True if package is recalled
+          type: boolean
+        isNew:
+          description: True if package is new
+          type: boolean
+        subject:
+          description: Package subject
+          type: string
+        sender:
+          $ref: '#/components/schemas/SimpleUserModel'
+          description: Sender info
+        composerType:
+          description: Composer package type
+          type: string
+          enum:
+          - General
+          - Request
+        dlpViolation:
+          description: File DLP violation info
+          type: string
+        dlpBlocked:
+          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
+          type: boolean
+        packageClassificationType:
+          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
+          description: Package classification type
+        readStatus:
+          description: Package read status
+          type: string
+          enum:
+          - None
+          - Some
+          - All
+      xml:
+        name: SimplePackageModel
       type: object
     PackageDetailsModel:
       description: Represents a package and all available attributes
@@ -651,39 +787,17 @@ components:
       xml:
         name: PackageDetailsModel
       type: object
-    SimpleFileResourceModel:
-      description: 'Container object used to provide information about a specific
-
-        file on a MOVEit Transfer server.'
+    PackagePatchModel:
+      description: Package Update parameters
       properties:
-        folderID:
-          description: ID of the folder this file is currently in.
-          type: integer
-          format: int32
-        uploadUsername:
-          description: The username of the user account which uploaded this file.
-          type: string
-        path:
-          description: The full path of this file.
-          type: string
-        uploadStamp:
-          description: The date and time this file was uploaded.
-          type: string
-        isNew:
-          description: Indicating whether the file is considered new for the current user
+        recalled:
+          description: Set true to recall the package
           type: boolean
-        name:
-          description: The name of this file.
-          type: string
-        size:
-          description: Size in bytes of this file.
-          type: integer
-          format: int64
-        id:
-          description: The unique ID of the file. Also known as the tracking number.
-          type: string
+        isNew:
+          description: IsNew to set
+          type: boolean
       xml:
-        name: SimpleFileResourceModel
+        name: PackagePatchModel
       type: object
     SimpleUserModel:
       description: Simple user model for user lists.
@@ -728,34 +842,27 @@ components:
       xml:
         name: SimpleUserModel
       type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
     Void:
       properties: {}
       xml:
         name: Void
-      type: object
-    PackagePatchModel:
-      description: Package Update parameters
-      properties:
-        recalled:
-          description: Set true to recall the package
-          type: boolean
-        isNew:
-          description: IsNew to set
-          type: boolean
-      xml:
-        name: PackagePatchModel
-      type: object
-    PackageMovePatchModel:
-      description: Package Update parameters
-      properties:
-        packageId:
-          description: New package mailbox to set
-          type: string
-        mailboxId:
-          description: Source Mailbox Id
-          type: string
-      xml:
-        name: PackageMovePatchModel
       type: object
     MailboxModel:
       description: Represents basic mailbox data required for all scenarios
@@ -822,113 +929,6 @@ components:
           type: string
       xml:
         name: MailboxModel
-      type: object
-    SimplePackageClassificationTypeModel:
-      properties:
-        id:
-          description: Gets or sets id of classification type
-          type: integer
-          format: int32
-        value:
-          description: Gets or sets value of classification type
-          type: string
-      xml:
-        name: SimplePackageClassificationTypeModel
-      type: object
-    SimplePackageModel:
-      description: Represents basic package data required for all scenarios
-      properties:
-        toRecipients:
-          description: List of To recipients
-          items:
-            type: string
-          type: array
-        id:
-          description: Package id. The value is null for action operations
-          type: integer
-          format: int32
-        orgId:
-          description: Organization id
-          type: integer
-          format: int32
-        mailboxId:
-          description: Mailbox id
-          type: string
-        sendStamp:
-          description: Mailbox time stamp
-          type: string
-        parentId:
-          description: Parent id
-          type: string
-        deliveryReceipts:
-          description: Delivery receipts
-          type: boolean
-        expirationHours:
-          description: Expiration hours
-          type: integer
-          format: int32
-        recalled:
-          description: True if package is recalled
-          type: boolean
-        isNew:
-          description: True if package is new
-          type: boolean
-        subject:
-          description: Package subject
-          type: string
-        sender:
-          $ref: '#/components/schemas/SimpleUserModel'
-          description: Sender info
-        composerType:
-          description: Composer package type
-          type: string
-          enum:
-          - General
-          - Request
-        dlpViolation:
-          description: File DLP violation info
-          type: string
-        dlpBlocked:
-          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
-          type: boolean
-        packageClassificationType:
-          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
-          description: Package classification type
-        readStatus:
-          description: Package read status
-          type: string
-          enum:
-          - None
-          - Some
-          - All
-      xml:
-        name: SimplePackageModel
-      type: object
-    Recipient:
-      properties:
-        type:
-          description: Recipient type
-          type: string
-          enum:
-          - User
-          - Group
-          - Unreg
-          - Unverified
-        role:
-          description: Recipient role
-          type: string
-          enum:
-          - To
-          - CC
-          - BCC
-        identifier:
-          description: Recipient identifier
-          type: string
-        name:
-          description: Recipient name (read only)
-          type: string
-      xml:
-        name: Recipient
       type: object
   securitySchemes:
     Authorization:

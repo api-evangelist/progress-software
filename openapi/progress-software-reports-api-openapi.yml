@@ -227,9 +227,18 @@ paths:
               - file
 components:
   schemas:
-    ErrorModel:
-      description: Represents an error returned by API
+    UnprocessableEntityErrorModel:
+      description: Represents an error returned by API in case of HTTP 422 error
       properties:
+        errors:
+          description: Detailed information about errors in provided parameters
+          items:
+            $ref: '#/components/schemas/FieldErrorModel'
+          readOnly: true
+          xml:
+            name: FieldErrorModel
+            wrapped: true
+          type: array
         detail:
           description: An explanation specific to this occurrence of the error
           type: string
@@ -242,19 +251,7 @@ components:
           description: Short summary of the error type
           type: string
       xml:
-        name: ErrorModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
+        name: UnprocessableEntityErrorModel
       type: object
     SimpleReportModel:
       description: Simple report model.
@@ -285,6 +282,18 @@ components:
       xml:
         name: SimpleReportModel
       type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
     PagingInfoModel:
       description: Information about paging for collection response
       properties:
@@ -308,18 +317,24 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    UnprocessableEntityErrorModel:
-      description: Represents an error returned by API in case of HTTP 422 error
+    FieldErrorModel:
+      description: Describes error in particular parameter of the request
       properties:
-        errors:
-          description: Detailed information about errors in provided parameters
-          items:
-            $ref: '#/components/schemas/FieldErrorModel'
-          readOnly: true
-          xml:
-            name: FieldErrorModel
-            wrapped: true
-          type: array
+        field:
+          description: Name of the field that's invalid
+          type: string
+        rejected:
+          description: Value of the field that's invalid
+          type: string
+        message:
+          description: Explanation of the error
+          type: string
+      xml:
+        name: FieldErrorModel
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
         detail:
           description: An explanation specific to this occurrence of the error
           type: string
@@ -332,33 +347,7 @@ components:
           description: Short summary of the error type
           type: string
       xml:
-        name: UnprocessableEntityErrorModel
-      type: object
-    PagedModelOfSimpleReportModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleReportModel'
-          readOnly: true
-          xml:
-            name: SimpleReportModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
+        name: ErrorModel
       type: object
     ReportDetailedModel:
       description: Report detailed model.
@@ -599,20 +588,31 @@ components:
       xml:
         name: ReportDetailedModel
       type: object
-    FieldErrorModel:
-      description: Describes error in particular parameter of the request
+    PagedModelOfSimpleReportModel:
+      description: Represents paged response object with proper navigations
       properties:
-        field:
-          description: Name of the field that's invalid
-          type: string
-        rejected:
-          description: Value of the field that's invalid
-          type: string
-        message:
-          description: Explanation of the error
-          type: string
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleReportModel'
+          readOnly: true
+          xml:
+            name: SimpleReportModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
       xml:
-        name: FieldErrorModel
+        name: PagedModel`1
       type: object
   securitySchemes:
     Authorization:

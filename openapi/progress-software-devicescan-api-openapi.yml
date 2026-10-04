@@ -226,20 +226,6 @@ components:
           format: int32
           description: The number of items in the page being returned
           type: integer
-    PagingInfo_List_ActiveScan:
-      description: The paging information
-      type: object
-      properties:
-        pageId:
-          description: The id of the current page being returned
-          type: string
-        nextPageId:
-          description: The id of the next page, if there is one
-          type: string
-        size:
-          format: int32
-          description: The number of items in the page being returned
-          type: integer
     DeviceOverview:
       description: "Provides an overview of a given device in terms \nof basic summary information as well as monitoring \nstatus."
       type: object
@@ -299,6 +285,20 @@ components:
           type: string
         id:
           type: string
+    PageResult_List_ActiveScan:
+      description: A result envelope that carries paged data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/PagingInfo_List_ActiveScan'
+          description: The paging section of the envelope
+          readOnly: true
+        data:
+          description: The data payload
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveScan'
+          readOnly: true
     MonitorAssignmentStatus:
       description: The current monitoring status of this monitor
       type: object
@@ -335,25 +335,18 @@ components:
           type: boolean
         id:
           type: string
-    PageResult_List_ActiveScan:
+    PageResult_ScanDeviceSummaryList:
       description: A result envelope that carries paged data
       type: object
       properties:
         paging:
-          $ref: '#/components/schemas/PagingInfo_List_ActiveScan'
+          $ref: '#/components/schemas/PagingInfo_ScanDeviceSummaryList'
           description: The paging section of the envelope
           readOnly: true
         data:
+          $ref: '#/components/schemas/ScanDeviceSummaryList'
           description: The data payload
-          type: array
-          items:
-            $ref: '#/components/schemas/ActiveScan'
           readOnly: true
-    SuccessResult:
-      type: object
-      properties:
-        success:
-          type: boolean
     ScanDeviceSummaryList:
       description: A list of device summary items
       type: object
@@ -369,28 +362,6 @@ components:
           type: string
         id:
           type: string
-    Result_ActiveScan:
-      description: 'The standard result envelope for successful data. All results MUST
-
-        extend this type eventually.'
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ActiveScan'
-          description: The data payload
-          readOnly: true
-    PageResult_ScanDeviceSummaryList:
-      description: A result envelope that carries paged data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/PagingInfo_ScanDeviceSummaryList'
-          description: The paging section of the envelope
-          readOnly: true
-        data:
-          $ref: '#/components/schemas/ScanDeviceSummaryList'
-          description: The data payload
-          readOnly: true
     ActiveScan:
       description: Class DiscoveryActiveScanDto.
       type: object
@@ -460,6 +431,35 @@ components:
           type: string
         id:
           type: string
+    Result_ActiveScan:
+      description: 'The standard result envelope for successful data. All results MUST
+
+        extend this type eventually.'
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ActiveScan'
+          description: The data payload
+          readOnly: true
+    PagingInfo_List_ActiveScan:
+      description: The paging information
+      type: object
+      properties:
+        pageId:
+          description: The id of the current page being returned
+          type: string
+        nextPageId:
+          description: The id of the next page, if there is one
+          type: string
+        size:
+          format: int32
+          description: The number of items in the page being returned
+          type: integer
+    SuccessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
   securitySchemes:
     oauth2:
       type: oauth2

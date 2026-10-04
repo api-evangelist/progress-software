@@ -95,6 +95,14 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.iam.v2.IntrospectReq:
       type: object
       properties:
@@ -104,6 +112,13 @@ components:
             type: string
         path:
           type: string
+    chef.automate.api.iam.v2.IntrospectResp:
+      type: object
+      properties:
+        endpoints:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/chef.automate.api.iam.v2.MethodsAllowed'
     chef.automate.api.iam.v2.IntrospectSomeReq:
       type: object
       properties:
@@ -111,6 +126,19 @@ components:
           type: array
           items:
             type: string
+    chef.automate.api.iam.v2.MethodsAllowed:
+      type: object
+      properties:
+        delete:
+          type: boolean
+        get:
+          type: boolean
+        patch:
+          type: boolean
+        post:
+          type: boolean
+        put:
+          type: boolean
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -125,34 +153,6 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.iam.v2.MethodsAllowed:
-      type: object
-      properties:
-        delete:
-          type: boolean
-        get:
-          type: boolean
-        patch:
-          type: boolean
-        post:
-          type: boolean
-        put:
-          type: boolean
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.IntrospectResp:
-      type: object
-      properties:
-        endpoints:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/chef.automate.api.iam.v2.MethodsAllowed'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

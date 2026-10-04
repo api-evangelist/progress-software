@@ -494,169 +494,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    chef.automate.api.applications.HealthCounts:
-      description: Combined count values from the health status and disconnected status reports.
-      type: object
-      properties:
-        critical:
-          type: integer
-          format: int32
-        disconnected:
-          type: integer
-          format: int32
-        ok:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int32
-        unknown:
-          type: integer
-          format: int32
-        warning:
-          type: integer
-          format: int32
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
-    chef.automate.api.applications.HealthCheckResult:
-      type: object
-      title: 'HealthCheckResult aggregates the stdout output, stderr output and process
-
-        exit status of a habitat health check'
-      properties:
-        exit_status:
-          type: integer
-          format: int32
-        stderr:
-          type: string
-        stdout:
-          type: string
-    chef.automate.api.applications.ServicesRes:
-      description: Response message for GetServices.
-      type: object
-      properties:
-        services:
-          description: List of services.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.applications.Service'
-    chef.automate.api.applications.ServicesDistinctValuesRes:
-      description: Response message for GetServicesDistinctValues.
-      type: object
-      properties:
-        values:
-          description: List of distinct values fitting query_fragment and filters.
-          type: array
-          items:
-            type: string
-    chef.automate.api.applications.ServiceGroups:
-      description: List of service groups.
-      type: object
-      properties:
-        service_groups:
-          description: List of service groups.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.applications.ServiceGroup'
-    chef.automate.api.applications.Service:
-      type: object
-      properties:
-        application:
-          description: Application name.
-          type: string
-        channel:
-          description: Chef Habitat channel that the service is subscribed to.
-          type: string
-        current_health_since:
-          description: Time interval of current health status from last status change until now.
-          type: string
-        disconnected:
-          description: 'Service connection information.
-
-            Based on time since last healthcheck received and disconnected service configuration.'
-          type: boolean
-        environment:
-          description: Environment name.
-          type: string
-        fqdn:
-          description: FQDN reported by a Chef Habitat Supervisor.
-          type: string
-        group:
-          description: Service group name.
-          type: string
-        health_check:
-          description: Intentionally blank.
-          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
-        health_check_result:
-          description: Intentionally blank.
-          $ref: '#/components/schemas/chef.automate.api.applications.HealthCheckResult'
-        health_updated_at:
-          description: Timestamp since health status change.
-          type: string
-          format: date-time
-        id:
-          type: string
-          title: Internal ID
-        last_event_occurred_at:
-          description: Timestamp of last received health check message.
-          type: string
-          format: date-time
-        last_event_since:
-          description: Interval since last event received until now.
-          type: string
-        previous_health_check:
-          description: Intentionally blank.
-          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
-        release:
-          description: 'Combination of the service version and release in a single string.
-
-            Example: 0.1.0/8743278934278923.'
-          type: string
-        site:
-          description: Site reported by Chef Habitat service, a user defined flag.
-          type: string
-        supervisor_id:
-          description: The Chef Habitat Supervisor ID.
-          type: string
-        update_strategy:
-          description: Update strategy that the service employs.
-          type: string
-    chef.automate.api.applications.HealthStatus:
-      description: 'The HealthStatus enumerable matches the Chef Habitat implementation for health-check status:
-
-        => https://www.habitat.sh/docs/reference/#health-check
-
-        For a health status within a service group.
-
-        *critical* means that one or more services are in critical condition.
-
-        *warning* means that one or more services have a warning, but none are in critical condition.
-
-        *unknown* means that one or more services have not responded, but all of the remaining nodes responded to the health check as "OK".
-
-        *OK* means that all of the services are OK and all have responded to the health check.
-
-        *none* means that there is no health check information.'
-      type: string
-      default: OK
-      enum:
-      - OK
-      - WARNING
-      - CRITICAL
-      - UNKNOWN
-      - NONE
     google.protobuf.Any:
       type: object
       properties:
@@ -729,22 +566,30 @@ components:
           description: Total number of supervisors reporting to Chef Automate.
           type: integer
           format: int32
-    chef.automate.api.applications.DisconnectedServicesReq:
-      description: Request message for GetDisconnectedServices.
-      type: object
-      properties:
-        threshold_seconds:
-          description: Threshold for marking services disconnected in seconds.
-          type: integer
-          format: int32
-    chef.automate.api.applications.DeleteServicesByIDReq:
-      type: object
-      properties:
-        ids:
-          description: List of the database IDs of the services to be deleted.
-          type: array
-          items:
-            type: string
+    chef.automate.api.applications.HealthStatus:
+      description: 'The HealthStatus enumerable matches the Chef Habitat implementation for health-check status:
+
+        => https://www.habitat.sh/docs/reference/#health-check
+
+        For a health status within a service group.
+
+        *critical* means that one or more services are in critical condition.
+
+        *warning* means that one or more services have a warning, but none are in critical condition.
+
+        *unknown* means that one or more services have not responded, but all of the remaining nodes responded to the health check as "OK".
+
+        *OK* means that all of the services are OK and all have responded to the health check.
+
+        *none* means that there is no health check information.'
+      type: string
+      default: OK
+      enum:
+      - OK
+      - WARNING
+      - CRITICAL
+      - UNKNOWN
+      - NONE
     chef.automate.api.applications.ServicesBySGRes:
       description: Response message for GetServicesBySG.
       type: object
@@ -760,6 +605,161 @@ components:
         services_health_counts:
           description: Intentionally blank.
           $ref: '#/components/schemas/chef.automate.api.applications.HealthCounts'
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.applications.ServiceGroups:
+      description: List of service groups.
+      type: object
+      properties:
+        service_groups:
+          description: List of service groups.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.ServiceGroup'
+    chef.automate.api.applications.HealthCounts:
+      description: Combined count values from the health status and disconnected status reports.
+      type: object
+      properties:
+        critical:
+          type: integer
+          format: int32
+        disconnected:
+          type: integer
+          format: int32
+        ok:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        unknown:
+          type: integer
+          format: int32
+        warning:
+          type: integer
+          format: int32
+    chef.automate.api.applications.DeleteServicesByIDReq:
+      type: object
+      properties:
+        ids:
+          description: List of the database IDs of the services to be deleted.
+          type: array
+          items:
+            type: string
+    chef.automate.api.applications.ServicesDistinctValuesRes:
+      description: Response message for GetServicesDistinctValues.
+      type: object
+      properties:
+        values:
+          description: List of distinct values fitting query_fragment and filters.
+          type: array
+          items:
+            type: string
+    chef.automate.api.applications.DisconnectedServicesReq:
+      description: Request message for GetDisconnectedServices.
+      type: object
+      properties:
+        threshold_seconds:
+          description: Threshold for marking services disconnected in seconds.
+          type: integer
+          format: int32
+    chef.automate.api.applications.HealthCheckResult:
+      type: object
+      title: 'HealthCheckResult aggregates the stdout output, stderr output and process
+
+        exit status of a habitat health check'
+      properties:
+        exit_status:
+          type: integer
+          format: int32
+        stderr:
+          type: string
+        stdout:
+          type: string
+    chef.automate.api.applications.ServicesRes:
+      description: Response message for GetServices.
+      type: object
+      properties:
+        services:
+          description: List of services.
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.applications.Service'
+    chef.automate.api.applications.Service:
+      type: object
+      properties:
+        application:
+          description: Application name.
+          type: string
+        channel:
+          description: Chef Habitat channel that the service is subscribed to.
+          type: string
+        current_health_since:
+          description: Time interval of current health status from last status change until now.
+          type: string
+        disconnected:
+          description: 'Service connection information.
+
+            Based on time since last healthcheck received and disconnected service configuration.'
+          type: boolean
+        environment:
+          description: Environment name.
+          type: string
+        fqdn:
+          description: FQDN reported by a Chef Habitat Supervisor.
+          type: string
+        group:
+          description: Service group name.
+          type: string
+        health_check:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
+        health_check_result:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthCheckResult'
+        health_updated_at:
+          description: Timestamp since health status change.
+          type: string
+          format: date-time
+        id:
+          type: string
+          title: Internal ID
+        last_event_occurred_at:
+          description: Timestamp of last received health check message.
+          type: string
+          format: date-time
+        last_event_since:
+          description: Interval since last event received until now.
+          type: string
+        previous_health_check:
+          description: Intentionally blank.
+          $ref: '#/components/schemas/chef.automate.api.applications.HealthStatus'
+        release:
+          description: 'Combination of the service version and release in a single string.
+
+            Example: 0.1.0/8743278934278923.'
+          type: string
+        site:
+          description: Site reported by Chef Habitat service, a user defined flag.
+          type: string
+        supervisor_id:
+          description: The Chef Habitat Supervisor ID.
+          type: string
+        update_strategy:
+          description: Update strategy that the service employs.
+          type: string
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

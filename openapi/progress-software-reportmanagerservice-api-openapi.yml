@@ -60,6 +60,20 @@ components:
         value:
           type: string
           format: byte
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
     chef.automate.api.report_manager.DownloadRequestResponse:
       type: object
       properties:
@@ -81,20 +95,6 @@ components:
         report_type:
           type: string
         status:
-          type: string
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
           type: string
     chef.automate.api.report_manager.ListDownloadReportRequestsResponse:
       type: object

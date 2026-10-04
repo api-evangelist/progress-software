@@ -95,25 +95,19 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    grpc.gateway.runtime.Error:
+    google.protobuf.Any:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
+        type_url:
           type: string
-        message:
+        value:
           type: string
-    chef.automate.api.license.ApplyLicenseResp:
+          format: byte
+    chef.automate.api.license.ApplyLicenseReq:
       type: object
       properties:
-        status:
-          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
+        license:
+          type: string
     chef.automate.api.license.GetStatusResp:
       type: object
       properties:
@@ -130,23 +124,6 @@ components:
           type: string
         licensed_period:
           $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp.DateRange'
-    chef.automate.api.license.GetStatusResp.DateRange:
-      type: object
-      properties:
-        end:
-          type: string
-          format: date-time
-        start:
-          type: string
-          format: date-time
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.license.RequestLicenseReq:
       type: object
       properties:
@@ -158,6 +135,20 @@ components:
           type: boolean
         last_name:
           type: string
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
     chef.automate.api.license.RequestLicenseResp:
       type: object
       properties:
@@ -165,11 +156,20 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
-    chef.automate.api.license.ApplyLicenseReq:
+    chef.automate.api.license.ApplyLicenseResp:
       type: object
       properties:
-        license:
+        status:
+          $ref: '#/components/schemas/chef.automate.api.license.GetStatusResp'
+    chef.automate.api.license.GetStatusResp.DateRange:
+      type: object
+      properties:
+        end:
           type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.
