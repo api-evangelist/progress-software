@@ -1,0 +1,148 @@
+slug: progress-software
+provider: Progress Software
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 13
+edges:
+- tag: Policies
+  spec_file: progress-software-policies-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.92
+  evidence: GET /apis/iam/v2/policies  Policies_ListPolicies  Lists all policies; Policies_AddPolicyMembers  Adds
+    policy members
+  reason: Operations are IAM authorization policies (paths under /apis/iam/v2/) with members, statements
+    and effects — access control administration, i.e. Identity & Access Management, not corporate policy
+    management.
+- tag: Roles
+  spec_file: progress-software-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: POST /apis/iam/v2/roles  Policies_CreateRole  Creates a custom role
+  reason: CRUD over IAM roles under /apis/iam/v2/ — role-based access control administration, squarely
+    Identity & Access Management.
+- tag: Authentication
+  spec_file: progress-software-authentication-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: '''Get list of identity providers in the organization'', ''Retrieve API token'', ''Revokes
+    API token'', ''Send one-time password'''
+  reason: Identity provider listing, token issuance/revocation, MFA one-time passwords and act-as-admin
+    are identity and access management operations.
+- tag: DeviceReport
+  spec_file: progress-software-devicereport-api-openapi.yml
+  capability_id: BC-600.40
+  capability_id_l1: BC-600
+  capability_name: IT Operations Management
+  confidence: 0.78
+  evidence: GET /api/v1/devices/{deviceId}/reports/cpu-utilization — 'Return CPU utilization report for
+    a device'; 'Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts'
+  reason: Operations return network/device performance telemetry (CPU, memory, disk, interface traffic,
+    ping availability) for monitored infrastructure — classic IT operations monitoring and reporting,
+    not business reporting. Mapped to cross-industry IT Operations Management rather than SaaS observability
+    because this is an enterprise network-monitoring tool for the buyer's own estate.
+- tag: Monitor
+  spec_file: progress-software-monitor-api-openapi.yml
+  capability_id: BC-600.40
+  capability_id_l1: BC-600
+  capability_name: IT Operations Management
+  confidence: 0.78
+  evidence: WhatsUp Gold Monitor API ... *Use WhatsUp Gold REST API to deploy network and device monitoring
+    and management scripts.*; Monitor_CreateMonitor  Add to the monitor library; ActiveMonitorItems, PerformanceMonitorTemplate
+  reason: Operations create, update, assign and delete active/passive/performance monitors against network
+    devices — enterprise IT monitoring and operations tooling, matching IT Operations Management (day-to-day
+    IT operations, monitoring, automation).
+- tag: Authorization
+  spec_file: progress-software-authorization-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /apis/iam/v2/introspect  Authorization introspect all; schema 'chef.automate.api.iam.v2.MethodsAllowed'
+  reason: IAM v2 introspection returning which methods are allowed is access-permission evaluation — Identity
+    & Access Management. Somewhat plumbing-like but explicitly IAM-namespaced.
+- tag: Teams
+  spec_file: progress-software-teams-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /apis/iam/v2/teams/{id}/users  Teams_GetTeamMembership  Gets local team membership
+  reason: Teams and team membership under the product's IAM v2 namespace — grouping of principals for
+    access control, i.e. Identity & Access Management, not HR team management.
+- tag: Pollers
+  spec_file: progress-software-pollers-api-openapi.yml
+  capability_id: BC-600.40
+  capability_id_l1: BC-600
+  capability_name: IT Operations Management
+  confidence: 0.72
+  evidence: Use WhatsUp Gold REST API to deploy network and device monitoring and management scripts;
+    Pollers_GetAllPollers  Get All configured pollers and their status
+  reason: Pollers are network/device monitoring collectors configured in WhatsUp Gold; configuring monitoring
+    infrastructure is day-to-day IT operations monitoring.
+- tag: Users
+  spec_file: progress-software-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: POST /apis/iam/v2/users  Users_CreateUser  Create a user; Get list of user groups
+  reason: User account CRUD, group membership and external token listing under IAM namespaces of two infrastructure
+    products — administration of application user identities and access, not HR employee records.
+- tag: ConfigMgmt
+  spec_file: progress-software-configmgmt-api-openapi.yml
+  capability_id: BC-600.40
+  capability_id_l1: BC-600
+  capability_name: IT Operations Management
+  confidence: 0.7
+  evidence: GET /api/v0/cfgmgmt/nodes  ConfigMgmt_GetNodes  List Checked-in Nodes
+  reason: 'Infrastructure configuration management: checked-in nodes, node attributes, run lists, policy
+    cookbooks and rollout progress by node segment. This is IT operations automation/monitoring of a managed
+    server estate, not a line-of-business capability.'
+- tag: DeviceGroupReport
+  spec_file: progress-software-devicegroupreport-api-openapi.yml
+  capability_id: BC-600.40
+  capability_id_l1: BC-600
+  capability_name: IT Operations Management
+  confidence: 0.7
+  evidence: GET /api/v1/device-groups/{groupId}/devices/reports/cpu-utilization  Return CPU utilization
+    report for device group
+  reason: Operational monitoring reports (CPU, memory, disk, interface traffic, ping availability, state
+    change) across monitored infrastructure. This is IT operations monitoring reporting, not business
+    analytics or SaaS-product observability.
+- tag: InfraProxy
+  spec_file: progress-software-infraproxy-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.7
+  evidence: '''Infra proxy create server'', ''Infra proxy get orgs'', ''Infra proxy reset org admin key'',
+    schemas ''Cookbooks'', ''Policyfiles'', ''UpdateNodeAttributes'''
+  reason: Chef Infra server, organisation, node, cookbook and policyfile administration — management of
+    configuration-managed compute infrastructure. Cross-industry IT Infrastructure Management is the honest
+    fit for a devops/config-management tool rather than any SaaS-product-specific capability.
+- tag: Security Settings
+  spec_file: progress-software-security-settings-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: Create password aging policy; Create user auth expiration policy; Adds a new IP Whitelist
+    entry
+  reason: Operations administer password aging, user authentication expiration and IP allow-list policies
+    for an organisation — access control/authentication policy administration, i.e. Identity & Access
+    Management within cybersecurity.

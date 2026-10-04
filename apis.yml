@@ -1551,6 +1551,9 @@ apis:
   - type: Documentation
     url: https://www.whatsupgold.com/rest-api
 common:
+- type: CapabilityMap
+  url: capabilities/progress-software-capability-edges.yml
+  name: Progress Software Business Capability Map
 - type: TrustCenter
   url: security/progress-software-trust-center.yml
 - type: VulnerabilityDisclosure
