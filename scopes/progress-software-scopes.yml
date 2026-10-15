@@ -1,11 +1,78 @@
-generated: '2026-09-13'
-method: derived
-source: openapi/progress-software-whatsup-gold-openapi-original.json
+generated: '2026-10-14'
+method: none
+source: openapi/progress-software-credential-api-openapi.yml, openapi/progress-software-device-api-openapi.yml,
+  openapi/progress-software-device-group-api-openapi.yml, openapi/progress-software-devicegroupreport-api-openapi.yml,
+  openapi/progress-software-devicereport-api-openapi.yml, openapi/progress-software-devicerole-api-openapi.yml,
+  openapi/progress-software-devicescan-api-openapi.yml, openapi/progress-software-error-api-openapi.yml,
+  openapi/progress-software-monitor-api-openapi.yml, openapi/progress-software-pollers-api-openapi.yml,
+  openapi/progress-software-product-api-openapi.yml
 schemes:
 - name: oauth2
-  source: openapi/progress-software-whatsup-gold-openapi-original.json
+  source: openapi/progress-software-credential-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-device-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-device-group-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-devicegroupreport-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-devicereport-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-devicerole-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-devicescan-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-error-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-monitor-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-pollers-api-openapi.yml
+  flows:
+  - flow: password
+    tokenUrl: http://localhost:8734/api/v1/token
+  description: OAuth2 Password Grant
+- name: oauth2
+  source: openapi/progress-software-product-api-openapi.yml
   flows:
   - flow: password
     tokenUrl: http://localhost:8734/api/v1/token
   description: OAuth2 Password Grant
 scopes: []
+note: The OAuth2 security scheme(s) in the OpenAPI declare no scopes, and no security requirement
+  references one.
