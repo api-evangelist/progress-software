@@ -302,37 +302,6 @@ paths:
                 $ref: '#/components/schemas/grpc.gateway.runtime.Error'
 components:
   schemas:
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.event_feed.response.EventString:
-      type: object
-      properties:
-        collection:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCollection'
-        event_action:
-          type: string
-    chef.automate.api.event_feed.response.GetEventStringBucketsResponse:
-      type: object
-      properties:
-        end:
-          type: string
-        hours_between:
-          type: integer
-          format: int32
-        start:
-          type: string
-        strings:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventString'
     chef.automate.api.event_feed.response.Event:
       type: object
       properties:
@@ -383,6 +352,23 @@ components:
         task:
           description: Type of event task (create, update, delete).
           type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.event_feed.response.EventString:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCollection'
+        event_action:
+          type: string
     chef.automate.api.event_feed.response.GetEventTaskCountsResponse:
       type: object
       properties:
@@ -392,18 +378,6 @@ components:
           items:
             $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
         total:
-          description: Total count of events.
-          type: string
-          format: int64
-    chef.automate.api.event_feed.response.GetEventFeedResponse:
-      type: object
-      properties:
-        events:
-          description: List of events.
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.Event'
-        total_events:
           description: Total count of events.
           type: string
           format: int64
@@ -419,6 +393,27 @@ components:
           description: Total count of events.
           type: string
           format: int64
+    chef.automate.api.event_feed.response.GetEventStringBucketsResponse:
+      type: object
+      properties:
+        end:
+          type: string
+        hours_between:
+          type: integer
+          format: int32
+        start:
+          type: string
+        strings:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventString'
+    chef.automate.api.event_feed.response.EventCollection:
+      type: object
+      properties:
+        events_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
     chef.automate.api.event_feed.response.EventCount:
       type: object
       properties:
@@ -429,13 +424,18 @@ components:
         name:
           description: Event name.
           type: string
-    chef.automate.api.event_feed.response.EventCollection:
+    chef.automate.api.event_feed.response.GetEventFeedResponse:
       type: object
       properties:
-        events_count:
+        events:
+          description: List of events.
           type: array
           items:
-            $ref: '#/components/schemas/chef.automate.api.event_feed.response.EventCount'
+            $ref: '#/components/schemas/chef.automate.api.event_feed.response.Event'
+        total_events:
+          description: Total count of events.
+          type: string
+          format: int64
     grpc.gateway.runtime.Error:
       type: object
       properties:

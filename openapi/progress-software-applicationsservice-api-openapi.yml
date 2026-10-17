@@ -77,8 +77,6 @@ components:
         value:
           type: string
           format: byte
-    chef.automate.api.applications.UpdateTelemetryReportedResponse:
-      type: object
     chef.automate.api.applications.GetServicesUsageCountResponse:
       type: object
       properties:
@@ -90,6 +88,8 @@ components:
           type: string
           format: int64
           title: unique services count in a duration
+    chef.automate.api.applications.UpdateTelemetryReportedResponse:
+      type: object
     grpc.gateway.runtime.Error:
       type: object
       properties:

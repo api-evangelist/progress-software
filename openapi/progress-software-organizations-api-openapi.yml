@@ -337,126 +337,55 @@ paths:
         required: true
 components:
   schemas:
-    OrgPackageAccessUpdateModel:
-      description: Represents administrator package access settings update model for an organization.
+    SimpleOrgModel:
       properties:
-        applyToAllOrganizations:
-          description: 'In the case of an update system organization by sysadmin the settings could apply to all other organizations.
-
-            Default is false.'
-          type: boolean
-        showAdHocTransferEntriesInLog:
-          description: 'This setting, when enabled, allows audit log entries related to Ad Hoc Transfer to be shown in the main Logs page.
-
-            This allows administrators to see all Ad Hoc Transfer related log entries in an organization.
-
-            Default is false.'
-          type: boolean
-        adminPackageAccess:
-          description: 'This setting, when enabled, allows administrators to view the mailboxes and packages for users under their control, and download any attachments associated with those packages.
-
-            In addition, this setting allows administrators to enable shared mailboxes for users.
-
-            Viewing a package or downloading an attachment will be audit logged and visible to the user, though no viewing or download limits will be affected.
-
-            Default is None.'
+        id:
+          description: Organization Id
+          type: string
+        name:
+          description: Organization name
+          type: string
+        usersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        foldersCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+        filesCount:
+          description: Number of users in organization
+          type: integer
+          format: int32
+      xml:
+        name: SimpleOrgModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
           type: string
           enum:
-          - None
-          - AdminOnly
-          - AdminAndGroupAdmin
+          - asc
+          - desc
       xml:
-        name: OrgPackageAccessUpdateModel
+        name: SortFieldDto
       type: object
-    OrgAdminPasswordResetSettingsModel:
-      description: Represents administrator password reset settings for an organization.
+    OrgUiConfigurationModel:
+      description: Represents user interface configuration
       properties:
-        enableAdminPasswordReset:
-          description: 'Enable/disable administrators to reset their own password.
-
-            Default is false.'
+        showFileAndFolder:
+          description: Show file and folder options
+          type: boolean
+        showAdHocPackage:
+          description: Show ad hoc package options
+          type: boolean
+        showSecureFolderSharing:
+          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
           type: boolean
       xml:
-        name: OrgAdminPasswordResetSettingsModel
-      type: object
-    OrgMaxUserCountsModel:
-      description: Represents maximum user counts for an organization.
-      properties:
-        totalUsers:
-          description: 'Defines the total number of users that may be created in the Organization, including Admins of all types, End Users, and Temporary Users.
-
-            Set to "0" for no organization level Maximum Total Users.
-
-            May not exceed the "system Maximum User Count", which is the maximum number of users licensed.'
-          type: integer
-          format: int32
-        endUsers:
-          description: 'Defines the total number of End Users that may be created in the Organization.
-
-            Set to "0" for no organization level Maximum End Users.
-
-            May not exceed the Maximum Total Users if that number is set to something other than 0.
-
-            May not exceed the "system Maximum User Count", which is the maximum number of users licensed.
-
-            Note: The sum of Maximum End Users and Maximum Temporary Users is allowed exceed the Total Maximum Users.'
-          type: integer
-          format: int32
-        tempUsers:
-          description: 'Defines the total number of Temporary Users that may be created in the Organization.
-
-            Set to "0" for no organization level Maximum Temp Users.
-
-            May not exceed the Maximum Total Users if that number is set to something other than 0.
-
-            Note: If the Maximum Total Users is set to 0, the Maximum Temp Users is allowed to exceed the "system Maximum User Count" (and will, in fact, not be capped by the system Maximum User Count).'
-          type: integer
-          format: int32
-      xml:
-        name: OrgMaxUserCountsModel
-      type: object
-    OrgPatchModel:
-      properties:
-        name:
-          description: Organization name.
-          type: string
-        shortName:
-          description: Organization short name.
-          type: string
-        baseUrl:
-          description: Organization base URL.
-          type: string
-        notes:
-          description: Organization notes.
-          type: string
-      xml:
-        name: OrgPatchModel
-      type: object
-    PagedModelOfSimpleOrgModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleOrgModel'
-          readOnly: true
-          xml:
-            name: SimpleOrgModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
+        name: OrgUiConfigurationModel
       type: object
     OrgAddModel:
       description: Represents data required for create organization scenario
@@ -484,6 +413,17 @@ components:
           type: string
       xml:
         name: OrgAddModel
+      type: object
+    OrgAdminPasswordResetSettingsModel:
+      description: Represents administrator password reset settings for an organization.
+      properties:
+        enableAdminPasswordReset:
+          description: 'Enable/disable administrators to reset their own password.
+
+            Default is false.'
+          type: boolean
+      xml:
+        name: OrgAdminPasswordResetSettingsModel
       type: object
     OrgPackageAccessModel:
       description: Represents administrator package access settings for an organization.
@@ -593,6 +533,73 @@ components:
       xml:
         name: OrgDetailedModel
       type: object
+    OrgPackageAccessUpdateModel:
+      description: Represents administrator package access settings update model for an organization.
+      properties:
+        applyToAllOrganizations:
+          description: 'In the case of an update system organization by sysadmin the settings could apply to all other organizations.
+
+            Default is false.'
+          type: boolean
+        showAdHocTransferEntriesInLog:
+          description: 'This setting, when enabled, allows audit log entries related to Ad Hoc Transfer to be shown in the main Logs page.
+
+            This allows administrators to see all Ad Hoc Transfer related log entries in an organization.
+
+            Default is false.'
+          type: boolean
+        adminPackageAccess:
+          description: 'This setting, when enabled, allows administrators to view the mailboxes and packages for users under their control, and download any attachments associated with those packages.
+
+            In addition, this setting allows administrators to enable shared mailboxes for users.
+
+            Viewing a package or downloading an attachment will be audit logged and visible to the user, though no viewing or download limits will be affected.
+
+            Default is None.'
+          type: string
+          enum:
+          - None
+          - AdminOnly
+          - AdminAndGroupAdmin
+      xml:
+        name: OrgPackageAccessUpdateModel
+      type: object
+    OrgMaxUserCountsModel:
+      description: Represents maximum user counts for an organization.
+      properties:
+        totalUsers:
+          description: 'Defines the total number of users that may be created in the Organization, including Admins of all types, End Users, and Temporary Users.
+
+            Set to "0" for no organization level Maximum Total Users.
+
+            May not exceed the "system Maximum User Count", which is the maximum number of users licensed.'
+          type: integer
+          format: int32
+        endUsers:
+          description: 'Defines the total number of End Users that may be created in the Organization.
+
+            Set to "0" for no organization level Maximum End Users.
+
+            May not exceed the Maximum Total Users if that number is set to something other than 0.
+
+            May not exceed the "system Maximum User Count", which is the maximum number of users licensed.
+
+            Note: The sum of Maximum End Users and Maximum Temporary Users is allowed exceed the Total Maximum Users.'
+          type: integer
+          format: int32
+        tempUsers:
+          description: 'Defines the total number of Temporary Users that may be created in the Organization.
+
+            Set to "0" for no organization level Maximum Temp Users.
+
+            May not exceed the Maximum Total Users if that number is set to something other than 0.
+
+            Note: If the Maximum Total Users is set to 0, the Maximum Temp Users is allowed to exceed the "system Maximum User Count" (and will, in fact, not be capped by the system Maximum User Count).'
+          type: integer
+          format: int32
+      xml:
+        name: OrgMaxUserCountsModel
+      type: object
     PagingInfoModel:
       description: Information about paging for collection response
       properties:
@@ -616,55 +623,48 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    SortFieldDto:
+    PagedModelOfSimpleOrgModel:
+      description: Represents paged response object with proper navigations
       properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleOrgModel'
+          readOnly: true
+          xml:
+            name: SimpleOrgModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
       xml:
-        name: SortFieldDto
+        name: PagedModel`1
       type: object
-    SimpleOrgModel:
+    OrgPatchModel:
       properties:
-        id:
-          description: Organization Id
-          type: string
         name:
-          description: Organization name
+          description: Organization name.
           type: string
-        usersCount:
-          description: Number of users in organization
-          type: integer
-          format: int32
-        foldersCount:
-          description: Number of users in organization
-          type: integer
-          format: int32
-        filesCount:
-          description: Number of users in organization
-          type: integer
-          format: int32
+        shortName:
+          description: Organization short name.
+          type: string
+        baseUrl:
+          description: Organization base URL.
+          type: string
+        notes:
+          description: Organization notes.
+          type: string
       xml:
-        name: SimpleOrgModel
-      type: object
-    OrgUiConfigurationModel:
-      description: Represents user interface configuration
-      properties:
-        showFileAndFolder:
-          description: Show file and folder options
-          type: boolean
-        showAdHocPackage:
-          description: Show ad hoc package options
-          type: boolean
-        showSecureFolderSharing:
-          description: Show secure folder sharing options (Could be enabled with ShowFileAndFolder option enabled only)
-          type: boolean
-      xml:
-        name: OrgUiConfigurationModel
+        name: OrgPatchModel
       type: object
   securitySchemes:
     Authorization:

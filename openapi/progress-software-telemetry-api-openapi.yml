@@ -43,28 +43,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
     chef.automate.api.telemetry.TelemetryResponse:
       type: object
       properties:
@@ -86,6 +64,28 @@ components:
         telemetry_enabled:
           type: boolean
         telemetry_url:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
           type: string
   securitySchemes:
     APIToken:

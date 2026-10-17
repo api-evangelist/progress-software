@@ -63,14 +63,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
     chef.automate.api.deployment.Version:
       description: 'The manifest version constructed with:
 
@@ -80,13 +72,14 @@ components:
       properties:
         build_timestamp:
           type: string
-    chef.automate.api.deployment.ServiceVersionsResponse:
+    google.protobuf.Any:
       type: object
       properties:
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.deployment.ServiceVersion'
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
     chef.automate.api.deployment.ServiceVersion:
       type: object
       properties:
@@ -98,6 +91,13 @@ components:
           type: string
         version:
           type: string
+    chef.automate.api.deployment.ServiceVersionsResponse:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.deployment.ServiceVersion'
     grpc.gateway.runtime.Error:
       type: object
       properties:

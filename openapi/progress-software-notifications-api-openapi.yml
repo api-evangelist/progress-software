@@ -196,120 +196,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    chef.automate.api.notifications.WebhookAlert:
-      type: object
-      properties:
-        url:
-          type: string
-    chef.automate.api.notifications.ServiceNowAlert:
-      type: object
-      properties:
-        critical_controls_only:
-          type: boolean
-        secret_id:
-          type: string
-        url:
-          type: string
-    chef.automate.api.notifications.URLValidationResponse:
-      type: object
-    chef.automate.api.notifications.RuleDeleteResponse:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            type: string
-    chef.automate.api.notifications.RuleUpdateRequest:
-      type: object
-      properties:
-        id:
-          type: string
-        rule:
-          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
-    chef.automate.api.notifications.RuleAddRequest:
-      type: object
-      properties:
-        rule:
-          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
-    chef.automate.api.notifications.URLValidationRequest:
-      type: object
-      properties:
-        none:
-          $ref: '#/components/schemas/chef.automate.api.notifications.Empty'
-        secret_id:
-          $ref: '#/components/schemas/chef.automate.api.notifications.SecretId'
-        url:
-          type: string
-        username_password:
-          $ref: '#/components/schemas/chef.automate.api.notifications.UsernamePassword'
-    chef.automate.api.notifications.RuleListResponse:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            type: string
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
-    chef.automate.api.notifications.SecretId:
-      type: object
-      properties:
-        id:
-          type: string
-    chef.automate.api.notifications.Empty:
-      type: object
-    chef.automate.api.notifications.UsernamePassword:
-      type: object
-      properties:
-        password:
-          type: string
-        username:
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.notifications.Rule:
-      type: object
-      properties:
-        ServiceNowAlert:
-          $ref: '#/components/schemas/chef.automate.api.notifications.ServiceNowAlert'
-        SlackAlert:
-          $ref: '#/components/schemas/chef.automate.api.notifications.SlackAlert'
-        WebhookAlert:
-          $ref: '#/components/schemas/chef.automate.api.notifications.WebhookAlert'
-        event:
-          $ref: '#/components/schemas/chef.automate.api.notifications.Rule.Event'
-        id:
-          type: string
-        name:
-          type: string
-    chef.automate.api.notifications.RuleUpdateResponse:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            type: string
-    chef.automate.api.notifications.RuleAddResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        messages:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        rule:
-          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
     chef.automate.api.notifications.RuleGetResponse:
       type: object
       properties:
@@ -319,6 +205,11 @@ components:
             type: string
         rule:
           $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.SecretId:
+      type: object
+      properties:
+        id:
+          type: string
     chef.automate.api.notifications.Rule.Event:
       type: string
       default: CCRFailure
@@ -327,15 +218,51 @@ components:
       - CCRSuccess
       - ComplianceFailure
       - ComplianceSuccess
-    chef.automate.api.notifications.SlackAlert:
+    chef.automate.api.notifications.Empty:
+      type: object
+    chef.automate.api.notifications.RuleDeleteResponse:
       type: object
       properties:
-        url:
+        messages:
+          type: array
+          items:
+            type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
           type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.notifications.RuleUpdateResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+    chef.automate.api.notifications.RuleAddRequest:
+      type: object
+      properties:
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.RuleUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
     chef.automate.api.notifications.VersionResponse:
       type: object
       properties:
         version:
+          type: string
+    chef.automate.api.notifications.WebhookAlert:
+      type: object
+      properties:
+        url:
           type: string
     grpc.gateway.runtime.Error:
       type: object
@@ -351,6 +278,79 @@ components:
           type: string
         message:
           type: string
+    chef.automate.api.notifications.URLValidationResponse:
+      type: object
+    chef.automate.api.notifications.SlackAlert:
+      type: object
+      properties:
+        url:
+          type: string
+    chef.automate.api.notifications.RuleAddResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        messages:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        rule:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
+    chef.automate.api.notifications.ServiceNowAlert:
+      type: object
+      properties:
+        critical_controls_only:
+          type: boolean
+        secret_id:
+          type: string
+        url:
+          type: string
+    chef.automate.api.notifications.URLValidationRequest:
+      type: object
+      properties:
+        none:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Empty'
+        secret_id:
+          $ref: '#/components/schemas/chef.automate.api.notifications.SecretId'
+        url:
+          type: string
+        username_password:
+          $ref: '#/components/schemas/chef.automate.api.notifications.UsernamePassword'
+    chef.automate.api.notifications.UsernamePassword:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    chef.automate.api.notifications.Rule:
+      type: object
+      properties:
+        ServiceNowAlert:
+          $ref: '#/components/schemas/chef.automate.api.notifications.ServiceNowAlert'
+        SlackAlert:
+          $ref: '#/components/schemas/chef.automate.api.notifications.SlackAlert'
+        WebhookAlert:
+          $ref: '#/components/schemas/chef.automate.api.notifications.WebhookAlert'
+        event:
+          $ref: '#/components/schemas/chef.automate.api.notifications.Rule.Event'
+        id:
+          type: string
+        name:
+          type: string
+    chef.automate.api.notifications.RuleListResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/chef.automate.api.notifications.Rule'
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

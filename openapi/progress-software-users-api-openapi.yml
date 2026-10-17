@@ -1107,25 +1107,7 @@ paths:
     - url: https://127.0.0.1
 components:
   schemas:
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    chef.automate.api.iam.v2.GetUserResp:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
-    chef.automate.api.iam.v2.UpdateSelfResp:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
-    chef.automate.api.iam.v2.UpdateUserResp:
+    chef.automate.api.iam.v2.CreateUserResp:
       type: object
       properties:
         user:
@@ -1137,45 +1119,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
-    chef.automate.api.iam.v2.CreateUserResp:
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    chef.automate.api.iam.v2.DeleteUserResp:
+      type: object
+    chef.automate.api.iam.v2.UpdateUserResp:
       type: object
       properties:
         user:
           $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
-    chef.automate.api.iam.v2.CreateUserReq:
-      type: object
-      required:
-      - id
-      - name
-      - password
-      properties:
-        id:
-          description: Unique ID. Cannot be changed. Used to sign in.
-          type: string
-        name:
-          description: Display name for local user.
-          type: string
-        password:
-          description: Password for user. Used to sign in.
-          type: string
-      example:
-        id: username001rulez
-        name: Display Name
-        password: aSafePassword
-    chef.automate.api.iam.v2.DeleteUserResp:
-      type: object
-    chef.automate.api.iam.v2.User:
+    chef.automate.api.iam.v2.UpdateSelfResp:
       type: object
       properties:
-        id:
-          description: Unique ID. Cannot be changed. Used to log in.
-          type: string
-        membership_id:
-          description: Unique ID used to add local users to local teams. Cannot be changed.
-          type: string
-        name:
-          description: Display name for local user.
-          type: string
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
     chef.automate.api.iam.v2.UpdateSelfReq:
       type: object
       required:
@@ -1201,20 +1164,31 @@ components:
         name: My New Name
         password: aNewSafePassword
         previous_password: aPreviousSafePassword
-    grpc.gateway.runtime.Error:
+    chef.automate.api.iam.v2.CreateUserReq:
+      type: object
+      required:
+      - id
+      - name
+      - password
+      properties:
+        id:
+          description: Unique ID. Cannot be changed. Used to sign in.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
+        password:
+          description: Password for user. Used to sign in.
+          type: string
+      example:
+        id: username001rulez
+        name: Display Name
+        password: aSafePassword
+    chef.automate.api.iam.v2.GetUserResp:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
+        user:
+          $ref: '#/components/schemas/chef.automate.api.iam.v2.User'
     chef.automate.api.iam.v2.UpdateUserReq:
       type: object
       required:
@@ -1232,6 +1206,179 @@ components:
       example:
         name: New Name
         password: aSafePassword
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
+          type: string
+    chef.automate.api.iam.v2.User:
+      type: object
+      properties:
+        id:
+          description: Unique ID. Cannot be changed. Used to log in.
+          type: string
+        membership_id:
+          description: Unique ID used to add local users to local teams. Cannot be changed.
+          type: string
+        name:
+          description: Display name for local user.
+          type: string
+    SimpleUserModel:
+      description: Simple user model for user lists.
+      properties:
+        id:
+          description: User ID.
+          type: string
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
+          type: string
+      xml:
+        name: SimpleUserModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
+      type: object
+    DisplaySettingsModel:
+      description: Information about configured display setting
+      properties:
+        userListPageSize:
+          description: User/group entries per page
+          type: integer
+          format: int32
+        fileListPageSize:
+          description: Files/folders entries per page
+          type: integer
+          format: int32
+        liveViewPageSize:
+          description: Live transfer entries per page
+          type: integer
+          format: int32
+      xml:
+        name: DisplaySettingsModel
+      type: object
+    PagedModelOfSimpleUserModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleUserModel'
+          readOnly: true
+          xml:
+            name: SimpleUserModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
+    PagedModelOfUserGroupModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/UserGroupModel'
+          readOnly: true
+          xml:
+            name: UserGroupModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
     UserExternalTokenModel:
       properties:
         id:
@@ -1318,6 +1465,24 @@ components:
           - DenyIfExists
       xml:
         name: AddUserModel
+      type: object
+    UserGroupModel:
+      description: Represents a group that a specific user is a member of, including the relationship that user has with the group.
+      properties:
+        relationship:
+          description: User Group relationship
+          type: string
+          enum:
+          - Member
+          - GroupAdmin
+        name:
+          description: Name of the group.
+          type: string
+        description:
+          description: Additional information, related to the group.
+          type: string
+      xml:
+        name: UserGroupModel
       type: object
     RegisterExternalTokenRequest:
       description: Request to register an external token with the current user account.
@@ -1418,90 +1583,6 @@ components:
           type: string
       xml:
         name: UserPatchModel
-      type: object
-    DisplaySettingsModel:
-      description: Information about configured display setting
-      properties:
-        userListPageSize:
-          description: User/group entries per page
-          type: integer
-          format: int32
-        fileListPageSize:
-          description: Files/folders entries per page
-          type: integer
-          format: int32
-        liveViewPageSize:
-          description: Live transfer entries per page
-          type: integer
-          format: int32
-      xml:
-        name: DisplaySettingsModel
-      type: object
-    CurrentUserDeleteExternalTokenByTokenRequest:
-      description: Request to delete an external token using the encoded token string.
-      properties:
-        type:
-          description: Type of token
-          type: string
-          enum:
-          - MicrosoftOutlook
-        token:
-          description: Token content
-          type: string
-      xml:
-        name: CurrentUserDeleteExternalTokenByTokenRequest
-      type: object
-    PagedModelOfSimpleUserModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleUserModel'
-          readOnly: true
-          xml:
-            name: SimpleUserModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    PagedModelOfUserExternalTokenModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/UserExternalTokenModel'
-          readOnly: true
-          xml:
-            name: UserExternalTokenModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
       type: object
     UserDetailsModel:
       description: Detailed user model.
@@ -1605,61 +1686,6 @@ components:
       xml:
         name: UserDetailsModel
       type: object
-    SimpleUserModel:
-      description: Simple user model for user lists.
-      properties:
-        id:
-          description: User ID.
-          type: string
-        orgID:
-          description: ID of organization user is a member of.
-          type: integer
-          format: int32
-        username:
-          description: User login name.
-          type: string
-        fullName:
-          description: User full name.
-          type: string
-        permission:
-          description: User permission.
-          type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
-        email:
-          description: User email address.
-          type: string
-        status:
-          description: User security status.
-          type: string
-          enum:
-          - Active
-          - Suspended
-          - Template
-        lastLoginStamp:
-          description: Time of last user login. Null if user has not logged in yet.
-          type: string
-      xml:
-        name: SimpleUserModel
-      type: object
-    SortFieldDto:
-      properties:
-        sortField:
-          type: string
-        sortDirection:
-          type: string
-          enum:
-          - asc
-          - desc
-      xml:
-        name: SortFieldDto
-      type: object
     PagingInfoModel:
       description: Information about paging for collection response
       properties:
@@ -1683,38 +1709,30 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
+    CurrentUserDeleteExternalTokenByTokenRequest:
+      description: Request to delete an external token using the encoded token string.
       properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
+        type:
+          description: Type of token
           type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
+          enum:
+          - MicrosoftOutlook
+        token:
+          description: Token content
           type: string
       xml:
-        name: ErrorModel
+        name: CurrentUserDeleteExternalTokenByTokenRequest
       type: object
-    PagedModelOfUserGroupModel:
+    PagedModelOfUserExternalTokenModel:
       description: Represents paged response object with proper navigations
       properties:
         items:
           description: Items on the given page
           items:
-            $ref: '#/components/schemas/UserGroupModel'
+            $ref: '#/components/schemas/UserExternalTokenModel'
           readOnly: true
           xml:
-            name: UserGroupModel
+            name: UserExternalTokenModel
             wrapped: true
           type: array
         paging:
@@ -1730,24 +1748,6 @@ components:
           type: array
       xml:
         name: PagedModel`1
-      type: object
-    UserGroupModel:
-      description: Represents a group that a specific user is a member of, including the relationship that user has with the group.
-      properties:
-        relationship:
-          description: User Group relationship
-          type: string
-          enum:
-          - Member
-          - GroupAdmin
-        name:
-          description: Name of the group.
-          type: string
-        description:
-          description: Additional information, related to the group.
-          type: string
-      xml:
-        name: UserGroupModel
       type: object
   securitySchemes:
     APIToken:

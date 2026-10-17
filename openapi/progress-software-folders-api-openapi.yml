@@ -1169,35 +1169,51 @@ paths:
         required: true
 components:
   schemas:
-    FolderCharacterRestrictionsModel:
-      description: Represents folder character restrictions.
+    PagedModelOfFolderAclEntryResourceModel:
+      description: Represents paged response object with proper navigations
       properties:
-        charSet:
-          description: Character set.
-          type: string
-          enum:
-          - CheckParentFolder
-          - NoRestrictions
-          - WindowsNtfs
-          - CustomDisallow
-          - CustomAllow
-        customCharSet:
-          description: Custom character set.
-          type: string
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/FolderAclEntryResourceModel'
+          readOnly: true
+          xml:
+            name: FolderAclEntryResourceModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
       xml:
-        name: FolderCharacterRestrictionsModel
+        name: PagedModel`1
       type: object
-    SortFieldDto:
+    SetFolderAclEntryRequestModel:
       properties:
-        sortField:
+        notificationMessage:
+          description: Optional notification message.
           type: string
-        sortDirection:
+        type:
+          description: Type of the entry.
           type: string
           enum:
-          - asc
-          - desc
+          - User
+          - Group
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+        permissions:
+          $ref: '#/components/schemas/FolderAclPermissionsModel'
+          description: Permissions set on the entry.
       xml:
-        name: SortFieldDto
+        name: SetFolderAclEntryRequestModel
       type: object
     UpdateFolderMaintenanceSettingsModel:
       properties:
@@ -1213,150 +1229,6 @@ components:
           type: boolean
       xml:
         name: UpdateFolderMaintenanceSettingsModel
-      type: object
-    IFolderPermission:
-      description: Represents folder permission object
-      properties:
-        canListSubfolders:
-          description: User can list the subfolders of a folder.
-          readOnly: true
-          type: boolean
-        canAddSubfolders:
-          description: User can add subfolders to the folder.
-          readOnly: true
-          type: boolean
-        canChangeSettings:
-          description: User can change the settings of the folder.
-          readOnly: true
-          type: boolean
-        canDelete:
-          description: User can delete the folder.
-          readOnly: true
-          type: boolean
-        canListFiles:
-          description: User can list the files in the folder.
-          readOnly: true
-          type: boolean
-        canReadFiles:
-          description: User can download the files in the folder.
-          readOnly: true
-          type: boolean
-        canWriteFiles:
-          description: User can upload files to the folder.
-          readOnly: true
-          type: boolean
-        canDeleteFiles:
-          description: User can delete files in the folder.
-          readOnly: true
-          type: boolean
-        canShare:
-          description: User can share files in the folder
-          readOnly: true
-          type: boolean
-      xml:
-        name: IFolderPermission
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
-      type: object
-    FolderShareAclPermissionsModel:
-      properties:
-        readFiles:
-          type: boolean
-        writeFiles:
-          type: boolean
-        deleteFiles:
-          type: boolean
-        listFiles:
-          type: boolean
-        notify:
-          type: boolean
-        listUsers:
-          type: boolean
-      xml:
-        name: FolderShareAclPermissionsModel
-      type: object
-    FolderFileMasksSettingsModel:
-      description: Represents folder filemasks settings.
-      properties:
-        rule:
-          type: string
-          enum:
-          - AllowExceptMatching
-          - DenyExceptMatching
-        masks:
-          description: List of filemasks.
-          items:
-            type: string
-          type: array
-      xml:
-        name: FolderFileMasksSettingsModel
-      type: object
-    FolderPatchModel:
-      description: Folder Update parameters.
-      properties:
-        name:
-          description: New file name to set.
-          type: string
-        description:
-          description: New file description to set.
-          type: string
-        inheritAccess:
-          description: Inherit Access From Parent.
-          type: boolean
-      xml:
-        name: FolderPatchModel
-      type: object
-    FolderAclEntryResourceModel:
-      description: 'Represents folder Access Control List entry
-
-        resource data suitable for output.'
-      properties:
-        name:
-          description: Name of the entity referenced by the entry.
-          type: string
-        type:
-          description: Type of the entry.
-          type: string
-          enum:
-          - None
-          - User
-          - Group
-          - Email
-        id:
-          description: ID of the entity referenced by the entry.
-          type: string
-        entryId:
-          description: ID of the access control entry.
-          type: string
-        isHomeFolderUser:
-          description: Is home folder user permissions.
-          type: boolean
-        isEditable:
-          description: Is permissions can be edited by the current user.
-          type: boolean
-        isDeletable:
-          description: Is permissions can be deleted by the current user.
-          type: boolean
-        permissions:
-          $ref: '#/components/schemas/FolderAclPermissionsModel'
-          description: Permissions set on the entry.
-      xml:
-        name: FolderAclEntryResourceModel
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -1381,7 +1253,100 @@ components:
       xml:
         name: PagingInfoModel
       type: object
-    FolderAclPermissionsModel:
+    DeleteFolderAclEntryRequestModel:
+      description: 'Represents delete folder Access Control List entry
+
+        data suitable for use as user input.'
+      properties:
+        type:
+          description: Type of the entry.
+          type: string
+          enum:
+          - User
+          - Group
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+      xml:
+        name: DeleteFolderAclEntryRequestModel
+      type: object
+    UpdateFolderNotificationSettingsModel:
+      description: Represents folder notification settings
+      properties:
+        notificationStyle:
+          description: The Notification Style setting determines whom notifications are sent to when a new file is uploaded.
+          type: string
+          enum:
+          - Normal
+          - InboxOutbox
+        uploadConfirmationToSenderTime:
+          description: Upload Confirmation to Sender. Set -1 to turn off, 0 to send immediately or positive number (in minutes).
+          type: integer
+          format: int32
+        newFileAlertToRecipientTime:
+          description: New File Alert to Recipient. Set -1 to turn off, 0 to send immediately or positive number (in minutes).
+          type: integer
+          format: int32
+        deliveryReceiptToSender:
+          description: Delivery Receipt to Sender.
+          type: string
+          enum:
+          - None
+          - Immediately
+        alertSenderFileIsNotDownloadedTime:
+          description: Alert Sender if File is Not Downloaded. Set -1 to turn off or positive number.
+          type: integer
+          format: int32
+        alertSenderFileIsNotDownloadedTimeType:
+          description: Alert Sender if File is Not Downloaded time type. Used with "DeliveryReceiptToSender" set not to -1.
+          type: string
+          enum:
+          - Hours
+          - Days
+          - Minutes
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderNotificationSettingsModel
+      type: object
+    FolderNotificationSettingsModel:
+      description: Represents folder update notification settings.
+      properties:
+        uploadConfirmationToSenderTime:
+          type: integer
+          format: int32
+        newFileAlertToRecipientTime:
+          type: integer
+          format: int32
+        deliveryReceiptToSender:
+          type: string
+          enum:
+          - None
+          - Hours
+          - Days
+          - Minutes
+          - Immediately
+        alertSenderFileIsNotDownloadedTime:
+          type: integer
+          format: int32
+        alertSenderFileIsNotDownloadedTimeType:
+          type: string
+          enum:
+          - None
+          - Hours
+          - Days
+          - Minutes
+          - Immediately
+        notificationStyle:
+          type: string
+          enum:
+          - Normal
+          - InboxOutbox
+      xml:
+        name: FolderNotificationSettingsModel
+      type: object
+    FolderShareAclPermissionsModel:
       properties:
         readFiles:
           type: boolean
@@ -1393,31 +1358,78 @@ components:
           type: boolean
         notify:
           type: boolean
-        addDeleteSubfolders:
-          type: boolean
-        share:
-          type: boolean
-        sharePermissions:
-          $ref: '#/components/schemas/FolderShareAclPermissionsModel'
-        admin:
-          type: boolean
         listUsers:
           type: boolean
       xml:
-        name: FolderAclPermissionsModel
+        name: FolderShareAclPermissionsModel
       type: object
-    FolderCopyMoveModel:
+    UpdateFolderFileMasksSettingsModel:
       properties:
-        destinationFolderId:
+        rule:
+          type: string
+          enum:
+          - AllowExceptMatching
+          - DenyExceptMatching
+        masks:
+          description: List of filemasks.
+          items:
+            type: string
+          type: array
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderFileMasksSettingsModel
+      type: object
+    FolderCharacterRestrictionsModel:
+      description: Represents folder character restrictions.
+      properties:
+        charSet:
+          description: Character set.
+          type: string
+          enum:
+          - CheckParentFolder
+          - NoRestrictions
+          - WindowsNtfs
+          - CustomDisallow
+          - CustomAllow
+        customCharSet:
+          description: Custom character set.
+          type: string
+      xml:
+        name: FolderCharacterRestrictionsModel
+      type: object
+    FolderQuota:
+      properties:
+        quota:
+          type: integer
+          format: int64
+        quotaLevel:
+          type: string
+          enum:
+          - KB
+          - MB
+        applyToFilesInSubfolders:
+          type: boolean
+      xml:
+        name: FolderQuota
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
           type: integer
           format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
       xml:
-        name: FolderCopyMoveModel
-      type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
+        name: ErrorModel
       type: object
     SimpleFolderModel:
       description: Represents basic folder data required for all scenarios
@@ -1477,6 +1489,90 @@ components:
       xml:
         name: SimpleFolderModel
       type: object
+    IFolderPermission:
+      description: Represents folder permission object
+      properties:
+        canListSubfolders:
+          description: User can list the subfolders of a folder.
+          readOnly: true
+          type: boolean
+        canAddSubfolders:
+          description: User can add subfolders to the folder.
+          readOnly: true
+          type: boolean
+        canChangeSettings:
+          description: User can change the settings of the folder.
+          readOnly: true
+          type: boolean
+        canDelete:
+          description: User can delete the folder.
+          readOnly: true
+          type: boolean
+        canListFiles:
+          description: User can list the files in the folder.
+          readOnly: true
+          type: boolean
+        canReadFiles:
+          description: User can download the files in the folder.
+          readOnly: true
+          type: boolean
+        canWriteFiles:
+          description: User can upload files to the folder.
+          readOnly: true
+          type: boolean
+        canDeleteFiles:
+          description: User can delete files in the folder.
+          readOnly: true
+          type: boolean
+        canShare:
+          description: User can share files in the folder
+          readOnly: true
+          type: boolean
+      xml:
+        name: IFolderPermission
+      type: object
+    FolderFileMasksSettingsModel:
+      description: Represents folder filemasks settings.
+      properties:
+        rule:
+          type: string
+          enum:
+          - AllowExceptMatching
+          - DenyExceptMatching
+        masks:
+          description: List of filemasks.
+          items:
+            type: string
+          type: array
+      xml:
+        name: FolderFileMasksSettingsModel
+      type: object
+    PagedModelOfSimpleFolderModel:
+      description: Represents paged response object with proper navigations
+      properties:
+        items:
+          description: Items on the given page
+          items:
+            $ref: '#/components/schemas/SimpleFolderModel'
+          readOnly: true
+          xml:
+            name: SimpleFolderModel
+            wrapped: true
+          type: array
+        paging:
+          $ref: '#/components/schemas/PagingInfoModel'
+          description: Paging data for given response
+        sorting:
+          description: Sorting data for given response
+          items:
+            $ref: '#/components/schemas/SortFieldDto'
+          xml:
+            name: SortFieldDto
+            wrapped: true
+          type: array
+      xml:
+        name: PagedModel`1
+      type: object
     UpdateFolderAclEntryRequestModel:
       description: 'Represents folder Access Control entry
 
@@ -1494,142 +1590,17 @@ components:
       xml:
         name: UpdateFolderAclEntryRequestModel
       type: object
-    DeleteFolderAclEntryRequestModel:
-      description: 'Represents delete folder Access Control List entry
-
-        data suitable for use as user input.'
+    SortFieldDto:
       properties:
-        type:
-          description: Type of the entry.
+        sortField:
+          type: string
+        sortDirection:
           type: string
           enum:
-          - User
-          - Group
-        id:
-          description: ID of the entity referenced by the entry.
-          type: string
+          - asc
+          - desc
       xml:
-        name: DeleteFolderAclEntryRequestModel
-      type: object
-    UpdateFolderMiscellaneousSettingsModel:
-      properties:
-        hideHistory:
-          type: boolean
-        createThumbnails:
-          type: boolean
-        enforceUniqueFilenames:
-          type: boolean
-        allowFileOverwrite:
-          type: boolean
-        customSortField:
-          type: string
-          enum:
-          - None
-          - Name
-          - DateTime
-          - FileSize
-          - UploadUsername
-          - DownloadCount
-        applyToSubfolders:
-          description: Apply changes to subfolders.
-          type: boolean
-      xml:
-        name: UpdateFolderMiscellaneousSettingsModel
-      type: object
-    UpdateFolderCharacterRestrictionsModel:
-      description: Represents folder character restrictions
-      properties:
-        charSet:
-          description: Character set.
-          type: string
-          enum:
-          - NoRestrictions
-          - WindowsNtfs
-          - CustomDisallow
-          - CustomAllow
-        customCharSet:
-          description: Custom character set. Use with "CustomDisallow" or "CustomAllow" CharSet.
-          type: string
-        replaceIllegalCharacters:
-          description: Replace illegal characters.
-          type: boolean
-        replacementValue:
-          description: 'Automatically replace illegal characters with the value.
-
-            Use the [CharID] macro to return the illegal character''s hexadecimal code point value.'
-          type: string
-        applyToSubfolders:
-          description: Apply changes to subfolders.
-          type: boolean
-      xml:
-        name: UpdateFolderCharacterRestrictionsModel
-      type: object
-    UpdateFolderFileMasksSettingsModel:
-      properties:
-        rule:
-          type: string
-          enum:
-          - AllowExceptMatching
-          - DenyExceptMatching
-        masks:
-          description: List of filemasks.
-          items:
-            type: string
-          type: array
-        applyToSubfolders:
-          description: Apply changes to subfolders.
-          type: boolean
-      xml:
-        name: UpdateFolderFileMasksSettingsModel
-      type: object
-    PutFolderAclEntryRequestModel:
-      properties:
-        overrideBehaviourType:
-          description: Permissions behavior. Works for home user permissions only. Default is OverrideInherited.
-          type: string
-          enum:
-          - AddToInherited
-          - OverrideInherited
-        type:
-          description: Type of the entry.
-          type: string
-          enum:
-          - User
-          - Group
-        id:
-          description: ID of the entity referenced by the entry.
-          type: string
-        permissions:
-          $ref: '#/components/schemas/FolderAclPermissionsModel'
-          description: Permissions set on the entry.
-      xml:
-        name: PutFolderAclEntryRequestModel
-      type: object
-    PagedModelOfFolderAclEntryResourceModel:
-      description: Represents paged response object with proper navigations
-      properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/FolderAclEntryResourceModel'
-          readOnly: true
-          xml:
-            name: FolderAclEntryResourceModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
+        name: SortFieldDto
       type: object
     FolderDetailsModel:
       description: Represents a folder and all available attributes
@@ -1806,26 +1777,130 @@ components:
       xml:
         name: FolderDetailsModel
       type: object
-    FolderQuota:
+    UpdateFolderMiscellaneousSettingsModel:
       properties:
-        quota:
-          type: integer
-          format: int64
-        quotaLevel:
+        hideHistory:
+          type: boolean
+        createThumbnails:
+          type: boolean
+        enforceUniqueFilenames:
+          type: boolean
+        allowFileOverwrite:
+          type: boolean
+        customSortField:
           type: string
           enum:
-          - KB
-          - MB
-        applyToFilesInSubfolders:
+          - None
+          - Name
+          - DateTime
+          - FileSize
+          - UploadUsername
+          - DownloadCount
+        applyToSubfolders:
+          description: Apply changes to subfolders.
           type: boolean
       xml:
-        name: FolderQuota
+        name: UpdateFolderMiscellaneousSettingsModel
       type: object
-    SetFolderAclEntryRequestModel:
+    FolderMaintenanceSettingsModel:
+      description: Represents folder maintenance settings.
       properties:
-        notificationMessage:
-          description: Optional notification message.
+        folderCleanup:
+          $ref: '#/components/schemas/FolderCleanup'
+        displayNewFilesForDays:
+          type: integer
+          format: int32
+        folderQuota:
+          $ref: '#/components/schemas/FolderQuota'
+      xml:
+        name: FolderMaintenanceSettingsModel
+      type: object
+    UpdateFolderCharacterRestrictionsModel:
+      description: Represents folder character restrictions
+      properties:
+        charSet:
+          description: Character set.
           type: string
+          enum:
+          - NoRestrictions
+          - WindowsNtfs
+          - CustomDisallow
+          - CustomAllow
+        customCharSet:
+          description: Custom character set. Use with "CustomDisallow" or "CustomAllow" CharSet.
+          type: string
+        replaceIllegalCharacters:
+          description: Replace illegal characters.
+          type: boolean
+        replacementValue:
+          description: 'Automatically replace illegal characters with the value.
+
+            Use the [CharID] macro to return the illegal character''s hexadecimal code point value.'
+          type: string
+        applyToSubfolders:
+          description: Apply changes to subfolders.
+          type: boolean
+      xml:
+        name: UpdateFolderCharacterRestrictionsModel
+      type: object
+    FolderAclEntryResourceModel:
+      description: 'Represents folder Access Control List entry
+
+        resource data suitable for output.'
+      properties:
+        name:
+          description: Name of the entity referenced by the entry.
+          type: string
+        type:
+          description: Type of the entry.
+          type: string
+          enum:
+          - None
+          - User
+          - Group
+          - Email
+        id:
+          description: ID of the entity referenced by the entry.
+          type: string
+        entryId:
+          description: ID of the access control entry.
+          type: string
+        isHomeFolderUser:
+          description: Is home folder user permissions.
+          type: boolean
+        isEditable:
+          description: Is permissions can be edited by the current user.
+          type: boolean
+        isDeletable:
+          description: Is permissions can be deleted by the current user.
+          type: boolean
+        permissions:
+          $ref: '#/components/schemas/FolderAclPermissionsModel'
+          description: Permissions set on the entry.
+      xml:
+        name: FolderAclEntryResourceModel
+      type: object
+    FolderCopyMoveModel:
+      properties:
+        destinationFolderId:
+          type: integer
+          format: int32
+      xml:
+        name: FolderCopyMoveModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    PutFolderAclEntryRequestModel:
+      properties:
+        overrideBehaviourType:
+          description: Permissions behavior. Works for home user permissions only. Default is OverrideInherited.
+          type: string
+          enum:
+          - AddToInherited
+          - OverrideInherited
         type:
           description: Type of the entry.
           type: string
@@ -1839,7 +1914,7 @@ components:
           $ref: '#/components/schemas/FolderAclPermissionsModel'
           description: Permissions set on the entry.
       xml:
-        name: SetFolderAclEntryRequestModel
+        name: PutFolderAclEntryRequestModel
       type: object
     FolderCleanup:
       properties:
@@ -1854,120 +1929,45 @@ components:
       xml:
         name: FolderCleanup
       type: object
-    PagedModelOfSimpleFolderModel:
-      description: Represents paged response object with proper navigations
+    FolderPatchModel:
+      description: Folder Update parameters.
       properties:
-        items:
-          description: Items on the given page
-          items:
-            $ref: '#/components/schemas/SimpleFolderModel'
-          readOnly: true
-          xml:
-            name: SimpleFolderModel
-            wrapped: true
-          type: array
-        paging:
-          $ref: '#/components/schemas/PagingInfoModel'
-          description: Paging data for given response
-        sorting:
-          description: Sorting data for given response
-          items:
-            $ref: '#/components/schemas/SortFieldDto'
-          xml:
-            name: SortFieldDto
-            wrapped: true
-          type: array
-      xml:
-        name: PagedModel`1
-      type: object
-    FolderNotificationSettingsModel:
-      description: Represents folder update notification settings.
-      properties:
-        uploadConfirmationToSenderTime:
-          type: integer
-          format: int32
-        newFileAlertToRecipientTime:
-          type: integer
-          format: int32
-        deliveryReceiptToSender:
+        name:
+          description: New file name to set.
           type: string
-          enum:
-          - None
-          - Hours
-          - Days
-          - Minutes
-          - Immediately
-        alertSenderFileIsNotDownloadedTime:
-          type: integer
-          format: int32
-        alertSenderFileIsNotDownloadedTimeType:
+        description:
+          description: New file description to set.
           type: string
-          enum:
-          - None
-          - Hours
-          - Days
-          - Minutes
-          - Immediately
-        notificationStyle:
-          type: string
-          enum:
-          - Normal
-          - InboxOutbox
-      xml:
-        name: FolderNotificationSettingsModel
-      type: object
-    UpdateFolderNotificationSettingsModel:
-      description: Represents folder notification settings
-      properties:
-        notificationStyle:
-          description: The Notification Style setting determines whom notifications are sent to when a new file is uploaded.
-          type: string
-          enum:
-          - Normal
-          - InboxOutbox
-        uploadConfirmationToSenderTime:
-          description: Upload Confirmation to Sender. Set -1 to turn off, 0 to send immediately or positive number (in minutes).
-          type: integer
-          format: int32
-        newFileAlertToRecipientTime:
-          description: New File Alert to Recipient. Set -1 to turn off, 0 to send immediately or positive number (in minutes).
-          type: integer
-          format: int32
-        deliveryReceiptToSender:
-          description: Delivery Receipt to Sender.
-          type: string
-          enum:
-          - None
-          - Immediately
-        alertSenderFileIsNotDownloadedTime:
-          description: Alert Sender if File is Not Downloaded. Set -1 to turn off or positive number.
-          type: integer
-          format: int32
-        alertSenderFileIsNotDownloadedTimeType:
-          description: Alert Sender if File is Not Downloaded time type. Used with "DeliveryReceiptToSender" set not to -1.
-          type: string
-          enum:
-          - Hours
-          - Days
-          - Minutes
-        applyToSubfolders:
-          description: Apply changes to subfolders.
+        inheritAccess:
+          description: Inherit Access From Parent.
           type: boolean
       xml:
-        name: UpdateFolderNotificationSettingsModel
+        name: FolderPatchModel
       type: object
-    FolderMaintenanceSettingsModel:
-      description: Represents folder maintenance settings.
+    FolderAclPermissionsModel:
       properties:
-        folderCleanup:
-          $ref: '#/components/schemas/FolderCleanup'
-        displayNewFilesForDays:
-          type: integer
-          format: int32
-        folderQuota:
-          $ref: '#/components/schemas/FolderQuota'
+        readFiles:
+          type: boolean
+        writeFiles:
+          type: boolean
+        deleteFiles:
+          type: boolean
+        listFiles:
+          type: boolean
+        notify:
+          type: boolean
+        addDeleteSubfolders:
+          type: boolean
+        share:
+          type: boolean
+        sharePermissions:
+          $ref: '#/components/schemas/FolderShareAclPermissionsModel'
+        admin:
+          type: boolean
+        listUsers:
+          type: boolean
       xml:
-        name: FolderMaintenanceSettingsModel
+        name: FolderAclPermissionsModel
       type: object
   securitySchemes:
     Authorization:

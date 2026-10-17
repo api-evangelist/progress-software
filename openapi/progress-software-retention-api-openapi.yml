@@ -303,27 +303,7 @@ components:
         value:
           type: string
           format: byte
-    chef.automate.api.applications.PeriodicJobInfo:
-      description: 'PeriodicJobInfo gives information about the last and next scheduled
-
-        executions of a periodic job.'
-      type: object
-      properties:
-        last_elapsed:
-          type: string
-        last_ended_at:
-          type: string
-          format: date-time
-        last_enqueued_at:
-          type: string
-          format: date-time
-        last_started_at:
-          type: string
-          format: date-time
-        next_due_at:
-          type: string
-          format: date-time
-    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
+    chef.automate.api.applications.RunDisconnectedServicesJobReq:
       type: object
     chef.automate.api.applications.PeriodicJobConfig:
       description: Periodic job configuration.
@@ -358,14 +338,6 @@ components:
 
             Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
           type: string
-    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
-      type: object
-    chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq:
-      type: object
-    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
-      type: object
-    chef.automate.api.applications.RunDisconnectedServicesJobReq:
-      type: object
     chef.automate.api.applications.PeriodicMandatoryJobConfig:
       description: 'Configuration for a periodic job. Initially Jobs using this message type
 
@@ -412,6 +384,36 @@ components:
 
             Threshold is a string that follows Elasticsearch''s date math expressions. For more information, see the simpledatemath package under `lib/`.'
           type: string
+    chef.automate.api.applications.UpdateDeleteDisconnectedServicesConfigRes:
+      type: object
+    chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse:
+      type: object
+    chef.automate.api.applications.PeriodicJobInfo:
+      description: 'PeriodicJobInfo gives information about the last and next scheduled
+
+        executions of a periodic job.'
+      type: object
+      properties:
+        last_elapsed:
+          type: string
+        last_ended_at:
+          type: string
+          format: date-time
+        last_enqueued_at:
+          type: string
+          format: date-time
+        last_started_at:
+          type: string
+          format: date-time
+        next_due_at:
+          type: string
+          format: date-time
+    chef.automate.api.applications.UpdateDisconnectedServicesConfigRes:
+      type: object
+    chef.automate.api.applications.RunDeleteDisconnectedServicesJobReq:
+      type: object
+    chef.automate.api.applications.RunDisconnectedServicesJobResponse:
+      type: object
     grpc.gateway.runtime.Error:
       type: object
       properties:
@@ -426,8 +428,6 @@ components:
           type: string
         message:
           type: string
-    chef.automate.api.applications.RunDeleteDisconnectedServicesJobResponse:
-      type: object
   securitySchemes:
     APIToken:
       description: Authenticate with the Automate API using an API Token.

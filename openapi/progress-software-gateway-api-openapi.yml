@@ -63,28 +63,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    google.protobuf.Any:
-      type: object
-      properties:
-        type_url:
-          type: string
-        value:
-          type: string
-          format: byte
-    grpc.gateway.runtime.Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-        error:
-          type: string
-        message:
-          type: string
     chef.automate.api.Health:
       description: "The automate-gateway service health is constructed with:\n* Status:\n           => ok:             Everything is alright\n           => initialization: The service is in its initialization process\n           => warning:        Something might be wrong?\n           => critical:       Something is wrong!\n\n@afiune: Here we can add more health information to the response"
       type: object
@@ -112,6 +90,28 @@ components:
         sha:
           type: string
         version:
+          type: string
+    google.protobuf.Any:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          type: string
+          format: byte
+    grpc.gateway.runtime.Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+        error:
+          type: string
+        message:
           type: string
   securitySchemes:
     APIToken:

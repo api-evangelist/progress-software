@@ -266,40 +266,6 @@ paths:
       - Authorization: []
 components:
   schemas:
-    Certificate:
-      properties:
-        type:
-          type: string
-        subject:
-          type: string
-        cn:
-          type: string
-        issuer:
-          type: string
-        issuerCN:
-          type: string
-        thumbprint:
-          type: string
-        validAfter:
-          type: string
-        validUntil:
-          type: string
-        subjectAlternativeName:
-          type: string
-        principalName:
-          type: string
-        keyType:
-          type: string
-        keyBits:
-          type: integer
-          format: int32
-        fingerprints:
-          additionalProperties:
-            type: string
-          type: object
-      xml:
-        name: Certificate
-      type: object
     PagedModelOfSimpleLogModel:
       description: Represents paged response object with proper navigations
       properties:
@@ -325,6 +291,35 @@ components:
           type: array
       xml:
         name: PagedModel`1
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    SortFieldDto:
+      properties:
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+          - asc
+          - desc
+      xml:
+        name: SortFieldDto
       type: object
     LogDetailsModel:
       description: Log Model that fully describes log entity
@@ -526,17 +521,39 @@ components:
       xml:
         name: SimpleLogModel
       type: object
-    SortFieldDto:
+    Certificate:
       properties:
-        sortField:
+        type:
           type: string
-        sortDirection:
+        subject:
           type: string
-          enum:
-          - asc
-          - desc
+        cn:
+          type: string
+        issuer:
+          type: string
+        issuerCN:
+          type: string
+        thumbprint:
+          type: string
+        validAfter:
+          type: string
+        validUntil:
+          type: string
+        subjectAlternativeName:
+          type: string
+        principalName:
+          type: string
+        keyType:
+          type: string
+        keyBits:
+          type: integer
+          format: int32
+        fingerprints:
+          additionalProperties:
+            type: string
+          type: object
       xml:
-        name: SortFieldDto
+        name: Certificate
       type: object
     PagingInfoModel:
       description: Information about paging for collection response
@@ -560,23 +577,6 @@ components:
           format: int32
       xml:
         name: PagingInfoModel
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
-          type: integer
-          format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
-          type: string
-      xml:
-        name: ErrorModel
       type: object
   securitySchemes:
     Authorization:

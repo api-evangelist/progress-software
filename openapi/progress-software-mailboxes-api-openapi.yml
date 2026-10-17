@@ -537,17 +537,136 @@ paths:
       - Authorization: []
 components:
   schemas:
-    PackageMovePatchModel:
-      description: Package Update parameters
+    SimpleUserModel:
+      description: Simple user model for user lists.
       properties:
-        packageId:
-          description: New package mailbox to set
+        id:
+          description: User ID.
           type: string
-        mailboxId:
-          description: Source Mailbox Id
+        orgID:
+          description: ID of organization user is a member of.
+          type: integer
+          format: int32
+        username:
+          description: User login name.
+          type: string
+        fullName:
+          description: User full name.
+          type: string
+        permission:
+          description: User permission.
+          type: string
+          enum:
+          - Anonymous
+          - TemporaryUser
+          - User
+          - AuditUser
+          - FileAdmin
+          - Admin
+          - SysAdmin
+        email:
+          description: User email address.
+          type: string
+        status:
+          description: User security status.
+          type: string
+          enum:
+          - Active
+          - Suspended
+          - Template
+        lastLoginStamp:
+          description: Time of last user login. Null if user has not logged in yet.
           type: string
       xml:
-        name: PackageMovePatchModel
+        name: SimpleUserModel
+      type: object
+    Void:
+      properties: {}
+      xml:
+        name: Void
+      type: object
+    ErrorModel:
+      description: Represents an error returned by API
+      properties:
+        detail:
+          description: An explanation specific to this occurrence of the error
+          type: string
+        errorCode:
+          description: An error number, defined by the application
+          type: integer
+          format: int32
+          default: 0
+        title:
+          description: Short summary of the error type
+          type: string
+      xml:
+        name: ErrorModel
+      type: object
+    MailboxModel:
+      description: Represents basic mailbox data required for all scenarios
+      properties:
+        id:
+          description: The unique ID of this mailbox.
+          type: string
+        parentId:
+          description: The ID of this mailbox's parent folder or "0" if it does not have a parent mailbox.
+          type: string
+        name:
+          description: The (short) name of this mailbox.
+          type: string
+        lastContentChangeTime:
+          description: Last time the mailbox content changed
+          type: string
+        folderType:
+          description: Indicates what kind of folder this is.
+          type: string
+          enum:
+          - Virtual
+          - Normal
+          - Archive
+          - Webpost
+          - GlobalMessaging
+          - Mailbox
+          - Root
+          - RootArchives
+          - RootWebposts
+        path:
+          description: The (long) name of this mailbox.
+          type: string
+        isShared:
+          description: Indicates whether this mailbox is shared with someone
+          type: boolean
+        newPackagesCount:
+          description: Number of new packages
+          type: integer
+          format: int32
+        allPackagesCount:
+          description: Number of all packages
+          type: integer
+          format: int32
+        orderIndex:
+          description: Mailbox order index
+          type: integer
+          format: int32
+        systemType:
+          description: Mailbox system type
+          type: integer
+          format: int32
+        owner:
+          description: Mailbox owner username
+          type: string
+        relationship:
+          description: Mailbox relationship
+          type: integer
+          format: int32
+        ownerLoginName:
+          description: Mailbox owner login name
+          type: string
+        ownerRealName:
+          description: Mailbox owner real name
+          type: string
+      xml:
+        name: MailboxModel
       type: object
     SimplePackageClassificationTypeModel:
       properties:
@@ -560,32 +679,6 @@ components:
           type: string
       xml:
         name: SimplePackageClassificationTypeModel
-      type: object
-    Recipient:
-      properties:
-        type:
-          description: Recipient type
-          type: string
-          enum:
-          - User
-          - Group
-          - Unreg
-          - Unverified
-        role:
-          description: Recipient role
-          type: string
-          enum:
-          - To
-          - CC
-          - BCC
-        identifier:
-          description: Recipient identifier
-          type: string
-        name:
-          description: Recipient name (read only)
-          type: string
-      xml:
-        name: Recipient
       type: object
     SimpleFileResourceModel:
       description: 'Container object used to provide information about a specific
@@ -620,75 +713,6 @@ components:
           type: string
       xml:
         name: SimpleFileResourceModel
-      type: object
-    SimplePackageModel:
-      description: Represents basic package data required for all scenarios
-      properties:
-        toRecipients:
-          description: List of To recipients
-          items:
-            type: string
-          type: array
-        id:
-          description: Package id. The value is null for action operations
-          type: integer
-          format: int32
-        orgId:
-          description: Organization id
-          type: integer
-          format: int32
-        mailboxId:
-          description: Mailbox id
-          type: string
-        sendStamp:
-          description: Mailbox time stamp
-          type: string
-        parentId:
-          description: Parent id
-          type: string
-        deliveryReceipts:
-          description: Delivery receipts
-          type: boolean
-        expirationHours:
-          description: Expiration hours
-          type: integer
-          format: int32
-        recalled:
-          description: True if package is recalled
-          type: boolean
-        isNew:
-          description: True if package is new
-          type: boolean
-        subject:
-          description: Package subject
-          type: string
-        sender:
-          $ref: '#/components/schemas/SimpleUserModel'
-          description: Sender info
-        composerType:
-          description: Composer package type
-          type: string
-          enum:
-          - General
-          - Request
-        dlpViolation:
-          description: File DLP violation info
-          type: string
-        dlpBlocked:
-          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
-          type: boolean
-        packageClassificationType:
-          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
-          description: Package classification type
-        readStatus:
-          description: Package read status
-          type: string
-          enum:
-          - None
-          - Some
-          - All
-      xml:
-        name: SimplePackageModel
       type: object
     PackageDetailsModel:
       description: Represents a package and all available attributes
@@ -787,6 +811,18 @@ components:
       xml:
         name: PackageDetailsModel
       type: object
+    PackageMovePatchModel:
+      description: Package Update parameters
+      properties:
+        packageId:
+          description: New package mailbox to set
+          type: string
+        mailboxId:
+          description: Source Mailbox Id
+          type: string
+      xml:
+        name: PackageMovePatchModel
+      type: object
     PackagePatchModel:
       description: Package Update parameters
       properties:
@@ -799,136 +835,100 @@ components:
       xml:
         name: PackagePatchModel
       type: object
-    SimpleUserModel:
-      description: Simple user model for user lists.
+    SimplePackageModel:
+      description: Represents basic package data required for all scenarios
       properties:
+        toRecipients:
+          description: List of To recipients
+          items:
+            type: string
+          type: array
         id:
-          description: User ID.
-          type: string
-        orgID:
-          description: ID of organization user is a member of.
+          description: Package id. The value is null for action operations
           type: integer
           format: int32
-        username:
-          description: User login name.
-          type: string
-        fullName:
-          description: User full name.
-          type: string
-        permission:
-          description: User permission.
-          type: string
-          enum:
-          - Anonymous
-          - TemporaryUser
-          - User
-          - AuditUser
-          - FileAdmin
-          - Admin
-          - SysAdmin
-        email:
-          description: User email address.
-          type: string
-        status:
-          description: User security status.
-          type: string
-          enum:
-          - Active
-          - Suspended
-          - Template
-        lastLoginStamp:
-          description: Time of last user login. Null if user has not logged in yet.
-          type: string
-      xml:
-        name: SimpleUserModel
-      type: object
-    ErrorModel:
-      description: Represents an error returned by API
-      properties:
-        detail:
-          description: An explanation specific to this occurrence of the error
-          type: string
-        errorCode:
-          description: An error number, defined by the application
+        orgId:
+          description: Organization id
           type: integer
           format: int32
-          default: 0
-        title:
-          description: Short summary of the error type
+        mailboxId:
+          description: Mailbox id
           type: string
-      xml:
-        name: ErrorModel
-      type: object
-    Void:
-      properties: {}
-      xml:
-        name: Void
-      type: object
-    MailboxModel:
-      description: Represents basic mailbox data required for all scenarios
-      properties:
-        id:
-          description: The unique ID of this mailbox.
+        sendStamp:
+          description: Mailbox time stamp
           type: string
         parentId:
-          description: The ID of this mailbox's parent folder or "0" if it does not have a parent mailbox.
+          description: Parent id
           type: string
-        name:
-          description: The (short) name of this mailbox.
+        deliveryReceipts:
+          description: Delivery receipts
+          type: boolean
+        expirationHours:
+          description: Expiration hours
+          type: integer
+          format: int32
+        recalled:
+          description: True if package is recalled
+          type: boolean
+        isNew:
+          description: True if package is new
+          type: boolean
+        subject:
+          description: Package subject
           type: string
-        lastContentChangeTime:
-          description: Last time the mailbox content changed
-          type: string
-        folderType:
-          description: Indicates what kind of folder this is.
+        sender:
+          $ref: '#/components/schemas/SimpleUserModel'
+          description: Sender info
+        composerType:
+          description: Composer package type
           type: string
           enum:
-          - Virtual
-          - Normal
-          - Archive
-          - Webpost
-          - GlobalMessaging
-          - Mailbox
-          - Root
-          - RootArchives
-          - RootWebposts
-        path:
-          description: The (long) name of this mailbox.
+          - General
+          - Request
+        dlpViolation:
+          description: File DLP violation info
           type: string
-        isShared:
-          description: Indicates whether this mailbox is shared with someone
+        dlpBlocked:
+          description: When true, the package contains DLP violations that prevent it from being downloaded, according to currently configured DLP rules.
           type: boolean
-        newPackagesCount:
-          description: Number of new packages
-          type: integer
-          format: int32
-        allPackagesCount:
-          description: Number of all packages
-          type: integer
-          format: int32
-        orderIndex:
-          description: Mailbox order index
-          type: integer
-          format: int32
-        systemType:
-          description: Mailbox system type
-          type: integer
-          format: int32
-        owner:
-          description: Mailbox owner username
+        packageClassificationType:
+          $ref: '#/components/schemas/SimplePackageClassificationTypeModel'
+          description: Package classification type
+        readStatus:
+          description: Package read status
           type: string
-        relationship:
-          description: Mailbox relationship
-          type: integer
-          format: int32
-        ownerLoginName:
-          description: Mailbox owner login name
+          enum:
+          - None
+          - Some
+          - All
+      xml:
+        name: SimplePackageModel
+      type: object
+    Recipient:
+      properties:
+        type:
+          description: Recipient type
           type: string
-        ownerRealName:
-          description: Mailbox owner real name
+          enum:
+          - User
+          - Group
+          - Unreg
+          - Unverified
+        role:
+          description: Recipient role
+          type: string
+          enum:
+          - To
+          - CC
+          - BCC
+        identifier:
+          description: Recipient identifier
+          type: string
+        name:
+          description: Recipient name (read only)
           type: string
       xml:
-        name: MailboxModel
+        name: Recipient
       type: object
   securitySchemes:
     Authorization:
