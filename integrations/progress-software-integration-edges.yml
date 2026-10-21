@@ -18,9 +18,27 @@ edges:
   category: Microsoft Teams app
   publisher_verified:
   - Microsoft 365 Publisher Attestation
+- partner_name: Cisco Meraki (own)
+  partner: cisco-meraki
+  partner_match: mirror
+  mirror_match: domain+name-among-holders
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.cisco.com/en-US/apps/772728
+  mirror_of: cisco-meraki/integrations/cisco-meraki-integration-edges.yml
+  apps:
+  - WhatsUp Gold
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: Documentation & Reporting, IT & Productivity Tools, Monitoring & Performance
 generated: '2026-10-18'
 method: searched
 source:
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 checked:
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+- cisco-meraki/integrations/cisco-meraki-integration-edges.yml
