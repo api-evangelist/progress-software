@@ -9,6 +9,9 @@ artifacts:
   authentication/progress-software-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  capabilities/progress-software-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/progress-software-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -33,7 +36,13 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/progress-software-integration-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-14T064754.yml:
@@ -102,6 +111,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/progress-software-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -118,23 +142,11 @@ artifacts:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
-  openapi/_original/progress-software-chef-automate-openapi-original.json.archived.txt:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
   openapi/_original/progress-software-moveit-transfer-openapi-original.json:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
-  openapi/_original/progress-software-moveit-transfer-openapi-original.json.archived.txt:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
   openapi/_original/progress-software-whatsup-gold-openapi-original.json:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/_original/progress-software-whatsup-gold-openapi-original.json.archived.txt:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
@@ -330,15 +342,207 @@ artifacts:
   openapi/progress-software-usersettingsservice-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/progress-software-adhoctransfersettings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-appearancesettings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-applicationsservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-authentication-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-authorization-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-cds-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/progress-software-chef-automate-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/progress-software-chefingester-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-comp-assets-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-configmgmt-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-contacts-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-credential-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-datafeedservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-datalifecycle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-deployment-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-device-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-device-group-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-devicegroupreport-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-devicereport-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-devicerole-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-devicescan-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-error-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-eventfeedservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-files-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-foldercontent-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-folders-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-gateway-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-groups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-infraproxy-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-job-scheduler-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-jobsservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-legacydatacollector-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-license-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-logs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-mailboxes-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-miscellaneoussettings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-monitor-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/progress-software-moveit-transfer-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/progress-software-nodemanagerservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-nodesservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-notifications-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-organizations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-packages-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-policies-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-pollers-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-product-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-profilesservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-projects-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-publicorganizationinfo-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-reportingservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-reportmanagerservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-reports-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-retention-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-roles-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-rules-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-secretsservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-security-settings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-server-info-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-service-groups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-statsservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-teams-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-telemetry-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-tokens-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-transferstatus-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-users-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/progress-software-usersettingsservice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/progress-software-whatsup-gold-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   packages/progress-software-packages.yml:
     method: searched
     evidence: declared in the artifact
@@ -349,8 +553,8 @@ artifacts:
     method: searched
     evidence: declared in the artifact
   scopes/progress-software-scopes.yml:
-    method: derived
-    evidence: declared in the artifact
+    method: unknown
+    evidence: no authorship recorded
   security/progress-software-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
